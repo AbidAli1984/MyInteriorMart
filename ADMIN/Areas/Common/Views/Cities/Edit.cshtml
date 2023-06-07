@@ -1,0 +1,76 @@
+﻿@model BOL.SHARED.City
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Cities";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Common/Cities";
+    ViewData["BT-Text-2"] = "Cancel";
+    ViewData["BT-Link-2"] = "/Common/Cities";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<h5>@ViewData["Title"]</h5>
+<hr />
+<!-- End: -->
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CityID" />
+            <div class="form-group">
+                <label asp-for="CountryID" class="control-label"></label>
+                <select asp-for="CountryID" class="form-control" asp-items="ViewBag.CountryID"></select>
+                <span asp-validation-for="CountryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateID" class="control-label"></label>
+                <select asp-for="StateID" class="form-control" asp-items="ViewBag.StateID"></select>
+                <span asp-validation-for="StateID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a href="" data-target="#modalConfirm" data-toggle="modal" class="btn btn-primary">Edit</a>
+            </div>
+            <!-- Begin: Form confirmation -->
+            <div class="modal" id="modalConfirm">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content tx-size-sm">
+                        <div class="modal-body tx-center pd-y-20 pd-x-20">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-primary lh-1 mg-t-20 d-inline-block"></i>
+                            <h4 class="tx-primary tx-semibold mg-b-20">Confirmation!</h4>
+                            <h6 class="mg-b-20 mg-x-20">Are you sure, you want to edit @Model.Name city.</h6>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn ripple btn-primary" type="submit">Confirm</button>
+                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: -->
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,187 @@
+﻿<header class="header_in">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <div id="logo">
+                    <a href="/" title="index">
+                        <img src="~/new-theme/FrontEnd/img/logo_sticky.svg" width="220" alt="logo" class="logo_sticky">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-9 col-12">
+                <ul id="top_menu">
+                    @*<li><a href="#sign-in-dialog" id="sign-in" title="Sign In" class="btn_add listing-btn">Create Free Listing</a></li>*@
+                    <li>
+                        <a href="#" class="notification" title="notification">
+                            <img src="~/new-theme/FrontEnd/img/icon/notification.svg" alt="notification">
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown usericon">
+                            <a class="usericon-btn dropdown-toggle" type="button" id="usericon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="~/new-theme/FrontEnd/img/icon/user.svg">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="usericon">
+                                <a href="~/Profile/UserProfile/" class="dropdown-item">Profile</a>
+                                <a href="Subscriptions/Listings/Index" class="dropdown-item">My Listings</a>
+                                <a href="~/Analytics/Reviews/" class="dropdown-item">Reviews</a>
+                                <a href="~/Analytics/History/" class="dropdown-item">History</a>
+                                <a href="~/Analytics/Likes" class="dropdown-item">Likes</a>
+                                <a href="~/Analytics/Bookmarks/" class="dropdown-item">Bookmarks</a>
+                                <a href="~/Analytics/Subscribes" class="dropdown-item">Subscribe</a>
+                                <a href="#0" class="dropdown-item">Settings</a>
+
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="~/Administrator" class="dropdown-item">Admin</a>
+                                }
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <a href="" onclick="this.closest('form').submit();return false;" title="Logout" class="dropdown-item">Logout</a>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a href="~/Identity/Account/Login" class="dropdown-item">Login</a>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- /top_menu -->
+                <a href="#menu" class="btn_mobile">
+                    <div class="hamburger hamburger--spin" id="hamburger">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </a>
+                <nav id="menu" class="main-menu">
+                    <ul>
+                        <li><span><a href="~/">Home</a></span></li>
+                        <li><span><a href="~/Home/About">About</a></span></li>
+                        <li><span><a href="~/Home/Contact">Contact</a></span></li>
+        @*<li><span><a href="#0">Sell</a></span></li>
+        <li><span><a href="#0">Offer</a></span></li>
+        <li><span><a href="#0">Job</a></span></li>
+        <li><span><a href="#0">Labour Naka</a></span></li>
+        <li><span><a href="#">Suggestion</a></span></li>*@
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+    <!-- search_mobile -->
+    <div class="layer"></div>
+</header>
+
+
+<!--<header class="header_in">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <div id="logo">
+                    <a href="~/" title="UMARZONE">
+                        <img src="~/FrontEnd/img/logo_sticky.svg" width="220" alt="UMARZONE" class="logo_sticky">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-9 col-12">
+                <ul id="top_menu">
+                    <li><a href="~/Subscriptions/Listings/Create" class="btn_add">Create Free Listing</a></li>
+                    @@if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <a class="login" onclick="this.closest('form').submit();return false;" title="Logout"></a>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="~/Identity/Account/Login" class="login" title="Sign In">Sign In</a></li>
+                    }
+                    <li><a href="~/ShoppingCart/MyCart/" class="wishlist_bt_top" title="View Cart">View Cart</a></li>
+                </ul>
+                <!-- /top_menu -->
+<!--<a href="#menu" class="btn_mobile">
+    <div class="hamburger hamburger--spin" id="hamburger">
+        <div class="hamburger-box">
+            <div class="hamburger-inner"></div>
+        </div>
+    </div>
+</a>
+<nav id="menu" class="main-menu">
+    <ul>
+        <li><span><a href="~/">Home</a></span></li>
+        <li><span><a href="#0">Buy</a></span></li>
+        <li><span><a href="#0">Sell</a></span></li>
+        <li><span><a href="#0">Offer</a></span></li>
+        <li><span><a href="#0">Job</a></span></li>
+        <li><span><a href="#0">Labour Naka</a></span></li>
+        <li><span><a href="~/Suggestions/Create">Suggestion</a></span></li>-->
+@*<li><span><a href="#0">Tender</a></span></li>
+    <li><span><a href="#0">Exhibition</a></span></li>*@
+@*@@if (User.IsInRole("Administrator"))
+{
+    <li><span><a href="~/Administrator">Admin</a></span></li>
+}
+@@if (User.Identity.IsAuthenticated)
+{
+    <li>
+        <span><a href="#0">My Account</a></span>
+        <ul>
+            <li><a href="~/Profile/UserProfile/">Profile</a></li>
+            <li><a href="Subscriptions/Listings/Index">My Listings</a></li>
+            <li><a href="~/Analytics/Reviews/">Reviews</a></li>
+            <li><a href="~/Analytics/History/">History</a></li>
+            <li><a href="~/Analytics/Likes">Likes</a></li>
+            <li><a href="~/Analytics/Bookmarks/">Bookmarks</a></li>
+            <li><a href="~/Analytics/Subscribes">Subscribe</a></li>
+            <li><a href="#0">Settings</a></li>
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <a href="" onclick="this.closest('form').submit();return false;" title="Logout" style="color:#383838;">Logout</a>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+                    </ul>
+                </nav>
+            </div>
+        </div>*@
+<!-- /row -->
+<!--</div>-->
+<!-- /container -->
+<!-- search_mobile -->
+<!--<div class="layer"></div>
+<div id="search_mobile">
+    <a href="#" class="side_panel"><i class="icon_close"></i></a>
+    <div class="custom-search-input-2">
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="What are you looking..">
+            <i class="icon_search"></i>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Where">
+            <i class="icon_pin_alt"></i>
+        </div>
+        <select class="wide">
+            <option>All Categories</option>
+            <option>Shops</option>
+            <option>Hotels</option>
+            <option>Restaurants</option>
+            <option>Bars</option>
+            <option>Events</option>
+            <option>Fitness</option>
+        </select>
+        <input type="submit" value="Search">
+    </div>
+</div>-->
+<!-- /search_mobile -->
+<!--</header>-->

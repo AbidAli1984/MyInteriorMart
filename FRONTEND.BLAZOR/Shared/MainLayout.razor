@@ -1,0 +1,185 @@
+﻿@inherits LayoutComponentBase
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject SharedDbContext sharedContext
+@inject CategoriesDbContext categoriesContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@inject IJSRuntime jsRuntime
+@using AntDesign
+
+
+
+<div id="page">
+    <!-- Begin: Top Menu -->
+    <header class="header_in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-12">
+                    <div id="logo">
+                        <a href="/" title="index">
+                            <img src="/resources/img/logo_sticky.svg" width="220" alt="logo" class="logo_sticky">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-12">
+                    <ul id="top_menu">
+                        <li>
+                            <a href="/MyAccount/ListingWizard/Company" id="sign-in" title="Sign In" class="btn_add listing-btn">Create Free Listing</a>
+                        </li>
+                        <li>
+                            <a href="#" class="notification" title="notification">
+                                <img src="/resources/img/icon/notification.svg" alt="notification">
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown usericon">
+                                <a class="usericon-btn dropdown-toggle" type="button" id="usericon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="/resources/img/icon/user.svg">
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="usericon">
+                                    <a href="/MyAccount/UserProfile" class="dropdown-item"><i class="fa fa-user" style="margin-right: 15px;"></i>Profile</a>
+                                    <a href="/ManageListing/AllListing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>My Listings</a>
+                                    <a href="/MyAccount/LabourNakaWizard/PersonalCreate" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Naka</a>
+                                    <a href="/ManageListing/AllReviews" class="dropdown-item"><i class="fa fa-thumbs-up" style="margin-right: 15px;"></i>Reviews</a>
+                                    <a href="/ManageListing/AllLikes" class="dropdown-item"><i class="fa fa-heart" style="margin-right: 15px;"></i>Likes</a>
+                                    <a href="/ManageListing/AllBookmarks" class="dropdown-item"><i class="fa fa-bookmark" style="margin-right: 15px;"></i>Bookmarks</a>
+                                    <a href="/ManageListing/AllSubscribes" class="dropdown-item"><i class="fa fa-hand-o-up" style="margin-right: 15px;"></i>Subscribe</a>
+                                    <a href="/Identity/Account/Manage" class="dropdown-item"><i class="fa fa-gear" style="margin-right: 15px;"></i>Settings</a>
+                                    <AuthorizeView>
+                                        <a href="/Auth/Login" class="dropdown-item">
+                                            <i class="fa fa-sign-out" style="margin-right: 15px;"></i>Logout
+                                        </a>
+                                    </AuthorizeView>
+                                    <a href="/Auth/Login" class="dropdown-item">
+                                        <i class="fa fa-sign-in" style="margin-right: 15px;"></i>Login
+                                    </a>
+
+                                    <!-- Begin: Staff Panel -->
+                                    <AuthorizeView Roles="Staff">
+                                        <a href="/StaffPanel/Listing" class="dropdown-item">
+                                            <i class="fa fa-list" style="margin-right: 15px;"></i>Staff Panel
+                                        </a>
+                                        <a href="/StaffPanel/Banners/Home" class="dropdown-item">
+                                            <i class="fa fa-ban" style="margin-right: 15px;"></i>Banners
+                                        </a>
+                                        <a href="/StaffPanel/LabourNaka/Categories" class="dropdown-item">
+                                            <i class="fa fa-users" style="margin-right: 15px;"></i>Labour Categories
+                                        </a>
+                                    </AuthorizeView>
+                                    <!-- End: Staff Panel -->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- /top_menu -->
+                    <a href="#menu" class="btn_mobile">
+                        <div class="hamburger hamburger--spin" id="hamburger">
+                            <div class="hamburger-box">
+                                <div class="hamburger-inner"></div>
+                            </div>
+                        </div>
+                    </a>
+                    <nav id="menu" class="main-menu">
+                        <ul>
+                            <li><span><a href="/">Home</a></span></li>
+                            <li><span><a href="/Home/About">About</a></span></li>
+                            <li><span><a href="/Home/Contact">Contact</a></span></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <div class="layer"></div>
+    </header>
+    <!-- Emd: Top Menu -->
+    <!-- Begin: Search Bar -->
+    <BasicSearch />
+    <!-- End: Search Bar -->
+    <!-- Begin: Main Body -->
+    @Body
+    <!-- End: Main Body -->
+    <!-- Begin: Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                @*<div class="col-lg-2 col-md-4 col-6">
+                        <div class="footer-link">
+                            <ul class="links">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Home</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="footer-link">
+                            <ul class="links">
+                                <li><a href="#">Buy</a></li>
+                                <li><a href="#">Buy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="footer-link">
+                            <ul class="links">
+                                <li><a href="#">Sell</a></li>
+                                <li><a href="#">Sell</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="footer-link">
+                            <ul class="links">
+                                <li><a href="#">Offer</a></li>
+                                <li><a href="#">Offer</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="footer-link">
+                            <ul class="links">
+                                <li><a href="#">Job</a></li>
+                                <li><a href="#">Job</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="footer-link">
+                            <ul class="links">
+                                <li><a href="#">Labour Naka</a></li>
+                                <li><a href="#">Labour Naka</a></li>
+                            </ul>
+                        </div>
+                    </div>*@
+            </div>
+            <!-- /row-->
+            <hr>
+            <div class="row">
+                <div class="col-lg-8 col-12 block-center-footer">
+                    <ul id="additional_links">
+                        <li><a href="#0">Home</a></li>
+                        <li><a href="/Home/About">About</a></li>
+                        <li><a href="/Home/Contact">Contact</a></li>
+                        <li><a href="/Home/TermsOfUse">Terms Of Use</a></li>
+                        <li><a href="/Home/Privacy">Privacy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-12 block-center-footer">
+                    <div class="follow_us">
+                        <ul>
+                            <li><a href="#0"><i class="ti-facebook"></i></a></li>
+                            <li><a href="#0"><i class="ti-twitter-alt"></i></a></li>
+                            <li><a href="#0"><i class="ti-google"></i></a></li>
+                            <li><a href="#0"><i class="ti-pinterest"></i></a></li>
+                            <li><a href="#0"><i class="ti-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End: Footer -->
+</div>

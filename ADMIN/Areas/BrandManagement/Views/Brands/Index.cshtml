@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BOL.BRANDS.Brand>
+
+@{
+    ViewData["Title"] = "Brands";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+    int test = 1;
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Brands";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/BrandManagement/Brands";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/BrandManagement/Brands/Create";
+}
+<!-- End: -->
+
+@section CSS{
+    <link href="~/css/MIMUploadButton.css" rel="stylesheet" />
+}
+
+<h5 style="margin-top:-10px;">
+    @ViewData["Title"]
+    <a href="/BrandManagement/Brands/Create" class="btn btn-sm btn-primary float-right ml-2"><i class="fa fa-plus"></i> <span class="ml-1">Create New</span></a>
+    <span class="float-right mr-3">
+        Records Count : @ViewData["RowCount"]
+    </span>
+</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.BrandID).Titled("ID").Css("text-center").Filterable(false).Sortable(false);
+        columns.Add(model => $"<img src='' width='30px' height='30px'>").Encoded(false).Titled("Icon").Css("width");
+        columns.Add(model => $"<form action='/FileManager/CategoryIcons/UploadIcon' method='post' enctype='multipart/form-data'><input type='hidden' name='directory' value='\\FileManager\\CategoryIcons\\First\\' required><input type='hidden' name='imageName' value='{model.URL}' required><label class='myFile'><i class='fa fa-file btn btn-sm btn-purple' style='margin-right:10px;'><span class=\"ml-2\" style='font-family:Arial, Helvetica, sans-serif;'>File<span></i><input type='file' name='file' required /></label><button type='submit' class='btn btn-sm btn-primary'><i class='fa fa-upload'></i> Upload</button></form>").Encoded(false).Titled("Upload Icon").Css("width-170");
+
+        columns.Add(model => $"<form action='/FileManager/CategoryIcons/DeleteImage' method='post' enctype='multipart/form-data'><input type='hidden' name='directory' value='\\FileManager\\CategoryIcons\\First\\' required><input type='hidden' name='imageName' value='{model.URL}' required><button type='submit' class='btn btn-sm btn-danger' style='margin-top:-10px; font-size:12px;'><i class='fa fa-trash'></i><span class='ml-2'>Icon</span></button></form>").Encoded(false).Titled("Delete").Css("width");
+
+        columns.Add(model => $"<a href=\"/DeepCategories/Browse/Second/{test}\">{model.Name}</a> <small class='float-right'><a href=\"/Categories/FirstCategories/Edit/{test}\" class=\"ml-2 btn btn-sm btn-primary\">Edit</a> <a href='/Categories/FirstCategories/Delete/{test}' class='ml-2 btn btn-sm btn-danger'>Delete</a></small>").Titled("Name").Encoded(false).Sortable(true).Filterable(true);
+
+        columns.Add(model => $"<span class='mr-3 btn btn-sm btn-secondary'>{test}</span><a href=\"/DeepKeywords/Browse/First/{test}\" class='btn btn-sm btn-secondary mr-2'>Manage Keywords</a>").Encoded(false).Titled("Keywords").Css("width-100");
+
+        columns.Add(model => $"<a href=\"/BrandManagement/Brands/Edit/{model.BrandID}\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

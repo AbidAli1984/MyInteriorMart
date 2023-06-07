@@ -1,0 +1,71 @@
+﻿@model BOL.CATEGORIES.KeywordSecondCategory
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Keywords/KeywordSecondCategories/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Keywords/KeywordSecondCategories/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+<h1>Details</h1>
+
+<div>
+    <h4>KeywordSecondCategory</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Keyword)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Keyword)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.URL)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.URL)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstCategory)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstCategory.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SecondCategory)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SecondCategory.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.KeywordSecondCategoryID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

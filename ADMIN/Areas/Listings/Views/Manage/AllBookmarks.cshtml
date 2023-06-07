@@ -1,0 +1,100 @@
+﻿@model IEnumerable<BOL.AUDITTRAIL.Bookmarks>
+@inject ICategory categoryRepo
+@inject IAddresses addressRepo
+@inject IListingManager listingRepo
+@inject UserManager<IdentityUser> userRepo
+@inject IUserProfileRepo userProfileRepo
+
+@{
+    ViewData["Title"] = "All Subscribes";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Listings";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Listings/Manage/AllSubscribes";
+    ViewData["BT-Text-2"] = "View";
+    ViewData["BT-Link-2"] = "/Listings/Manage/";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+<h5>@ViewData["Title"]<span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th class="border-bottom-0">ID</th>
+                <th class="border-bottom-0">Company</th>
+                <th class="border-bottom-0">Name</th>
+                <th class="border-bottom-0">Status</th>
+                <th class="border-bottom-0">Date</th>
+                <th class="border-bottom-0">Subscribed By</th>
+                <th class="border-bottom-0">Mobile</th>
+                <th class="border-bottom-0">Email</th>
+                <th class="border-bottom-0">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                // Begin: Get listing details
+                var listing = await listingRepo.GetListingDetailsAsync(item.ListingID);
+                var communication = await listingRepo.CommunicationDetailsAsync(item.ListingID);
+                // End:
+
+                // Begin: Get user details
+                var user = await userRepo.FindByIdAsync(item.UserGuid);
+                var profile = await userProfileRepo.GetUserProfileAsync(item.UserGuid);
+                // End:
+
+                <tr>
+                    <td><strong>@item.BookmarksID</strong></td>
+                    <td>@listing.CompanyName</td>
+                    <td>@listing.Name</td>
+                    <td>
+                        @if (item.Bookmark == true)
+                        {
+                            <span>Bookmarked</span>
+                        }
+                        else
+                        {
+                            <span>Un-Bookmarked</span>
+                        }
+                    </td>
+                    <td>@item.VisitDate</td>
+                    <td>
+                        @if (profile != null)
+                        {
+                            <span>@profile.Name</span>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a href="~/ManageUsers/UserProfile/" class="btn btn-primary btn-sm" target="_blank">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    @await Component.InvokeAsync("DataTable")
+}

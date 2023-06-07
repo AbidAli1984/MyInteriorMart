@@ -1,0 +1,53 @@
+﻿@model BOL.BRANDS.BrandCategory
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+<h1>Edit</h1>
+
+<h4>BrandCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BrandCategoryID" />
+            <div class="form-group">
+                <label asp-for="BrandID" class="control-label"></label>
+                <select asp-for="BrandID" class="form-control" asp-items="ViewBag.BrandID"></select>
+                <span asp-validation-for="BrandID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstCategoryID" class="control-label"></label>
+                <select asp-for="FirstCategoryID" class="form-control" asp-items="ViewBag.FirstCategoryID"></select>
+                <span asp-validation-for="FirstCategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondCategoryID" class="control-label"></label>
+                <select asp-for="SecondCategoryID" class="form-control" asp-items="ViewBag.SecondCategoryID"></select>
+                <span asp-validation-for="SecondCategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,157 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login to My Interior Mart";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+
+@section CSS{
+    <link href="~/css/mim-authorization-pages.css" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="row justify-content-center account-form">
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2 umar-account-form-border">
+        <form id="account" method="post">
+            <a href="~/" title="UMARZONE">
+                <img src="~/img/my-interior-mart-logo.png" class="logo" />
+            </a>
+            <h1>LOGIN</h1>
+            <!-- Begin: Hidden fields -->
+            <span asp-validation-summary="All" class="umar-error"></span>
+            <!-- End: -->
+
+            <input asp-for="Input.Email" class="umar-input" placeholder="Email" required />
+            <span asp-validation-for="Input.Email" class="umar-error"></span>
+
+            <input asp-for="Input.Password" class="umar-input" placeholder="Password" required />
+            <span asp-validation-for="Input.Password" class="umar-error"></span>
+
+
+            <div style="display:flex">
+                <div>
+                    <input type="checkbox" asp-for="Input.RememberMe">
+                    <span class="checkbox-text">Remember me</span>
+                </div>
+                <div class="float-right" style="margin-left:50px;">
+                    <a asp-page="./ForgotPassword" style="color:#2459A3;">Forgot password?</a>
+                </div>
+            </div>
+            <button type="submit">Login</button>
+            <h2 class="umar-h2 mt-4">
+                ALREADY REGISTERED! LOGIN BY
+            </h2>
+            <div class="d-flex flex-row justify-content-center umar-account-footer">
+                <div class="umar-icons">
+                    <a href="#">
+                        <img src="~/img/account-form/mobile.svg" />
+                        <span>Mobile</span>
+                    </a>
+                </div>
+                <div class="umar-icons">
+                    <a href="#">
+                        <img src="~/img/account-form/link.svg" />
+                        <span>Link</span>
+                    </a>
+                </div>
+            </div>
+            <h2 class="umar-h2">
+                Don’t have an account?
+            </h2>
+            <div class="d-flex flex-row justify-content-center">
+                <div class="umar-icons">
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
+                        <img src="~/img/account-form/mobile.svg" />
+                        <span>Register</span>
+                    </a>
+                </div>
+            </div>
+            <p class="mt-2"><a id="resend-confirmation" asp-page="./ResendEmailConfirmation" style="color:#2459A3;">Resend Email Confirmation Link</a></p>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+@*<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h4>Use a local account to log in.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>Use another service to log in.</h4>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                            for details on setting up this ASP.NET application to support logging in via external services.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

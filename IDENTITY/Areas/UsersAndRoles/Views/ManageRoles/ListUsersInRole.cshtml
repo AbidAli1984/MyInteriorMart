@@ -1,0 +1,116 @@
+﻿@model ShowUsersByRoleViewModel
+@inject BAL.Identity.IUserRoleClaim userRoleClaim
+@inject IUsersAndRoles usersAndRoles
+
+@{
+    ViewData["Title"] = "User in Role " + TempData["RoleName"];
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    string currentUserName = User.Identity.Name;
+    var currentUserId = await userRoleClaim.GetUserId(currentUserName);
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Roles";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Manage Roles";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/Index";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+<!-- Begin: Show message when user removed from role -->
+@if (@TempData["RemoveUserFromRoleMessage"] != null)
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="alert @TempData["AlertColor"]" role="alert">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="zmdi @TempData["AlertIcon "] "></i>
+                    </div>
+                    @TempData["RemoveUserFromRoleMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="zmdi zmdi-close"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- End: Show message when user removed from role -->
+
+<h5>@TempData["RoleName"]</h5>
+<hr />
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap">
+        <thead>
+            <tr>
+                <th class="border-bottom-0">User</th>
+                <th class="border-bottom-0">Role Name</th>
+                <th class="border-bottom-0">Suspended</th>
+                <th class="border-bottom-0">Suspend User</th>
+                <th class="border-bottom-0">Actions</th>
+                <th class="border-bottom-0">View Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.UserName.Any())
+            {
+                @foreach (var userName in Model.UserName)
+                {
+                    var userID = await userRoleClaim.GetUserId(userName);
+                    bool userSuspended = await usersAndRoles.UserSuspended(userID);
+                    <tr>
+                        <td>@userName</td>
+                        <td>@TempData["RoleName"]</td>
+                        <td>
+                            @if (userSuspended == true)
+                            {
+                                <span class="badge badge-danger">Suspended</span>
+                            }
+                        </td>
+                        @{
+                            var roleName = TempData["RoleName"];
+                            <td>
+                                @if (userSuspended == true)
+                                {
+                                    <form action="~/SuperAdministrator/ManageUsers/UnsuspendUser" method="post">
+                                        <input type="hidden" name="UnsuspendedTo" value="@userID" />
+                                        <button type="submit" class="btn btn-success-gradient btn-sm"><i class="fa fa-check" aria-hidden="true"></i> <span style="margin-left:3px;">Unblock This User</span></button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form action="~/SuperAdministrator/ManageUsers/SuspendUser" method="post">
+                                        <input type="hidden" name="SuspendedTo" value="@userID" />
+                                        <input type="hidden" name="SuspendedBy" value="@currentUserId" />
+                                        <button type="submit" class="btn btn-danger-gradient btn-sm"><i class="fas fa-times-circle"></i> <span style="margin-left:3px;">Block This User</span></button>
+                                    </form>
+                                }
+                            </td>
+                            <td>
+                                <a href="~/SuperAdministrator/ManageRoles/RemoveUserFromRole/@userName-@roleName" class="btn btn-sm btn-primary">Remove From Role</a>
+                            </td>
+                            <td>
+                                <a href="~/SuperAdministrator/ManageUsers/UserProfile/@userID" class="btn btn-sm btn-purple-gradient">View Profile</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    @await Component.InvokeAsync("DataTable")
+}

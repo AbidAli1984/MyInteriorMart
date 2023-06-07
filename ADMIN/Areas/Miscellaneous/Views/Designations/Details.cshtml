@@ -1,0 +1,41 @@
+﻿@model BOL.SHARED.Designation
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Designations";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Miscellaneous/Designations";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Miscellaneous/Designations/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+<h1>Details</h1>
+
+<div>
+    <h4>Designation</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.DesignationID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

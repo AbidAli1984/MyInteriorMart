@@ -1,0 +1,164 @@
+﻿@model IdentityUser
+@inject IUsersAndRoles roles
+
+@{
+    ViewBag.Title = "User Profile";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Roles";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Manage Roles";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/Index";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+
+
+<section class="content">
+    <div class="body_scroll">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i> Aero</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Charts</a></li>
+                        <li class="breadcrumb-item active">App Widgets</li>
+                    </ul>
+                    <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
+                </div>
+                <div class="col-lg-5 col-md-6 col-sm-12">
+                    <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i class="zmdi zmdi-arrow-right"></i></button>
+                </div>
+            </div>
+            <h2>User Profile</h2>
+        </div>
+        <!-- Begin: Custom notification -->
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert @ViewBag.Class" role="alert">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="zmdi @ViewBag.Icon"></i>
+                    </div>
+                    @ViewBag.Message
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="zmdi zmdi-close"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        }
+        <!-- End: Custom notification -->
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-12">
+                    <div class="card">
+                        <div class="body">
+                            <img class="img-responsive" src="~/img/umarzone-photo-coming-soon.jpg" alt="User Profile">
+                            <div class="mt-4 pw_header">
+                                <h6>
+                                    @Model.UserName
+                                    @{
+                                        if (Model.EmailConfirmed == true)
+                                        {
+                                            <span> - Verified</span>
+                                        }
+                                        else
+                                        {
+                                            <span> - Not Verified</span>
+                                        }
+                                    }
+                                </h6>
+                            </div>
+                            <div class="pw_meta">
+                                <span>Mobile: @Model.PhoneNumber</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td>Tiger Nixon</td>
+                                            <td>System Architect</td>
+                                            <td>Edinburgh</td>
+                                            <td>61</td>
+                                            <td>2011/04/25</td>
+                                            <td>$320,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/25</td>
+                                            <td>$170,750</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ashton Cox</td>
+                                            <td>Junior Technical Author</td>
+                                            <td>San Francisco</td>
+                                            <td>66</td>
+                                            <td>2009/01/12</td>
+                                            <td>$86,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cedric Kelly</td>
+                                            <td>Senior Javascript Developer</td>
+                                            <td>Edinburgh</td>
+                                            <td>22</td>
+                                            <td>2012/03/29</td>
+                                            <td>$433,060</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Airi Satou</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>33</td>
+                                            <td>2008/11/28</td>
+                                            <td>$162,700</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

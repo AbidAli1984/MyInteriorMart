@@ -1,0 +1,131 @@
+﻿@model IEnumerable<BOL.CATEGORIES.KeywordSixthCategory>
+
+@{
+    ViewData["Title"] = "Keyword Sixth Categories";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/AllKeywords/KeywordsSixthCategory";
+    // Shafi: Add id="CreateAjaxCall" to ["BT-Link-2"] in Views/Shared/_Dashboard.cshtml for ajax call
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "#0";
+    // End:
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+    <script src="~/js-shafi/keywords/keyword-sixth-category.js"></script>
+}
+
+<h5>
+    @ViewData["Title"]
+    <span class="float-right">
+        Total : @ViewData["RowCount"]
+    </span>
+</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        Int32 count = 1;
+        columns.Add(model => "").RenderedAs(model => count++).Titled("#");
+        columns.Add(model => $"<a href=\"/AllCategories/SixthCategories/Edit/{model.SixthCategoryID}\" style='margin-left:5px;'><i class='fas fa-pen text-secondary'></i></a>").Encoded(false).Titled("Actions");
+        columns.Add(model => model.SixthCategory.Name).Titled("Sixth Category");
+        columns.Add(model => model.Keyword).Titled("Keyword");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 15, "15" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 15;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)
+<!-- Begin: Modal create keyword first category -->
+<div class="modal" id="ModalCreate">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-header">
+                <h6 class="modal-title">Create Keyword Sixth Category</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body pd-y-20 pd-x-20">
+                <!-- Begin: Spinner -->
+                <div class="text-center mg-b-20" id="spinner">
+                    <h5>Please wait, we are working.</h5>
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <!-- End: -->
+                <!-- Begin: Fields -->
+                <div id="FormFields">
+                    <!-- Begin: Show alert for all form fields required -->
+                    <div class="alert alert-solid-danger" role="alert" id="warning">
+                        <strong>Warning!</strong> All fields are required.
+                    </div>
+                    <!-- End: -->
+                    <!-- Begin: Show json failure message -->
+                    <div class="alert alert-solid-danger" role="alert" id="error">
+                        Something went wrong, please try again.
+                    </div>
+                    <!-- End: -->
+                    <!-- Begin: Hidden Inputs -->
+                    <input type="hidden" name="FirstCategoryID" id="firstCategoryId" value="@ViewBag.FirstCategoryID" />
+                    <input type="hidden" name="SecondCategoryID" id="secondCategoryId" value="@ViewBag.SecondCategoryID" />
+                    <input type="hidden" name="ThirdCategoryID" id="thirdCategoryId" value="@ViewBag.ThirdCategoryID" />
+                    <input type="hidden" name="FourthCategoryID" id="fourthCategoryId" value="@ViewBag.FourthCategoryID" />
+                    <input type="hidden" name="FifthCategoryID" id="fifthCategoryId" value="@ViewBag.FifthCategoryID" />
+                    <input type="hidden" name="SixthCategoryID" id="sixthCategoryId" value="@ViewBag.SixthCategoryID" />
+                    <input type="hidden" name="URL" id="url" value="" />
+                    <input type="hidden" name="Title" id="title" value="" />
+                    <!-- End: -->
+                    <div class="form-group">
+                        <label class="control-label">Keyword</label>
+                        <input name="Keyword" id="keyword" class="form-control CamelCase" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        <textarea name="Description" id="description" class="form-control CamelCase" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" id="CreateKeyword" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+                <!-- End: -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Success modal -->
+<!-- Modal alert message -->
+<div class="modal" id="ModalSuccess">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-success tx-semibold mg-b-20">Success!</h4>
+                <p class="mg-b-20 mg-x-20">Keyword for Sixth Category Created</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->

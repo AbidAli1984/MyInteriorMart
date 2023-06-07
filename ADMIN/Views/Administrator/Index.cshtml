@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "";
+    ViewData["BC-2"] = "";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "";
+    ViewData["BT-Link-1"] = "";
+    ViewData["BT-Text-2"] = "";
+    ViewData["BT-Link-2"] = "";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+<ul id="users">
+    <li>Empty List</li>
+</ul>
+
+<div class="row row-sm">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-primary-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">HOME</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white" id="home">0 Users</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-arrow-circle-up text-white"></i>
+                            <span class="text-white op-7"> +427</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span id="compositeline" class="pt-1"><canvas width="392" height="30" style="display: inline-block; width: 392px; height: 30px; vertical-align: top;"></canvas></span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-danger-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">CATEGORIES</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white" id="categories">0 Users</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-arrow-circle-down text-white"></i>
+                            <span class="text-white op-7"> -23.09%</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span id="compositeline2" class="pt-1"><canvas width="392" height="30" style="display: inline-block; width: 392px; height: 30px; vertical-align: top;"></canvas></span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-success-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white" id="listings">0 Users</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-arrow-circle-up text-white"></i>
+                            <span class="text-white op-7"> 52.09%</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span id="compositeline3" class="pt-1"><canvas width="392" height="30" style="display: inline-block; width: 392px; height: 30px; vertical-align: top;"></canvas></span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-warning-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">DASHBOARD</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white" id="dashboard">0 Users</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-arrow-circle-down text-white"></i>
+                            <span class="text-white op-7"> -152.3</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span id="compositeline4" class="pt-1"><canvas width="392" height="30" style="display: inline-block; width: 392px; height: 30px; vertical-align: top;"></canvas></span>
+        </div>
+    </div>
+</div>
+
+<div class="row row-sm">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header pb-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mg-b-0">USERS ONLINE</h4>
+                    <i class="mdi mdi-dots-horizontal text-gray"></i>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table text-md-nowrap" id="allUsers">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Type</th>
+                                <th>Username</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Pincode</th>
+                                <th>Latitude & Longitude</th>
+                                <th>Browsing</th>
+                                <th>Referrer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Image</th>
+                                <th>Type</th>
+                                <th>Username</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Pincode</th>
+                                <th>Latitude & Longitude</th>
+                                <th>Browsing</th>
+                                <th>Referrer</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/div-->
+</div>
+
+<div id='map' style='width: 100%; height: 600px;'></div>
+
+
+@section Scripts{
+    <!-- Begin: Signal R -->
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/Hubs-Signalr/AdminDashboard/UsersOnlineHome.js"></script>
+    <script src="~/Hubs-Signalr/AdminDashboard/UsersOnlineCategories.js"></script>
+    <script src="~/Hubs-Signalr/AdminDashboard/UsersOnlineListing.js"></script>
+    <script src="~/Hubs-Signalr/AdminDashboard/UsersOnlineDashboard.js"></script>
+    <script src="~/Hubs-Signalr/AdminDashboard/GetAllConnectedUsers.js"></script>
+    <script src="~/Hubs-Signalr/AdminDashboard/AllConnectedUsersMapHub.js"></script>
+    <script src="~/js/notify.js"></script>
+    <!-- End: -->
+    <!-- Shafi: Create map using help from this url http://bl.ocks.org/d3noob/9150014 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+            crossorigin=""></script>
+    <!-- End: -->
+    <!-- Begin: Datatable scrollbar -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#allUsers').DataTable({
+                "scrollY": "200px",
+                "scrollCollapse": true,
+                "paging": false
+            });
+        });
+    </script>
+    <!-- End: -->
+}

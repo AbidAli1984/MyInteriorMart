@@ -1,0 +1,430 @@
+﻿@page "/Listing/Index/{ListingID}"
+
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject CategoriesDbContext categoriesContext
+@inject SharedDbContext sharedContext
+@inject ApplicationDbContext applicationContext
+
+
+<div class="container individual-listing">
+    <div class="row">
+        <div class="col-lg-3 individual-listing-sidebar padding-5">
+            <div class="box_detail_cus">
+                <div class="cust-profile">
+                    <img src="new-theme/frontend/img/icon/profile.svg" alt="profile">
+                    <h4 class="cust-name">Habib Hamza</h4>
+                    <span class="cust-type">Owner</span>
+                </div>
+            </div>
+            <div class="listing-specialisat box_detail_cus">
+                <h6>Specialisation</h6>
+                <ul class="listing-specialisat-list">
+                    <li><i class="icon-check-1"></i> Bank</li>
+                    <li><i class="icon-check-1"></i> Exhibition Stall</li>
+                    <li><i class="icon-check-1"></i> Hotel</li>
+                    <li><i class="icon-check-1"></i> Restaurants</li>
+                    <li><i class="icon-check-1"></i> Beauty Parlors</li>
+                    <li><i class="icon-check-1"></i> Factory</li>
+                    <li><i class="icon-check-1"></i> Laboratory</li>
+                    <li><i class="icon-check-1"></i> Salons</li>
+                    <li><i class="icon-check-1"></i> Bungalow</li>
+                    <li><i class="icon-check-1"></i> Farmhouse</li>
+                    <li><i class="icon-check-1"></i> Mandir</li>
+                    <li><i class="icon-check-1"></i> Shop</li>
+                    <li><i class="icon-check-1"></i> Call Center</li>
+                    <li><i class="icon-check-1"></i> Gurudwara</li>
+                    <li><i class="icon-check-1"></i> Mosque</li>
+                    <li><i class="icon-check-1"></i> Shopping Mall</li>
+                    <li><i class="icon-check-1"></i> Church</li>
+                    <li><i class="icon-check-1"></i> Gym</li>
+                    <li><i class="icon-check-1"></i> Office</li>
+                    <li><i class="icon-check-1"></i> Showroom</li>
+                    <li><i class="icon-check-1"></i> Company</li>
+                    <li><i class="icon-check-1"></i> Health Club</li>
+                    <li><i class="icon-check-1"></i> Plazas</li>
+                    <li><i class="icon-check-1"></i> Warehouse</li>
+                    <li><i class="icon-check-1"></i> Computer Institute</li>
+                    <li><i class="icon-check-1"></i> Home</li>
+                    <li><i class="icon-check-1"></i> Residential Society</li>
+                    <li><i class="icon-check-1"></i> Dispensary</li>
+                    <li><i class="icon-check-1"></i> Hospital</li>
+                    <li><i class="icon-check-1"></i> Resorts</li>
+                </ul>
+            </div>
+            <div class="listing-specialisat box_detail_cus">
+                <h6>PAYMENT DETAILS</h6>
+                <ul class="listing-specialisat-list">
+                    <li><i class="icon-check-1"></i> Cash</li>
+                    <li><i class="icon-check-1"></i> Net Banking</li>
+                    <li><i class="icon-check-1"></i> Cheque</li>
+                    <li><i class="icon-check-1"></i> RTGS &amp; NEFT</li>
+                    <li><i class="icon-check-1"></i> Debit Card</li>
+                    <li><i class="icon-check-1"></i> Credit Card</li>
+                    <li><i class="icon-check-1"></i> Pay TM</li>
+                    <li><i class="icon-check-1"></i> Phone Pay</li>
+                    <li><i class="icon-check-1"></i> Paypal</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9 individual-listing-main padding-5">
+            <div class="listing-gallery">
+                <div class="gallery">
+                    <a href="FrontEnd/img/listing-img.jpeg" class="big">
+                        <img src="new-theme/frontend/img/listing-img.jpeg" alt="Image 1" title="Image 1">
+                    </a>
+                    <a href="FrontEnd/img/hero_in_restaurants_detail.jpg" class="big">
+                        <img src="new-theme/frontend/img/hero_in_restaurants_detail.jpg" alt="Image 2" title="Image 2">
+                    </a>
+                    <a href="FrontEnd/img/furniture-design1.jpg" class="big">
+                        <img src="new-theme/frontend/img/furniture-design1.jpg" alt="Image 3" title="Image 3">
+                    </a>
+                    <a href="FrontEnd/img/furniture-design.jpg" class="big">
+                        <img src="new-theme/frontend/img/furniture-design.jpg" alt="Image 4" title="Image 4">
+                    </a>
+                    <a href="FrontEnd/img/home_section_1.jpg" class="big">
+                        <img src="new-theme/frontend/img/home_section_1.jpg" alt="Image 5" title="Image 5">
+                    </a>
+                    <a href="FrontEnd/img/access_bg.jpg" class="big">
+                        <img src="new-theme/frontend/img/access_bg.jpg" alt="Image 6" title="Image 6">
+                    </a>
+                    <a href="FrontEnd/img/bg_call_section.jpg" class="big">
+                        <img src="new-theme/frontend/img/bg_call_section.jpg" alt="Image 7" title="Image 7">
+                    </a>
+                    <a href="FrontEnd/img/listing-img.jpeg" class="big">
+                        <img src="new-theme/frontend/img/listing-img.jpeg" alt="Image 8" title="Image 8">
+                    </a>
+                    <a href="FrontEnd/img/hero_in_hotels_detail.jpg" class="big">
+                        <img src="new-theme/frontend/img/hero_in_hotels_detail.jpg" alt="Image 9" title="Image 9">
+                    </a>
+                </div>
+            </div>
+            @if (listing != null)
+            {
+                <div class="company-listing-main">
+                    <div class="listing-details">
+                        <div class="col-lg-4 col-md-12 company-map padding-all-5">
+                            <div class="gmap_canvas">
+                                <iframe width="100%" height="315" id="gmap_canvas" src="https://maps.google.com/maps?q=Creative&#x2B;Concept&#x2B;Pvt.&#x2B;Ltd.&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-12 company-details-list padding-all-5">
+                            <div class="company-addes">
+                                <div class="company-details">
+                                    <h5 class="company-name">@listing.Listing.CompanyName</h5>
+                                    <small>
+                                        <a href="#0" class="claimbusiness"><i class="icon-pencil-1"></i>write a preview</a>
+                                    </small>
+                                </div>
+                                <span class="company-category-name">@listing.Category.SecondCategory.Name</span>
+                                <div class="company-rating">
+                                    <div class="cat_star">
+                                        <i class="icon_star active"></i>
+                                        <i class="icon_star active"></i>
+                                        <i class="icon_star active"></i>
+                                        <i class="icon_star active"></i>
+                                        <i class="icon_star"></i>
+                                    </div>
+                                    <span>4.0 based on 4 rating</span>
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-12 mim-Address">
+                                <p>
+                                    <i class="icon-location-6"></i>
+                                    @listing.Address.Locality.LocalityName, @listing.Address.Pincode.PincodeNumber <a href="#0">more...</a>
+                                </p>
+                                <p>
+                                    <i class="icon-address"></i> @listing.Address.Assembly.Name<span style="margin-left:30px;"><i class="icon-map-1"></i>@listing.Address.City.Name</span>
+                                </p>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    @if (listing.Communication.Website != null)
+                                    {
+                                        <div class="col-12 col-md-6 p-0 company-website">
+                                            <i class="icon-globe-4"></i>
+                                            <a href="@listing.Communication.Website" target="_blank" title="@listing.Communication.Website">
+                                                @listing.Communication.Website
+                                            </a>
+                                        </div>
+                                    }
+                                    <div class="col-12 col-md-6 p-0 company-establishment">
+                                        <p><i class="icon-calendar-5"></i> Year of Establishment @listing.Listing.YearOfEstablishment.ToString("yyyy") </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="company-time">
+                                <a class="company-time-title btn btn-link collapsed" data-toggle="collapse" href="#companytime" role="button" aria-expanded="false" aria-controls="companytime">
+                                    <i class="icon-map-1 mim-marginLeft-Minus20"></i>
+                                    <span>
+                                        <b>Hours : </b>
+                                        @if (Closed == true)
+                                        {
+                                            <b style="color: red;"> Closed Now </b>
+                                        }
+                                        else
+                                        {
+                                            <b style="color: green;"> Open Now </b>
+                                        }
+                                        10:11 AM <b>Thursday</b>
+                                    </span>
+                                </a>
+                                <div class="collapse" id="companytime">
+                                    <div class="card card-body">
+                                        <div class="row">
+                                            <div class="col-4">Monday</div>
+                                            <div class="col-8">
+                                            @listing.WorkingHour.MondayFrom.ToString("hh:mm tt") to @listing.WorkingHour.MondayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Tuesday</div>
+                                            <div class="col-8">
+                                                @listing.WorkingHour.TuesdayFrom.ToString("hh:mm tt") to @listing.WorkingHour.TuesdayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Wednesday</div>
+                                            <div class="col-8">
+                                                @listing.WorkingHour.WednesdayFrom.ToString("hh:mm tt") to @listing.WorkingHour.WednesdayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Friday</div>
+                                            <div class="col-8">
+                                                @listing.WorkingHour.FridayFrom.ToString("hh:mm tt") to @listing.WorkingHour.FridayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Saturday</div>
+                                            <div class="col-8">
+                                                @listing.WorkingHour.SaturdayFrom.ToString("hh:mm tt") to @listing.WorkingHour.SaturdayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Sunday</div>
+                                            <div class="col-8">
+                                                @listing.WorkingHour.SundayFrom.ToString("hh:mm tt") to @listing.WorkingHour.SundayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="social-details">
+                                <a href="#0" class="btn btn-success btn-sm" id="ViewNumber"><i class="icon-eye"></i> Show Contact</a>
+                                <a href="#0" class="btn btn-danger btn-sm" id="HideNumber"><i class="icon-eye-off"></i> Hide Contact</a>
+                                <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
+                                <a href="#0" id="BookmarkMe" class="pushRight btn btn-light btn-sm">
+                                    <i class="icon-bookmark-empty"></i> Bookmark <span id="BookmarkCount">0</span>
+                                </a>
+                                <a href="#0" id="LikeMe" class="pushRight btn btn-light btn-sm">
+                                    <i class="icon-thumbs-up"></i> <span id="LikeCount">0</span>
+                                </a>
+                                <a href="#0" id="SubscribeMe" class="pushRight btn btn-light btn-sm">
+                                    <i class="icon-bell"></i> Subscribe <span id="SubscribeCount">0</span>
+                                </a>
+                            </div>
+                            <div id="contactDetails" class="pt-0 pb-2">
+                                <i class="icon-mobile-6"></i> <a href="tel:1324567890" title="Call Now">1324567890</a>
+                                <i class="icon-mobile-6"></i> <a href="tel:1324567890" title="Whatsapp">1324567890</a>
+                            </div>
+                            <div class="col-lg-12 social-share p-0">
+                                <a href="#0"><i class="icon-facebook-squared-1"></i></a>
+                                <a href="#0"><i class="fa fa-whatsapp"></i></a>
+                                <a href="#0"><i class="icon-linkedin-3"></i></a>
+                                <a href="#0"><i class="icon-twitter-rect"></i></a>
+                                <a href="#0"><i class="icon-youtube-play"></i></a>
+                                <a href="#0"><i class="icon-instagramm"></i></a>
+                                <a href="#0"><i class="icon-pinterest-squared"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-block one-block">
+                        <div class="row">
+                            <div class="col-12">
+                                <a href="#" class="grid_item small">
+                                    <figure>
+                                        <img src="https://via.placeholder.com/900x250/09f.png/fff" alt="">
+                                    </figure>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="company-listing-tab">
+                        <div class="step">
+                            <ul class="nav nav-tabs" id="tab_checkout" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="true">Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="enquire-tab" data-toggle="tab" href="#enquire" role="tab" aria-controls="enquire" aria-selected="true">Enquire Now</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="true">Reviews</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content checkout">
+                                <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about">
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        when an unknown printer took a galley of type and scrambled it to make a type
+                                        specimen book. It has survived not only five centuries, but also the leap into
+                                        electronic typesetting, remaining essentially unchanged. It was popularised in
+                                        the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                                        and more recently with desktop publishing software like Aldus PageMaker including
+                                        versions of Lorem Ipsum.
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley of type and scrambled it to make a type
+                                    specimen book. It has survived not only five centuries, but also the leap into
+                                    electronic typesetting, remaining essentially unchanged. It was popularised in
+                                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                                    and more recently with desktop publishing software like Aldus PageMaker including
+                                    versions of Lorem Ipsum.
+                                </div>
+                                <div class="tab-pane fade" id="enquire" role="tabpanel" aria-labelledby="enquire">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley of type and scrambled it to make a type
+                                    specimen book. It has survived not only five centuries, but also the leap into
+                                    electronic typesetting, remaining essentially unchanged. It was popularised in
+                                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                                    and more recently with desktop publishing software like Aldus PageMaker including
+                                    versions of Lorem Ipsum.mapDiv
+
+                                </div>
+                                <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews">
+                                    <div class="review-form mb-3">
+                                        <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button" aria-expanded="false" aria-controls="WriteReview">
+                                            <i class="icon-pencil"></i> Write Review
+                                        </a>
+                                        <div class="add-review collapse" id="WriteReview">
+                                            <div class="card card-body">
+                                                <h6>Leave a Review</h6>
+                                                <form>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <div class="stars">
+                                                                <input class="star star-1" id="star-1" value="1" type="radio" name="Ratings">
+                                                                <label class="icon_star star-1" for="star-1"></label>
+                                                                <input class="star star-2" id="star-2" value="2" type="radio" name="Ratings">
+                                                                <label class="icon_star star-2" for="star-2"></label>
+                                                                <input class="star star-3" id="star-3" value="3" type="radio" name="Ratings">
+                                                                <label class="icon_star star-3" for="star-3"></label>
+                                                                <input class="star star-4" id="star-4" value="4" type="radio" name="Ratings">
+                                                                <label class="icon_star star-4" for="star-4"></label>
+                                                                <input class="star star-5" id="star-5" value="5" type="radio" name="Ratings">
+                                                                <label class="icon_star star-5" for="star-5"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Your Review</label>
+                                                            <textarea name="review_text" id="review_text" class="form-control" style="height:130px;"></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12 add_top_20 add_bottom_30">
+                                                            <input type="submit" value="Submit" class="btn_1" id="submit-review">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-5 " id="RatingBar">
+                                            <div>
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="company-rating d-flex">
+                                                            <h4>4.0</h4>
+                                                            <div class="cat_star pl-2 pt-1">
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star"></i>
+                                                            </div>
+                                                            <span class="pl-2 pt-1">based on 4 rating</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <span class="company-progress-star">5 <i class="icon-star-1"></i></span>
+                                                        <div class="progress company-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <span class="company-progress-star">4 <i class="icon-star-1"></i></span>
+                                                        <div class="progress company-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <span class="company-progress-star">3 <i class="icon-star-1"></i></span>
+                                                        <div class="progress company-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <span class="company-progress-star">2 <i class="icon-star-1"></i></span>
+                                                        <div class="progress company-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <span class="company-progress-star">1 <i class="icon-star-1"></i></span>
+                                                        <div class="progress company-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6  col-lg-7 review-user">
+                                            <h6>Latest review by Mohammad Shafi Shaikh on 2 months ago</h6>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-2 text-center">
+                                                            <img src="new-theme/frontend/img/icon/profile.svg" class="rounded-circle img-thumbnail">
+                                                        </div>
+                                                        <div class="col-lg-10 pl-lg-0">
+                                                            <div class="cat_star">
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star active"></i>
+                                                                <i class="icon_star active"></i>
+                                                                <span><strong>Shaikh – 2 months ago</strong> </span>
+                                                            </div>
+                                                            <p>Very good company. afafasdf aasf asdfsadf adsfadfadf<a href="#0"> view more...</a></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<BOL.SHARED.Country>
+@inject IAddresses AddressRepos
+
+@{
+    ViewData["Title"] = "All Countries";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Countries";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Common/Countries";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Common/Countries/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+<h5>@ViewData["Title"] Time Taken: @ViewBag.StopWatch <span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add().RenderedAs((model, row) => model.CountryID).Titled("#").Css("text-center");
+        // Begin: Country Flag
+        columns.Add(model => $"<img src=\"/country-flags/flags-medium/{model.SortName.ToLower().ToString()}.png\" title=\"{model.Name}\" width=\"35\" />").Encoded(false).Titled("Flag");
+        // End:
+
+        columns.Add(model => model.Name).Titled("Name");
+        columns.Add(model => $"<span class='mr-3 btn btn-sm btn-secondary'>{AddressRepos.CountStateInCountry(model.CountryID)}</span><a href=\"/Common/States/Index/{model.CountryID}\" class='btn btn-sm btn-secondary mr-2'>Manage States</a>").Encoded(false).Titled("States").Filterable(true);
+        columns.Add(model => model.SortName).Titled("SortName");
+        columns.Add(model => model.Currency).Titled("Currency");
+        columns.Add(model => model.ISO3Name).Titled("ISO3Name");
+        columns.Add(model => model.Capital).Titled("Capital");
+        columns.Add(model => model.PhoneCode).Titled("PhoneCode");
+        columns.Add(model => $"<a href=\"/Common/Countries/Edit/{model.CountryID}\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)
+<!-- Begin: Model popup for edited successfuly -->
+<div class="modal" id="modalSuccess">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-success tx-semibold mg-b-20">Success!</h4>
+                <h6 class="mg-b-20 mg-x-20">@ViewBag.SuccessMessage</h6>
+                <div class="modal-footer justify-content-center">
+                    <button class="btn ripple btn-success" data-dismiss="modal" type="button">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+
+@section Scripts{
+    <script src="~/backend/assets/js/modal.js"></script>
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modalSuccess').modal('show');
+            });
+        </script>
+    }
+}
+<!-- End: -->
+
+
+
+<style>
+    .width {
+        width: 85px;
+    }
+
+    .width-100 {
+        width: 300px;
+        text-align: center;
+    }
+
+    .width-170 {
+        width: 170px;
+        text-align: center;
+    }
+
+    .widthSearches {
+        width: 80px;
+    }
+</style>

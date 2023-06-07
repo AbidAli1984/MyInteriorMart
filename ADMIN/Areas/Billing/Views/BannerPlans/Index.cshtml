@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BOL.PLAN.BannerPlan>
+
+@{
+    ViewData["Title"] = "Banner Plans";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Billing";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Billing/BannerPlans";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Billing/BannerPlans/Create";
+}
+<!-- End: -->
+
+<h5>@ViewData["Title"]</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add().RenderedAs((model, row) => model.PlanID).Titled("#").Css("text-center");
+        columns.Add(model => model.Name).Titled("Name");
+        columns.Add(model => model.MonthlyPrice).Titled("Monthly Price");
+        columns.Add(model => model.Priority).Titled("Priority");
+        columns.Add(model => $"<a href=\"/Billing/BannerPlans/Edit/{model.PlanID}\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

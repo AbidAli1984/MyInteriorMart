@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BOL.CATEGORIES.SecondCategory>
+
+@{
+    ViewData["Title"] = "Second Categories";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Categories";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/AllCategories/SecondCategories";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/AllCategories/SecondCategories/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+<h5>
+    @ViewData["Title"]
+    <span class="float-right">
+        Total : @ViewData["RowCount"]
+    </span>
+</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        Int32 web = 1;
+        columns.Add(model => "").RenderedAs(model => web++).Titled("#");
+        columns.Add(model => model.FirstCategory.Name).Titled("First Category");
+        columns.Add(model => $"<a href=\"/DeepCategories/Browse/Third/{model.SecondCategoryID}\">{model.Name}</a>").Titled("Name").Encoded(false);
+        columns.Add(model => model.SortOrder).Titled("Sord Order");
+        columns.Add(model => $"<a href=\"/AllCategories/SecondCategories/Edit/{model.FirstCategoryID}\" style='margin-left:5px;'><i class='fas fa-pen text-secondary'></i></a><a href=\"/AllCategories/ThirdCategories/{model.SecondCategoryID}\" style='margin-left:10px;'><i class='fas fa-eye text-secondary'></i></a><a href=\"/AllKeywords/KeywordsSecondCategory/{model.SecondCategoryID}\" style='margin-left:10px;'><i class='fas fa-list text-secondary'></i></a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 15, "15" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 5;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 15;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

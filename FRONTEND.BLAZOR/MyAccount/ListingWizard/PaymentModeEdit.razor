@@ -1,0 +1,346 @@
+﻿@page "/MyAccount/ListingWizard/PaymentModeEdit/{listingId:int?}"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject SharedDbContext sharedContext
+@inject CategoriesDbContext categoriesContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@inject IJSRuntime jsRuntime
+@using AntDesign
+@using BOL.SHARED
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="listing-from-block individual-listing">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab-listing" role="tablist"
+                             aria-orientation="vertical">
+                            <!-- Company -->
+                            @if (companyExist == true)
+                            {
+                                if (currentPage == "nav-company")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="true">Company</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="false">Company</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-company")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Company/" aria-selected="true">Company</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="#0" aria-selected="false">Company</a>
+                                }
+                            }
+
+                            <!-- Communication -->
+                            @if (communicationExist == true)
+                            {
+                                if (currentPage == "nav-communication")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="true">Communication</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="false">Communication</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-communication")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Communication/" aria-selected="true">Communication</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Communication</a>
+                                }
+                            }
+
+                            <!-- Address -->
+                            @if (addressExist == true)
+                            {
+                                if (currentPage == "nav-address")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="true">Address</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="false">Address</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-address")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Address/" aria-selected="true">Address</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Address</a>
+                                }
+                            }
+
+                            <!-- Categories -->
+                            @if (categoryExist == true)
+                            {
+                                if (currentPage == "nav-category")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="true">Category</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="false">Category</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-category")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Category/" aria-selected="true">Category</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Category</a>
+                                }
+                            }
+
+                            <!-- Specialisations -->
+                            @if (specialisationExist == true)
+                            {
+                                if (currentPage == "nav-specialisation")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="true">Specialisation</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="false">Specialisation</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-specialisation")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Specialisation/" aria-selected="true">Specialisation</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Specialisation</a>
+                                }
+                            }
+
+                            <!-- Working Hours -->
+                            @if (workingHoursExist == true)
+                            {
+                                if (currentPage == "nav-workinghours")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="true">Working Hours</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="false">Working Hours</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-workinghours")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/WorkingHours/" aria-selected="true">Working Hours</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Working Hours</a>
+                                }
+                            }
+
+                            <!-- Payment Modes -->
+                            @if (paymentModeExist == true)
+                            {
+                                if (currentPage == "nav-paymentmode")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="true">Payment Mode</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="false">Payment Mode</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-paymentmode")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/PaymentMode/" aria-selected="true">Payment Mode</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Payment Mode</a>
+                                }
+                            }
+                            <!-- End: Listing Wizard -->
+                            <!-- Begin: Finish -->
+                            @if (currentPage == "nav-logo")
+                            {
+                                <a class="nav-link active" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="true">Logo</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="false">Logo</a>
+                            }
+                            @if (currentPage == "nav-finish")
+                            {
+                                <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Finish</a>
+                            }
+                            <!-- End: Finish -->
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
+                            <!-- Begin: Form -->
+                            <p class="add-lidting-title-from">Edit Payment Mode <button class="btn btn-link float-right" @onclick="@(async() => await ToggleEditAsync())">Edit</button></p>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="clearfix add_bottom_15">
+                                        <button class="btn_1" @onclick="@(async() => await ToggleAllAsync())">
+                                            Select To All
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Cash
+                                                <input type="checkbox" @bind="@Cash" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                RTGS & NEFT
+                                                <input type="checkbox" @bind="RtgsNeft" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                PayTM
+                                                <input type="checkbox" @bind="@PayTM" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Net Banking
+                                                <input type="checkbox" @bind="NetBanking" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div><div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Debit Card
+                                                <input type="checkbox" @bind="DebitCard" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div><div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Phone Pay
+                                                <input type="checkbox" @bind="PhonePay" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div><div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Cheque
+                                                <input type="checkbox" @bind="Cheque" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Credit Card
+                                                <input type="checkbox" @bind="CreditCard" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Paypal
+                                                <input type="checkbox" @bind="Paypal" disabled="@toggleEdit">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-left col-12 mt-3">
+                                    @if (toggleEdit == false)
+                                    {
+                                        if (buttonBusy == false)
+                                        {
+                                            <button class="btn_1" @onclick="@(async() => await UpdatePaymentModeAsync())" disabled="@toggleEdit">Save & Continue</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn_1">Saving...</button>
+                                        }
+                                    }
+
+                                    <a href="/MyAccount/ListingWizard/Logo/@listingId" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+
+                                        <a href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" class="pull-right mr-4" style="margin-left:150px;"><img src="/img/arrow-previous.png" height="25" /></a>
+                                </div>
+                            </div>
+                            <!-- End: Form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

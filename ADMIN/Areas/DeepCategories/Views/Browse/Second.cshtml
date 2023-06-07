@@ -1,0 +1,163 @@
+﻿@model IEnumerable<BOL.CATEGORIES.SecondCategory>
+@inject ICategory categoryRepo
+@inject IKeywords keywordsRepo
+
+@{
+    ViewData["Title"] = "Second Categories";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Categories";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewBag.FirstCategoryName;
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/AllCategories/SecondCategories";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/AllCategories/SecondCategories/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+@section CSS{
+    <link href="~/css/MIMUploadButton.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        // Shafi: Bind keyword field with url field and convert to upper case by remove space
+        $(document).ready(function () {
+            // Bind keyword, url and description input together
+            $("#sarchKeywordName").keyup(function (event) {
+
+                // Force text to be typed in lowercase in Keyword text field
+                $(this).val($(this).val().toLowerCase());
+
+                // Get value of keyword text field
+                var categoryName = $(this).val();
+
+                // Tranform value of keyword to Title Case
+                function ToTitleCase(categoryName) {
+                    return categoryName.replace(/(?:^|\s)\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+
+                // Call ToTitleCase function replace space by - hyphen through and convert to title case
+                var url = ToTitleCase(categoryName).replace(/\s+/g, "-");
+
+                // Set final value of input with id's url, title and description
+                $("#url").val(url);
+                $("#sarchKeywordName").val(ToTitleCase(categoryName));
+                $("#description").val(ToTitleCase(categoryName));
+                $("#keywords").val(ToTitleCase(categoryName));
+            });
+            // End:
+
+            // Prevent user manually typing text in url input
+            $("#url").keypress(function (e) {
+                e.preventDefault();
+            });
+            // End:
+        });
+    </script>
+}
+
+<h5 style="margin-top:-10px;">
+    @ViewBag.FirstCategoryName
+    <a href="/Categories/FirstCategories" class="btn btn-sm btn-secondary-gradient float-right ml-2"><i class="fa fa-arrow-left"></i> <span class="ml-1">View First Categories</span></a>
+    <a href="/Categories/SecondCategories/Create" class="btn btn-sm btn-primary float-right ml-2"><i class="fa fa-plus"></i> <span class="ml-1">Create New</span></a>
+    <span class="float-right mr-3">
+        Records Count : @ViewData["RowCount"]
+    </span>
+</h5>
+<hr />
+
+<form action="~/Categories/SecondCategories/Create" method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="hidden" name="FirstCategoryID" value="@ViewBag.FirstCategoryId" required />
+            <input type="hidden" name="URL" id="url" required />
+            <input type="hidden" name="Description" id="description" required />
+            <input type="hidden" name="Keyword" id="keywords" required />
+            <div class="form-group">
+                <label class="control-label">Category Name</label>
+                <input name="Name" id="categoryName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Business Category Name</label>
+                <input name="SearchKeywordName" id="sarchKeywordName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Sort Order</label>
+                <input name="SortOrder" value="0" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3 mt-2">
+            <label class="control-label"></label>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (TempData["Message"] != null)
+{
+    <div class="row mb-2">
+        <div class="col-12 col-lg-12 alert alert-danger">
+            Message: @TempData["Message"]
+        </div>
+    </div>
+}
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.SearchCount).Titled("Searches").Css("widthSearches").Filterable(false);
+        columns.Add(model => model.SortOrder).Titled("Sort").Css("width").Filterable(false);
+        columns.Add(model => $"<img src='/FileManager/CategoryIcons/Second/{model.URL}.png' width='30px' height='30px'>").Encoded(false).Titled("Image");
+        columns.Add(model => $"<form action='/FileManager/CategoryIcons/UploadIcon' method='post' enctype='multipart/form-data'><input type='hidden' name='directory' value='\\FileManager\\CategoryIcons\\Second\\' required><input type='hidden' name='imageName' value='{model.URL}' required><label class='myFile'><i class='fa fa-file btn btn-sm btn-info' style='margin-right:10px;'></i><input type='file' name='file' required /></label><button type='submit' class='btn btn-sm btn-primary'><i class='fa fa-upload'></i> Upload</button></form>").Encoded(false).Titled("Upload");
+        columns.Add(model => $"<form action='/FileManager/CategoryIcons/DeleteImage' method='post' enctype='multipart/form-data'><input type='hidden' name='directory' value='\\FileManager\\CategoryIcons\\Second\\' required><input type='hidden' name='imageName' value='{model.URL}' required><button type='submit' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Icon</button></form>").Encoded(false).Titled("Delete");
+        columns.Add(model => $"<a href=\"/DeepCategories/Browse/Third/{model.SecondCategoryID}\">{model.Name}</a> <small class='float-right'><span class='btn btn-sm btn-secondary ml-2'>{categoryRepo.CountChildOfSecondCategory(model.SecondCategoryID)}</span> <a href=\"/Categories/SecondCategories/Edit/{model.SecondCategoryID}\" class=\"ml-2 btn btn-sm btn-primary\">Edit</a> {(categoryRepo.SecondCategoryIsNotEmpty(model.SecondCategoryID) ? "" : $"<a href='/Categories/SecondCategories/Delete/{model.SecondCategoryID}' class='ml-2 btn btn-sm btn-danger'>Delete</a></small>")}").Titled("Categories").Encoded(false).Filterable(true);
+        columns.Add(model => $"<span class='mr-3 btn btn-sm btn-secondary'>{keywordsRepo.CountKeywordsInSecondCategory(model.SecondCategoryID)}</span> <a href=\"/DeepKeywords/Browse/Second/{model.SecondCategoryID}\" class='btn btn-sm btn-secondary mr-2'>Manage Keywords</a> <a href=\"/Others/ListingTitles/Index/{model.SecondCategoryID}\" class='btn btn-sm btn-success mr-2'>Featured Keyword</a>").Encoded(false).Titled("Actions").Css("width-200");
+        //columns.Add(model => model.FirstCategory.Name).Titled("First Category");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 30, "30" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)
+
+<style>
+    .width {
+        width: 75px;
+    }
+
+    .width-100 {
+        width: 300px;
+        text-align: center;
+    }
+
+    .widthSearches {
+        width: 80px;
+    }
+</style>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>F:\Umarzone 2020\My Interior Mart\MIM-Published-Admin</_PublishTargetUrl>
+    <History>True|2022-03-27T06:24:37.7140030Z;False|2022-03-27T11:42:48.0863323+05:30;False|2022-03-26T23:26:25.1548589+05:30;False|2022-03-26T23:22:51.4295222+05:30;False|2021-10-20T14:18:14.0300309+05:30;True|2021-06-26T13:20:36.8213382+05:30;True|2021-06-20T13:09:16.8591756+05:30;True|2021-06-19T12:30:47.5954489+05:30;True|2021-06-14T14:57:06.5694867+05:30;True|2021-05-12T17:17:49.1030622+05:30;</History>
+  </PropertyGroup>
+</Project>

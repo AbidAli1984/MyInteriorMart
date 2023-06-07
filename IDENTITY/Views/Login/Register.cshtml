@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+
+@section CSS{
+    <link href="~/css/mim-authorization-pages.css" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="row justify-content-center account-form">
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2 umar-account-form-border">
+        <form id="account" method="post">
+            <a href="~/" title="UMARZONE">
+                <img src="~/img/my-interior-mart-logo.png" class="logo" />
+            </a>
+            <h1>REGISTER</h1>
+            <!-- Begin: Hidden fields -->
+            <span asp-validation-summary="All" class="umar-error"></span>
+            <!-- End: -->
+            <input @*asp-for="Input.Email"*@ class="umar-input" placeholder="Email" required />
+            <span @*asp-validation-for="Input.Email"*@ class="umar-error"></span>
+            <input @*asp-for="Input.Password"*@ class="umar-input" placeholder="Mobile" required />
+            <span @*asp-validation-for="Input.Password"*@ class="umar-error"></span>
+            <input @*asp-for="Input.Password"*@ class="umar-input" placeholder="Password" required />
+            <span @*asp-validation-for="Input.Password"*@ class="umar-error"></span>
+            <input @*asp-for="Input.Password"*@ class="umar-input" placeholder="Confirm Password" required />
+            <span @*asp-validation-for="Input.Password"*@ class="umar-error"></span>
+            <div style="display:flex">
+                <div>
+                    <input type="checkbox" @*asp-for="Input.RememberMe"*@>
+                </div>
+                <div class="checkbox-text">
+                    <span class="float-start">Accept Terms</span>
+                </div>
+            </div>
+            <button type="submit">Login</button>
+            <h2 class="umar-h2 mt-4">
+                ALREADY REGISTERED!<br />
+                LOGIN BY
+            </h2>
+            <div class="d-flex flex-row justify-content-center umar-account-footer">
+                <div class="umar-icons">
+                    <img src="~/img/account-form/email.svg" />
+                    <a href="#">Email</a>
+                </div>
+                <div class="umar-icons">
+                    <img src="~/img/account-form/mobile.svg" />
+                    <a href="#">Mobile</a>
+                </div>
+                <div class="umar-icons">
+                    <img src="~/img/account-form/link.svg" />
+                    <a href="#">Link</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+@*<form action="~/Login/ByMobileOtp" method="post">
+    <input type="text" name="mobile" />
+    <input type="submit" value="Login" />
+</form>*@

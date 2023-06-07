@@ -1,0 +1,262 @@
+﻿@model IEnumerable<BOL.PLAN.Plan>
+
+@{
+    ViewData["Title"] = "Plans";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Plans";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Billing/Plans";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Billing/Plans/Create";
+}
+<!-- End: -->
+
+<div class="row">
+    @foreach (var item in Model.OrderBy(p => p.Priority))
+    {
+        <div class="col-xs-6 col-sm-6 col-lg-6 col-xl-3">
+            <div class="panel price panel-color" style="border:1px solid #ededed;">
+                <div class="panel-heading bg-@item.CSSClassName p-0 text-center">
+                    <h3>@item.Name</h3>
+                </div>
+                <div class="panel-body text-center">
+                    @{
+                        var yearlyPrice = item.MonthlyPrice * 12;
+                    }
+                    <p class="lead text-@item.CSSClassName"><span style="font-size:26px; font-weight:400;">Rs.</span><strong style="font-size:40px;">@yearlyPrice</strong> <span style="font-size:20px; font-weight:400;">/  yearly</span></p>
+                </div>
+                <ul class="list-group list-group-flush text-center">
+                    @if (item.Categories != 0)
+                    {
+                        <li class="list-group-item"><strong> @item.Categories</strong> Categories</li>
+                    }
+                    @if (item.Offers != 0)
+                    {
+                        <li class="list-group-item"><strong>@item.Offers </strong> Offers</li>
+                    }
+                    @if (item.Products != 0)
+                    {
+                        <li class="list-group-item"><strong> @item.Products </strong> Products</li>
+                    }
+                    @if (item.JobPostings != 0)
+                    {
+                        <li class="list-group-item"><strong> @item.JobPostings </strong> Job Posting</li>
+                    }
+                    @if (item.RecentProjects != 0)
+                    {
+                        <li class="list-group-item border-bottom-0"><strong> @item.RecentProjects</strong> Recent Projects</li>
+                    }
+                    <li class="list-group-item border-bottom-0"><strong> @item.City</strong> Cities</li>
+                    @if (item.SmsNotifications == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            SMS Notification
+                        </li>
+                    }
+                    @if (item.EmailNotifications == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Email Notification
+                        </li>
+                    }
+                    @if (item.UserHistory == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            User History
+                        </li>
+                    }
+                    @if (item.Analytics == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Analytics
+                        </li>
+                    }
+                    @if (item.MembershipBadge == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Membership Badge
+                        </li>
+                    }
+                    @if (item.PhotoGallery == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Photo Gallery
+                        </li>
+                    }
+                    @if (item.MultipleLocations == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Multiple Locations
+                        </li>
+                    }
+                    @if (item.OneHourService == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            One Hour Service
+                        </li>
+                    }
+                    @if (item.Team == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Team
+                        </li>
+                    }
+                    @if (item.MonopolyProducts == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Monopoly Products
+                        </li>
+                    }
+                    @if (item.Branches == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Branches
+                        </li>
+                    }
+                    @if (item.ClientLogo == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Client Logo
+                        </li>
+                    }
+                    @if (item.PartnerProfile == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Partner Profile
+                        </li>
+                    }
+                    @if (item.MessagesInbox == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Messages Inbox
+                        </li>
+                    }
+                    @if (item.BrandShowcase == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Brand Showcase
+                        </li>
+                    }
+                    @if (item.PreferredPlaces == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Preferred Places
+                        </li>
+                    }
+                    @if (item.Wallet == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Wallet
+                        </li>
+                    }
+                    @if (item.WorkingHours == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Working Hours
+                        </li>
+                    }
+                    @if (item.PaymentMethods == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Payment Methods
+                        </li>
+                    }
+                    @if (item.CustomServices == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Custom Services
+                        </li>
+                    }
+                    @if (item.SocialSites == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Social Sites
+                        </li>
+                    }
+                    @if (item.Certification == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Certification
+                        </li>
+                    }
+                    @if (item.Profile == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Profile
+                        </li>
+                    }
+                    @if (item.Specialisation == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Specialisation
+                        </li>
+                    }
+                    @if (item.Address == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Address
+                        </li>
+                    }
+                    @if (item.MultipleAssemblies == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Multiple Assemblies
+                        </li>
+                    }
+                    @if (item.MultipleCities == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Multiple Cities
+                        </li>
+                    }
+                    @if (item.Company == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Company
+                        </li>
+                    }
+                    @if (item.Communication == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Communication
+                        </li>
+                    }
+                    @if (item.SocialShareButtons == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Social Share Buttons
+                        </li>
+                    }
+                    @if (item.Reviews == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Reviews
+                        </li>
+                    }
+                    @if (item.LikeDislike == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Like Dislike
+                        </li>
+                    }
+                    @if (item.FollowListing == true)
+                    {
+                        <li class="list-group-item border-bottom-0">
+                            Follow Listing
+                        </li>
+                    }
+                    <li class="list-group-item border-bottom-0">
+                        <a href="~/Billing/Plans/Edit/@item.PlanID" class="btn btn-block btn-@item.CSSClassName">Edit Plan</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

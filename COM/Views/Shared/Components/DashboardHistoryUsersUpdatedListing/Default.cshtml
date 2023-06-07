@@ -1,0 +1,31 @@
+﻿@model IEnumerable<BOL.AUDITTRAIL.ListingLastUpdated>
+
+<h6 class="card-title">Recent Users Who Updated Listings</h6>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => "").RenderedAs(model => model.LastUpdatedID).Titled("History ID");
+        columns.Add(model => model.Activity).Titled("Activity");
+        columns.Add(model => model.UserRole).Titled("User Role");
+        columns.Add(model => model.UpdatedDate.ToString("dd MM, yyyy")).Titled("Date");
+        columns.Add(model => model.UpdatedTime.ToString("hh:mm tt")).Titled("Time");
+        columns.Add(model => $"<a href=\"/Listing/Index/{model.ListingID}\" style='margin-left:5px;' target='_blank'>'{model.UpdatedURL}'</a>").Encoded(false).Titled("Listing Link");
+        columns.Add(model => model.Email).Titled("Email");
+        columns.Add(model => model.Mobile).Titled("Mobile");
+        columns.Add(model => model.IPAddress).Titled("IP Address");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

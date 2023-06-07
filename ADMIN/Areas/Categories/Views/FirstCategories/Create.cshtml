@@ -1,0 +1,102 @@
+﻿@model BOL.CATEGORIES.FirstCategory
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        // Shafi: Bind keyword field with url field and convert to upper case by remove space
+        $(document).ready(function () {
+            // Bind keyword, url and description input together
+            $("#sarchKeywordName").keyup(function (event) {
+
+                // Force text to be typed in lowercase in Keyword text field
+                $(this).val($(this).val().toLowerCase());
+
+                // Get value of keyword text field
+                var categoryName = $(this).val();
+
+                // Tranform value of keyword to Title Case
+                function ToTitleCase(categoryName) {
+                    return categoryName.replace(/(?:^|\s)\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+
+                // Call ToTitleCase function replace space by - hyphen through and convert to title case
+                var url = ToTitleCase(categoryName).replace(/\s+/g, "-");
+
+                // Set final value of input with id's url, title and description
+                $("#url").val(url);
+                $("#sarchKeywordName").val(ToTitleCase(categoryName));
+                $("#description").val(ToTitleCase(categoryName));
+                $("#keywords").val(ToTitleCase(categoryName));
+            });
+            // End:
+
+            // Prevent user manually typing text in url input
+            $("#url").keypress(function (e) {
+                e.preventDefault();
+            });
+            // End:
+        });
+    </script>
+}
+
+<h1>Create</h1>
+
+<h4>FirstCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["Message"] != null)
+            {
+                <span class="alert alert-danger">@TempData["Message"]</span>
+            }
+            <input type="hidden" asp-for="URL" id="url" class="form-control" />
+            <input type="hidden" asp-for="Description" id="description" class="form-control" />
+            <input type="hidden" asp-for="Keyword" id="keywords" class="form-control" />
+            <span asp-validation-for="URL" class="text-danger"></span>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <span asp-validation-for="Keyword" class="text-danger"></span>
+            <div class="form-group">
+                <label class="control-label">Category Name</label>
+                <input asp-for="Name" id="categoryName" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Business Category Name</label>
+                <input asp-for="SearchKeywordName" id="sarchKeywordName" class="form-control" />
+                <span asp-validation-for="SearchKeywordName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SortOrder" class="control-label"></label>
+                <input asp-for="SortOrder" value="0" class="form-control" />
+                <span asp-validation-for="SortOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

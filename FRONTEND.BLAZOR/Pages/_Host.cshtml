@@ -1,0 +1,86 @@
+﻿@page "/"
+@namespace FRONTEND.BLAZOR.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Interior Mart</title>
+    <base href="~/" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="FRONTEND.BLAZOR.styles.css" rel="stylesheet" />
+
+    <!-- Begin: New MIM Theme -->
+    <link rel="shortcut icon" href="~/resources/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="~/resources/img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="~/resources/img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="~/resources/img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="~/resources/img/apple-touch-icon-144x144-precomposed.png">
+    <!---Reset style-->
+    <link href="~/resources/css/reset.css" rel="stylesheet">
+    <!-- BASE CSS -->
+    <link href="~/resources/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/resources/css/vendors.css" rel="stylesheet">
+    <link href="~/resources/admin_section/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="~/resources/css/select2.min.css" rel="stylesheet">
+    <!-- End: New MIM Theme -->
+    <!-- Begin: Ant Design -->
+    <link href="_content/AntDesign/css/ant-design-blazor.css" rel="stylesheet" />
+    <!-- End: Ant Design -->
+    <!-- Begin: Blazor Typehead -->
+    <link href="_content/Blazored.Typeahead/blazored-typeahead.css" rel="stylesheet" />
+    <!-- End: Blazor Typehead -->
+    <!-- YOUR CUSTOM CSS -->
+    <link href="~/resources/css/custom.css" rel="stylesheet">
+    <link href="~/resources/css/style.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-97960276-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-97960276-1');
+        </script>*@
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+</head>
+<body class="option2">
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.server.js"></script>
+    <!-- Begin: MIM Scripts -->
+    <!-- COMMON SCRIPTS Start -->
+    <script src="~/resources/js/common_scripts.js"></script>
+    <script src="~/resources/js/functions.js"></script>
+    <script src="~/resources/js/validate.js"></script>
+    <script src="~/resources/js/main.js"></script>
+    <script src="~/resources/js/select2.min.js"></script>
+    <!-- COMMON SCRIPTS End -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- End: MIM Scripts -->
+    <!-- Begin: Ant Design -->
+    <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
+    <!-- End: Ant Design -->
+    <script src="~/js/JSInterop.js"></script>
+    <script src="_content/BlazorInputFile/inputfile.js"></script>
+    <!-- Begin: Blazor Typehead -->
+    <script src="_content/Blazored.Typeahead/blazored-typeahead.js"></script>
+    <!-- End: Blazor Typehead -->
+</body>
+</html>

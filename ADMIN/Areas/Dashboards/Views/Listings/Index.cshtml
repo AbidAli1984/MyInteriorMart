@@ -1,0 +1,821 @@
+﻿@inject BAL.Dashboard.Listing.IDashboardListing dashboardListing
+
+@{
+    ViewData["Title"] = "Listing Dashboard";
+    Layout = "~/Views/Shared/_DashboardWithoutBreadcrumb.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: Breadcrumb -->
+<!-- Begin: Listing Dashboard Repository -->
+@{
+    var countAllListings = await dashboardListing.CountAllAsync();
+    var countOrphanListings = await dashboardListing.CountOrphanAsync();
+    var countOwnedListings = await dashboardListing.CountOwnedAsync();
+    var CountZeroReviewListings = await dashboardListing.CountZeroReviewsAsync();
+    var CountWithoutProfileImageListings = await dashboardListing.CountWithoutProfileImageAsync();
+
+    // Begin: Past twelve months analytics of listing
+    var Graph = await dashboardListing.GraphAsync();
+    // End:
+
+    var CountListingByCategory = await dashboardListing.GetListingCountByFirstCatAsync();
+
+    // Shafi: Get highest records
+    var highestLikes = await dashboardListing.GetHighestLikesAsync();
+    var highestSubscribed = await dashboardListing.GetHighestSubscribesAsync();
+    var highestBookmakrs = await dashboardListing.GetHighestBookmarksAsync();
+    var highestRatings = await dashboardListing.GetHighestRatingAsync();
+    var highestViews = await dashboardListing.GetHighestListingViewsAsync();
+    // End:
+
+    // Shafi: Get records
+    var recentCreatedListings = await dashboardListing.GetRecentCretedListings(10);
+    var listingsWithoutWebsite = await dashboardListing.GetListingsWithoutWebsite(10);
+    // End:
+}
+<!-- End: -->
+
+<div class="breadcrumb-header justify-content-between">
+    <div class="left-content">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">@ViewData["Title"]</h2>
+            <p class="mg-b-0">Analytics</p>
+        </div>
+    </div>
+    <div class="main-dashboard-header-right">
+        <div>
+            <label class="tx-13">Customer Ratings</label>
+            <div class="main-star">
+                <i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i class="typcn typcn-star active"></i> <i class="typcn typcn-star"></i> <span>(14,873)</span>
+            </div>
+        </div>
+        <div>
+            <label class="tx-13">Online Sales</label>
+            <h5>563,275</h5>
+        </div>
+        <div>
+            <label class="tx-13">Offline Sales</label>
+            <h5>783,675</h5>
+        </div>
+    </div>
+</div>
+<!-- /breadcrumb -->
+<!-- row -->
+<div class="row row-sm">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-primary-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">ALL LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">@countAllListings</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-danger-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">FREE LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-success-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">PAID LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-warning-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">ORPHAN LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">@countOrphanListings</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row row-sm">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-purple-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">OWNED LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">@countOwnedListings</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-info-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">CLAIMED LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-secondary-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">VERIFIED LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-pink-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">UNVERIFIED LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row row-sm">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-warning-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">LISTINGS WITH ZERO REVIEWS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">@CountZeroReviewListings</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-success-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">LISTINGS WITHOUT PROFILE IMAGE</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">@CountWithoutProfileImageListings</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-primary-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">REQUESTS FOR CLAIM LISTINGS</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+        <div class="card overflow-hidden sales-card bg-danger-gradient">
+            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                <div class="">
+                    <h6 class="mb-3 tx-12 text-white">REQUESTS FOR LISTING VERIFICATION</h6>
+                </div>
+                <div class="pb-0 mt-0">
+                    <div class="d-flex">
+                        <div class="">
+                            <h4 class="tx-20 font-weight-bold mb-1 text-white">N/A</h4>
+                            <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                        </div>
+                        <span class="float-right my-auto ml-auto">
+                            <i class="fas fa-eye text-white"></i>
+                            <a href="#0" class="text-white op-7">View All</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- row closed -->
+@section CSS{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Month', 'Created', 'Orphan', 'Owned'],
+            ['@Graph.Twelth', @Graph.TwelthAll, @Graph.TwelthOrphan, @Graph.TwelthOwned],
+            ['@Graph.Eleventh', @Graph.EleventhAll, @Graph.EleventhOrphan, @Graph.EleventhOwned],
+            ['@Graph.Tenth', @Graph.TenthAll, @Graph.TenthOrphan, @Graph.TenthOwned],
+            ['@Graph.Ninth', @Graph.NinthAll, @Graph.NinthOrphan, @Graph.NinthOwned],
+            ['@Graph.Eigth', @Graph.EigthAll, @Graph.EigthOrphan, @Graph.EigthOwned],
+            ['@Graph.Seventh', @Graph.SeventhAll, @Graph.SeventhOrphan, @Graph.SeventhOwned],
+            ['@Graph.Sixth', @Graph.SixthAll, @Graph.SixthOrphan, @Graph.SixthOwned],
+            ['@Graph.Fifth', @Graph.FifthAll, @Graph.FifthOrphan, @Graph.FifthOwned],
+            ['@Graph.Fourth', @Graph.FourthAll, @Graph.FourthOrphan, @Graph.FourthOwned],
+            ['@Graph.Third', @Graph.ThirdAll, @Graph.ThirdOrphan, @Graph.ThirdOwned],
+            ['@Graph.Second', @Graph.SecondAll, @Graph.SecondOrphan, @Graph.SecondOwned],
+            ['@Graph.First', @Graph.FirstAll, @Graph.FirstOrphan, @Graph.FirstOwned],
+        ]);
+
+        var options = {
+          chart: {
+            //title: 'Company Performance',
+            //subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+}
+<!-- row opened -->
+<div class="row row-sm">
+    <div class="col-md-12 col-lg-12 col-xl-7">
+        <div class="card">
+            <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mb-0">PAST 12 MONTHS ANALYTICS OF LISTINGS</h4>
+                    <i class="mdi mdi-dots-horizontal text-gray"></i>
+                </div>
+                <p class="tx-12 text-muted mb-0">Quick Statistics</p>
+            </div>
+            <div class="card-body">
+                <div id="columnchart_material" style="height: 275px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-xl-5">
+        <div class="card card-dashboard-map-one">
+            <label class="main-content-label">Sales Revenue by Customers in USA</label>
+            <span class="d-block mg-b-20 text-muted tx-12">Sales Performance of all states in the United States</span>
+            <div class="">
+                <div class="vmap-wrapper ht-180" id="vmap2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- row closed -->
+<!-- row opened -->
+<div class="row row-sm">
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-dashboard-eight pb-2">
+            <h6 class="card-title">Your Top Countries</h6><span class="d-block mg-b-10 text-muted tx-12">Sales performance revenue based by country</span>
+            <div class="list-group">
+                @foreach (var item in CountListingByCategory.OrderByDescending(i => i.ListingCount))
+                {
+                    <div class="list-group-item border-top-0">
+                        <p>@item.FirstCategory</p><span>@item.ListingCount</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-12 col-lg-6">
+        <div class="card">
+            <div class="card-header pb-1">
+                <h3 class="card-title mb-2">Sales Activity</h3>
+                <p class="tx-12 mb-0 text-muted">Sales activities are the tactics that salespeople use to achieve their goals and objective</p>
+            </div>
+            <div class="product-timeline card-body pt-2 mt-1">
+                <ul class="timeline-1 mb-0">
+                    <li class="mt-0">
+                        <i class="ti-pie-chart bg-primary-gradient text-white product-icon"></i> <span class="font-weight-semibold mb-4 tx-14 ">Total Products</span> <a href="#" class="float-right tx-11 text-muted">3 days ago</a>
+                        <p class="mb-0 text-muted tx-12">1.3k New Products</p>
+                    </li>
+                    <li class="mt-0">
+                        <i class="mdi mdi-cart-outline bg-danger-gradient text-white product-icon"></i> <span class="font-weight-semibold mb-4 tx-14 ">Total Sales</span> <a href="#" class="float-right tx-11 text-muted">35 mins ago</a>
+                        <p class="mb-0 text-muted tx-12">1k New Sales</p>
+                    </li>
+                    <li class="mt-0">
+                        <i class="ti-bar-chart-alt bg-success-gradient text-white product-icon"></i> <span class="font-weight-semibold mb-4 tx-14 ">Toatal Revenue</span> <a href="#" class="float-right tx-11 text-muted">50 mins ago</a>
+                        <p class="mb-0 text-muted tx-12">23.5K New Revenue</p>
+                    </li>
+                    <li class="mt-0">
+                        <i class="ti-wallet bg-warning-gradient text-white product-icon"></i> <span class="font-weight-semibold mb-4 tx-14 ">Toatal Profit</span> <a href="#" class="float-right tx-11 text-muted">1 hour ago</a>
+                        <p class="mb-0 text-muted tx-12">3k New profit</p>
+                    </li>
+                    <li class="mt-0">
+                        <i class="si si-eye bg-purple-gradient text-white product-icon"></i> <span class="font-weight-semibold mb-4 tx-14 ">Customer Visits</span> <a href="#" class="float-right tx-11 text-muted">1 day ago</a>
+                        <p class="mb-0 text-muted tx-12">15% increased</p>
+                    </li>
+                    <li class="mt-0 mb-0">
+                        <i class="icon-note icons bg-primary-gradient text-white product-icon"></i> <span class="font-weight-semibold mb-4 tx-14 ">Customer Reviews</span> <a href="#" class="float-right tx-11 text-muted">1 day ago</a>
+                        <p class="mb-0 text-muted tx-12">1.5k reviews</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-12 col-lg-6">
+        <div class="card">
+            <div class="card-header pb-0">
+                <h3 class="card-title mb-2">Recent Orders</h3>
+                <p class="tx-12 mb-0 text-muted">An order is an investor's instructions to a broker or brokerage firm to purchase or sell</p>
+            </div>
+            <div class="card-body sales-info ot-0 pb-0 pt-0">
+                <div id="chart" class="ht-150"></div>
+                <div class="row sales-infomation pb-0 mb-0 mx-auto wd-100p">
+                    <div class="col-md-6 col">
+                        <p class="mb-0 d-flex"><span class="legend bg-primary brround"></span>Delivered</p>
+                        <h3 class="mb-1">5238</h3>
+                        <div class="d-flex">
+                            <p class="text-muted ">Last 6 months</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col">
+                        <p class="mb-0 d-flex"><span class="legend bg-info brround"></span>Cancelled</p>
+                        <h3 class="mb-1">3467</h3>
+                        <div class="d-flex">
+                            <p class="text-muted">Last 6 months</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center pb-2">
+                            <p class="mb-0">Total Sales</p>
+                        </div>
+                        <h4 class="font-weight-bold mb-2">$7,590</h4>
+                        <div class="progress progress-style progress-sm">
+                            <div class="progress-bar bg-primary-gradient wd-80p" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="78"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4 mt-md-0">
+                        <div class="d-flex align-items-center pb-2">
+                            <p class="mb-0">Active Users</p>
+                        </div>
+                        <h4 class="font-weight-bold mb-2">$5,460</h4>
+                        <div class="progress progress-style progress-sm">
+                            <div class="progress-bar bg-danger-gradient wd-75" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="45"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- row close -->
+<!-- Begin: Listing with highest activities -->
+<div class="row row-sm row-deck">
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-primary ">
+                        <i class="si si-eye tx-22"></i>
+                        <span style="font-size:14px; margin-left:5px;" class="card-title">VIEWS</span>
+                    </span>
+                </div>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Highest Liked</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Listing</th>
+                            <th class="wd-lg-25p tx-right">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in highestViews)
+                        {
+                            <tr>
+                                <td><a href="~/Listing/Index/@item.Listing.ListingID" target="_blank">@item.Listing.CompanyName</a></td>
+                                <td class="tx-right tx-medium tx-inverse">@item.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-primary ">
+                        <i class="si si-like tx-22"></i>
+                        <span style="font-size:14px; margin-left:5px;" class="card-title">LIKES</span>
+                    </span>
+                </div>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Highest Liked</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Listing</th>
+                            <th class="wd-lg-25p tx-right">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in highestLikes)
+                        {
+                            <tr>
+                                <td><a href="~/Listing/Index/@item.Listing.ListingID" target="_blank">@item.Listing.CompanyName</a></td>
+                                <td class="tx-right tx-medium tx-inverse">@item.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-primary ">
+                        <i class="si si-book-open tx-22"></i>
+                        <span style="font-size:14px; margin-left:5px;" class="card-title">SUBSCRIBED</span>
+                    </span>
+                </div>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Highest Liked</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Listing</th>
+                            <th class="wd-lg-25p tx-right">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in highestSubscribed)
+                        {
+                            <tr>
+                                <td><a href="~/Listing/Index/@item.Listing.CompanyName" target="_blank">@item.Listing.CompanyName</a></td>
+                                <td class="tx-right tx-medium tx-inverse">@item.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-primary ">
+                        <i class="si si-bell tx-22"></i>
+                        <span style="font-size:14px; margin-left:5px;" class="card-title">BOOKMARK</span>
+                    </span>
+                </div>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Highest Liked</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Listing</th>
+                            <th class="wd-lg-25p tx-right">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in highestBookmakrs)
+                        {
+                            <tr>
+                                <td><a href="~/Listing/Index/@item.Listing.ListingID" target="_blank">@item.Listing.CompanyName</a></td>
+                                <td class="tx-right tx-medium tx-inverse">@item.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-primary ">
+                        <i class="si si-heart tx-22"></i>
+                        <span style="font-size:14px; margin-left:5px;" class="card-title">REVIEWS</span>
+                    </span>
+                </div>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Highest Liked</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Listing</th>
+                            <th class="wd-lg-25p tx-right">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in highestRatings)
+                        {
+                            <tr>
+                                <td><a href="~/Listing/Index/@item.Listing.ListingID" target="_blank">@item.Listing.CompanyName</a></td>
+                                <td class="tx-right tx-medium tx-inverse">@item.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-primary ">
+                        <i class="si si-heart tx-22"></i>
+                        <span style="font-size:14px; margin-left:5px;" class="card-title">Listings Without Website</span>
+                    </span>
+                </div>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Highest Liked</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Listing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in listingsWithoutWebsite)
+                        {
+                            <tr>
+                                <td><a href="~/Listing/Index/@item.Listing.ListingID" target="_blank">@item.Listing.CompanyName</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- row opened -->
+<div class="row row-sm row-deck">
+    <div class="col-xl-4 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header pb-1">
+                <h3 class="card-title mb-2">Recent Customers</h3>
+                <p class="tx-12 mb-0 text-muted">A customer is an individual or business that purchases the goods service has evolved to include real-time</p>
+            </div>
+            <div class="card-body p-0 customers mt-1">
+                <div class="list-group list-lg-group list-group-flush">
+                    <div class="list-group-item list-group-item-action" href="#">
+                        <div class="media mt-0">
+                            <img class="avatar-lg rounded-circle mr-3 my-auto" src="~/backend/assets/img/faces/3.jpg" alt="Image description">
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="mt-0">
+                                        <h5 class="mb-1 tx-15">Samantha Melon</h5>
+                                        <p class="mb-0 tx-13 text-muted">User ID: #1234 <span class="text-success ml-2">Paid</span></p>
+                                    </div>
+                                    <span class="ml-auto wd-45p fs-16 mt-2">
+                                        <div id="spark1" class="wd-100p"></div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action" href="#">
+                        <div class="media mt-0">
+                            <img class="avatar-lg rounded-circle mr-3 my-auto" src="~/backend/assets/img/faces/11.jpg" alt="Image description">
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="mt-1">
+                                        <h5 class="mb-1 tx-15">Jimmy Changa</h5>
+                                        <p class="mb-0 tx-13 text-muted">User ID: #1234 <span class="text-danger ml-2">Pending</span></p>
+                                    </div>
+                                    <span class="ml-auto wd-45p fs-16 mt-2">
+                                        <div id="spark2" class="wd-100p"></div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action" href="#">
+                        <div class="media mt-0">
+                            <img class="avatar-lg rounded-circle mr-3 my-auto" src="~/backend/assets/img/faces/17.jpg" alt="Image description">
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="mt-1">
+                                        <h5 class="mb-1 tx-15">Gabe Lackmen</h5>
+                                        <p class="mb-0 tx-13 text-muted">User ID: #1234<span class="text-danger ml-2">Pending</span></p>
+                                    </div>
+                                    <span class="ml-auto wd-45p fs-16 mt-2">
+                                        <div id="spark3" class="wd-100p"></div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action" href="#">
+                        <div class="media mt-0">
+                            <img class="avatar-lg rounded-circle mr-3 my-auto" src="~/backend/assets/img/faces/15.jpg" alt="Image description">
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="mt-1">
+                                        <h5 class="mb-1 tx-15">Manuel Labor</h5>
+                                        <p class="mb-0 tx-13 text-muted">User ID: #1234<span class="text-success ml-2">Paid</span></p>
+                                    </div>
+                                    <span class="ml-auto wd-45p fs-16 mt-2">
+                                        <div id="spark4" class="wd-100p"></div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action br-br-7 br-bl-7" href="#">
+                        <div class="media mt-0">
+                            <img class="avatar-lg rounded-circle mr-3 my-auto" src="~/backend/assets/img/faces/6.jpg" alt="Image description">
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="mt-1">
+                                        <h5 class="mb-1 tx-15">Sharon Needles</h5>
+                                        <p class="b-0 tx-13 text-muted mb-0">User ID: #1234<span class="text-success ml-2">Paid</span></p>
+                                    </div>
+                                    <span class="ml-auto wd-45p fs-16 mt-2">
+                                        <div id="spark5" class="wd-100p"></div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-8 col-xl-8">
+        <div class="card card-table-two">
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title mb-1">Recently Created Listings</h4>
+                <i class="mdi mdi-dots-horizontal text-gray"></i>
+            </div>
+            <span class="tx-12 tx-muted mb-3 ">Top 10 Recent Records</span>
+            <div class="table-responsive country-table">
+                <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-lg-25p">Company</th>
+                            <th class="wd-lg-25p">Owner Name</th>
+                            <th class="wd-lg-25p">Date Created</th>
+                            <th class="wd-lg-25p">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in recentCreatedListings)
+                        {
+                            <tr>
+                                <td class="tx-medium tx-inverse">@item.CompanyName</td>
+                                <td class="tx-medium tx-inverse">@item.Name</td>
+                                <td>@item.CreatedDate.ToString("dd MMM, yyyy")</td>
+                                <td class="tx-medium tx-inverse">@item.CreatedTime.ToString("hh:mm:ss t")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

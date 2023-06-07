@@ -1,0 +1,82 @@
+﻿@model IEnumerable<IDENTITY.Models.RoleCategoryAndRole>
+@inject BAL.Identity.IUserRoleClaim userRoleClaimRepo
+@inject RoleManager<IdentityRole> roleManager
+@inject UserManager<IdentityUser> userManager
+@inject IDENTITY.Data.ApplicationDbContext applicationContext
+
+@{
+    ViewData["Title"] = "Manages Roles";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Roles";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign Role To Category";
+    ViewData["BT-Link2"] = "/UsersAndRoles/RoleCategoryAndRoles/Create";
+    ViewData["BT-Text3"] = "Roles By Role Category";
+    ViewData["BT-Link3"] = "/UsersAndRoles/Permissions/Show";
+    <!-- Begin: Count all users in role -->
+    var groupMe = Model.OrderBy(i => i.RoleCategory.Priority).ToList();
+    var resultByGroup = from e in groupMe group e by e.RoleCategory.CategoryName;
+    var countAllUsersInRole = applicationContext.UserRoles.Count();
+    <!-- End: -->
+}
+<!-- End: -->
+<h5>@ViewData["Title"]</h5>
+<hr />
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap table-bordered">
+        <thead>
+            <tr style="background-color:#ffd800; height:30px; color:#f2f2f2;">
+                <th class="border-bottom-0">Role Name</th>
+                <th class="border-bottom-0">Permissions</th>
+                <th class="border-bottom-0">Role Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in resultByGroup)
+            {
+                <!--- Begin: Group Key -->
+                <tr style="background-color:#f2f2f2; color:#1f1f1f; font-weight:bold;">
+                    <td colspan="4">
+                        <span>@result.Key</span>
+                        <span class="badge badge-secondary" style="margin-left:10px;">@result.Count() Roles</span>
+                    </td>
+                </tr>
+                <!--- End: -->
+
+                <!--- Begin: Roles & Role Categories -->
+                foreach (var item in result)
+                {
+                    string roleName = await userRoleClaimRepo.GetRoleName(item.RoleID);
+                    var usersInRole = await userManager.GetUsersInRoleAsync(roleName);
+                    var countUsersInRole = usersInRole.Count();
+                    <tr>
+                        <td>
+                            <span class="pull-right">@roleName</span>
+                                <a asp-area="UsersAndRoles" asp-controller="ManageRoles" asp-action="ListUsersInRole" asp-route-roleHashCode="@item.RoleID" class="btn btn-sm btn-purple-gradient float-right">@countUsersInRole Users</a>
+                        </td>
+                        <td>
+                            <form action="/UsersAndRoles/Permissions/Show" method="post">
+                                <input type="hidden" value="@item.RoleID" name="roleId" />
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-key"></i> <span style="margin-left:5px;">Permissions</span></button>
+                                <span class="badge badge-light float-right">@await userRoleClaimRepo.CountClaimsAssignedToRole(item.RoleID) / 191 Permissions</span>
+                            </form>
+                        </td>
+                        <td>
+                            <a asp-area="UsersAndRoles" asp-controller="ManageRoles" asp-action="EditRole" asp-route-id="@item.RoleID" class="btn btn-sm btn-primary">Edit Role Name</a>
+                            <a asp-area="UsersAndRoles" asp-controller="ManageRoles" asp-action="EditRole" asp-route-id="@item.RoleID" class="btn btn-sm btn-primary ml-2">Remove Role from Category</a>
+                        </td>
+                    </tr>
+                }
+                <!--- End: -->
+            }
+        </tbody>
+    </table>
+</div>

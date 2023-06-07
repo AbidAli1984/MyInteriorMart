@@ -1,0 +1,99 @@
+﻿@model BOL.CATEGORIES.KeywordFifthCategory
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Keywords/KeywordFifthCategories/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Keywords/KeywordFifthCategories/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+    <script type="text/javascript">
+        // Shafi: Bind keyword field with url field and convert to upper case by remove space
+        $(document).ready(function () {
+            // Bind keyword, url and description input together
+            $("#keyword").keyup(function (event) {
+
+                // Force text to be typed in lowercase in Keyword text field
+                $(this).val($(this).val().toLowerCase());
+
+                // Get value of keyword text field
+                var keyword = $(this).val();
+
+                // Tranform value of keyword to Title Case
+                function ToTitleCase(keyword) {
+                    return keyword.replace(/(?:^|\s)\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+
+                // Call ToTitleCase function replace space by - hyphen through and convert to title case
+                var url = ToTitleCase(keyword).replace(/\s+/g, "-");
+
+                // Set final value of input with id's url, title and description
+                $("#keyword").val(ToTitleCase(keyword));
+                $("#url").val(url);
+                $("#title").val(ToTitleCase(keyword));
+                $("#description").val(ToTitleCase(keyword));
+            });
+            // End:
+
+            // Prevent user manually typing text in url input
+            $("#url").keypress(function (e) {
+                e.preventDefault();
+            });
+            // End:
+        });
+    </script>
+}
+
+<h1>Edit</h1>
+
+<h4>KeywordSecondCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="KeywordFifthCategoryID" />
+            <input type="hidden" asp-for="FirstCategoryID" />
+            <input type="hidden" asp-for="SecondCategoryID" />
+            <input type="hidden" asp-for="ThirdCategoryID" />
+            <input type="hidden" asp-for="FourthCategoryID" />
+            <input type="hidden" asp-for="FifthCategoryID" />
+            <!-- Shafi: Hidden -->
+            <input type="hidden" asp-for="URL" id="url" class="form-control" />
+            <input asp-for="Title" type="hidden" id="title" class="form-control" />
+            <input asp-for="Description" type="hidden" id="description" class="form-control" />
+            <!-- End: -->
+            <!-- Shafi: Errors -->
+            <span asp-validation-for="URL" class="text-danger"></span>
+            <span asp-validation-for="Title" class="text-danger"></span>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <!-- End: -->
+            <div class="form-group">
+                <label asp-for="Keyword" class="control-label"></label>
+                <input asp-for="Keyword" id="keyword" class="form-control CamelCase" />
+                <span asp-validation-for="Keyword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a href="/DeepKeywords/Browse/Fifth/@Model.FifthCategoryID" class="btn btn-danger btn-sm">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary btn-sm ml-3" />
+            </div>
+        </form>
+    </div>
+</div>

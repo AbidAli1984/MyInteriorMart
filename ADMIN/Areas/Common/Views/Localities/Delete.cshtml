@@ -1,0 +1,79 @@
+﻿@model BOL.SHARED.Locality
+
+@{
+    ViewData["Title"] = "Delete Locality";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Localities";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Common/Localities";
+    ViewData["BT-Text-2"] = "Cancel";
+    ViewData["BT-Link-2"] = "/Common/Localities";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<h5>@ViewData["Title"]</h5>
+<hr />
+<!-- End: -->
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="LocalityID" />
+            <div class="form-group">
+                <label class="control-label">Assembly</label>
+                <input type="text" value="@Model.Station.Name" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Pincode</label>
+                <input type="text" value="@Model.Pincode.PincodeNumber" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Locality</label>
+                <input type="text" value="@Model.LocalityName" id="localityOriginal" style="background-color:#ff0000; color:#ffffff;" class="form-control" disabled />
+            </div>
+            <hr />
+            <div class="alert alert-outline-danger mg-b-0" role="alert">
+                <strong>Danger!</strong> Are you sure you want to delete locality @Model.LocalityID
+            </div>
+            <hr />
+            <div class="form-group">
+                <a href="" data-target="#modalConfirm" data-toggle="modal" class="btn btn-danger">Delete</a>
+            </div>
+            <!-- Begin: Form confirmation -->
+            <div class="modal" id="modalConfirm">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content tx-size-sm">
+                        <div class="modal-body tx-center pd-y-20 pd-x-20">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                            <h4 class="tx-danger tx-semibold mg-b-20">Delete Confirmation!</h4>
+                            <div class="alert alert-outline-danger mg-b-0" role="alert" style="color:#000000;">
+                                <strong>Danger!</strong> Are you sure you want to delete locality <strong style="color:#ff0000;">@Model.LocalityName</strong> this?
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn ripple btn-danger" type="submit">Confirm</button>
+                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <!-- Begin: Render validation scripts -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <!-- End: -->
+    <!-- Begin: Modal popup -->
+    <script src="~/backend/assets/js/modal.js"></script>
+    <!-- End: -->
+}

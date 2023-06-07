@@ -1,0 +1,44 @@
+// Shafi: Always give different name to each migration
+like settings-001, settings-002, billing-001, billing-002, audit-001, audit-002 etc.
+
+// Shafi: SharedDbContext
+====================================================================================================
+add-migration -context DAL.SHARED.SharedDbContext -OutputDir SHARED\Migrations
+update-database -context DAL.SHARED.SharedDbContext
+End: ------------------------------------------------------------------------------------------------
+
+// Shafi: ListingDbContext
+====================================================================================================
+add-migration -context DAL.LISTING.ListingDbContext -OutputDir LISTING\Migrations
+update-database -context DAL.LISTING.ListingDbContext
+End: ------------------------------------------------------------------------------------------------
+
+// Shafi: AuditDbContext
+====================================================================================================
+add-migration -context DAL.AUDIT.AuditDbContext -OutputDir AUDIT\Migrations
+update-database -context DAL.AUDIT.AuditDbContext
+End: ------------------------------------------------------------------------------------------------
+
+// Shafi: CategoriesDbContext
+====================================================================================================
+add-migration -context DAL.CATEGORIES.CategoriesDbContext -OutputDir CATEGORIES\Migrations
+update-database -context DAL.CATEGORIES.CategoriesDbContext
+End: ------------------------------------------------------------------------------------------------
+
+// Shafi: BillingDbContext
+====================================================================================================
+add-migration -context DAL.BILLING.BillingDbContext -OutputDir BILLING\Migrations
+update-database -context DAL.BILLING.BillingDbContext
+End: ------------------------------------------------------------------------------------------------
+
+// Shafi: BannerDbContext
+====================================================================================================
+add-migration -context DAL.BANNER.BannerDbContext -OutputDir BANNER\Migrations
+update-database -context DAL.BANNER.BannerDbContext
+End: -----------------------------------------------------------------------------------------------
+
+// Shafi: ApplicationDbContext
+====================================================================================================
+add-migration -context IDENTITY.Data.ApplicationDbContext -OutputDir Data\Migrations
+update-database -context IDENTITY.Data.ApplicationDbContext
+End: -----------------------------------------------------------------------------------------------

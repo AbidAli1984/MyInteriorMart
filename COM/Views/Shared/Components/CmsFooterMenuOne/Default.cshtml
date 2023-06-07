@@ -1,0 +1,8 @@
+﻿@model IEnumerable<BOL.CATEGORIES.Pages>
+
+
+@foreach (var item in Model)
+{
+    <li><i class="icon-check-1"></i> <a href="~/Information/@item.URL" title="@item.PageName">@item.PageName</a></li>
+}
+<li><i class="icon-check-1"></i> <a href="~/Information/Contact" title="Contact">Contact</a></li>

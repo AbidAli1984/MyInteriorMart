@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Exceptions Handling";<!-- Page -->
+    ViewData["BC-2"] = "Message";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Assemblides";
+    ViewData["BT-Link-1"] = "/Common/Assemblies";
+    ViewData["BT-Text-2"] = "Pincodes";
+    ViewData["BT-Link-2"] = "/Common/Pincodes";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<h5>@ViewData["Title"]</h5>
+<hr />
+<!-- End: -->
+
+<div class="page">
+
+    <!-- Main-error-wrapper -->
+    <div class="main-error-wrapper page page-h">
+        <img src="~/backend/assets/img/media/404.png" class="error-page" alt="error">
+        <h2>Oopps! Something went wrong, please contact your software developer.</h2>
+        <h6>Possible reasons may be:</h6>
+        <ul style="text-align:left;">
+            <li>You are trying to delete a record which is being used by some other record.</li>
+            <li>You visited a page which does not exists.</li>
+            <li>Some unkown error may occured.</li>
+        </ul>
+        <div>
+            <a class="btn btn-outline-success" href="~/">Back to Home</a> &nbsp;&nbsp; <a class="btn btn-outline-danger" href="~/Elmah" target="_blank">Check Error Log</a>
+        </div>        
+    </div>
+    <!-- /Main-error-wrapper -->
+
+</div>
+<!-- End Page -->

@@ -1,0 +1,764 @@
+﻿@inject BAL.Identity.IUserRoleClaim userRoleClaim
+@inject BAL.Claims.IClaimsAdmin claimsAdmin
+
+@{
+    ViewData["Title"] = "Manage Permissions For";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Claim";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+    var roleName = await userRoleClaim.GetRoleName(ViewBag.RoleID);
+}
+<!-- End: -->
+<!-- Begin: jQuery -->
+@section Scripts{
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var claimAssigned = [];
+            $('.claim').click(function () {
+                if ($(this).is(':checked')) {
+                    //alert('Added ' + $(this).val());
+                    claimAssigned.push($(this).val());
+                    //alert(claimAssigned.join(", "));
+                    $('.permissionsList').val(claimAssigned.join(", "));
+                    //alert($('.permissionsList').val());
+                } else {
+                    //alert('Removed ' + $(this).val());
+                    claimAssigned.splice($.inArray($(this).val(), claimAssigned), 1);
+                    //alert(claimAssigned.join(", "));
+                    $('.permissionsList').val(claimAssigned.join(", "));
+                }
+            });
+        });
+    </script>
+}
+<!-- End: jQuery -->
+<!-- Begin: Admin : Dashboard -->
+<div>
+    <span>@ViewData["Title"]</span>
+    <span class="tx-success">@roleName</span>
+</div>
+<hr />
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="dashboard">
+            <h4 class="m-0">
+                <a href="#collapseOne1" class="" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="si si-cursor-move mr-2"></i>Dashboard
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for dsahboard -->
+                <form action="/UsersAndRoles/Permissions/Dashboard" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminDashboard)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.View) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=mini" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=mini")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Users -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor  bg-primary" id="user">
+            <h4 class="m-0">
+                <a href="#userTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>USERS
+                </a>
+            </h4>
+        </div>
+        <div id="userTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for users -->
+                <form action="/UsersAndRoles/Permissions/Users" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End -->
+                <!-- Begin: Table -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">View Profile</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                                <th class="border-bottom-0">Assign Role To User</th>
+                                <th class="border-bottom-0">Remove User From Role</th>
+                                <th class="border-bottom-0">Assign Claim To Role</th>
+                                <th class="border-bottom-0">Show Users in Role</th>
+                                <th class="border-bottom-0">Block Users</th>
+                                <th class="border-bottom-0">Unblock Users</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminUser)
+                            {
+                            <tr>
+                                <td style="text-align:left;">@claim.Name</td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewProfile) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.AssignRoleToUser) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.RemoveUserFromRole) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.AssignClaimToRole) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ListUsersInRole) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.BlockUser) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.UnblockUser) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                </td>
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Listings -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor  bg-primary" id="listing">
+            <h4 class="m-0">
+                <a href="#listingTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>LISTINGS
+                </a>
+            </h4>
+        </div>
+        <div id="listingTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for listings -->
+                <form action="/UsersAndRoles/Permissions/Listings" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End -->
+                <!-- Begin: Table -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                                <th class="border-bottom-0">Approve</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminListing)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>   
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Approve) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Localities -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor  bg-primary" id="locality">
+            <h4 class="m-0">
+                <a href="#localityTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>LOCALITIES
+                </a>
+            </h4>
+        </div>
+        <div id="localityTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/Localities" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- Begin: Table -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminLocality)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Categories -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="category">
+            <h4 class="m-0">
+                <a href="#categoryTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>CATEGORIES
+                </a>
+            </h4>
+        </div>
+        <div id="categoryTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/Categories" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <!-- Begin: Table -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminCategory)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Keyword -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="keyword">
+            <h4 class="m-0">
+                <a href="#keywordTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>KEYWORDS
+                </a>
+            </h4>
+        </div>
+        <div id="keywordTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/CategoryKeywords" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <!-- Begin: Table -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminKeyword)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Miscellaneous -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="miscellaneous">
+            <h4 class="m-0">
+                <a href="#miscellaneousTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>MISCELLANEOUS
+                </a>
+            </h4>
+        </div>
+        <div id="miscellaneousTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/Miscellaneous" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <!-- Begin: Table -->
+                <h5>MISCELLANEOUS</h5>
+                <hr />
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminMiscellaneous)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Pages -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="pages">
+            <h4 class="m-0">
+                <a href="#pagesTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>PAGES
+                </a>
+            </h4>
+        </div>
+        <div id="pagesTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/Pages" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminPage)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Notifications -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="notification">
+            <h4 class="m-0">
+                <a href="#notificationTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>NOTIFICATIONS
+                </a>
+            </h4>
+        </div>
+        <div id="notificationTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/Notifications" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                                <th class="border-bottom-0">Receive SMS</th>
+                                <th class="border-bottom-0">Receive Email</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminNotification)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ReceiveSMS) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ReceiveEmail) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : Slideshow -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="slideshow">
+            <h4 class="m-0">
+                <a href="#slideshowTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>SLIDESHOW
+                </a>
+            </h4>
+        </div>
+        <div id="slideshowTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/Slideshow" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminSlideshow)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Admin : History & Cache -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="historyCache">
+            <h4 class="m-0">
+                <a href="#historyCacheTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>HISTORY & CACHE
+                </a>
+            </h4>
+        </div>
+        <div id="historyCacheTab" class="collapse b-b0" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="border p-3">
+                <!-- Begin: Manage permission form for localities -->
+                <form action="/UsersAndRoles/Permissions/HistoryCache" method="post">
+                    <input type="hidden" name="roleId" value="@ViewBag.RoleID" />
+                    <button type="submit" class="btn btn-primary btn-sm float-right">Manage Permissions</button><br /><hr />
+                </form>
+                <!-- End: -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">Clear Cache</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminHistoryAndCache)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ClearCache) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" checked data-toggle="toggle" @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "data-onstyle=primary data-on=On data-off=Off data-height=15 disabled data-size=sm" : "data-onstyle=secondary data-on=Off data-off=On data-height=15 disabled data-size=sm")>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div>
+    <span>@ViewData["Title"]</span>
+    <span class="tx-success">@await userRoleClaim.GetRoleName(ViewBag.RoleID)</span>
+</div>
+<!-- End: -->

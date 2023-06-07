@@ -1,0 +1,165 @@
+﻿@page "/StaffPanel/LabourNaka/Categories"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject CategoriesDbContext categoriesContext
+@inject SharedDbContext sharedContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@using BOL.SHARED
+@inject IJSRuntime jsRuntime
+
+<AuthorizeView Roles="Staff">
+    <Authorized>
+        <div class="container">
+            <div class="listing-from-block individual-listing">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
+                            <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="v-pills-Company" role="tabpanel"
+                                     aria-labelledby="v-pills-Company-tab">
+                                    <p class="add-lidting-title-from font-weight-bold">Labour Naka > Categories <button class="btn btn-link float-right" @onclick="ToggleCreateLabour">Add Category</button></p>
+                                    @if (ShowCreateCategory == true)
+                                    {
+                                        @if (ErrorMessage != null)
+                                        {
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <span class="alert alert-danger">@ErrorMessage</span>
+                                                </div>
+                                            </div>
+                                        }
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">
+                                            Category Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input @bind="CategoryName" placeholder="Category Name" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="name">
+                                            URL
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input @bind="CategoryUrl" placeholder="Category Url" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="name">
+                                            Is Child Category
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" @bind="IsChildStr">
+                                            <option selected disabled>Choose...</option>
+                                            <option value="false">No</option>
+                                            <option value="true">Yes</option>
+                                        </select>
+                                    </div>
+                                    @{
+                                        bool disableParent = true;
+                                        if (IsChildStr == "false")
+                                        {
+                                            disableParent = true;
+                                        }
+                                        else
+                                        {
+                                            disableParent = false;
+                                        }
+                                    }
+                                    <div class="form-group col-md-6">
+                                        <label for="name">
+                                            Parent Category
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" @bind="ParentCategoryId" disabled="@disableParent">
+                                            <option selected disabled>
+                                                Choose...
+                                            </option>
+                                            @if (ListLaborCategory != null)
+                                            {
+                                                foreach (var c in ListLaborCategory)
+                                                {
+                                                    <option value="@c.CategoryId">
+                                                        @c.Name
+                                                    </option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="name">
+                                            Meta Title
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" @bind="MetaTitle"></textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="name">
+                                            Meta Description
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" @bind="MetaDescription"></textarea>
+                                    </div>
+                                </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <button class="btn_1" @onclick="CreateLabourCategoryAsync">Create Category</button>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-sm table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">URL</th>
+                                                        <th scope="col">Is Child</th>
+                                                        <th scope="col">Parent Category</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (ListLaborCategoryVM != null)
+                                                    {
+                                                        @foreach (var c in ListLaborCategoryVM)
+                                                        {
+                                                    <tr>
+                                                        <th scope="col">
+                                                            @c.LaborCategory.CategoryId
+                                                        </th>
+                                                        <th scope="col">
+                                                            @c.LaborCategory.Name
+                                                        </th>
+                                                        <th scope="col">
+                                                            @c.LaborCategory.Url
+                                                        </th>
+                                                        <th scope="col">
+                                                            @c.LaborCategory.IsChild
+                                                        </th>
+                                                        <th scope="col">
+                                                            @c.ParentCategoryName
+                                                        </th>
+                                                    </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

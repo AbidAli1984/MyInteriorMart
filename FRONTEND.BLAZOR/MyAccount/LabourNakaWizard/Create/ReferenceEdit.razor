@@ -1,0 +1,211 @@
+﻿@page "/MyAccount/LabourNakaWizard/ReferenceEdit"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject CategoriesDbContext categoriesContext
+@inject SharedDbContext sharedContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@using BOL.SHARED
+@inject IJSRuntime jsRuntime
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="listing-from-block individual-listing">
+                <div class="row">
+                    <!-- Begin: Right Menu -->
+                    <div class="col-md-3">
+                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab-listing" role="tablist"
+                             aria-orientation="vertical">
+                            <a class="nav-link" href="/MyAccount/LabourNakaWizard/PersonalCreate" aria-selected="true">
+                                Personal
+                            </a>
+                            <a class="nav-link" href="/MyAccount/LabourNakaWizard/ProfessionCreate" aria-selected="false">
+                                Profession
+                            </a>
+                            <a class="nav-link" href="/MyAccount/LabourNakaWizard/ContactCreate" aria-selected="false">
+                                Contact
+                            </a>
+                            <a class="nav-link active" href="/MyAccount/LabourNakaWizard/ReferenceCreate" aria-selected="false">
+                                References
+                            </a>
+                            <a class="nav-link" href="/MyAccount/LabourNakaWizard/DocumentCreate" aria-selected="false">
+                                Documents
+                            </a>
+                            <a class="nav-link" href="/MyAccount/LabourNakaWizard/CategoryCreate" aria-selected="false">
+                                Category
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End: Right Menu -->
+                    <div class="col-md-9">
+                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
+                            <!-- Begin: Form -->
+                            <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="v-pills-Company" role="tabpanel"
+                                     aria-labelledby="v-pills-Company-tab">
+
+                                    @if (Ref != null)
+                                    {
+
+                                        if (Disable == true)
+                                        {
+                                            <p class="add-lidting-title-from font-weight-bold">Labour Naka > Reference <button @onclick="ToggleEdit" class="btn btn-link float-right">Edit</button></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="add-lidting-title-from font-weight-bold">
+                                                Labour Naka > Reference <button @onclick="ToggleEdit" class="btn btn-link float-right">
+                                                    Cancel Edit
+                                                </button>
+                                            </p>
+                                        }
+
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <p class="add-lidting-title-from font-weight-bold">
+                                                    1st Reference Details
+                                                </p>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="name">
+                                                    Full Name
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input @bind="Ref.Ref1stName" placeholder="Full Name" class="form-control" disabled="@Disable" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="name">
+                                                    Mobile
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input @bind="Ref.Ref1stMobile" type="number" placeholder="Mobile" class="form-control" disabled="@Disable" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="name">
+                                                    Relationship
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select class="form-control" @bind="Ref.Ref1stRelationship" disabled="@Disable">
+                                                    <option selected disabled>
+                                                        Choose..
+                                                    </option>
+                                                    <option value="Wife">Wife</option>
+                                                    <option value="Wife">Brother</option>
+                                                    <option value="Wife">Father</option>
+                                                    <option value="Wife">Mother</option>
+                                                    <option value="Wife">Friend</option>
+                                                    <option value="Wife">Colleague</option>
+                                                    <option value="Wife">Boss</option>
+                                                    <option value="Wife">Sister</option>
+                                                    <option value="Wife">Client</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="name">
+                                                    Address
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <textarea class="form-control" rows="3" @bind="Ref.Ref1stAddress" disabled="@Disable"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <p class="add-lidting-title-from font-weight-bold">
+                                                    2nd Reference Details
+                                                </p>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="name">
+                                                    Full Name
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input @bind="Ref.Ref2ndName" placeholder="Full Name" class="form-control" disabled="@Disable" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="name">
+                                                    Mobile
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input @bind="Ref.Ref2ndMobile" type="number" placeholder="Mobile" class="form-control" disabled="@Disable" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="name">
+                                                    Relationship
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select class="form-control" @bind="Ref.Ref2ndRelationship" disabled="@Disable">
+                                                    <option selected disabled>
+                                                        Choose..
+                                                    </option>
+                                                    <option value="Wife">Wife</option>
+                                                    <option value="Wife">Brother</option>
+                                                    <option value="Wife">Father</option>
+                                                    <option value="Wife">Mother</option>
+                                                    <option value="Wife">Friend</option>
+                                                    <option value="Wife">Colleague</option>
+                                                    <option value="Wife">Boss</option>
+                                                    <option value="Wife">Sister</option>
+                                                    <option value="Wife">Client</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="name">
+                                                    Address
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <textarea class="form-control" rows="3" @bind="Ref.Ref2ndAddress" disabled="@Disable"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            @if (Edit == true)
+                                            {
+                                                <div class="text-left col-12 mt-3">
+                                                    @if (Busy == false)
+                                                    {
+                                                        <button class="btn_1" @onclick="SaveRecordAsync">
+                                                            Update & Save
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn_1" disabled>
+                                                            Saving...
+                                                        </button>
+                                                    }
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                        <div class="text-left col-12 mt-3">
+                                            <a href="/MyAccount/LabourNakaWizard/ContactCreate" class="pull-left mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
+                                            <a href="/MyAccount/LabourNakaWizard/DocumentCreate" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+                                        </div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <a href="/MyAccount/LabourNakaWizard/ReferenceCreate" class="btn_1 mt-4 mb-4">Add Reference Details</a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <!-- End: Form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

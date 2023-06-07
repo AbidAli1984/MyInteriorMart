@@ -1,0 +1,234 @@
+﻿@model IEnumerable<BOL.VIEWMODELS.FreeListingViewModel>
+@inject ICategory categoryRepo
+@inject IAddresses addressRepo
+@inject IListingManager listingRepo
+
+@{
+    ViewData["Title"] = "Approval Pending Listings";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Listings";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Listings/Manage/Index";
+    ViewData["BT-Text-2"] = "View";
+    ViewData["BT-Link-2"] = "/Listings/Manage/";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        function ApproveListing(id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ApproveListing", "Manage", new { area = "Listings" })',
+                dataType: 'json',
+                data:
+                {
+                    id: id
+                },
+                success: function (data) {
+                    if (data == "Success") {
+                        var unapprovedButtonId = "#unapprove-" + id;
+                        var functionDisapproveListing = `DisapproveListing(${id})`;
+                        $(unapprovedButtonId).removeClass("badge badge-secondary").addClass("badge badge-success").text("Approved").attr("onclick", functionDisapproveListing);
+
+                        var approvedButtonId = "approve-" + id;
+                        $(unapprovedButtonId).attr("id", approvedButtonId);
+                    }
+                    else {
+                        alert(data);
+                    }
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        };
+
+        function DisapproveListing(id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DisapproveListing", "Manage", new { area = "Listings" })',
+                dataType: 'json',
+                data:
+                {
+                    id: id
+                },
+                success: function (data) {
+                    if (data == "Success") {
+                        var approvedButtonId = "#approve-" + id;
+                        var functionApproveListing = `ApproveListing(${id})`;
+                        $(approvedButtonId).removeClass("badge badge-success").addClass("badge badge-secondary").text("Pending").attr("onclick", functionApproveListing);
+
+                        var unapprovedButtonId = "unapprove-" + id;
+                        $(approvedButtonId).attr("id", unapprovedButtonId);
+                    }
+                    else {
+                        alert(data);
+                    }
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        };
+
+        function RejectListing(id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RejectListing", "Manage", new { area = "Listings" })',
+                dataType: 'json',
+                data:
+                {
+                    id: id
+                },
+                success: function (data) {
+                    if (data == "Success") {
+                        var unrejectButtonId = "#unreject-" + id;
+                        var functionUnrejectListing = `UnrejectListing(${id})`;
+                        $(unrejectButtonId).removeClass("badge badge-success").addClass("badge badge-danger").text("Yes").attr("onclick", functionUnrejectListing);
+
+                        var UnrejectButtonId = "reject-" + id;
+                        $(unrejectButtonId).attr("id", UnrejectButtonId);
+                    }
+                    else {
+                        alert(data);
+                    }
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        };
+
+        function UnrejectListing(id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UnrejectListing", "Manage", new { area = "Listings" })',
+                dataType: 'json',
+                data:
+                {
+                    id: id
+                },
+                success: function (data) {
+                    if (data == "Success") {
+                        var rejectButtonId = "#reject-" + id;
+                        var functionRejectListing = `RejectListing(${id})`;
+                        $(rejectButtonId).removeClass("badge badge-danger").addClass("badge badge-success").text("No").attr("onclick", functionRejectListing);
+
+                        var RejectButtonId = "unreject-" + id;
+                        $(rejectButtonId).attr("id", RejectButtonId);
+                    }
+                    else {
+                        alert(data);
+                    }
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        };
+    </script>
+
+    @await Component.InvokeAsync("DataTable")
+}
+
+<h5>@ViewData["Title"]<span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th class="border-bottom-0">#</th>
+                <th class="border-bottom-0">Approved</th>
+                <th class="border-bottom-0">Rejected</th>
+                <th class="border-bottom-0">Company</th>
+                <th class="border-bottom-0">Name</th>
+                <th class="border-bottom-0">Mobile</th>
+                <th class="border-bottom-0">Email</th>
+                <th class="border-bottom-0">1st Cat</th>
+                <th class="border-bottom-0">2nd Cat</th>
+                @*<th class="border-bottom-0">City</th>*@
+                <th class="border-bottom-0">Country</th>
+                <th class="border-bottom-0">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var firstCategory = await categoryRepo.FirstCategoryDetailsAsync(item.Category.FirstCategory.FirstCategoryID);
+                var secondCategory = await categoryRepo.SecondCategoryDetailsAsync(item.Category.SecondCategory.SecondCategoryID);
+                var assembly = await addressRepo.StationDetailsAsync(item.Address.Assembly.StationID);
+                var city = await addressRepo.CityDetailsAsync(item.Address.City.CityID);
+                var country = await addressRepo.CountryDetailsAsync(item.Address.Country.CountryID);
+
+                // Begin: Get difference between dates
+                DateTime currentDate = DateTime.Now;
+                TimeSpan timeSpan = currentDate.Subtract(item.Listing.CreatedDate);
+                // End:
+
+                string approveId = "approve-" + item.Listing.ListingID;
+                string unapproveId = "unapprove-" + item.Listing.ListingID;
+                string rejectId = "reject-" + item.Listing.ListingID;
+                string unrejectId = "unreject-" + item.Listing.ListingID;
+
+                <tr>
+                    <td><strong>@item.Listing.ListingID</strong></td>
+
+                    @if (item.Listing.Approved == true)
+                    {
+                        <td>
+                            <a href="#0" class="badge badge-success" id="@approveId" onclick="ApproveListing(@item.Listing.ListingID); return false;">Approved</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a href="#0" class="badge badge-secondary" id="@unapproveId" onclick="ApproveListing(@item.Listing.ListingID); return false;">Pending</a>
+                        </td>
+                    }
+
+                    @if (item.Listing.Rejected == true)
+                    {
+                        <td>
+                            <a href="#0" id="@rejectId" class="badge badge-danger">Yes</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a href="#0" id="@unrejectId" class="badge badge-success" onclick="RejectListing(@item.Listing.ListingID); return false;">No</a>
+                        </td>
+                    }
+                    <td><a href="#0" target="_blank">@item.Listing.CompanyName</a></td>
+                    <td>@item.Listing.Name</td>
+                    <td>@item.Communication.Mobile</td>
+                    <td>@item.Communication.Email</td>
+                    <td>@firstCategory.Name</td>
+                    <td>@secondCategory.Name</td>
+                    @*<td>@city.Name</td>*@
+                    <td>@country.Name</td>
+                    <td>
+                        <a href="~/ManageUsers/UserProfile/" class="btn btn-primary btn-sm" target="_blank">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

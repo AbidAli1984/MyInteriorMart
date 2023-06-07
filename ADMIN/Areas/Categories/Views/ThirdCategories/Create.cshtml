@@ -1,0 +1,141 @@
+﻿@model BOL.CATEGORIES.ThirdCategory
+
+@{
+    ViewData["Title"] = "Create Third Category";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Third Categories";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Categories/ThirdCategories";
+    ViewData["BT-Text-2"] = "Cancel";
+    ViewData["BT-Link-2"] = "/Categories/ThirdCategories";
+}
+<!-- End: -->
+
+
+@section Scripts{
+    <script type="text/javascript">
+        // Shafi: Bind keyword field with url field and convert to upper case by remove space
+        $(document).ready(function () {
+            // Bind keyword, url and description input together
+            $("#categoryName").keyup(function (event) {
+
+                // Force text to be typed in lowercase in Keyword text field
+                $(this).val($(this).val().toLowerCase());
+
+                // Get value of keyword text field
+                var categoryName = $(this).val();
+
+                // Tranform value of keyword to Title Case
+                function ToTitleCase(categoryName) {
+                    return categoryName.replace(/(?:^|\s)\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+
+                // Call ToTitleCase function replace space by - hyphen through and convert to title case
+                var url = ToTitleCase(categoryName).replace(/\s+/g, "-");
+
+                // Set final value of input with id's url, title and description
+                $("#searchKeywordName").val(ToTitleCase(categoryName));
+                $("#url").val(url);
+                $("#description").val(ToTitleCase(categoryName));
+                $("#keywords").val(ToTitleCase(categoryName));
+            });
+            // End:
+
+            // Prevent user manually typing text in url input
+            $("#url").keypress(function (e) {
+                e.preventDefault();
+            });
+            // End:
+        });
+    </script>
+
+    <!-- Begin: Fetch Second Category -->
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#firstCategoryDropdown").change(function () {
+            $("#secondCategoryDropdown").empty();
+            $("#TableThirdCategory").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchSecondCategory", "CascadeDropdownCategories", new { area = "" })',
+                dataType: 'json',
+                data: { JsonFirstCategoryID: $("#firstCategoryDropdown").val() },
+                success: function (selSecondCategory) {
+                    $.each(selSecondCategory, function (i, secondCategory) {
+                        $("#secondCategoryDropdown").append('<option value="' + secondCategory.value + '">' + secondCategory.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+    <!-- End: -->
+}
+
+<h5>@ViewData["Title"] <span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstCategoryID" class="control-label"></label>
+                <select asp-for="FirstCategoryID" id="firstCategoryDropdown" class="form-control select2" asp-items="ViewBag.FirstCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondCategoryID" class="control-label"></label>
+                <select asp-for="SecondCategoryID" id="secondCategoryDropdown" class="form-control select2" asp-items="ViewBag.SecondCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" id="categoryName" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchKeywordName" class="control-label"></label>
+                <input asp-for="SearchKeywordName" id="searchKeywordName" class="form-control" />
+                <span asp-validation-for="SearchKeywordName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="URL" class="control-label"></label>
+                <input asp-for="URL" id="url" class="form-control" />
+                <span asp-validation-for="URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SortOrder" class="control-label"></label>
+                <input asp-for="SortOrder" value="0" class="form-control" />
+                <span asp-validation-for="SortOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" id="description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Keyword" class="control-label"></label>
+                <textarea asp-for="Keyword" id="keywords" class="form-control"></textarea>
+                <span asp-validation-for="Keyword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

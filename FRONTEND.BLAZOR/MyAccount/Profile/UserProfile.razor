@@ -1,0 +1,475 @@
+﻿@page "/MyAccount/UserProfile"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject SharedDbContext sharedContext
+@inject CategoriesDbContext categoriesContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@inject IJSRuntime jsRuntime
+@using AntDesign
+@using BOL.SHARED
+
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" href="/MyAccount/UserProfile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+                            <a class="nav-link" href="/ManageListing/AllListing" role="tab" aria-selected="false">My Listings</a>
+                            <a class="nav-link" href="/ManageListing/AllReviews" role="tab" aria-controls="v-pill-reviews" aria-selected="false">Reviews</a>
+                            <a class="nav-link" href="/ManageListing/AllLikes" role="tab" aria-controls="v-pill-likes" aria-selected="false">Likes</a>
+                            <a class="nav-link" href="/ManageListing/AllBookmarks" role="tab" aria-controls="v-pill-bookmark" aria-selected="true">Bookmarks</a>
+                            <a class="nav-link" href="/ManageListing/AllSubscribe" role="tab" aria-controls="v-pill-subscribe" aria-selected="false">Subscribe</a>
+                            <a class="nav-link" href="/Identity/Account/Manage" role="tab" aria-controls="v-pill-settings" aria-selected="false">Settings</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review">
+                                    <p style="font-size:24px; border-bottom:1px solid #dddddd;">Profile <button class="btn btn-link float-right" @onclick="@(async() => await ToggleDisableAsync())">Edit</button></p>
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <label>Name</label>
+                                            <input class="form-control" type="text" @bind="@Name" disabled="@disable">
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Gender</label>
+                                            <select class="form-control wide add_bottom_10" @bind="@Gender" disabled="@disable">
+                                                <option disabled selected>Choose...</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Date Of birth</label>
+                                            <input class="form-control" type="date" @bind="@DateOfBirth" disabled="@disable">
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Country</label>
+                                            <select class="form-control wide add_bottom_10" @onchange="ListStateAsync" disabled="@disable">
+                                                @if (listCountry != null)
+                                                {
+                                                    <option disabled selected>Choose...</option>
+                                                    foreach (var i in listCountry)
+                                                    {
+                                                        <option value="@i.CountryID">@i.Name</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>State</label>
+                                            <select class="form-control wide add_bottom_10" @onchange="ListCityAsync" disabled="@disable">
+                                                @if (listState != null)
+                                                {
+                                                    <option disabled selected>Choose...</option>
+                                                    foreach (var i in listState)
+                                                    {
+                                                        <option value="@i.StateID">@i.Name</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-12">
+                                            <label>City</label>
+                                            <select class="form-control" @onchange="ListAreaAsync" disabled="@disable">
+                                                @if (listCity != null)
+                                                {
+                                                    <option disabled selected>Choose...</option>
+                                                    foreach (var i in listCity)
+                                                    {
+                                                        <option value="@i.CityID">@i.Name</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-12">
+                                            <label>Area</label>
+                                            <select class="form-control" @onchange="@ListPincodeAsync" disabled="@disable">
+                                                @if (listArea != null)
+                                                {
+                                                    <option disabled selected>Choose...</option>
+                                                    foreach (var i in listArea)
+                                                    {
+                                                        <option value="@i.StationID">@i.Name</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-12">
+                                            <label>Pincode</label>
+                                            <select class="form-control" @bind="@PincodeID" disabled="@disable">
+                                                @if (listPincode != null)
+                                                {
+                                                    <option disabled selected>Choose...</option>
+                                                    foreach (var i in listPincode)
+                                                    {
+                                                        <option value="@i.PincodeNumber">@i.PincodeNumber</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label>Time Zone</label>
+                                            <select class="form-control wide add_bottom_10" @bind="@TimeZoneOfCountry" disabled="@disable">
+                                                @if (timeZoneList != null)
+                                                {
+                                                    <option disabled selected>Choose...</option>
+                                                    foreach (var i in timeZoneList)
+                                                    {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="text-center col-12 mt-3">
+                                            @if (CurrentUserProfile == null)
+                                            {
+                                                <button type="submit" class="btn_1 full-width" @onclick="@(async() => await CreateProfileAsync())">Submit</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn_1 full-width" @onclick="@(async() => await UpdateProfileAsync())">Update & Save</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pills-suggestion" role="tabpanel" aria-labelledby="v-pills-suggestion-tab">
+                                <div class="add-review">
+                                    <h5>Suggestion</h5>
+                                    <form>
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <input class="form-control" type="text" name="suggestion_title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" id="Address" name="Address" style="height:100px;"></textarea>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <input type="submit" value="Submit" class="btn_1 full-width">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-complaint" role="tabpanel" aria-labelledby="v-pill-complaint-tab">
+                                <div class="add-review">
+                                    <h5>Complaint</h5>
+                                    <form>
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <input class="form-control" type="text" name="complaint_title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Complaint Description</label>
+                                            <textarea class="form-control" id="complaint_dis" name="complaint_dis" style="height:100px;"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>File</label>
+                                            <input class="form-control" type="file" name="complaint_file">
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <input type="submit" value="Submit" class="btn_1 full-width">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-offers" role="tabpanel" aria-labelledby="v-pill-offers-tab">
+                                <div class="offer-block">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="./FrontEnd/img/shop_1.jpg" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h4>What is Lorem Ipsum?</h4>
+                                            <p>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="./FrontEnd/img/shop_1.jpg" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h4>What is Lorem Ipsum?</h4>
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="./FrontEnd/img/shop_1.jpg" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h4>What is Lorem Ipsum?</h4>
+                                            <p>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-bookmark" role="tabpanel" aria-labelledby="v-pill-bookmark-tab">
+                                <div class="add-review">
+                                    <h5>Bookmark</h5>
+                                    <div class="list_general">
+                                        <ul>
+                                            <li>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <small>Web Development</small>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd.</h4>
+                                                <p>Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro detracto disputando reformidans at, ex vel suas eripuit. Vel alii zril maiorum ex, mea id sale eirmod epicurei. Sit te possit senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret per....</p>
+                                                <p><a href="Individual-listing.html" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+                                                <ul class="buttons">
+                                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Cancel</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <small>Web Development</small>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd.</h4>
+                                                <p>Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro detracto disputando reformidans at, ex vel suas eripuit. Vel alii zril maiorum ex, mea id sale eirmod epicurei. Sit te possit senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret per....</p>
+                                                <p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+                                                <ul class="buttons">
+                                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Cancel</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <small>Web Development</small>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd.</h4>
+                                                <p>Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro detracto disputando reformidans at, ex vel suas eripuit. Vel alii zril maiorum ex, mea id sale eirmod epicurei. Sit te possit senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret per....</p>
+                                                <p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+                                                <ul class="buttons">
+                                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Cancel</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-enquiry" role="tabpanel" aria-labelledby="v-pill-enquiry">
+                                <div class="add-review">
+                                    <h5>Enquiry</h5>
+                                    <form>
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input class="form-control" type="text" name="enquiry_name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input class="form-control" type="email" name="enquiry_email_name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" id="enquiry" name="enquiry" style="height:100px;"></textarea>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <input type="submit" value="Submit" class="btn_1 full-width">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-notification" role="tabpanel" aria-labelledby="v-pill-notification">
+                                <div class="add-review">
+                                    <h5>Notification</h5>
+                                    <div class="notification-list">
+                                        <span class="text-success">
+                                            <strong>Status Update</strong>
+                                        </span>
+                                        <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                        <p>This is an automated server response message. All systems are online.</p>
+                                    </div>
+
+                                    <div class="notification-list">
+                                        <span class="text-danger">
+                                            <strong>Status Update</strong>
+                                        </span>
+                                        <span class="small float-right text-muted">11:21 AM  June 03 2021</span>
+                                        <p>This is an automated server response message. All systems are online.</p>
+                                    </div>
+
+                                    <div class="notification-list">
+                                        <span>
+                                            <strong>Your Order</strong>
+                                        </span>
+                                        <span class="small float-right text-muted">11:21 AM  June 04 2021</span>
+                                        <p>
+                                            Your package containing boAt headphones has been delivered. Thanks for shopping! <a href="#">More details</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-like" role="tabpanel" aria-labelledby="v-pill-like">
+                                <div class="add-review">
+                                    <h5>Like</h5>
+                                    <div class="list_general">
+                                        <ul>
+                                            <li>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <small>Web Development</small>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd.</h4>
+                                                <p>Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro detracto disputando reformidans at, ex vel suas eripuit. Vel alii zril maiorum ex, mea id sale eirmod epicurei. Sit te possit senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret per....</p>
+                                                <p><a href="Individual-listing.html" class="btn_1 gray primary-btn-color"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+                                                <ul class="buttons">
+                                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Unlike</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <small>Web Development</small>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd.</h4>
+                                                <p>Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro detracto disputando reformidans at, ex vel suas eripuit. Vel alii zril maiorum ex, mea id sale eirmod epicurei. Sit te possit senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret per....</p>
+                                                <p><a href="#0" class="btn_1 gray primary-btn-color"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+                                                <ul class="buttons">
+                                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Unlike</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <small>Web Development</small>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd.</h4>
+                                                <p>Lorem ipsum dolor sit amet, est ei idque voluptua copiosae, pro detracto disputando reformidans at, ex vel suas eripuit. Vel alii zril maiorum ex, mea id sale eirmod epicurei. Sit te possit senserit, eam alia veritus maluisset ei, id cibo vocent ocurreret per....</p>
+                                                <p><a href="#0" class="btn_1 gray primary-btn-color"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+                                                <ul class="buttons">
+                                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Unlike</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-review" role="tabpanel" aria-labelledby="v-pill-review">
+                                <div class="add-review">
+                                    <h5>Review</h5>
+                                    <div class="list_general reviews">
+                                        <ul>
+                                            <li>
+                                                <span>June 04 2021</span>
+                                                <div class="company-rating pl-2 d-inline-flex">
+                                                    <div class="cat_star">
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star"></i>
+                                                    </div>
+                                                </div>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd. <small>Web Development</small></h4>
+
+                                                <p>Lorem ipsum dolor sit amet, dolores mandamus moderatius ea ius, sed civibus vivendum imperdiet ei, amet tritani sea id. Ut veri diceret fierent mei, qui facilisi suavitate euripidis ad. In vim mucius menandri convenire, an brute zril vis. Ancillae delectus necessitatibus no eam, at porro solet veniam mel, ad everti nostrud vim. Eam no menandri pertinacia deterruisset.</p>
+                                                <div class="row mb-2">
+                                                    <div class="inline-popups mr-2">
+                                                        <a href="#" data-effect="mfp-zoom-in" class="btn_1 gray">
+                                                            <i class="fa fa-fw fa-reply"></i> View this review
+                                                        </a>
+                                                    </div>
+                                                    <div class="inline-popups">
+                                                        <a href="#" data-effect="mfp-zoom-in" class="btn_1 gray">
+                                                            <i class="fa fa-fw fa-times-circle-o"></i> Remove this review
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <span>June 04 2021</span>
+                                                <div class="company-rating pl-2 d-inline-flex">
+                                                    <div class="cat_star">
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star active"></i>
+                                                        <i class="icon_star"></i>
+                                                    </div>
+                                                </div>
+                                                <figure><img src="./FrontEnd/img/listing-img.jpeg" alt=""></figure>
+                                                <h4>Creative Concept interior contractor Pvt. Ltd. <small>Web Development</small></h4>
+
+                                                <p>Lorem ipsum dolor sit amet, dolores mandamus moderatius ea ius, sed civibus vivendum imperdiet ei, amet tritani sea id. Ut veri diceret fierent mei, qui facilisi suavitate euripidis ad. In vim mucius menandri convenire, an brute zril vis. Ancillae delectus necessitatibus no eam, at porro solet veniam mel, ad everti nostrud vim. Eam no menandri pertinacia deterruisset.</p>
+                                                <div class="row mb-2">
+                                                    <div class="inline-popups mr-2">
+                                                        <a href="#" data-effect="mfp-zoom-in" class="btn_1 gray">
+                                                            <i class="fa fa-fw fa-reply"></i> View this review
+                                                        </a>
+                                                    </div>
+                                                    <div class="inline-popups">
+                                                        <a href="#" data-effect="mfp-zoom-in" class="btn_1 gray">
+                                                            <i class="fa fa-fw fa-times-circle-o"></i> Remove this review
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pill-chat" role="tabpanel" aria-labelledby="v-pill-chat">9</div>
+
+                            <div class="tab-pane fade" id="v-pill-history" role="tabpanel" aria-labelledby="v-pill-history">
+                                <div class="add-review">
+                                    <h5>History</h5>
+                                    <div class="history-list">
+                                        <ul class="history-list-item">
+                                            <li>Creative Concept interior contractor Pvt. Ltd.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

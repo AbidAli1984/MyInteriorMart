@@ -1,0 +1,45 @@
+﻿@model AssignRoleViewModel
+
+@{
+    ViewData["Title"] = "Assign User To Role";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Roles";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Manage Roles";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/Index";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+
+@section Scripts
+{
+    @await Component.InvokeAsync("SweetAlertAssignRolesToUsers")
+}
+
+<h5>@ViewData["Title"]</h5>
+<hr />
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label for="email_address">User ID</label>
+    <div class="form-group">
+        <select asp-for="UserId" asp-items="@ViewBag.Users" class="form-control select2" data-placeholder="Select"></select>
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+    <label for="email_address">Role ID</label>
+    <div class="form-group">
+        <select asp-for="RoleName" asp-items="@ViewBag.Roles" class="form-control select2" data-placeholder="Select"></select>
+        <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-raised btn-primary btn-round waves-effect">Assign Role</button>
+</form>

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BOL.SHARED.Turnover>
+
+@{
+    ViewData["Title"] = "All Turnover";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Turnovers";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Miscellaneous/Turnovers";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Miscellaneous/Turnovers/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+<h5>@ViewData["Title"] <span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+<!-- End: -->
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+    columns.Add().RenderedAs((model, row) => model.TurnoverID).Titled("ID").Css("text-center");
+        columns.Add(model => model.Name).Titled("Number");
+        columns.Add(model => $"<a href=\"/Miscellaneous/Turnovers/Edit/{model.TurnoverID}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Miscellaneous/Turnovers/Delete/{model.TurnoverID}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

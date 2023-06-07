@@ -1,0 +1,47 @@
+﻿@model IDENTITY.Models.RoleCategory
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Claim";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: Breadcrumb -->
+
+<h1>Create</h1>
+
+<h4>RoleCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

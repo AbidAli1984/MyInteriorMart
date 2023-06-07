@@ -1,0 +1,133 @@
+﻿@model IEnumerable<BOL.SHARED.Station>
+@inject IAddresses AddressRepos
+
+@{
+    ViewData["Title"] = "All Assemblies";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Assemblies";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Common/Stations";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Common/Stations/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+<h5>@ViewData["Title"] <span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+<form action="~/Common/Stations/Create" method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="hidden" name="cityId" value="@ViewBag.CityId" required />
+            <div class="form-group">
+                <label class="control-label">Station Name</label>
+                <input name="name" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3 mt-2">
+            <label class="control-label"></label>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (TempData["Message"] != null)
+{
+    <div class="row mb-2">
+        <div class="col-12 col-lg-12 alert alert-info">
+            @TempData["Message"]
+        </div>
+    </div>
+}
+
+<!-- End: -->
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add().RenderedAs((model, row) => model.StationID).Titled("#").Css("text-center");
+        columns.Add(model => model.Name).Titled("Name");
+        columns.Add(model => $"<span class='mr-3 btn btn-sm btn-secondary'>{AddressRepos.CountPincodeInStation(model.StationID)}</span><a href=\"/Common/Pincodes/Index/{model.StationID}\" class='btn btn-sm btn-secondary mr-2'>Manage Pincodes</a>").Encoded(false).Titled("Cities").Filterable(true);
+        columns.Add(model => model.City.Name).Titled("City");
+        columns.Add(model => model.City.State.Name).Titled("State");
+        columns.Add(model => $"<a href=\"/Common/Stations/Edit/{model.StationID}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Common/Stations/Delete/{model.StationID}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)
+<!-- Begin: Model popup for assembly created successfuly -->
+<div class="modal" id="modalSuccess">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-success tx-semibold mg-b-20">Success!</h4>
+                <h6 class="mg-b-20 mg-x-20">@ViewBag.SuccessMessage</h6>
+                <div class="modal-footer justify-content-center">
+                    <button class="btn ripple btn-success" data-dismiss="modal" type="button">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+<!-- Begin: Model popup for assembly deleted successfuly -->
+<div class="modal" id="modalDeleted">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-success tx-semibold mg-b-20">Success!</h4>
+                <h6 class="mg-b-20 mg-x-20">@ViewBag.Deleted</h6>
+                <div class="modal-footer justify-content-center">
+                    <button class="btn ripple btn-success" data-dismiss="modal" type="button">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->
+
+@section Scripts{
+    <script src="~/backend/assets/js/modal.js"></script>
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modalSuccess').modal('show');
+            });
+        </script>
+    }
+
+    @if (ViewBag.Deleted != null)
+    {
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modalDeleted').modal('show');
+            });
+        </script>
+    }
+}
+<!-- End: -->

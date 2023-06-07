@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Core" Version="1.7.17" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="SendGrid" Version="9.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BOL\BOL.csproj" />
+    <ProjectReference Include="..\DAL\DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dashboard\Analytics\" />
+    <Folder Include="Dashboard\Enquiries\" />
+    <Folder Include="Dashboard\Marketing\" />
+    <Folder Include="Dashboard\Billing\" />
+    <Folder Include="Dashboard\Staff\" />
+    <Folder Include="Dashboard\Notifications\" />
+    <Folder Include="Dashboard\Search\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+
+@section CSS{
+    <link href="~/css/mim-authorization-pages.css" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="row justify-content-center account-form">
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2 umar-account-form-border">
+        <form id="account" method="post">
+            <a href="~/" title="UMARZONE">
+                <img src="~/img/my-interior-mart-logo.png" class="logo" />
+            </a>
+            <h1>LOGIN BY MOBILE</h1>
+            <!-- Begin: Hidden fields -->
+            <span asp-validation-summary="All" class="umar-error"></span>
+            <!-- End: -->
+            <input @*asp-for="Input.Email"*@ class="umar-input" placeholder="Select Country" required />
+            <span @*asp-validation-for="Input.Email"*@ class="umar-error"></span>
+            <input @*asp-for="Input.Password"*@ class="umar-input" placeholder="10 Digit Mobile Number" required />
+            <span @*asp-validation-for="Input.Password"*@ class="umar-error"></span>
+            <button type="submit" style="width:150px;">Receive OTP</button>
+            <p class="mt-4" style="border-bottom:1px solid #C6C6C6; padding-bottom:10px;">Didn’t Receive OTP? <br /> <a href="#0" style="color:#2459A3;">Resend Link</a></p>
+            <input type="number" class="umar-otp-input " />
+            <input type="number" class="umar-otp-input" />
+            <input type="number" class="umar-otp-input" />
+            <input type="number" class="umar-otp-input" />
+            <input type="number" class="umar-otp-input" />
+            <input type="number" class="umar-otp-input" />
+            <button type="submit" style="width:200px;">Verify & Login</button>
+            <h2 class="umar-h2 mt-3">
+                ALREADY REGISTERED! LOGIN BY
+            </h2>
+            <div class="d-flex flex-row justify-content-center umar-account-footer">
+                <div class="umar-icons">
+                    <img src="~/img/account-form/email.svg" />
+                    <a href="#">Email</a>
+                </div>
+                <div class="umar-icons">
+                    <img src="~/img/account-form/mobile.svg" />
+                    <a href="#">Mobile</a>
+                </div>
+                <div class="umar-icons">
+                    <img src="~/img/account-form/link.svg" />
+                    <a href="#">Link</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+@*<form action="~/Login/ByMobileOtp" method="post">
+        <input type="text" name="mobile" />
+        <input type="submit" value="Login" />
+    </form>*@

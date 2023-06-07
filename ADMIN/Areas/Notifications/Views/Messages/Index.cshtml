@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BOL.SHARED.Messages>
+
+@{
+    ViewData["Title"] = "Mange Messages";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Notifications";
+    ViewData["BC-2"] = "Messages";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Notifications/Messages";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Notifications/Messages/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+<h5>@ViewData["Title"] <span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add().RenderedAs((model, row) => model.MessageID).Titled("#").Css("text-center");
+        // Begin: Country Flag
+        columns.Add(model => model.Name).Titled("Name");
+        columns.Add(model => model.SmsMessage).Titled("SMS Message");
+        columns.Add(model => $"<a href=\"/Notifications/Messages/Edit/{model.MessageID}\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

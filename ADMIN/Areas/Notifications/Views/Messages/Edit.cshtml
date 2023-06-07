@@ -1,0 +1,73 @@
+﻿@model BOL.SHARED.Messages
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Notifications";
+    ViewData["BC-2"] = "Messages";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Notifications/Messages";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Notifications/Messages/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+<h1>Edit</h1>
+
+<h4>Messages</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MessageID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SmsMessage" class="control-label"></label>
+                <textarea asp-for="SmsMessage" class="form-control"></textarea>
+                <span asp-validation-for="SmsMessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailSubject" class="control-label"></label>
+                <input asp-for="EmailSubject" class="form-control" />
+                <span asp-validation-for="EmailSubject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailMessage" class="control-label"></label>
+                <textarea asp-for="EmailMessage" class="form-control"></textarea>
+                <span asp-validation-for="EmailMessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Variables" class="control-label"></label>
+                <textarea asp-for="Variables" class="form-control"></textarea>
+                <span asp-validation-for="Variables" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

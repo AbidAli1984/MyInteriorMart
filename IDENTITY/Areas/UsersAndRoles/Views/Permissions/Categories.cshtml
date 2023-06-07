@@ -1,0 +1,121 @@
+﻿@inject BAL.Identity.IUserRoleClaim userRoleClaim
+@inject BAL.Claims.IClaimsAdmin claimsAdmin
+@{
+    ViewData["Title"] = "Categories Permissions";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Claim";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+    var roleName = await userRoleClaim.GetRoleName(ViewBag.RoleID);
+}
+<!-- End: -->
+<!-- Begin: jQuery -->
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#formSubmitButton").click(function () {
+                // Begin: Create array of string
+                var claimAssigned = [];
+                // End:
+
+                // Get value of all selected checkboxes
+                $('input[type="checkbox"]:checked').each(function () {
+                    claimAssigned.push($(this).val());
+                });
+                // End:
+
+                // Begin: Assign value of claimAssigned to #claimList
+                $('#claimList').val(claimAssigned.join(","));
+                // End:
+
+                // Begin: Submit form
+                $("#form").submit();
+                // End:
+            })
+        });
+    </script>
+}
+<!-- End: jQuery -->
+<!-- Begin: Admin : Dashboard -->
+<div>
+    <span>@ViewData["Title"] For </span>
+    <span class="tx-success tx-bold">@roleName</span>
+    <form action="/UsersAndRoles/Permissions/AssignClaimsToRole" id="form" method="post" class="float-right">
+        <input type="hidden" name="roleID" value="@ViewBag.RoleID" />
+        <input type="hidden" name="claimType" value="Admin.Categories" />
+        <input type="hidden" name="claimList" id="claimList" value="" />
+        <button type="button" id="formSubmitButton" class="btn btn-primary" style="margin-top:-12px;"><i class="fa fa-key"></i> <span style="margin-left:5px;">Assign & Save</span></button>
+    </form>
+</div>
+<hr />
+<!-- End: -->
+<!-- Begin: Admin : Categories -->
+<div id="accordion" class="w-100 br-2 overflow-hidden">
+    <div class="">
+        <div class="accor bg-primary" id="category">
+            <h4 class="m-0">
+                <a href="#categoryTab" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="si si-cursor-move mr-2"></i>CATEGORIES
+                </a>
+            </h4>
+        </div>
+        <div id="categoryTab" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+            <div class="border p-3">
+                <!-- Begin: Table -->
+                <div class="table-responsive">
+                    <table id="example1" class="table key-buttons table-striped text-md-nowrap" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0" style="text-align:left;">Name</th>
+                                <th class="border-bottom-0">View All</th>
+                                <th class="border-bottom-0">Read</th>
+                                <th class="border-bottom-0">Edit</th>
+                                <th class="border-bottom-0">Create</th>
+                                <th class="border-bottom-0">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var claim in ViewBag.AdminCategory)
+                            {
+                                <tr>
+                                    <td style="text-align:left;">@claim.Name</td>
+                                    <td>
+                                        <input type="checkbox" name="claim" class='claim' value="@claim.ViewAll" @(claim.ViewAll != null ? "" : "disabled") @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.ViewAll) == true ? "checked" : "") />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="claim" class='claim' value="@claim.Read" @(claim.Read != null ? "" : "disabled") @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Read) == true ? "checked" : "") />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="claim" class='claim' value="@claim.Edit" @(claim.Edit != null ? "" : "disabled") @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Edit) == true ? "checked" : "") />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="claim" class='claim' value="@claim.Create" @(claim.Create != null ? "" : "disabled") @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Create) == true ? "checked" : "") />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="claim" class='claim' value="@claim.Delete" @(claim.Delete != null ? "" : "disabled") @(await claimsAdmin.CheckIfRoleHasClaim(ViewBag.RoleID, claim.Type, claim.Delete) == true ? "checked" : "") />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->

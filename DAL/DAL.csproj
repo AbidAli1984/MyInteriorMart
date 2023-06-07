@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AUDIT\Migrations\20200730103143_9.cs" />
+    <Compile Remove="AUDIT\Migrations\20200730103143_9.Designer.cs" />
+    <Compile Remove="AUDIT\Migrations\20200731114018_12.cs" />
+    <Compile Remove="AUDIT\Migrations\20200731114018_12.Designer.cs" />
+    <Compile Remove="AUDIT\Migrations\20201213153652_31.cs" />
+    <Compile Remove="AUDIT\Migrations\20201213153652_31.Designer.cs" />
+    <Compile Remove="AUDIT\Migrations\20201213153952_32.cs" />
+    <Compile Remove="AUDIT\Migrations\20201213153952_32.Designer.cs" />
+    <Compile Remove="AUDIT\Migrations\20201213154517_31.cs" />
+    <Compile Remove="AUDIT\Migrations\20201213154517_31.Designer.cs" />
+    <Compile Remove="LISTING\Migrations\20200628143656_listing-14.cs" />
+    <Compile Remove="LISTING\Migrations\20200628143656_listing-14.Designer.cs" />
+    <Compile Remove="LISTING\Migrations\20200707112744_shared-25.cs" />
+    <Compile Remove="LISTING\Migrations\20200707112744_shared-25.Designer.cs" />
+    <Compile Remove="LISTING\Migrations\20200707112943_shared-25.cs" />
+    <Compile Remove="LISTING\Migrations\20200707112943_shared-25.Designer.cs" />
+    <Compile Remove="LISTING\Migrations\20200724124418_30.cs" />
+    <Compile Remove="LISTING\Migrations\20200724124418_30.Designer.cs" />
+    <Compile Remove="LISTING\Migrations\20200724124949_31.cs" />
+    <Compile Remove="LISTING\Migrations\20200724124949_31.Designer.cs" />
+    <Compile Remove="SHARED\Migrations\20200622152652_shared-009.cs" />
+    <Compile Remove="SHARED\Migrations\20200622152652_shared-009.Designer.cs" />
+    <Compile Remove="SHARED\Migrations\20200707163519_008.cs" />
+    <Compile Remove="SHARED\Migrations\20200707163519_008.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BOL\BOL.csproj" />
+  </ItemGroup>
+</Project>

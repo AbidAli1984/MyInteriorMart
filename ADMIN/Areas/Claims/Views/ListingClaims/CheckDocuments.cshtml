@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@using System.IO
+@inject IWebHostEnvironment HostingEnvironment
+
+@{
+    ViewData["Title"] = "Check Documents";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Check Listing Claim Documents";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Claims/ListingClaims/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Audit/ListingLastUpdateds/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+<h5>
+    @ViewData["Title"]
+    <span class="float-right">
+        Total : @ViewData["RowCount"]
+    </span>
+    <a href="~/Claims/ListingClaims/Documents" class="btn btn-sm btn-primary float-right mr-3">Documents</a>
+    <a href="~/Claims/ListingClaims/Email" class="btn btn-sm btn-primary float-right mr-3">Email</a>
+    <a href="~/Claims/ListingClaims/Mobile" class="btn btn-sm btn-primary float-right mr-3">Mobile</a>
+    <a href="~/Claims/ListingClaims/" class="btn btn-sm btn-primary float-right mr-3">All</a>
+</h5>
+<hr />
+
+@{
+    string folderPath = HostingEnvironment.ContentRootPath + $"\\AppData\\{ViewBag.ListingId}\\";
+}
+
+<div class="row">
+    @{
+        DirectoryInfo directory = new DirectoryInfo(folderPath);
+
+        foreach (var item in directory.EnumerateFiles())
+        {
+            string link = $"/Claims/ListingClaims/OpenDocument/{ViewBag.ListingId}/{item.Name}";
+            <div class="col-12 col-lg-3 text-center">
+                <a href="@link" class="mt-2" target="_blank"><img src="@Url.Action("OpenDocuments", "ListingClaims", new { ListingId = ViewBag.ListingId, fileName = item.Name })" height="150" /></a>
+            </div>
+        }
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-3 col-xl-1 col-lg-1">
+            <a href="~/Claims/ListingClaims/ApproveDocuments/@ViewBag.ClaimId/Documents Are Valid" class="btn btn-sm btn-success">Approve Claim</a>
+    </div>
+    <div class="col-3 col-xl-1 col-lg-1">
+        <a href="~/Claims/ListingClaims/RejectDocuments/@ViewBag.ClaimId/Invalid Documents" class="btn btn-sm btn-danger">Reject Claim</a>
+    </div>
+</div>

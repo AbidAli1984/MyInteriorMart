@@ -1,0 +1,132 @@
+﻿@model IEnumerable<BOL.BANNER.Campaign>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ListingID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerGUID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CampaignName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageAltText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VideoURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HTML5BannerAdScript)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImpressionsCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClicksCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BannerType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BannerPage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BannerSpace)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ListingID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerGUID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CampaignName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageAltText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestinationURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VideoURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HTML5BannerAdScript)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImpressionsCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClicksCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BannerType.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BannerPage.PageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BannerSpace.Height)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CampaignID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CampaignID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CampaignID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,13 @@
+﻿<!-- Begin: On form submit disable submit button -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#disableFormSubmit').submit(function () {
+            if ($(this).find('.input-validation-error').length == 0) {
+                $(this).find(':submit').attr('disabled', 'disabled');
+                $(this).find(':submit').val('Please wait...');
+            }
+        });
+    });
+</script>
+<!-- End: -->

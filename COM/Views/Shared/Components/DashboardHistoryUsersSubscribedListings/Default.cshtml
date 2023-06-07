@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BOL.AUDITTRAIL.Subscribes>
+
+<h6 class="card-title">Recent Users Who Subscribed Listings</h6>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => "").RenderedAs(model => model.SubscribeID).Titled("Liked ID");
+        columns.Add(model => model.Subscribe).Titled("Subscribe");
+        columns.Add(model => model.Email).Titled("Email");
+        columns.Add(model => model.Mobile).Titled("Mobile");
+        columns.Add(model => model.IPAddress).Titled("IP Address");
+        columns.Add(model => model.UserRole).Titled("User Role");
+        columns.Add(model => model.VisitDate.ToString("dd MM, yyyy")).Titled("Date");
+        columns.Add(model => model.VisitTime.ToString("hh:mm tt")).Titled("Time");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

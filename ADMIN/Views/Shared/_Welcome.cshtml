@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Description" content="@ViewData["Title"]">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="Keywords" content="@ViewData["Title"]" />
+
+    <!-- Title -->
+    <title>@ViewData["Title"]</title>
+
+    <!--- Favicon --->
+    <link rel="icon" href="~/backend/assets/img/brand/favicon.png" type="image/x-icon" />
+
+    <!--- Icons css --->
+    <link href="~/backend/assets/css/icons.css" rel="stylesheet">
+
+    <!--- Right-sidemenu css --->
+    <link href="~/backend/assets/plugins/sidebar/sidebar.css" rel="stylesheet">
+
+    <!--- Custom Scroll bar --->
+    <link href="~/backend/assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+    <!--- Style css --->
+    <link href="~/backend/assets/css/style.css" rel="stylesheet">
+
+    <!--- Skinmodes css --->
+    <link href="~/backend/assets/css/skin-modes.css" rel="stylesheet">
+
+    <!--- Darktheme css --->
+    <link href="~/backend/assets/css/style-dark.css" rel="stylesheet">
+
+    <!--- Animations css --->
+    <link href="~/backend/assets/css/animate.css" rel="stylesheet">
+
+</head>
+<body class="main-body">
+
+    <!-- Loader -->
+    <div id="global-loader">
+        <img src="~/backend/assets/img/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /Loader -->
+    <!-- Page -->
+    <div class="page">
+        @RenderBody()
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <!-- The content half -->
+                <div class="col-md-12 col-lg-12 col-xl-12 bg-white">
+                    <div class="login d-flex align-items-center py-2">
+                        <!-- Demo content-->
+                        <div class="container">
+                            <div class="row">
+                                <div class="main-card-signin construction text-center border-0 mx-auto">
+                                    <div class="p-4 wd-100p mx-auto">
+                                        <div>
+                                            <h2 class="tx-30">Welcome To MIM</h2>
+                                            <a href="#0" class="btn btn-primary btn-sm">Click Here To Login</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End -->
+                    </div>
+                </div><!-- End -->
+            </div>
+        </div>
+
+    </div>
+    <!-- End Page -->
+    <!--- JQuery min js --->
+    <script src="~/backend/assets/plugins/jquery/jquery.min.js"></script>
+
+    <!--- Bootstrap Bundle js --->
+    <script src="~/backend/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!--- Ionicons js --->
+    <script src="~/backend/assets/plugins/ionicons/ionicons.js"></script>
+
+    <!--- JQuery sparkline js --->
+    <script src="~/backend/assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+
+    <!--- Moment js --->
+    <script src="~/backend/assets/plugins/moment/moment.js"></script>
+
+    <!--- Eva-icons js --->
+    <script src="~/backend/assets/js/eva-icons.min.js"></script>
+
+    <!--- Jquery.Coutdown js --->
+    <script src="~/backend/assets/plugins/jquery-countdown/jquery.lwtCountdown-1.0.js"></script>
+    <script src="~/backend/assets/plugins/jquery-countdown/count-down.js"></script>
+
+    <!--- Rating js --->
+    <script src="~/backend/assets/plugins/rating/jquery.rating-stars.js"></script>
+    <script src="~/backend/assets/plugins/rating/jquery.barrating.js"></script>
+
+    <!--- Custom js --->
+    <script src="~/backend/assets/js/custom.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

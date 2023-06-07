@@ -1,0 +1,27 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "~/Views/Shared/Frontend-New/_Alert.cshtml";
+}
+
+<main>
+    <div class="container margin_60">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div id="confirm">
+                    <img src="~/img/Access-Denied.png" width="120" style="margin-bottom:25px;" />
+                    <h1>Access Denied</h1>
+                    <p style="font-size:18px;">
+                        You are not allowed to view this page.
+                        <br /><br />
+                        <a href="@Request.Headers["Referer"].ToString()">Go To Previous Page</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</main>
+<!--/main-->

@@ -1,0 +1,41 @@
+﻿@if (ViewBag.Success != null)
+{
+    <script>
+            swal(
+                {
+                    title: 'Success!',
+                    text: '@ViewBag.Success',
+                    type: 'success',
+                    confirmButtonColor: '#57a94f'
+                }
+            );
+    </script>
+}
+
+@if (ViewBag.Warning != null)
+{
+    <script>
+            swal(
+                {
+                    title: 'Sorry!',
+                    text: '@ViewBag.Warning',
+                    type: 'warning',
+                    confirmButtonColor: '#57a94f'
+                }
+            );
+    </script>
+}
+
+@if (ViewBag.Error != null)
+{
+    <script>
+            swal(
+                {
+                    title: 'Opps!',
+                    text: '@ViewBag.Error',
+                    type: 'error',
+                    confirmButtonColor: '#57a94f'
+                }
+            );
+    </script>
+}

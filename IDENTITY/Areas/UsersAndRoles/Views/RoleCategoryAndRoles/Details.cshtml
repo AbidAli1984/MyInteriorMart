@@ -1,0 +1,47 @@
+﻿@model IDENTITY.Models.RoleCategoryAndRole
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Claim";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: Breadcrumb -->
+
+<h1>Details</h1>
+
+<div>
+    <h4>RoleCategoryAndRole</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoleID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleCategory)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoleCategory.CategoryName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.RoleCategoryAndRoleID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

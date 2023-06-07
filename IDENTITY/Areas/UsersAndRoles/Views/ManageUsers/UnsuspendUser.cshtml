@@ -1,0 +1,53 @@
+﻿@model IdentityUser
+@inject IUsersAndRoles roles
+
+@{
+    ViewData["Title"] = "Unsuspend User";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Roles";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Roles By Role Category";
+    ViewData["BT-Link3"] = "/UsersAndRoles/RoleCategoryAndRoles/Index";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+<h5>@ViewData["Title"] @Model.Email</h5>
+<hr />
+<h6 class="tx-success">
+    <i class="fas fa-check-circle"></i> Are you sure you want to Unsuspend this user?
+</h6>
+<p class="tx-success">
+    Unsuspending a user enabled the account and will grant access to information such as documents, calendar, events and email, listings, offers etc. A user can sign in to a his/her account. The account can be suspended at any time.
+</p>
+<hr />
+<form action="~/SuperAdministrator/ManageUsers/UnsuspendUserConfirmation" method="post">
+    <input type="hidden" name="UnsuspendedTo" value="@ViewBag.UnsuspendedTo" />
+    <div>
+        <label>Reason for Unsuspending</label>
+        <select class="form-control select2" name="Reason" required>
+            <option disabled selected>Select reason...</option>
+            <option value="User requested to unblock his/her account via phone or email.">
+                User requested to unblock his/her account via phone or email.
+            </option>
+            <option value="Unsuspended by staff of My Interior Mart.">
+                Unsuspended by staff of My Interior Mart.
+            </option>
+        </select>
+    </div>
+    <div style="margin-top:20px;">
+        <lable style="margin-top:25px;">Comment</lable>
+        <textarea name="Comment" class="form-control" rows="6"></textarea>
+    </div>
+    <hr />
+    <button type="submit" class="btn btn-primary">Suspend User</button>
+</form>

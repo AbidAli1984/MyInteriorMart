@@ -1,0 +1,103 @@
+﻿@model IEnumerable<BOL.VIEWMODELS.FreeListingViewModel>
+@inject ICategory categoryRepo
+@inject IAddresses addressRepo
+@inject IListingManager listingRepo
+
+@{
+    ViewData["Title"] = "All Listings";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Listings";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Listings/Manage/Index";
+    ViewData["BT-Text-2"] = "View";
+    ViewData["BT-Link-2"] = "/Listings/Manage/";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+<h5>@ViewData["Title"]<span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th class="border-bottom-0">#</th>
+                <th class="border-bottom-0">Company</th>
+                <th class="border-bottom-0">Name</th>
+                <th class="border-bottom-0">Mobile</th>
+                <th class="border-bottom-0">Email</th>
+                <th class="border-bottom-0">1st Cat</th>
+                <th class="border-bottom-0">2nd Cat</th>
+                <th class="border-bottom-0">Views</th>
+                <th class="border-bottom-0">Reviews</th>
+                <th class="border-bottom-0">Subscribes</th>
+                <th class="border-bottom-0">Likes</th>
+                <th class="border-bottom-0">Bookmarks</th>
+                <th class="border-bottom-0">Date</th>
+                @*<th class="border-bottom-0">Pincode</th>*@
+                @*<th class="border-bottom-0">Assembly</th>*@
+                @*<th class="border-bottom-0">City</th>
+                <th class="border-bottom-0">Country</th>*@
+                <th class="border-bottom-0">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var firstCategory = await categoryRepo.FirstCategoryDetailsAsync(item.Category.FirstCategory.FirstCategoryID);
+                var secondCategory = await categoryRepo.SecondCategoryDetailsAsync(item.Category.SecondCategory.SecondCategoryID);
+                var pincode = await addressRepo.PincodeDetailsAsync(item.Address.Pincode.PincodeID);
+                var assembly = await addressRepo.StationDetailsAsync(item.Address.Assembly.StationID);
+                var city = await addressRepo.CityDetailsAsync(item.Address.City.CityID);
+                var country = await addressRepo.CountryDetailsAsync(item.Address.Country.CountryID);
+
+                // Begin: Get difference between dates
+                DateTime currentDate = DateTime.Now;
+                TimeSpan timeSpan = currentDate.Subtract(item.Listing.CreatedDate);
+                // End:
+
+            <tr>
+                <td><strong>@item.Listing.ListingID</strong></td>
+                <td><a href="#0" target="_blank">@item.Listing.CompanyName</a></td>
+                <td>@item.Listing.Name</td>
+                <td>@item.Communication.Mobile</td>
+                <td>@item.Communication.Email</td>
+                <td>@firstCategory.Name</td>
+                <td>@secondCategory.Name</td>
+                <td style="text-align:center">@await listingRepo.CountListingViewsAsync(item.Listing.ListingID)</td>
+                <td style="text-align:center">@await listingRepo.CountListingReviewsAsync(item.Listing.ListingID)</td>
+                <td style="text-align:center">@await listingRepo.CountListingSubscribeAsync(item.Listing.ListingID)</td>
+                <td style="text-align:center">@await listingRepo.CountListingLikesAsync(item.Listing.ListingID)</td>
+                <td style="text-align:center">@await listingRepo.CountListingBookmarkAsync(item.Listing.ListingID)</td>
+                <td>
+                    <p title="@item.Listing.CreatedDate.ToString("ddd MMM, yyyy")">
+                        @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()
+                    </p>
+                </td>
+                @*<td>@pincode.PincodeNumber</td>*@
+                @*<td>@assembly.Name</td>*@
+                @*<td>@city.Name</td>
+                <td>@country.Name</td>*@
+                <td>
+                    <a href="~/ManageUsers/UserProfile/" class="btn btn-primary btn-sm" target="_blank">View</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    @await Component.InvokeAsync("DataTable")
+}

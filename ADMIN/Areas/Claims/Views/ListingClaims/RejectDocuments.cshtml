@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BOL.AUDITTRAIL.ListingClaim>
+@inject IListingManager listingManager
+@inject IUserProfileRepo userProfileRepo
+
+@{
+    ViewData["Title"] = "Documents Rejected";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Listing Claim";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Claims/ListingClaims/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Audit/ListingLastUpdateds/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+<h5>
+    @ViewData["Title"]
+    <a href="~/Claims/ListingClaims/Documents" class="btn btn-sm btn-primary float-right mr-3">Documents</a>
+    <a href="~/Claims/ListingClaims/Email" class="btn btn-sm btn-primary float-right mr-3">Email</a>
+    <a href="~/Claims/ListingClaims/Mobile" class="btn btn-sm btn-primary float-right mr-3">Mobile</a>
+    <a href="~/Claims/ListingClaims/" class="btn btn-sm btn-primary float-right mr-3">All</a>
+</h5>
+<hr />
+
+<h3>Documents Rejected</h3>

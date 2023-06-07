@@ -1,0 +1,88 @@
+﻿@inject IDENTITY.Services.IUsersAndRoles usersAndRoles
+@inject IDENTITY.Services.IUserProfileRepo userProfile
+@inject UserManager<IdentityUser>  userManager
+@inject IAddresses addressManager
+
+@{
+    ViewData["Title"] = "All Blocked Users";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var listBlockedUsers = await usersAndRoles.ListBlockedUserAsync();
+}
+
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Users";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+
+<h3>@ViewData["Title"] <span class="badge badge-secondary"><span style="font-size:16px;">@listBlockedUsers.Count()</span></span></h3>
+<hr />
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Mobile</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Pincode</th>
+                <th>Suspended By</th>
+                <th>Action</th>
+                <th>View Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in listBlockedUsers)
+            {
+                var profile = await userProfile.GetUserProfileAsync(item.SuspendedTo);
+                var suspendedUser = await userManager.FindByIdAsync(item.SuspendedTo);
+                var suspendedBy = await userManager.FindByIdAsync(item.SuspendedBy);
+                var country = await addressManager.CountryDetailsAsync(profile.CountryID);
+                var city = await addressManager.CityDetailsAsync(profile.CityID);
+                var pincode = await addressManager.PincodeDetailsAsync(profile.PincodeID);
+
+                <tr>
+                    <td><span>@(profile != null ? $"{profile.Name}" : "N/A")</span></td>
+                    <td>@suspendedUser.Email</td>
+                    <td>@item.SuspendedDate.ToString("dd MMM, yyyy")</td>
+                    <td>@item.SuspendedDate.ToString("hh:mm tt")</td>
+                    <td>@(suspendedUser.PhoneNumber != null ? $"{suspendedUser.PhoneNumber}" : "Not Available")</td>
+                    <td>@(profile != null ? $"{country.Name}" : "N/A")</td>
+                    <td>@(profile != null ? $"{city.Name}" : "N/A")</td>
+                    <td>@(profile != null ? $"{pincode.PincodeNumber}" : "N/A")</td>
+                    <td>@suspendedBy.Email</td>
+                    <td>
+                        <!-- Shafi: Unblock user -->
+                        <form action="~/SuperAdministrator/ManageUsers/UnsuspendUser" method="post">
+                            <input type="hidden" name="UnsuspendedTo" value="@item.SuspendedTo" />
+                            <button type="submit" class="btn btn-success-gradient btn-sm"><i class="fa fa-check" aria-hidden="true"></i> <span style="margin-left:3px;">Unblock This User</span></button>
+                        </form>
+                        <!-- End: -->
+                    </td>
+                    <td>
+                        <!-- Shafi: View Profile -->
+                        <a href="~/SuperAdministrator/ManageUsers/UserProfile/@item.SuspendedTo" class="btn btn-sm btn-purple-gradient">View Profile</a>
+                        <!-- End: -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    @await Component.InvokeAsync("DataTable")
+}

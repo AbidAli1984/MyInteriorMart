@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BOL.BRANDS.KeywordBrand>
+
+@{
+    ViewData["Title"] = "Brand Keywords";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Brand Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/BrandManagement/KeywordBrands";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/BrandManagement/KeywordBrands/Create";
+}
+<!-- End: -->
+
+<h5>
+    @ViewData["Title"] Time Taken: @ViewBag.StopWatch
+    <span class="float-right">
+        Total : @ViewData["RowCount"]
+    </span>
+</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.BrandKeywordID).Titled("ID").Css("text-center");
+        columns.Add(model => model.FirstCategory.Name).Titled("First Category");
+        columns.Add(model => model.SecondCategory.Name).Titled("Second Category");
+        columns.Add(model => model.BrandCategory.Brand.Name).Titled("Brand Name");
+        columns.Add(model => $"<a href=\"/BrandManagement/KeywordBrands/Edit/{model.BrandKeywordID}\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

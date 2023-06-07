@@ -1,0 +1,200 @@
+﻿@model IEnumerable<IdentityUser>
+@inject IUserProfileRepo userProfileRepo
+@inject IAddresses addressRepo
+@inject IUsersAndRoles usersAndRolesRepo
+
+@{
+    ViewData["Title"] = "Manages Users";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Users";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Users";
+    ViewData["BT-Link3"] = "/UsersAndRoles/ManageUsers";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+
+<h5>@ViewData["Title"]</h5>
+<hr />
+
+<div class="row row-sm">
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="ti-bar-chart project bg-primary-transparent mx-auto text-primary "></i>
+                </div>
+                <h6 class="mb-1 text-muted">Total Users</h6>
+                <h3 class="font-weight-semibold">@ViewBag.AllUsers</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="ti-pie-chart project bg-pink-transparent mx-auto text-pink "></i>
+                </div>
+                <h6 class="mb-1 text-muted">Email Verified Users</h6>
+                <h3 class="font-weight-semibold">@ViewBag.VerifiedUsers</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+                </div>
+                <h6 class="mb-1 text-muted">Email Not Verified</h6>
+                <h3 class="font-weight-semibold">@ViewBag.NotVerifiedUsers</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
+        <div class="card text-center">
+            <div class="card-body ">
+                <div class="feature widget-2 text-center mt-0 mb-3">
+                    <i class="ti-stats-up project bg-success-transparent mx-auto text-success "></i>
+                </div>
+                <h6 class="mb-1 text-muted">Total Investiment</h6>
+                <h3 class="font-weight-semibold">62%</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="example1" class="table key-buttons text-md-nowrap">
+        <thead>
+            <tr>
+                <th class="border-bottom-0">#</th>
+                <th class="border-bottom-0">Pic</th>
+                <th class="border-bottom-0">Name</th>
+                <th class="border-bottom-0">Email</th>
+                <th class="border-bottom-0">Mobile</th>
+                <th class="border-bottom-0">Confirmation</th>
+                <th class="border-bottom-0">Role</th>
+                <th class="border-bottom-0">Pincode</th>
+                <th class="border-bottom-0">Assembly</th>
+                <th class="border-bottom-0">City</th>
+                <th class="border-bottom-0">Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int count = 0; }
+            @foreach (var user in Model)
+            {
+                var profile = await userProfileRepo.GetUserProfileAsync(user.Id);
+            <tr>
+                <td><strong>@(count += 1)</strong></td>
+                <td>
+                    <img alt="" src="~/img/profile-thumbnail.jpg" height="20">
+                </td>
+                <td>
+                    @if (profile != null)
+                    {
+                        <span>@profile.Name</span>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>@user.Email</td>
+
+                @if (user.PhoneNumber != null)
+                {
+                    <td>@user.PhoneNumber</td>
+                }
+                else
+                {
+                    <td style="text-align:center;">-</td>
+                }
+
+                <td>
+                    @if (user.EmailConfirmed == true)
+                    {
+                        <span class="badge badge-success">Confirmed</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">Pending</span>
+                    }
+                </td>
+                <td>
+
+                </td>
+                @if (profile != null)
+                {
+                    var country = await addressRepo.CountryDetailsAsync(profile.CountryID);
+                    var city = await addressRepo.CityDetailsAsync(profile.CityID);
+                    var assembly = await addressRepo.StationDetailsAsync(profile.AssemblyID);
+                    var pincode = await addressRepo.PincodeDetailsAsync(profile.PincodeID);
+
+
+                    if (pincode != null)
+                    {
+                        <td>@pincode.PincodeNumber</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                    if (assembly != null)
+                    {
+                        <td>@assembly.Name</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                    if (city != null)
+                    {
+                        <td>@city.Name</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                    if (country != null)
+                    {
+                        <td>@country.Name</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+
+                }
+                else
+                {
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                }
+                <td>
+                    <a href="~/ManageUsers/UserProfile/@user.Id" class="btn btn-primary btn-sm" target="_blank">Profile</a>
+
+                    @*<a asp-area="SuperAdministrator" asp-controller="ManageRoles" asp-action="AssignUserToRole" asp-route-userEmail="@user.Email" >Assign Role</a>*@
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    @await Component.InvokeAsync("DataTable")
+}

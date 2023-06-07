@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BOL.CATEGORIES.Pages>
+
+@{
+    ViewData["Title"] = "Manage";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "CMS";
+    ViewData["BC-2"] = "Pages";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/CMS/Pages";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/CMS/Pages/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+<h5>@ViewData["Title"] Time Taken: @ViewBag.StopWatch <span class="float-right">Total : @ViewData["RowCount"]</span></h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add().RenderedAs((model, row) => model.PageID).Titled("#").Css("text-center");
+        // Begin: Country Flag
+        columns.Add(model => model.PageName).Titled("Name");
+        columns.Add(model => model.URL).Titled("URL");
+        columns.Add(model => $"<a href=\"/CMS/Pages/Edit/{model.PageID}\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

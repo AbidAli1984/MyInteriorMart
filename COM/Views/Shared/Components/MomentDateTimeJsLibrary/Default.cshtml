@@ -1,0 +1,17 @@
+﻿<!-- Moment.js date time library for javascript -->
+<!-- https://momentjs.com/docs/#/parsing/string/ -->
+<script src="~/js/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        document.getElementById("clientDate").value = moment().format("MM-DD-YYYY");
+        document.getElementById("clientTime").value = moment().format("LT");
+        document.getElementById("clientDate1").value = moment().format("MM-DD-YYYY");
+        document.getElementById("clientTime1").value = moment().format("LT");
+        document.getElementById("clientDate2").value = moment().format("MM-DD-YYYY");
+        document.getElementById("clientTime2").value = moment().format("LT");
+        /* Begin: Cookie date with time */
+        //document.getElementById("cookieDate").value = moment().format("DD-MM-YYYY LT");
+        /* End: */
+    });
+</script>
+<!-- End -->

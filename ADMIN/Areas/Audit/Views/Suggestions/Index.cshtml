@@ -1,0 +1,88 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<BOL.AUDITTRAIL.Suggestions>
+@addTagHelper *,ReflectionIT.MVC.Paging
+
+@{
+    ViewData["Title"] = "Suggestions";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Suggestions";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Audit/Suggestions";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Audit/Suggestions/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#checkAll").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+
+            $("#deleteButton").click(function () {
+                var valuesArray = $('.delete:checked').map(function () {
+                    return this.value;
+                }).get().join(",");
+
+                $("#itemList").val(valuesArray);
+                alert($("#itemList").val());
+            })
+        })
+    </script>
+}
+
+<h5>
+    @ViewData["Title"]
+</h5>
+<hr />
+
+<nav aria-label="Suggestions Paging">
+    @await this.Component.InvokeAsync("Page", new { pagingList = this.Model })
+</nav>
+<form action="~/Audit/Suggestions/DeleteList">
+    <input type="hidden" id="itemList" value="" name="itemList" />
+    <table class="table table-striped" style="border:1px solid #e6e6e6;">
+        <thead style="background-color:#ffffff; color:#000000;">
+            <tr style="height:50px;">
+                <td style="padding-top:15px;">
+                    <input type="checkbox" id="checkAll" style="margin-left:-3px;" />
+                    <button type="submit" class="btn btn-sm btn-danger" id="deleteButton" style="margin-left:10px; margin-top:-5px;"><i class="fa fa-trash"></i></button>
+                </td>
+                <td style="padding-top:15px;">ID</td>
+                <td style="padding-top:15px;">Name</td>
+                <td style="padding-top:15px;">Mobile</td>
+                <td style="padding-top:15px;">Email</td>
+                <td style="padding-top:15px;">Date</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" name="delete" class="delete" value="@item.SuggestionID" /></td>
+                    <td>@item.SuggestionID</td>
+                    <td>@item.Name</td>
+                    <td>@item.Mobile</td>
+                    <td>@item.Email</td>
+                    <td>@item.Date.ToString("ddd MMM, yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+<nav aria-label="Suggestions Paging">
+    @await this.Component.InvokeAsync("Page", new { pagingList = this.Model })
+</nav>
+

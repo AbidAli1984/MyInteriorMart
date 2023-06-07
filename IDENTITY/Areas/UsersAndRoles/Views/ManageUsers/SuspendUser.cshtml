@@ -1,0 +1,96 @@
+﻿@model IdentityUser
+@inject IUsersAndRoles roles
+
+@{
+    ViewData["Title"] = "Suspend User";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Manage";
+    ViewData["BC-2"] = "Roles";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text"] = "Create Role";
+    ViewData["BT-Link"] = "/UsersAndRoles/ManageRoles/CreateRole";
+    ViewData["BT-Text2"] = "Assign User To Role";
+    ViewData["BT-Link2"] = "/UsersAndRoles/ManageRoles/AssignRole";
+    ViewData["BT-Text3"] = "Roles By Role Category";
+    ViewData["BT-Link3"] = "/UsersAndRoles/RoleCategoryAndRoles/Index";
+    ViewData["BT-Text4"] = "Roles By Role Category";
+    ViewData["BT-Link4"] = "/UsersAndRoles/Permissions/Show";
+}
+<!-- End: -->
+<h5>@ViewData["Title"] @Model.Email</h5>
+<hr />
+<h6 class="tx-danger">
+    <i class="fa fa-ban" aria-hidden="true"></i> Are you sure you want to suspend this user?
+</h6>
+<p class="tx-danger">
+    Suspending a user disabled the account without deleting the user profile and related information, such as socuments, calendar, events and email. A user cannot sign in to a suspended account, and a new information, such emails and calendar invitations, are blocked. The accoun can be restored at any time.
+</p>
+<hr />
+<form action="~/SuperAdministrator/ManageUsers/SuspendUserConfirmation" method="post">
+    <input type="hidden" name="SuspendedTo" value="@ViewBag.SuspendedTo" />
+    <input type="hidden" name="SuspendedBy" value="@ViewBag.SuspendedBy" />
+    <div>
+        <label>Reason for Suspending</label>
+        <select class="form-control select2" name="Reason" required>
+            <option disabled selected>Select reason...</option>
+            <option value="Found performing illegal activities in portal or organisation.">
+                Found performing illegal activities in portal or organisation.
+            </option>
+            <option value="Posting adult contents, images and videos.">
+                Posting adult contents, images and videos.
+            </option>
+            <option value="Past employee of My Interior Mart who left job for any reason.">
+                Past employee of My Interior Mart who left job for any reason.
+            </option>
+            <option value="Fraud or suspicious user.">
+                Fraud or suspicious user.
+            </option>
+            <option value="Mass following and Massliking.">
+                Mass following and Massliking.
+            </option>
+            <option value="Excessively Frequent Postings">
+                Excessively Frequent Postings
+            </option>
+            <option value="Copyright Infringement">
+                Copyright Infringement
+            </option>
+            <option value="Images/Videos Violating Social Network Rules">
+                Images/Videos Violating Social Network Rules
+            </option>
+            <option value="User Complaints">
+                User Complaints
+            </option>
+            <option value="Different IP addresses and Devices">
+                Different IP addresses and Devices
+            </option>
+            <option value="To-Do Actions To Restore Your Account">
+                To-Do Actions To Restore Your Account
+            </option>
+            <option value="Spam inbox with marketing messages.">
+                Spam inbox with marketing messages.
+            </option>
+            <option value="Trying to reach our customer without our knowledge or permission,  representing themselves as our employee or representative.">
+                Trying to reach our customer without our knowledge or permission,  representing themselves as our employee or representative.
+            </option>
+            <option value="Use of rude or inappropriate language.">
+                Use of rude or inappropriate language.
+            </option>
+            <option value="Profile is fake. The profile photo, name, job title and summary paragraph don't correspond to one another.">
+                Profile is fake. The profile photo, name, job title and summary paragraph don't correspond to one another.
+            </option>
+            <option value="Want us to endorse them as an expert in some topic or service, although he/she know we have no knowledge of their work.">
+                Want us to endorse them as an expert in some topic or service, although he/she know we have no knowledge of their work.
+            </option>
+        </select>
+    </div>
+    <div style="margin-top:20px;">
+        <lable style="margin-top:25px;">Comment</lable>
+        <textarea name="Comment" class="form-control" rows="6"></textarea>
+    </div>
+    <hr />
+    <button type="submit" class="btn btn-primary">Suspend User</button>
+</form>

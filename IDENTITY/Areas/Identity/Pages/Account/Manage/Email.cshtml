@@ -1,0 +1,62 @@
+﻿@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Manage Email";
+    Layout = "~/Views/Shared/Dashboard/_UserDashboard.cshtml";
+}
+
+<!-- Begin: Change status of active edit listing menu based on selection -->
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var $Active = $('[name = "Email"]');
+            $Active.addClass("active").addClass("active-menu");
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+<!-- End: -->
+
+<div class="col-lg-12">
+    <div class="row">
+        @await Component.InvokeAsync("IdentitySideMenu")
+        <div class="col-lg-10">
+            <h4>@ViewData["Title"]</h4>
+            <partial name="_StatusMessage" model="Model.StatusMessage" />
+            <hr />
+            <form id="email-form" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            @if (Model.IsEmailConfirmed)
+                            {
+                                <div class="input-group">
+                                    <input asp-for="Email" class="form-control" disabled />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-success font-weight-bold">✓</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <input asp-for="Email" class="form-control" disabled />
+                                <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.NewEmail"></label>
+                            <input asp-for="Input.NewEmail" class="form-control" />
+                            <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary">Change email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<BOL.CATEGORIES.KeywordFourthCategory>
+
+@{
+    ViewData["Title"] = (ViewBag.CategoryName != null ? ViewBag.CategoryName : "Category Does Not Exist");
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewBag.FirstCategoryName + " / " + ViewBag.SecondCategoryName + " / " + ViewBag.ThirdCategoryName + " / " + ViewBag.FourthCategoryName;
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "#0";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "#0";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+    <script type="text/javascript">
+        // Shafi: Bind keyword field with url field and convert to upper case by remove space
+        $(document).ready(function () {
+            // Bind keyword, url and description input together
+            $("#keyword").keyup(function (event) {
+
+                // Force text to be typed in lowercase in Keyword text field
+                $(this).val($(this).val().toLowerCase());
+
+                // Get value of keyword text field
+                var keyword = $(this).val();
+
+                // Tranform value of keyword to Title Case
+                function ToTitleCase(keyword) {
+                    return keyword.replace(/(?:^|\s)\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+
+                // Call ToTitleCase function replace space by - hyphen through and convert to title case
+                var url = ToTitleCase(keyword).replace(/\s+/g, "-");
+
+                // Set final value of input with id's url, title and description
+                $("#url").val(url);
+                $("#title").val(ToTitleCase(keyword));
+                $("#description").val(ToTitleCase(keyword));
+            });
+            // End:
+
+            // Prevent user manually typing text in url input
+            $("#url").keypress(function (e) {
+                e.preventDefault();
+            });
+            // End:
+        });
+    </script>
+}
+
+<h5>
+    @ViewData["Title"]
+    <span class="float-right">
+        <span class="mr-3 btn-sm btn-purple-gradient">Records Count: @ViewData["RowCount"]</span>
+        <a href="/DeepCategories/Browse/Fourth/@ViewBag.ThirdCategoryId" class="btn btn-primary btn-sm float-right"><i class="fa fa-arrow-left"></i> <span class="ml-1">View Fourth Categories</span></a>
+        </span>
+</h5>
+<hr />
+
+
+@if (TempData["MessageSuccess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["MessageSuccess"]
+    </div>
+}
+
+@if (TempData["MessageError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["MessageError"]
+    </div>
+}
+
+@if (ViewBag.CategoryName != null)
+{
+    <form asp-action="CreateKeywordFourthCategory">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!-- Begin: Hidden Inputs -->
+        <input type="hidden" id="url" name="URL" placeholder="Keyword URL" required />
+        <input type="hidden" name="Title" class="form-control" id="title" required />
+        <input type="hidden" name="Description" id="description" required />
+        <input type="hidden" name="FirstCategoryID" value="@ViewBag.FirstCategoryId" required" />
+        <input type="hidden" name="SecondCategoryID" value="@ViewBag.SecondCategoryId" required />
+        <input type="hidden" name="ThirdCategoryID" value="@ViewBag.ThirdCategoryId" required />
+        <input type="hidden" name="FourthCategoryID" value="@ViewBag.FourthCategoryId" required />
+        <!-- End: -->
+        <div class="row">
+            <div class="col-12 col-md-3 col-lg-3 mt-2">
+                <lable class="form-label mb-1">Keyword</lable>
+                <input type="text" name="Keyword" id="keyword" placeholder="Keyword name" class="form-control" required />
+            </div>
+            <div class="col-12 col-md-3 col-lg-3 mt-2">
+                <lable class="form-label mb-1"></lable>
+                <br />
+                <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> <span class="ml-2">Save Keyword</span></button>
+            </div>
+        </div>
+    </form>
+    <hr />
+}
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        Int32 web = 1;
+        columns.Add(model => model.SearchCount).Titled("Searches").Css("widthSearches").Filterable(false);
+        columns.Add(model => model.Keyword).Titled("Keyword");
+        columns.Add(model => $"<a href=\"/Keywords/KeywordFourthCategories/Edit/{model.KeywordFourthCategoryID}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Keywords/KeywordFourthCategories/Delete/{model.KeywordFourthCategoryID}\" class=\"btn btn-danger btn-sm ml-2\">Delete</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 30, "30" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 5;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 15;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)
+
+<style>
+    .widthSearches {
+        width: 80px;
+    }
+</style>

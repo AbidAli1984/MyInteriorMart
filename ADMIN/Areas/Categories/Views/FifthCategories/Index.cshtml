@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BOL.CATEGORIES.FifthCategory>
+
+@{
+    ViewData["Title"] = "Fifth Categories";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+@section CSS{
+    <link href="~/css/MIMUploadButton.css" rel="stylesheet" />
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Categories";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Categories/FifthCategories";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Categories/FifthCategories/Create";
+}
+<!-- End: -->
+
+<h5>
+    @ViewData["Title"]
+    <a href="/Categories/FifthCategories/Create" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus"></i> <span class="ml-1">Create New</span></a>
+</h5>
+<hr />
+
+<style>
+    .mvc-grid-headers {
+        width: 36px;
+    }
+</style>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add().RenderedAs((model, row) => model.FifthCategoryID).Titled("#");
+        columns.Add(model => $"<img src='/FileManager/CategoryIcons/Fifth/{model.URL}.png' width='30px' height='30px'>").Encoded(false).Titled("Image");
+        columns.Add(model => $"<form action='/FileManager/CategoryIcons/UploadIcon' method='post' enctype='multipart/form-data'><input type='hidden' name='directory' value='\\FileManager\\CategoryIcons\\Fifth\\' required><input type='hidden' name='imageName' value='{model.URL}' required><label class='myFile'><i class='fa fa-file btn btn-sm btn-info' style='margin-right:10px;'></i><input type='file' name='file' required /></label><button type='submit' class='btn btn-sm btn-primary'><i class='fa fa-upload'></i> Upload</button></form>").Encoded(false).Titled("Upload");
+        columns.Add(model => $"<form action='/FileManager/CategoryIcons/DeleteImage' method='post' enctype='multipart/form-data'><input type='hidden' name='directory' value='\\FileManager\\CategoryIcons\\Fifth\\' required><input type='hidden' name='imageName' value='{model.URL}' required><button type='submit' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i> Icon</button></form>").Encoded(false).Titled("Delete");
+        columns.Add(model => $"<a href=\"/Categories/FifthCategories/Edit/{model.FifthCategoryID}\" class=\"btn btn-secondary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+        columns.Add(model => model.Name).Titled("Name");
+        columns.Add(model => model.FourthCategory.Name).Titled("Fourth Category");
+        columns.Add(model => model.ThirdCategory.Name).Titled("Third Category");
+        columns.Add(model => model.SecondCategory.Name).Titled("Second Category");
+        columns.Add(model => model.FirstCategory.Name).Titled("First Category");
+        columns.Add(model => model.SortOrder).Titled("Sord Order");
+        columns.Add(model => $"<a href=\"/Categories/FifthCategories/Delete/{model.FifthCategoryID}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

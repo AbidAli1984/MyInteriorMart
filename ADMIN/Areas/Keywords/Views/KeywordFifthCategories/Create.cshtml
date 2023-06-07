@@ -1,0 +1,229 @@
+﻿@model BOL.CATEGORIES.KeywordFifthCategory
+
+@{
+    ViewData["Title"] = "Create Keyword Fifth Category";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Keywords/KeywordFifthCategories/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Keywords/KeywordFifthCategories/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+    <script type="text/javascript">
+        // Shafi: Bind keyword field with url field and convert to upper case by remove space
+        $(document).ready(function () {
+            // Bind keyword, url and description input together
+            $("#keyword").keyup(function (event) {
+
+                // Force text to be typed in lowercase in Keyword text field
+                $(this).val($(this).val().toLowerCase());
+
+                // Get value of keyword text field
+                var keyword = $(this).val();
+
+                // Tranform value of keyword to Title Case
+                function ToTitleCase(keyword) {
+                    return keyword.replace(/(?:^|\s)\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+
+                // Call ToTitleCase function replace space by - hyphen through and convert to title case
+                var url = ToTitleCase(keyword).replace(/\s+/g, "-");
+
+                // Set final value of input with id's url, title and description
+                $("#url").val(url);
+                $("#title").val(ToTitleCase(keyword));
+                $("#description").val(ToTitleCase(keyword));
+            });
+            // End:
+
+            // Prevent user manually typing text in url input
+            $("#url").keypress(function (e) {
+                e.preventDefault();
+            });
+            // End:
+        });
+    </script>
+
+    <!-- Begin: Fetch Second Category -->
+    <script type="text/javascript">
+        // On page load empty second category
+        $("#secondCategoryDropdown").empty();
+        $("#thirdCategoryDropdown").empty();
+        $("#fourthCategoryDropdown").empty();
+        $("#fifthCategoryDropdown").empty();
+        // End:
+        $(document).ready(function () {
+        // Begin: On first category change
+            $("#firstCategoryDropdown").change(function () {
+                // On first catetgory change empty second and third category
+                $("#secondCategoryDropdown").empty();
+                $("#thirdCategoryDropdown").empty();
+                $("#fourthCategoryDropdown").empty();
+                $("#fifthCategoryDropdown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchSecondCategory", "CascadeDropdownCategories", new { area = "" })',
+                dataType: 'json',
+                data: { JsonFirstCategoryID: $("#firstCategoryDropdown").val() },
+                success: function (selSecondCategory) {
+                    $.each(selSecondCategory, function (i, secondCategory) {
+                        $("#secondCategoryDropdown").append('<option value="' + secondCategory.value + '">' + secondCategory.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+    <!-- End: -->
+    <!-- Begin: Fetch Third Category -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+        // Begin: On second category change
+            $("#secondCategoryDropdown").change(function () {
+                // On second category change empty third category
+                $("#thirdCategoryDropdown").empty();
+                $("#fourthCategoryDropdown").empty();
+                $("#fifthCategoryDropdown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchThirdCategory", "CascadeDropdownCategories", new { area = "" })',
+                dataType: 'json',
+                data: { JsonSecondCategoryID: $("#secondCategoryDropdown").val() },
+                success: function (selThirdCategory) {
+                    $.each(selThirdCategory, function (i, thirdCategory) {
+                        $("#thirdCategoryDropdown").append('<option value="' + thirdCategory.value + '">' + thirdCategory.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+    <!-- End: -->
+    <!-- Begin: Fetch Fourth Category -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+        // Begin: On third category change
+            $("#thirdCategoryDropdown").change(function () {
+                // On third category change empty third category
+                $("#fourthCategoryDropdown").empty();
+                $("#fifthCategoryDropdown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchFourthCategory", "CascadeDropdownCategories", new { area = "" })',
+                dataType: 'json',
+                data: { JsonThirdCategoryID: $("#thirdCategoryDropdown").val() },
+                success: function (selFourthCategory) {
+                    $.each(selFourthCategory, function (i, fourthCategory) {
+                        $("#fourthCategoryDropdown").append('<option value="' + fourthCategory.value + '">' + fourthCategory.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+    <!-- End: -->
+    <!-- Begin: Fetch Fifth Category -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+        // Begin: On fourth category change
+            $("#fourthCategoryDropdown").change(function () {
+                // On third category change empty third category
+                $("#fifthCategoryDropdown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchFifthCategory", "CascadeDropdownCategories", new { area = "" })',
+                dataType: 'json',
+                data: { JsonFourthCategoryID: $("#fourthCategoryDropdown").val() },
+                success: function (selFifthCategory) {
+                    $.each(selFifthCategory, function (i, fifthCategory) {
+                        $("#fifthCategoryDropdown").append('<option value="' + fifthCategory.value + '">' + fifthCategory.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+    <!-- End: -->
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Begin: Hidden Inputs -->
+            <input type="hidden" asp-for="URL" id="url" value="" />
+            <input type="hidden" asp-for="Title" id="title" value="" />
+            <span asp-validation-for="URL" class="text-danger"></span>
+            <span asp-validation-for="Title" class="text-danger"></span>
+            <!-- End: -->
+            <div class="form-group">
+                <label asp-for="FirstCategoryID" class="control-label"></label>
+                <select asp-for="FirstCategoryID" id="firstCategoryDropdown" class="form-control select2" asp-items="ViewBag.FirstCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondCategoryID" class="control-label"></label>
+                <select asp-for="SecondCategoryID" id="secondCategoryDropdown" class="form-control select2" asp-items="ViewBag.SecondCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThirdCategoryID" class="control-label"></label>
+                <select asp-for="ThirdCategoryID" id="thirdCategoryDropdown" class="form-control select2" asp-items="ViewBag.ThirdCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FourthCategoryID" class="control-label"></label>
+                <select asp-for="FourthCategoryID" id="fourthCategoryDropdown" class="form-control select2" asp-items="ViewBag.FourthCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FifthCategoryID" class="control-label"></label>
+                <select asp-for="FifthCategoryID" id="fifthCategoryDropdown" class="form-control select2" asp-items="ViewBag.FifthCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Keyword" class="control-label"></label>
+                <input asp-for="Keyword" id="keyword" class="form-control" />
+                <span asp-validation-for="Keyword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" id="description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a asp-action="Edit" asp-route-id="@Model.KeywordFifthCategoryID" class="btn btn-danger btn-sm">Edit</a>
+                <input type="submit" value="Create" class="btn btn-danger btn-sm ml-3" />
+            </div>
+        </form>
+    </div>
+</div>

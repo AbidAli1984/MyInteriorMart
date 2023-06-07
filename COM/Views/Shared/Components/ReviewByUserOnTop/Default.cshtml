@@ -1,0 +1,130 @@
+﻿@model BOL.LISTING.Rating
+@inject IListingManager listingRepository
+@inject IUserProfileRepo userProfileRepository
+
+@if (User.Identity.IsAuthenticated == true && Model != null)
+{
+    // Begin: Get user profile through User Profile Repository
+    var profile = await userProfileRepository.GetUserProfileAsync(Model.OwnerGuid);
+    // End:
+    // Begin: Get difference between dates
+    DateTime currentDate = DateTime.Now;
+    TimeSpan timeSpan = currentDate.Subtract(Model.Date);
+    // End:
+
+    <div>
+        <h6>You posted review on @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()</h6>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-2" style="text-align:center;">
+                        @if (profile == null)
+                        {
+                            <img src="~/FileManager/ProfileImages/1.jpg" class="rounded-circle img-thumbnail" />
+                        }
+                        else
+                        {
+                            // Begin: Get profile image
+                            var profileImage = profile.ProfileID + ".jpg";
+                            // End:
+
+                            <img src="~/FileManager/ProfileImages/@profileImage" class="rounded-circle img-thumbnail" />
+                        }
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="cat_star">
+                            <i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+                            @if (profile != null)
+                            {
+                                <span style="font-weight:bold; margin-left:15px;">
+                                    @profile.Name – @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize();
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="font-weight:bold; margin-left:15px;">
+                                    Anonymous User – @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize();
+                                </span>
+                            }
+                        </div>
+                        <p>@Model.Comment<a href="#0"> view more...</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.Identity.IsAuthenticated == true && Model == null)
+{
+    <div>
+        <h6>Be first to write review for this listing.</h6>
+    </div>
+}
+
+@if (User.Identity.IsAuthenticated == false && Model == null)
+{
+    <div>
+        <h6>Be first to write review for this listing.</h6>
+    </div>
+}
+
+@if (User.Identity.IsAuthenticated == false && Model != null)
+{
+    // Begin: Get user profile through User Profile Repository
+    var profile = await userProfileRepository.GetUserProfileAsync(Model.OwnerGuid);
+    // End:
+    // Begin: Get difference between dates
+    DateTime currentDate = DateTime.Now;
+    TimeSpan timeSpan = currentDate.Subtract(Model.Date);
+    // End:
+
+    <div>
+        @if (profile != null)
+        {
+            <h6>Latest review by @profile.Name on @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()</h6>
+        }
+        else
+        {
+            <h6>Latest review posted by a user on @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()</h6>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-2" style="text-align:center;">
+                        @if (profile == null)
+                        {
+                            <img src="~/FileManager/ProfileImages/1.jpg" class="rounded-circle img-thumbnail" />
+                        }
+                        else
+                        {
+                            // Begin: Get profile image
+                            var profileImage = profile.ProfileID + ".jpg";
+                            // End:
+
+                            <img src="~/FileManager/ProfileImages/@profileImage" class="rounded-circle img-thumbnail" />
+                        }
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="cat_star">
+                            <i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+                            @if (profile != null)
+                            {
+                                <span style="font-weight:bold; margin-left:15px;">
+                                    @profile.Name – @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize();
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="font-weight:bold; margin-left:15px;">
+                                    Anonymous User – @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize();
+                                </span>
+                            }
+                        </div>
+                        <p>@Model.Comment<a href="#0"> view more...</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

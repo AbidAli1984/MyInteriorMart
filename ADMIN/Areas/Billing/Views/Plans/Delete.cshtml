@@ -1,0 +1,291 @@
+﻿@model BOL.PLAN.Plan
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Plan</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MonthlyPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MonthlyPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Categories)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Categories)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Offers)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Offers)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Products)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Products)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.JobPostings)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.JobPostings)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecentProjects)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecentProjects)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SmsNotifications)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SmsNotifications)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailNotifications)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmailNotifications)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserHistory)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserHistory)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Analytics)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Analytics)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MembershipBadge)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MembershipBadge)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhotoGallery)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhotoGallery)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MultipleLocations)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MultipleLocations)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OneHourService)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OneHourService)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MonopolyProducts)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MonopolyProducts)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Branches)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Branches)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClientLogo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClientLogo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PartnerProfile)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PartnerProfile)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MessagesInbox)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MessagesInbox)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BrandShowcase)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BrandShowcase)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PreferredPlaces)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PreferredPlaces)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wallet)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Wallet)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WorkingHours)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WorkingHours)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentMethods)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PaymentMethods)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CustomServices)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CustomServices)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SocialSites)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SocialSites)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Certification)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Certification)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Profile)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Profile)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Specialisation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Specialisation)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MultipleAssemblies)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MultipleAssemblies)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MultipleCities)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MultipleCities)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Communication)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Communication)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SocialShareButtons)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SocialShareButtons)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reviews)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reviews)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LikeDislike)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LikeDislike)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FollowListing)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FollowListing)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CSSClassName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CSSClassName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="PlanID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

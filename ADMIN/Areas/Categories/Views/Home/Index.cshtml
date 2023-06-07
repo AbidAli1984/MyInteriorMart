@@ -1,0 +1,88 @@
+﻿@inject BAL.Addresses.IAddresses addressManager
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/maximize-select2-height@1.0.4/maximize-select2-height.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var list = $("#AssemblyID").select2({
+            closeOnSelect: false
+        }).on("select2:closing", function (e) {
+            e.preventDefault();
+        }).on("select2:closed", function (e) {
+            list.select2("open");
+        });
+        list.select2("open");
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#FirstCategory").change(function () {
+            $('#AssemblyID').select2({
+                minimumResultsForSearch: -1
+            });
+            $("#AssemblyID").select2('open');
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchStates", "CascadeDropdownAddress", new { area = "" })',
+                dataType: 'json',
+                data: { JsonCountryValueId: $("#CountryId").val() },
+                success: function (selStates) {
+                    $.each(selStates, function (i, State) {
+                        $("#AssemblyID").append('<option value="' + State.value + '">' + State.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+</script>
+<style>
+    .select2-selection__arrow b {
+        display: none !important;
+    }
+</style>
+
+<select id="FirstCategory" asp-items="@ViewBag.Countries" class="form-control select2"></select>
+<hr />
+<div class="row" style="height:600px;">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-3">
+                <select id="AssemblyID" asp-items="@ViewBag.Countries" class="form-control select2"></select>
+            </div>
+            <div class="col-lg-3">
+                <select id="test" asp-items="@ViewBag.Countries" class="form-control select2"></select>
+            </div>
+            <div class="col-lg-3">
+                <select id="two" asp-items="@ViewBag.Countries" class="form-control select2"></select>
+            </div>
+            <div class="col-lg-3">
+                <select id="three" asp-items="@ViewBag.Countries" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+</div>

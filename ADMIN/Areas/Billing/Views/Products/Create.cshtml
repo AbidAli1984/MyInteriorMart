@@ -1,0 +1,99 @@
+﻿@model BOL.PLAN.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+@{
+    ViewData["BT-Text1"] = "";
+    ViewData["BT-Link1"] = "";
+    ViewData["BT-Text2"] = "";
+    ViewData["BT-Link2"] = "";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+
+<!-- Begin: Refence External Scripts -->
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<!-- End: Refence External Scripts -->
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ProductTypeId").change(function () {
+            $("#PlanId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchPlans", "PlansCascadeDropdwon", new { area = "" })',
+                dataType: 'json',
+                data: { PlanType: $("#ProductTypeId").val() },
+                success: function (selPlans) {
+                    $.each(selPlans, function (i, Plan) {
+                        $("#PlanId").append('<option value="' + Plan.value + '">' + Plan.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+</script>
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProductType" class="control-label"></label>
+                <select asp-for="ProductType" id="ProductTypeId" class="form-control select2">
+                    <option disabled selected value="">Choose One</option>
+                    <option value="Listing Plans">Listing Plans</option>
+                    <option value="Banner Plans">Banner Plans</option>
+                    <option value="Advertisement Plans">Advertisement Plans</option>
+                    <option value="Data Plans">Data Plans</option>
+                    <option value="SMS Plans">SMS Plans</option>
+                    <option value="Email Plans">Email Plans</option>
+                    <option value="Magazine Plans">Magazine Plans</option>
+                </select>
+                <span asp-validation-for="ProductType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanID" class="control-label"></label>
+                <select asp-for="PlanID" id="PlanId" class="form-control select2"></select>
+                <span asp-validation-for="PlanID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanAmount" class="control-label"></label>
+                <input asp-for="PlanAmount" class="form-control" />
+                <span asp-validation-for="PlanAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BOL.AUDITTRAIL.ListingClaim>
+@inject IListingManager listingManager
+@inject IUserProfileRepo userProfileRepo
+
+@{
+    ViewData["Title"] = "By Email";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Listing Claim";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Claims/ListingClaims/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Audit/ListingLastUpdateds/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: -->
+
+<h5>
+    @ViewData["Title"]
+    <span class="float-right">
+        Total : @ViewData["RowCount"]
+    </span>
+    <a href="~/Claims/ListingClaims/Documents" class="btn btn-sm btn-primary float-right mr-3">Documents</a>
+    <a href="~/Claims/ListingClaims/Email" class="btn btn-sm btn-primary float-right mr-3">Email</a>
+    <a href="~/Claims/ListingClaims/Mobile" class="btn btn-sm btn-primary float-right mr-3">Mobile</a>
+    <a href="~/Claims/ListingClaims/" class="btn btn-sm btn-primary float-right mr-3">All</a>
+</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.VerificationDate.ToString("dddd MMM, yyyy")).Titled("Verification Date").Filterable(true).Sortable(true);
+        columns.Add(model => $"<a href=\"/Listing/Index/{model.ListingID}\" target='_blank'>{listingManager.ListingCompanyName(model.ListingID)}</a>").Filterable(true).Sortable(true).Titled("Listing Name").Css("companyName").Encoded(false);
+        columns.Add(model  => userProfileRepo.UserEmailByGuid(model.ClaimedBy)).Titled("Claimed By").Filterable(true).Sortable(true);
+        columns.Add(model => model.Email).Titled("Email").Filterable(true).Sortable(true);
+        columns.Add(model => model.OTP).Titled("OTP").Filterable(true).Sortable(true);
+        columns.Add(model => $"{(model.OTPVerified == true ? "<span class='btn btn-sm btn-success'>Verified</span>" : "<span class='btn btn-sm btn-danger'>Not Verified</span>")}").Encoded(false).Titled("Verification").Filterable(true).Sortable(true);
+        columns.Add(model => $"<a href=\"link\" class=\"btn btn-primary btn-sm\">Edit</a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)

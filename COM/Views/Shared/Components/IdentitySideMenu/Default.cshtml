@@ -1,0 +1,46 @@
+﻿<style>
+    .link {
+        color: black;
+    }
+
+        .link a {
+            color: black;
+        }
+
+            .link a:hover {
+                color: black;
+            }
+
+.active-menu a {
+    color:white;
+}
+
+.active-menu a:hover {
+    color:white;
+}
+
+.active-menu a:visited {
+    color:white;
+}
+</style>
+
+
+<div class="col-lg-2" style="padding-left:0px; margin-left:0px;">
+    <ul class="list-group" id="EditMenu">
+        <li class="list-group-item d-flex justify-content-between align-items-center" name="Username">
+            <a href="~/Identity/Account/Manage/Index" title="Edit User Name" class="link">User Name & Mobile</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center" name="Email">
+            <a href="~/Identity/Account/Manage/Email" title="Edit Email" class="link">Email</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center" name="Password">
+            <a href="~/Identity/Account/Manage/ChangePassword" title="Change Password" class="link">Password</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center" name="TwoFactor">
+            <a href="~/Identity/Account/Manage/TwoFactorAuthentication" title="Change Password" class="link">Two Factor Authentication</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center" name="PersonalData">
+            <a href="~/Identity/Account/Manage/PersonalData" title="Change Password" class="link">Personal Data</a>
+        </li>
+    </ul>
+</div>

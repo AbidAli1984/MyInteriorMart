@@ -1,0 +1,586 @@
+﻿@page "/MyAccount/ListingWizard/Specialisation/{listingId:int?}"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject SharedDbContext sharedContext
+@inject CategoriesDbContext categoriesContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@inject IJSRuntime jsRuntime
+@using AntDesign
+@using BOL.SHARED
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="listing-from-block individual-listing">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab-listing" role="tablist"
+                             aria-orientation="vertical">
+                            <!-- Company -->
+                            @if (companyExist == true)
+                            {
+                                if (currentPage == "nav-company")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="true">Company</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="false">Company</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-company")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Company/" aria-selected="true">Company</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="#0" aria-selected="false">Company</a>
+                                }
+                            }
+
+                            <!-- Communication -->
+                            @if (communicationExist == true)
+                            {
+                                if (currentPage == "nav-communication")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="true">Communication</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="false">Communication</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-communication")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Communication/" aria-selected="true">Communication</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Communication</a>
+                                }
+                            }
+
+                            <!-- Address -->
+                            @if (addressExist == true)
+                            {
+                                if (currentPage == "nav-address")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="true">Address</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="false">Address</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-address")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Address/" aria-selected="true">Address</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Address</a>
+                                }
+                            }
+
+                            <!-- Categories -->
+                            @if (categoryExist == true)
+                            {
+                                if (currentPage == "nav-category")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="true">Category</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="false">Category</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-category")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Category/" aria-selected="true">Category</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Category</a>
+                                }
+                            }
+
+                            <!-- Specialisations -->
+                            @if (specialisationExist == true)
+                            {
+                                if (currentPage == "nav-specialisation")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="true">Specialisation</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="false">Specialisation</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-specialisation")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Specialisation/" aria-selected="true">Specialisation</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Specialisation</a>
+                                }
+                            }
+
+                            <!-- Working Hours -->
+                            @if (workingHoursExist == true)
+                            {
+                                if (currentPage == "nav-workinghours")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="true">Working Hours</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="false">Working Hours</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-workinghours")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/WorkingHours/" aria-selected="true">Working Hours</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Working Hours</a>
+                                }
+                            }
+
+                            <!-- Payment Modes -->
+                            @if (paymentModeExist == true)
+                            {
+                                if (currentPage == "nav-paymentmode")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="true">Payment Mode</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="false">Payment Mode</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-paymentmode")
+                                {
+                                    <a class="nav-link active" href="/MyAccount/ListingWizard/PaymentMode/" aria-selected="true">Payment Mode</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Payment Mode</a>
+                                }
+                            }
+                            <!-- End: Listing Wizard -->
+                            <!-- Begin: Finish -->
+                            @if (currentPage == "nav-logo")
+                            {
+                                <a class="nav-link active" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="true">Logo</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="false">Logo</a>
+                            }
+                            @if (currentPage == "nav-finish")
+                            {
+                                <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Finish</a>
+                            }
+                            <!-- End: Finish -->
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
+                            <!-- Begin: Form -->
+                            <h4 class="add-lidting-title-from">Add Specialisations Details</h4>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <button class="btn_1" @onclick="@(async() => await SelectAllAsync())">Select All</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Accept Tender Work
+                                                <input type="checkbox" @bind="acceptTenderWork" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Banks
+                                                <input type="checkbox" @bind="bank" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Beauty Parlors
+                                                <input type="checkbox" @bind="beautyParlors" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Bungalow
+                                                <input type="checkbox" @bind="bungalow" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Call Center
+                                                <input type="checkbox" @bind="callCenter" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Church
+                                                <input type="checkbox" @bind="church" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Company
+                                                <input type="checkbox" @bind="company" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Computer Institute
+                                                <input type="checkbox" @bind="computerInstitute" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Dispensary
+                                                <input type="checkbox" @bind="dispensary" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Exhibition Stall
+                                                <input type="checkbox" @bind="exhibitionStall" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Factory
+                                                <input type="checkbox" @bind="factory" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Farmhouse
+                                                <input type="checkbox" @bind="farmhouse" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Gurudwara
+                                                <input type="checkbox" @bind="gurudwara" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Gym
+                                                <input type="checkbox" @bind="gym" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Health Club
+                                                <input type="checkbox" @bind="healthClub" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Home
+                                                <input type="checkbox" @bind="home" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Hospital
+                                                <input type="checkbox" @bind="hospital" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Hotel
+                                                <input type="checkbox" @bind="hotel" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Laboratory
+                                                <input type="checkbox" @bind="laboratory" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Mandir
+                                                <input type="checkbox" @bind="mandir" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Mosque
+                                                <input type="checkbox" @bind="mosque" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Office
+                                                <input type="checkbox" @bind="office" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Plazas
+                                                <input type="checkbox" @bind="plazas" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Residential Society
+                                                <input type="checkbox" @bind="residentialSociety" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Resorts
+                                                <input type="checkbox" @bind="resorts" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Restaurants
+                                                <input type="checkbox" @bind="restaurants" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Salons
+                                                <input type="checkbox" @bind="salons" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Shop
+                                                <input type="checkbox" @bind="shop" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Shopping Mall
+                                                <input type="checkbox" @bind="shoppingMall" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Showroom
+                                                <input type="checkbox" @bind="showroom" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clearfix add_bottom_15">
+                                        <div class="checkboxes float-left">
+                                            <label class="container_check">
+                                                Warehouse
+                                                <input type="checkbox" @bind="warehouse" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-left col-12 mt-3">
+                                    @if (buttonBusy == false)
+                                    {
+                                        <button class="btn_1" @onclick="@(async() => await CreateSpecialisationAsync())">Save & Continue</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn_1">Saving...</button>
+                                    }
+                                </div>
+                            </div>
+                            <!-- End: Form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

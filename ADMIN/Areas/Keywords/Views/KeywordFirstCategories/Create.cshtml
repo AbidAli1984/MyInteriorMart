@@ -1,0 +1,80 @@
+﻿@model BOL.CATEGORIES.KeywordFirstCategory
+
+@{
+    ViewData["Title"] = "Crete Keyword First Category";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Keywords";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/Keywords/KeywordFirstCategories/Index";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/Keywords/KeywordFirstCategories/Create";
+    ViewData["BT-Text-3"] = "";
+    ViewData["BT-Link-3"] = "";
+    ViewData["BT-Text-4"] = "";
+    ViewData["BT-Link-4"] = "";
+}
+<!-- End: Breadcrumb -->
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#keyword").keyup(function (event) {
+                var keyword = $(this).val();
+                $("#url").val(keyword.replace(/\s+/g, "-"));
+            });
+        });
+    </script>
+}
+
+<h5>
+    @ViewData["Title"]
+</h5>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Begin: Hidden Inputs -->
+            <!-- End: -->
+            <div class="form-group">
+                <label asp-for="FirstCategoryID" class="control-label"></label>
+                <select asp-for="FirstCategoryID" class="form-control select2" asp-items="ViewBag.FirstCategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Keyword" class="control-label"></label>
+                <input asp-for="Keyword" id="keyword" class="form-control CamelCase" />
+                <span asp-validation-for="Keyword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="URL" class="control-label"></label>
+                <input asp-for="URL" id="url" class="form-control CamelCase" />
+                <span asp-validation-for="URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <textarea asp-for="Title" class="form-control"></textarea>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,38 @@
+﻿<script>
+        /* Begin: Saturday Holiday */
+        $("#SundayHoliday").click(SundayOff);
+        function SundayOff() {
+            $("#SundayFrom").val('');
+            $("#SundayTo").val('');
+        }
+        /* End: */
+
+        /* Begin: Saturday Holiday */
+        $("#SaturdayHoliday").click(SaturdayOff);
+        function SaturdayOff() {
+            $("#SaturdayFrom").val('');
+            $("#SaturdayTo").val('');
+        }
+        /* End: */
+
+    /* Begin: Copy Time To Call */
+    $("#copy").click(copyDate);
+        function copyDate() {
+            var MondayFrom = $("#MondayFrom").val();
+            var MondayTo = $("#MondayTo").val();
+            if (this.checked == true)
+            $("#TuesdayFrom").val(MondayFrom);
+            $("#TuesdayTo").val(MondayTo);
+            $("#WednesdayFrom").val(MondayFrom);
+            $("#WednesdayTo").val(MondayTo);
+            $("#ThursdayFrom").val(MondayFrom);
+            $("#ThursdayTo").val(MondayTo);
+            $("#FridayFrom").val(MondayFrom);
+            $("#FridayTo").val(MondayTo);
+            $("#SaturdayFrom").val(MondayFrom);
+            $("#SaturdayTo").val(MondayTo);
+            $("#SundayFrom").val(MondayFrom);
+            $("#SundayTo").val(MondayTo);
+        }
+    /* End: */
+</script>

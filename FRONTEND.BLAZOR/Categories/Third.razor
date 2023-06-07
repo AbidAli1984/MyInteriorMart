@@ -1,0 +1,36 @@
+﻿@page "/third/{secondCatUrl}"
+@inject CategoryRepo categoryRepo
+@inject CategoriesDbContext categoryContext
+
+<div class="container margin_80_55">
+    <div class="main_title_2">
+        <span><em></em></span>
+        <h2>Popular Categories</h2>
+    </div>
+    <div class="row justify-content-center categories-list">
+        @if (listCategoryVM != null)
+        {
+            foreach (var cat in listCategoryVM)
+            {
+                string imageUrl = cat.Url + ".png";
+                <div class="col-lg-3 col-6">
+                    <div class="item">
+                        <span class="icon">
+                            <img alt="service" src="/img/circle-right-arrow.svg">
+                        </span>
+                        <div class="detail">
+                            <a href="/ListingResults/@cat.Url/tc">@cat.Name</a>
+                            @{
+                                if (cat.HasChild == true)
+                                {
+                                    <a href="/Fourth/@cat.Url" class="viewmore">view more...</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <!-- /row -->
+</div>

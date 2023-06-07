@@ -1,0 +1,185 @@
+﻿@model IDENTITY.Models.UserProfile
+
+@{
+    ViewData["Title"] = "Create Profile";
+    Layout = "~/Views/Shared/Dashboard/_UserDashboard.cshtml";
+}
+
+@section Scripts{
+    <!-- Begin: Refence External Scripts -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <!-- End: Refence External Scripts -->
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#CountryId").change(function () {
+            $("#StateId").empty();
+            $("#CityId").empty();
+            $("#AssemblyId").empty();
+            $("#PincodeId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchStates", "CascadeDropdownAddress", new { area = "" })',
+                dataType: 'json',
+                data: { JsonCountryValueId: $("#CountryId").val() },
+                success: function (selStates) {
+                    $.each(selStates, function (i, State) {
+                        $("#StateId").append('<option value="' + State.value + '">' + State.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#StateId").change(function () {
+            $("#CityId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchCities", "CascadeDropdownAddress", new { area = "" })',
+                dataType: 'json',
+                data: { JsonStateValueId: $("#StateId").val() },
+                success: function (selCities) {
+                    $.each(selCities, function (i, City) {
+                        $("#CityId").append('<option value="' + City.value + '">' + City.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#CityId").change(function () {
+            $("#AssemblyId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchAssemblies", "CascadeDropdownAddress", new { area = "" })',
+                dataType: 'json',
+                data: { JsonCityValueId: $("#CityId").val() },
+                success: function (selAssembly) {
+                    $.each(selAssembly, function (i, Assembly) {
+                        $("#AssemblyId").append('<option value="' + Assembly.value + '">' + Assembly.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#AssemblyId").change(function () {
+            $("#PincodeId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchPincodes", "CascadeDropdownAddress", new { area = "" })',
+                dataType: 'json',
+                data: { JsonAssemblyValueId: $("#AssemblyId").val() },
+                success: function (fetchPincodes) {
+                    $.each(fetchPincodes, function (i, Pincodes) {
+                        $("#PincodeId").append('<option value="' + Pincodes.value + '">' + Pincodes.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert("Cannot fetch data, error is " + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<h1>Create</h1>
+
+<h4>UserProfile</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="OwnerGuid" value="none" type="hidden" />
+            <input asp-for="IPAddress" value="none" type="hidden" />
+            <input asp-for="CreatedDate" value="@DateTime.Now" type="hidden" />
+            <input asp-for="CreatedTime" value="@DateTime.Now" type="hidden" />
+            <span asp-validation-for="OwnerGuid" class="text-danger"></span>
+            <span asp-validation-for="IPAddress" class="text-danger"></span>
+            <span asp-validation-for="CreatedTime" class="text-danger"></span>
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" class="form-control" required>
+                    <option value="" selected>Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" required />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryID" class="control-label"></label>
+                <select asp-for="CountryID" id="CountryId" asp-items="ViewBag.Countries" class="form-control select2" required></select>
+                <span asp-validation-for="CountryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateID" class="control-label"></label>
+                <select asp-for="StateID" id="StateId" class="form-control select2" required></select>
+                <span asp-validation-for="StateID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityID" class="control-label"></label>
+                <select asp-for="CityID" id="CityId" class="form-control select2" required></select>
+                <span asp-validation-for="CityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssemblyID" class="control-label"></label>
+                <select asp-for="AssemblyID" id="AssemblyId" class="form-control select2" required></select>
+                <span asp-validation-for="AssemblyID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PincodeID" class="control-label"></label>
+                <select asp-for="PincodeID" id="PincodeId" class="form-control select2" required></select>
+                <span asp-validation-for="PincodeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeZoneOfCountry" class="control-label"></label>
+                <select asp-for="TimeZoneOfCountry" asp-items="ViewBag.TimeZone" class="form-control select2" required></select>
+                <span asp-validation-for="TimeZoneOfCountry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

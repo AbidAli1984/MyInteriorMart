@@ -1,0 +1,226 @@
+﻿@page "/MyAccount/ListingWizard/WizardFinish/{listingId:int?}"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject SharedDbContext sharedContext
+@inject CategoriesDbContext categoriesContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@inject IJSRuntime jsRuntime
+@using AntDesign
+@using BOL.SHARED
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="listing-from-block individual-listing">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab-listing" role="tablist"
+                             aria-orientation="vertical">
+                            <!-- Company -->
+                            @if (companyExist == true)
+                            {
+                                if (currentPage == "nav-company")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Company</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Company</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-company")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Company</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="#0" aria-selected="false">Company</a>
+                                }
+                            }
+
+                            <!-- Communication -->
+                            @if (communicationExist == true)
+                            {
+                                if (currentPage == "nav-communication")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Communication</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Communication</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-communication")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Communication</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Communication</a>
+                                }
+                            }
+
+                            <!-- Address -->
+                            @if (addressExist == true)
+                            {
+                                if (currentPage == "nav-address")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Address</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Address</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-address")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Address</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Address</a>
+                                }
+                            }
+
+                            <!-- Categories -->
+                            @if (categoryExist == true)
+                            {
+                                if (currentPage == "nav-category")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Category</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Category</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-category")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Category</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Category</a>
+                                }
+                            }
+
+                            <!-- Specialisations -->
+                            @if (specialisationExist == true)
+                            {
+                                if (currentPage == "nav-specialisation")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Specialisation</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Specialisation</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-specialisation")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Specialisation</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Specialisation</a>
+                                }
+                            }
+
+                            <!-- Working Hours -->
+                            @if (workingHoursExist == true)
+                            {
+                                if (currentPage == "nav-workinghours")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Working Hours</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Working Hours</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-workinghours")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Working Hours</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Working Hours</a>
+                                }
+                            }
+
+                            <!-- Payment Modes -->
+                            @if (paymentModeExist == true)
+                            {
+                                if (currentPage == "nav-paymentmode")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Payment Mode</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Payment Mode</a>
+                                }
+                            }
+                            else
+                            {
+                                if (currentPage == "nav-paymentmode")
+                                {
+                                    <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Payment Mode</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Payment Mode</a>
+                                }
+                            }
+                            <!-- End: Listing Wizard -->
+                            <!-- Begin: Finish -->
+                            @if (currentPage == "nav-logo")
+                            {
+                                <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Logo</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link" href="javascript:void(0)" aria-selected="false">Logo</a>
+                            }
+                            @if (currentPage == "nav-finish")
+                            {
+                                <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Finish</a>
+                            }
+                            <!-- End: Finish -->
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent" style="text-align:center;">
+                            <!-- Begin: Form -->
+                            <img src="/img/success.jpg" style="width:50%;" />
+                            <!-- End: Form -->
+                            <h3 style="color:#07a700;">Congratulation!</h3>
+                            <h4>Listing Created Successfully!</h4>
+                            <a class="btn_1" href="/">Goto Home</a>
+                            <button @onclick="@(async() => await NavigateToEditCompanyAsync())" class="btn_1">Edit Listing</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

@@ -1,0 +1,192 @@
+﻿@page "/StaffPanel/Banners/Home"
+@inject ListingDbContext listingContext
+@inject AuditDbContext auditContext
+@inject CategoriesDbContext categoriesContext
+@inject SharedDbContext sharedContext
+@inject ApplicationDbContext applicationContext
+@inject AuthenticationStateProvider authenticationState
+@inject NotificationService _notice
+@inject NavigationManager navManager
+@using BOL.SHARED
+@inject IJSRuntime jsRuntime
+
+<AuthorizeView Roles="Staff">
+    <Authorized>
+        <div class="container">
+            <div class="listing-from-block individual-listing">
+                <div class="row" style="box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 10%);">
+                    <div class="col-md-12 pt-2">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                            <a href="/StaffPanel/Banners/Home" class="btn btn-light active">
+                                Home
+                            </a>
+                            <a href="/StaffPanel/Banners/Category" class="btn btn-light">
+                                Category
+                            </a>
+                            <a href="/StaffPanel/Banners/Listing" class="btn btn-light">
+                                Listing
+                            </a>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="col-md-12 mt-2 mb-2">
+                        <strong class="h-50">Home Banners</strong>
+                        <a href="#0" @onclick:preventDefault @onclick="ToggleAddBanner" class="bnt btn-link float-right">
+                            <i class="fa fa-plus-circle"></i> Add New Banner
+                        </a>
+                    </div>
+                    @if (ErrorMessage != null)
+                    {
+                        <div class="col-md-12">
+                            <div class="alert alert-danger w-100">
+                                <i class="fa fa-warning"></i> @ErrorMessage
+                            </div>
+                        </div>
+                    }
+                    @if (SuccessMessage != null)
+                    {
+                        <div class="col-md-12">
+                            <div class="alert alert-success w-100">
+                                <i class="fa fa-check-circle"></i> @SuccessMessage
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-12 mt-2">
+                        @if (ShowAddBanner == true)
+                        {
+                            <div class="row">
+                                <div class="form-group col-md-12 mt-2 mb-4">
+                                    <label for="name">
+                                        Banner Image
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <Microsoft.AspNetCore.Components.Forms.InputFile OnChange="OnChangeImageAsync" class="form-control" accept="image/jpeg" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="name">
+                                        Placement
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" @bind="Placement">
+                                        <option selected disabled>Choose...</option>
+                                        <option value="banner-1">Banner 1 (Small)</option>
+                                        <option value="banner-2">Banner 2 (Small)</option>
+                                        <option value="banner-3">Banner 3 (Small)</option>
+                                        <option value="banner-4">Banner 4 (Small)</option>
+                                        <option value="banner-5">Banner 5 (Large)</option>
+                                        <option value="banner-6">Banner 6 (Medium)</option>
+                                        <option value="banner-7">Banner 7 (Medium)</option>
+                                        <option value="banner-8">Banner 8 (Large)</option>
+                                        <option value="banner-9">Banner 9 (Medium)</option>
+                                        <option value="banner-10">Banner 10 (Medium)</option>
+                                        <option value="banner-11">Banner 11 (Large)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="name">
+                                        Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input @bind="Name" placeholder="Name" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="name">
+                                        Priority
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" @bind="Priority" placeholder="Priority" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="name">
+                                        Link Url
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input @bind="LinkUrl" placeholder="Link Url" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="name">
+                                        Target Window
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" @bind="TargetWindow">
+                                        <option selected disabled>Choose...</option>
+                                        <option value="_blank">Blank</option>
+                                        <option value="_self">Self</option>
+                                        <option value="_parent">Parent</option>
+                                        <option value="_top">Top</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="name" class="text-white">
+                                        Target Window
+                                    </label>
+                                    <button class="btn btn-sm btn-primary mt-2 w-100" @onclick="CreateAndUploadBannerAsync">Create & Upload Banner</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Banner ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Placement</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Link URL</th>
+                                    <th scope="col">Target</th>
+                                    <th scope="col">Disable</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ListHomeBanners != null)
+                                {
+                                    foreach (var ban in ListHomeBanners)
+                                    {
+                                <tr>
+                                    <th scope="col">
+                                        @ban.BannerId
+                                    </th>
+                                    <th scope="col">
+                                        @ban.Name
+                                    </th>
+                                    <th scope="col">
+                                        @ban.Placement
+                                    </th>
+                                    <th scope="col">
+                                        @ban.Priority
+                                    </th>
+                                    <th scope="col">
+                                        @ban.LinkUrl
+                                    </th>
+                                    <th scope="col">
+                                        @ban.TargetWindow
+                                    </th>
+                                    <th scope="col">
+                                        @ban.Disable
+                                    </th>
+                                    <th scope="col">
+                                        <a href="#0" class="btn btn-link mr-2">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="#0" @onclick:preventDefault @onclick="@(async() => await DeleteBannerAsync(ban.BannerId))" class="btn btn-link mr-2">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </th>
+                                </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div style="text-align:center; margin:20px;">
+            <a href="/Identity/Account/Login" class="btn_1">Login To Continue</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

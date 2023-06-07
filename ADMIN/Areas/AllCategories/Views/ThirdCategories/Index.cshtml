@@ -1,0 +1,103 @@
+﻿@model IEnumerable<BOL.CATEGORIES.ThirdCategory>
+
+@{
+    ViewData["Title"] = "Third Categories";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewData["RowCount"] = Model.Count();
+}
+
+<!-- Begin: Breadcrumb -->
+@{
+    ViewData["BC-1"] = "Categories";
+    ViewData["BC-2"] = "Manage";
+    ViewData["BC-3"] = ViewData["Title"];
+    ViewData["BT-Text-1"] = "Manage";
+    ViewData["BT-Link-1"] = "/AllCategories/ThirdCategories";
+    ViewData["BT-Text-2"] = "Create";
+    ViewData["BT-Link-2"] = "/AllCategories/ThirdCategories/Create";
+    ViewData["BT-Text3"] = "";
+    ViewData["BT-Link3"] = "";
+    ViewData["BT-Text4"] = "";
+    ViewData["BT-Link4"] = "";
+}
+<!-- End: -->
+
+@section Scripts{
+    <script type="text/javascript">
+        $("[name='me']").click(function () {
+            $('#modalEdit').modal('show');
+        });
+    </script>
+}
+
+<h5>
+    @ViewData["Title"]
+    <span class="float-right">
+        Total : @ViewData["RowCount"]
+    </span>
+</h5>
+<hr />
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        Int32 count = 1;
+        columns.Add(model => "").RenderedAs(model => count++).Titled("#");
+        columns.Add(model => model.SecondCategory.Name).Titled("Second Category");
+        columns.Add(model => $"<a href=\"/DeepCategories/Browse/Fourth/{model.ThirdCategoryID}\">{model.Name}</a>").Titled("Name").Encoded(false);
+        columns.Add(model => model.SortOrder).Titled("Sord Order");
+        columns.Add(model => $"<a href='#0' name='me' style='margin-left:5px; name='edit' '><i class='fas fa-pen text-secondary'></i></a><a href=\"/AllCategories/FourthCategories/{model.ThirdCategoryID}\" style='margin-left:10px;'><i class='fas fa-eye text-secondary'></i></a><a href=\"/AllKeywords/KeywordsThirdCategory/{model.ThirdCategoryID}\" style='margin-left:10px;'><i class='fas fa-list text-secondary'></i></a>").Encoded(false).Titled("Actions");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 15, "15" }, { 50, "50" }, { 75, "75" }, { 100, "100" }, { 0, "All" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 3;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 15;
+    })
+    .Using(GridFilterMode.Row)
+    .Empty("No data found")
+)
+<!-- Begin: Modal Edit Category -->
+<div class="modal" id="modalEdit">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body pd-y-20 pd-x-20">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Search Keyword</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">URL</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Sort Order</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Keywords</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: -->

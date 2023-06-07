@@ -1,0 +1,344 @@
+﻿@inject IDENTITY.Services.IMenuByClaim menuByClaimRepo
+@inject IDENTITY.Services.IUserProfileRepo userProfileRepo 
+@inject UserManager<IdentityUser> userManager; 
+
+@{ 
+    var user = await userManager.FindByNameAsync(User.Identity.Name);
+    var userProfile = await userProfileRepo.GetUserProfileAsync(user.Id.ToString());
+    string userName = "";
+    string userProfileImage = "";
+    if(userProfile != null)
+    {
+        userName = userProfile.Name;
+        userProfileImage = $"/FileManager/ProfileImages/{userProfile.ProfileID.ToString()}.jpg";
+    }
+    else
+    {
+        userName = user.UserName;
+        userProfileImage = $"/img/profile-thumbnail.jpg";
+    }
+}
+
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar sidebar-scroll">
+    <div class="main-sidebar-header active">
+        <a class="desktop-logo logo-light active" href="~/Backend/HTML-LTR/Leftmenu-Closed-Light-Sidebar/index.html"><img src="~/FrontEnd/img/logo_sticky.svg" class="main-logo" alt="logo"></a>
+        <a class="desktop-logo logo-dark active" href="~/Backend/HTML-LTR/Leftmenu-Closed-Light-Sidebar/index.html"><img src="~/FrontEnd/img/logo_sticky.svg" class="main-logo dark-theme" alt="logo"></a>
+        <a class="logo-icon mobile-logo icon-light active" href="~/Backend/HTML-LTR/Leftmenu-Closed-Light-Sidebar/index.html"><img src="~/FrontEnd/img/logo_sticky.svg" class="logo-icon" alt="logo"></a>
+        <a class="logo-icon mobile-logo icon-dark active" href="~/Backend/HTML-LTR/Leftmenu-Closed-Light-Sidebar/index.html"><img src="~/FrontEnd/img/logo_sticky.svg" class="logo-icon dark-theme" alt="logo"></a>
+    </div>
+    <div class="main-sidemenu">
+        <div class="app-sidebar__user clearfix">
+            <div class="dropdown user-pro-body">
+                <div class="">
+                    <img alt="user-img" class="avatar avatar-xl brround" src="@userProfileImage"><span class="avatar-status profile-status bg-green"></span>
+                </div>
+                <div class="user-info">
+                    <h4 class="font-weight-semibold mt-3 mb-0">@userName</h4>
+                </div>
+            </div>
+        </div>
+        <ul class="side-menu">
+            @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Realtime.View") == true)
+            {
+
+                <li class="slide active">
+                    <a class="side-menu__item active" href="~/Administrator"><i class="fa fa-home"></i><span class="side-menu__label ml-4">Admin Home</span></a>
+                </li>
+            }
+            <li class="slide active">
+                <a class="side-menu__item active" href="~/MIM/Staff/Index"><i class="fa fa-home"></i><span class="side-menu__label ml-4">Staff Home</span></a>
+            </li>
+
+            <li class="slide active">
+                <a class="side-menu__item active" href="~/Claims/ListingClaims/"><i class="fa fa-user"></i><span class="side-menu__label ml-4">Listing Claims</span></a>
+            </li>
+            <li class="side-item side-item-category">COMMON</li>
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Dashboard") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3" /><path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" /></svg><span class="side-menu__label">Dashboards</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Realtime.View") == true)
+                        {
+                            <li><a class="slide-item" href="~/Administrator">Realtime</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Listings.View") == true)
+                        {
+                            <li><a class="slide-item" href="~/Dashboards/Listings/">Listings</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Users.View") == true)
+                        {
+                            <li><a class="slide-item" href="~/Dashboards/UserHistory/">Users</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Analytics.View") == true)
+                        {
+                            <li><a class="slide-item" href="~/Dashboards/Analytics">Analytics</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Notifications.View") == true)
+                        {
+                            <li><a class="slide-item" href="~/Dashboards/Notifications">Notifications</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Search.View") == true)
+                        {
+                            <li><a class="slide-item" href="#0">Search</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Enquiries.View") == true)
+                        {
+                            <li><a class="slide-item" href="#0">Enquiries</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Marketing.View") == true)
+                        {
+                            <li><a class="slide-item" href="#0">Marketing</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Billing.View") == true)
+                        {
+                            <li><a class="slide-item" href="#0">Billing</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Dashboard", "Admin.Dashboard.Staff.View") == true)
+                        {
+                            <li><a class="slide-item" href="#0">Staff</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Users") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3" /><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z" /></svg><span class="side-menu__label">Users</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.Users.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/UsersAndRoles/ManageUsers/Index">Users</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.Roles.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/UsersAndRoles/ManageRoles/Index">Roles</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.RoleCategories.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/UsersAndRoles/RoleCategories">Role Categories</a></li>
+                        }
+                        <li><a class="slide-item" href="~/UsersAndRoles/RoleCategoryAndRoles/Create">Assign Role To Category</a></li>
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.Roles.AssignClaimToRole") == true)
+                        {
+                            <li><a class="slide-item" href="~/UsersAndRoles/RoleCategoryAndRoles">Assign Permissions To Role</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.Roles.AssignRoleToUser") == true)
+                        {
+                            <li><a class="slide-item" href="~/UsersAndRoles/ManageRoles/AssignRole">Assign Roles To User</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.Users.ViewAllBlockedUser") == true)
+                        {
+                            <li><a class="slide-item" href="~/SuperAdministrator/ManageUsers/ListBlockedUsers">Blocked Users</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Users", "Admin.Users.ViewAllUnblockedUser") == true)
+                        {
+                            <li><a class="slide-item" href="~/SuperAdministrator/ManageUsers/ListUnblockedUser">Unblocked Users</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Listings") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3" /><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z" /></svg><span class="side-menu__label">Listings</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Listings", "Admin.Listing.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Subscriptions/Listings/Create">Create Listing</a></li>
+                            <li><a class="slide-item" href="~/Listings/Manage/Index">Free Listings</a></li>
+                            <li><a class="slide-item" href="~/Listings/Manage/PendingApproval">Pending Approval</a></li>
+                            <li><a class="slide-item" href="~/">Paid Listings</a></li>
+                            <li><a class="slide-item" href="~/">All Listings</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Listings", "Admin.Review.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Listings/Manage/AllReviews">Reviews</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Listings", "Admin.Like.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Listings/Manage/AllLikes">Likes</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Listings", "Admin.Subscribe.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Listings/Manage/AllSubscribes">Subscribes</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Listings", "Admin.Bookmark.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Listings/Manage/AllBookmarks">Bookmarks</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @*<li class="slide">
+            <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3" /><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z" /></svg><span class="side-menu__label">Banners</span><i class="angle fe fe-chevron-down"></i></a>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="~/Banner/Campaigns">Campaigns</a></li>
+                <li><a class="slide-item" href="~/Banner/BannerPages">Pages</a></li>
+                <li><a class="slide-item" href="~/Banner/BannerSpaces">Spaces</a></li>
+                <li><a class="slide-item" href="~/Banner/BannerTypes">Types</a></li>
+            </ul>
+        </li>*@
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Locality") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M12 4C9.24 4 7 6.24 7 9c0 2.85 2.92 7.21 5 9.88 2.11-2.69 5-7 5-9.88 0-2.76-2.24-5-5-5zm0 7.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" opacity=".3" /><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z" /><circle cx="12" cy="9" r="2.5" /></svg><span class="side-menu__label">Localities</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Locality", "Admin.Country.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Common/Countries">Countries</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Locality", "Admin.State.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Common/States">States</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Locality", "Admin.City.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Common/Cities">Cities</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Locality", "Admin.Assembly.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Common/Stations">Assemblies</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Locality", "Admin.Pincode.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Common/Pincodes">Pincodes</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Locality", "Admin.Area.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Common/Localities">Localities</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Miscellaneous") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M3.31 11l2.2 8.01L18.5 19l2.2-8H3.31zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" opacity=".3" /><path d="M22 9h-4.79l-4.38-6.56c-.19-.28-.51-.42-.83-.42s-.64.14-.83.43L6.79 9H2c-.55 0-1 .45-1 1 0 .09.01.18.04.27l2.54 9.27c.23.84 1 1.46 1.92 1.46h13c.92 0 1.69-.62 1.93-1.46l2.54-9.27L23 10c0-.55-.45-1-1-1zM12 4.8L14.8 9H9.2L12 4.8zM18.5 19l-12.99.01L3.31 11H20.7l-2.2 8zM12 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg><span class="side-menu__label">Miscellaneous</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Miscellaneous", "Admin.Designation.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Miscellaneous/Designations">Designations</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Miscellaneous", "Admin.NatureofBusiness.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Miscellaneous/NatureOfBusinesses">Nature Of Businesses</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Miscellaneous", "Admin.Turnover.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Miscellaneous/Turnovers">Turnovers</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Categories") == true)
+            {
+
+                <li class="slide active">
+                    <a class="side-menu__item active" href="~/Categories/FirstCategories"><i class="fa fa-user"></i><span class="side-menu__label ml-4">Categories & Keywords</span></a>
+                </li>
+            }
+
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M3.31 11l2.2 8.01L18.5 19l2.2-8H3.31zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" opacity=".3" /><path d="M22 9h-4.79l-4.38-6.56c-.19-.28-.51-.42-.83-.42s-.64.14-.83.43L6.79 9H2c-.55 0-1 .45-1 1 0 .09.01.18.04.27l2.54 9.27c.23.84 1 1.46 1.92 1.46h13c.92 0 1.69-.62 1.93-1.46l2.54-9.27L23 10c0-.55-.45-1-1-1zM12 4.8L14.8 9H9.2L12 4.8zM18.5 19l-12.99.01L3.31 11H20.7l-2.2 8zM12 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg><span class="side-menu__label">Brands</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="~/BrandManagement/Brands">Brands</a></li>
+                    <li><a class="slide-item" href="~/BrandManagement/BrandCategories">Brand Categories</a></li>
+                    <li><a class="slide-item" href="~/BrandManagement/KeywordBrands">Brand Keywords</a></li>
+                    <li><a class="slide-item" href="~/Others/ListingTitles">Listing Titles</a></li>
+                </ul>
+            </li>
+
+            @*<li class="side-item side-item-category">Billing & Subscriptions</li>
+        <li class="slide">
+            <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M4 12c0 4.08 3.06 7.44 7 7.93V4.07C7.05 4.56 4 7.92 4 12z" opacity=".3" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z" /></svg><span class="side-menu__label">Plans & Products</span><i class="angle fe fe-chevron-down"></i></a>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="~/Billing/Products/">Products</a></li>
+                <li><a class="slide-item" href="~/Billing/Plans/">Listing Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/BannerPlans/">Banner Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/AdvertisementPlans/">Advertisement Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/DataPlans/">Data Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/EmailPlans/">Email Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/SMSPlans/">SMS Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/MagazinePlans/">Magazine Plans</a></li>
+                <li><a class="slide-item" href="~/Billing/Periods/">Periods</a></li>
+            </ul>
+        </li>*@
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Pages") == true)
+            {
+                <li class="side-item side-item-category">CMS & Pages</li>
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M4 12c0 4.08 3.06 7.44 7 7.93V4.07C7.05 4.56 4 7.92 4 12z" opacity=".3" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z" /></svg><span class="side-menu__label">Pages</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Pages", "Admin.Page.Create") == true)
+                        {
+                            <li><a class="slide-item" href="~/CMS/Pages/Create">Add New Page</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Pages", "Admin.Page.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/CMS/Pages/Index">View All</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Notifications") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M15 11V4H4v8.17l.59-.58.58-.59H6z" opacity=".3" /><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-5 7c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10zM4.59 11.59l-.59.58V4h11v7H5.17l-.58.59z" /></svg><span class="side-menu__label">Notifications</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Notifications", "Admin.Notification.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Notifications/Messages">View All</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Notifications", "Admin.Notification.Create") == true)
+                        {
+                            <li><a class="slide-item" href="~/Notifications/Messages/Create">Create New</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Slideshow") == true)
+            {
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3" /><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z" /></svg><span class="side-menu__label">Slide Show</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Slideshow", "Admin.Slideshow.Create") == true)
+                        {
+                            <li><a class="slide-item" href="~/Slides/Manage/Create">Add Slide</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.Slideshow", "Admin.Slideshow.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Slides/Manage/Index">Manage Slides</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.HistoryAndCache") == true)
+            {
+                <li class="side-item side-item-category">Server Maintenance</li>
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M4 12c0 4.08 3.06 7.44 7 7.93V4.07C7.05 4.56 4 7.92 4 12z" opacity=".3" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z" /></svg><span class="side-menu__label">History Audit & Cache</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.HistoryAndCache", "Admin.UserHistory.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Audit/UserHistories/">All User History</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.HistoryAndCache", "Admin.ListingHistory.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Audit/ListingLastUpdateds/">Listing History</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.HistoryAndCache", "Admin.Suggestion.ClearCache") == true)
+                        {
+                            <li><a class="slide-item" href="~/Audit/Cache/">Cache Server</a></li>
+                        }
+                        @if (await menuByClaimRepo.RoleHasClaim(ViewBag.UserID, "Admin.HistoryAndCache", "Admin.Suggestion.ViewAll") == true)
+                        {
+                            <li><a class="slide-item" href="~/Audit/Suggestions/Index">Suggestions</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+</aside>
