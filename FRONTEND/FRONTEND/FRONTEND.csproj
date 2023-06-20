@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <Content Remove="Views\Shared\_RatingBarsPartial.cshtml" />
+    <Content Remove="wwwroot\FrontEnd\img\icon\notification.svg" />
+    <Content Remove="wwwroot\FrontEnd\img\icon\user.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,8 @@
     <None Include="Areas\Subscriptions\Views\Addresses\Details.cshtml" />
     <None Include="Areas\Subscriptions\Views\Addresses\Edit.cshtml" />
     <None Include="Areas\Subscriptions\Views\Addresses\Index.cshtml" />
+    <None Include="wwwroot\FrontEnd\img\icon\notification.svg" />
+    <None Include="wwwroot\FrontEnd\img\icon\user.svg" />
     <None Include="wwwroot\js\speech-input-gh-pages\.jshintrc" />
     <None Include="wwwroot\js\speech-input-gh-pages\README.md" />
     <None Include="wwwroot\js\speech-input-gh-pages\speech-input.js" />
@@ -99,6 +103,10 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Areas\Subscriptions\Views\Listings\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\FrontEnd\css\custom.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
