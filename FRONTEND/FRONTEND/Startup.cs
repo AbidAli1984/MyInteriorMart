@@ -47,7 +47,7 @@ using HUBS.Notifications;
 using BAL.Keyword;
 using BAL.Claims.Listing;
 using Microsoft.Net.Http.Headers;
-using DAL.IDENTITY;
+using DAL.USER;
 
 namespace FRONTEND
 {

@@ -33,7 +33,9 @@ namespace FRONTEND.Controllers
         private readonly INotification Notification;
         private readonly IAddresses Addresses;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ApplicationDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, IUserRoleClaim userRoleClaim, INotification notification, IAddresses addresses)
+        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, 
+            ApplicationDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, 
+            IUserRoleClaim userRoleClaim, INotification notification, IAddresses addresses)
         {
             SignInManager = signInManager;
             UserManager = userManager;

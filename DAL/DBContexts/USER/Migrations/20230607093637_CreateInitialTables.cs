@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DAL.IDENTITY.Migrations
+namespace DAL.USER.Migrations
 {
     public partial class CreateInitialTables : Migration
     {

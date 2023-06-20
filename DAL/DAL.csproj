@@ -5,30 +5,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AUDIT\Migrations\20200730103143_9.cs" />
-    <Compile Remove="AUDIT\Migrations\20200730103143_9.Designer.cs" />
-    <Compile Remove="AUDIT\Migrations\20200731114018_12.cs" />
-    <Compile Remove="AUDIT\Migrations\20200731114018_12.Designer.cs" />
-    <Compile Remove="AUDIT\Migrations\20201213153652_31.cs" />
-    <Compile Remove="AUDIT\Migrations\20201213153652_31.Designer.cs" />
-    <Compile Remove="AUDIT\Migrations\20201213153952_32.cs" />
-    <Compile Remove="AUDIT\Migrations\20201213153952_32.Designer.cs" />
-    <Compile Remove="AUDIT\Migrations\20201213154517_31.cs" />
-    <Compile Remove="AUDIT\Migrations\20201213154517_31.Designer.cs" />
-    <Compile Remove="LISTING\Migrations\20200628143656_listing-14.cs" />
-    <Compile Remove="LISTING\Migrations\20200628143656_listing-14.Designer.cs" />
-    <Compile Remove="LISTING\Migrations\20200707112744_shared-25.cs" />
-    <Compile Remove="LISTING\Migrations\20200707112744_shared-25.Designer.cs" />
-    <Compile Remove="LISTING\Migrations\20200707112943_shared-25.cs" />
-    <Compile Remove="LISTING\Migrations\20200707112943_shared-25.Designer.cs" />
-    <Compile Remove="LISTING\Migrations\20200724124418_30.cs" />
-    <Compile Remove="LISTING\Migrations\20200724124418_30.Designer.cs" />
-    <Compile Remove="LISTING\Migrations\20200724124949_31.cs" />
-    <Compile Remove="LISTING\Migrations\20200724124949_31.Designer.cs" />
-    <Compile Remove="SHARED\Migrations\20200622152652_shared-009.cs" />
-    <Compile Remove="SHARED\Migrations\20200622152652_shared-009.Designer.cs" />
-    <Compile Remove="SHARED\Migrations\20200707163519_008.cs" />
-    <Compile Remove="SHARED\Migrations\20200707163519_008.Designer.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20200730103143_9.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20200730103143_9.Designer.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20200731114018_12.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20200731114018_12.Designer.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20201213153652_31.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20201213153652_31.Designer.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20201213153952_32.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20201213153952_32.Designer.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20201213154517_31.cs" />
+    <Compile Remove="DBContexts\AUDIT\Migrations\20201213154517_31.Designer.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200628143656_listing-14.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200628143656_listing-14.Designer.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200707112744_shared-25.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200707112744_shared-25.Designer.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200707112943_shared-25.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200707112943_shared-25.Designer.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200724124418_30.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200724124418_30.Designer.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200724124949_31.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20200724124949_31.Designer.cs" />
+    <Compile Remove="DBContexts\SHARED\Migrations\20200622152652_shared-009.cs" />
+    <Compile Remove="DBContexts\SHARED\Migrations\20200622152652_shared-009.Designer.cs" />
+    <Compile Remove="DBContexts\SHARED\Migrations\20200707163519_008.cs" />
+    <Compile Remove="DBContexts\SHARED\Migrations\20200707163519_008.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BOL.LISTING;
-using BOL.AUDITTRAIL;
-using BOL.BILLING;
-using BOL.CATEGORIES;
-using BOL.PLAN;
-using BOL.SHARED;
 using BOL.VIEWMODELS;
 using DAL.LISTING;
 using DAL.AUDIT;
@@ -16,14 +9,12 @@ using DAL.BILLING;
 using DAL.CATEGORIES;
 using DAL.SHARED;
 using Microsoft.EntityFrameworkCore;
-using IDENTITY.Data;
 using BAL.Audit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using BAL.Listings;
 using Microsoft.AspNetCore.Hosting;
 using BAL.Messaging.Notify;
-using System.Text;
 
 namespace ADMIN.Areas.Listings.Controllers
 {
@@ -36,7 +27,6 @@ namespace ADMIN.Areas.Listings.Controllers
         private readonly BillingDbContext billingContext;
         private readonly CategoriesDbContext categoriesContext;
         private readonly SharedDbContext sharedContext;
-        private readonly ApplicationDbContext applicationContext;
         private readonly IHistoryAudit historyAudit;
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -44,14 +34,16 @@ namespace ADMIN.Areas.Listings.Controllers
         private readonly IWebHostEnvironment webHost;
         private readonly INotification notification;
 
-        public ManageController(ListingDbContext listingContext, AuditDbContext auditContext, BillingDbContext billingContext, CategoriesDbContext categoriesContext, SharedDbContext sharedContext, ApplicationDbContext applicationContext, IHistoryAudit historyAudit, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IListingManager listingManager, IWebHostEnvironment webHost, INotification notification)
+        public ManageController(ListingDbContext listingContext, AuditDbContext auditContext, BillingDbContext billingContext,
+            CategoriesDbContext categoriesContext, SharedDbContext sharedContext,
+            IHistoryAudit historyAudit, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
+            IListingManager listingManager, IWebHostEnvironment webHost, INotification notification)
         {
             this.listingContext = listingContext;
             this.auditContext = auditContext;
             this.billingContext = billingContext;
             this.categoriesContext = categoriesContext;
             this.sharedContext = sharedContext;
-            this.applicationContext = applicationContext;
             this.historyAudit = historyAudit;
             this.userManager = userManager;
             this.roleManager = roleManager;

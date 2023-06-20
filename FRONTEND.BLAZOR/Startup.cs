@@ -4,7 +4,7 @@ using DAL.BILLING;
 using DAL.CATEGORIES;
 using DAL.LISTING;
 using DAL.SHARED;
-using DAL.IDENTITY;
+using DAL.USER;
 using FRONTEND.BLAZOR.Areas.Identity;
 using FRONTEND.BLAZOR.Data;
 using FRONTEND.BLAZOR.Services;
@@ -49,7 +49,7 @@ namespace FRONTEND.BLAZOR
                     Configuration.GetConnectionString("MimApplication")), ServiceLifetime.Transient);
             // End:
 
-            // Shafi: ApplicationDbContext
+            // Abid: UserDbContext
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MimUser")), ServiceLifetime.Transient);

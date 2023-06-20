@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DAL.IDENTITY
+namespace DAL.USER
 {
     public class UserDbContext : IdentityDbContext
     {
