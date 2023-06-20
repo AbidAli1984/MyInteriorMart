@@ -55,12 +55,38 @@
         <tbody>
             @foreach (var item in Model)
             {
-                var firstCategory = await categoryRepo.FirstCategoryDetailsAsync(item.Category.FirstCategory.FirstCategoryID);
-                var secondCategory = await categoryRepo.SecondCategoryDetailsAsync(item.Category.SecondCategory.SecondCategoryID);
-                var pincode = await addressRepo.PincodeDetailsAsync(item.Address.Pincode.PincodeID);
-                var assembly = await addressRepo.StationDetailsAsync(item.Address.Assembly.StationID);
-                var city = await addressRepo.CityDetailsAsync(item.Address.City.CityID);
-                var country = await addressRepo.CountryDetailsAsync(item.Address.Country.CountryID);
+                string firstCategoryName = "";
+                string secondCategoryName = "";
+                int pincode = 0;
+                string stationName = "";
+                string city = "";
+                string country = "";
+
+
+                if(item.Category != null)
+                {
+                    var firstCategory = await categoryRepo.FirstCategoryDetailsAsync(item.Category.FirstCategory.FirstCategoryID);
+                    var secondCategory = await categoryRepo.SecondCategoryDetailsAsync(item.Category.SecondCategory.SecondCategoryID);
+
+                    firstCategoryName = firstCategory.Name;
+                    secondCategoryName = secondCategory.Name;
+                }
+
+                if(item.Address != null)
+                {
+                    var pincodeDetail = await addressRepo.PincodeDetailsAsync(item.Address.Pincode.PincodeID);
+                    var stationDetail = await addressRepo.StationDetailsAsync(item.Address.Assembly.StationID);
+                    var cityDetail = await addressRepo.CityDetailsAsync(item.Address.City.CityID);
+                    var countryDetail = await addressRepo.CountryDetailsAsync(item.Address.Country.CountryID);
+
+                    pincode = pincodeDetail.PincodeNumber;
+                    stationName = stationDetail.Name;
+                    city = cityDetail.Name;
+                    country = countryDetail.Name;
+                }
+
+
+
 
                 // Begin: Get difference between dates
                 DateTime currentDate = DateTime.Now;
@@ -73,8 +99,8 @@
                 <td>@item.Listing.Name</td>
                 <td>@item.Communication.Mobile</td>
                 <td>@item.Communication.Email</td>
-                <td>@firstCategory.Name</td>
-                <td>@secondCategory.Name</td>
+                <td>@firstCategoryName</td>
+                <td>@secondCategoryName</td>
                 <td style="text-align:center">@await listingRepo.CountListingViewsAsync(item.Listing.ListingID)</td>
                 <td style="text-align:center">@await listingRepo.CountListingReviewsAsync(item.Listing.ListingID)</td>
                 <td style="text-align:center">@await listingRepo.CountListingSubscribeAsync(item.Listing.ListingID)</td>
@@ -85,10 +111,10 @@
                         @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()
                     </p>
                 </td>
-                @*<td>@pincode.PincodeNumber</td>*@
-                @*<td>@assembly.Name</td>*@
-                @*<td>@city.Name</td>
-                <td>@country.Name</td>*@
+                <td>@pincode</td>
+                <td>@stationName</td>
+                <td>@city</td>
+                <td>@country</td>
                 <td>
                     <a href="~/ManageUsers/UserProfile/" class="btn btn-primary btn-sm" target="_blank">View</a>
                 </td>

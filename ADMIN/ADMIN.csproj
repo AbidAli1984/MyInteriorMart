@@ -43,5 +43,6 @@
     <Folder Include="Areas\BrandManagement\Data\" />
     <Folder Include="Areas\BrandManagement\Models\" />
     <Folder Include="Areas\FileManager\Views\" />
+    <Folder Include="wwwroot\FileManager\ProfileImages\" />
   </ItemGroup>
 </Project>
