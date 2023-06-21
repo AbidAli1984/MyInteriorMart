@@ -1,32 +1,28 @@
+using BAL.User;
 using DAL.AUDIT;
 using DAL.BANNER;
 using DAL.BILLING;
 using DAL.CATEGORIES;
+using DAL.CustomModel;
 using DAL.LISTING;
 using DAL.SHARED;
 using DAL.USER;
+using DAL.UserRepository;
 using FRONTEND.BLAZOR.Areas.Identity;
 using FRONTEND.BLAZOR.Data;
 using FRONTEND.BLAZOR.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using REPO;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR
 {
@@ -95,11 +91,11 @@ namespace FRONTEND.BLAZOR
             // End:
 
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<UserDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -107,6 +103,8 @@ namespace FRONTEND.BLAZOR
             services.AddTransient<CategoryRepo>();
             services.AddTransient<IListingService, ListingService>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
         }
 

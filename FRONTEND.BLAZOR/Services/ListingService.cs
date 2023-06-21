@@ -20,6 +20,7 @@ using System.Globalization;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using FRONTEND.BLAZOR.Data;
+using DAL.CustomModel;
 
 namespace FRONTEND.BLAZOR.Services
 {
@@ -28,13 +29,13 @@ namespace FRONTEND.BLAZOR.Services
         private readonly ListingDbContext listingContext;
         private readonly BillingDbContext billingContext;
         private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment webHost;
         private readonly AuditDbContext auditContext;
         private readonly IHistoryAudit historyAudit;
         private readonly IHttpContextAccessor httpConAccess;
 
-        public ListingService(ListingDbContext listingContext, UserManager<IdentityUser> userManager, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, AuditDbContext auditContext, IHistoryAudit historyAudit, IHttpContextAccessor httpConAccess)
+        public ListingService(ListingDbContext listingContext, UserManager<ApplicationUser> userManager, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, AuditDbContext auditContext, IHistoryAudit historyAudit, IHttpContextAccessor httpConAccess)
         {
             this.listingContext = listingContext;
             this.userManager = userManager;
@@ -1302,7 +1303,7 @@ namespace FRONTEND.BLAZOR.Services
         {
 
             // Shafi: Get user details
-            IdentityUser user = await userManager.FindByIdAsync(UserGuid);
+            ApplicationUser user = await userManager.FindByIdAsync(UserGuid);
             string RemoteIpAddress = httpConAccess.HttpContext.Request.Headers["User-Agent"];
             string UserAgent = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
             string Email = user.Email;
