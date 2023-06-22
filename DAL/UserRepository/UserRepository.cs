@@ -1,8 +1,10 @@
 ﻿using DAL.CustomModel;
 using DAL.USER;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,31 +12,37 @@ namespace DAL.UserRepository
 {
     public class UserRepository : IUserRepository
     {
-        private UserManager<ApplicationUser> _userManager;
         private readonly UserDbContext userDbContext;
-        public UserRepository(UserManager<ApplicationUser> userManager, UserDbContext userDbContext)
+        public UserRepository(UserDbContext userDbContext)
         {
-            this._userManager = userManager;
             this.userDbContext = userDbContext;
         }
-        public async Task<string> CreateUser(ApplicationUser user)
+        //public async Task<ApplicationUser> CreateUser(ApplicationUser user)
+        //{
+        //    var result = await userDbContext.Users.AddAsync(user);
+        //    userDbContext.SaveChanges();
+        //    return result.Entity;
+        //}
+        public async Task<ApplicationUser> AdOrUpdateUser(ApplicationUser user)
         {
-            try
+            var userToUpdte = await GetUserByMobileNo(user.PhoneNumber);
+            if (userToUpdte != null)
             {
-                var result1 = await userDbContext.Users.AddAsync(user);
+                userToUpdte.Otp = user.Otp;
                 userDbContext.SaveChanges();
+                return userToUpdte;
             }
-            catch (Exception e)
+            else
             {
-                string message = e.Message;
+                var result = await userDbContext.Users.AddAsync(user);
+                userDbContext.SaveChanges();
+                return result.Entity;
             }
-            var result = await _userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);// await _userMaager.CreateAsync(user);
-            return result;
         }
-        public async Task<bool> UpdateUser(ApplicationUser user)
+
+        public async Task<ApplicationUser> GetUserByMobileNo(string mobileNo)
         {
-            var result = await _userManager.UpdateAsync(user);
-            return result.Succeeded;
+            return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo).FirstOrDefaultAsync();
         }
     }
 }

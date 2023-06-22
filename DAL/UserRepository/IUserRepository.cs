@@ -9,7 +9,8 @@ namespace DAL.UserRepository
 {
     public interface IUserRepository
     {
-        Task<string> CreateUser(ApplicationUser user);
-        Task<bool> UpdateUser(ApplicationUser user);
+        //Task<ApplicationUser> CreateUser(ApplicationUser user);
+        Task<ApplicationUser> AdOrUpdateUser(ApplicationUser user);
+        Task<ApplicationUser> GetUserByMobileNo(string mobileNo);
     }
 }

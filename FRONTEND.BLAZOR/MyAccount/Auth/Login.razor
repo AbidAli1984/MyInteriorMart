@@ -10,7 +10,7 @@
     @inject IJSRuntime jsRuntime
     @using AntDesign
     @using BOL.SHARED*@
-@inject BAL.User.IUserService user
+@inject BAL.User.IUserService userService
 <style>
     .example {
         text-align: center;
@@ -39,21 +39,21 @@
                     <div class="tab-content checkout">
                         <div class="" id="">
                             <div class="form-group">
-                                <Input @bind-Value="@phoneNumber" Class="form-control" Type="tel" Placeholder="Mobile Number" MaxLength="10" />
+                                <Input @bind-Value="@phoneNumber" class="form-control" Type="tel" Placeholder="Mobile Number" MaxLength="10" />
                                 <i class="icon_mobile"></i>
                             </div>
                             <button @onclick="@(async() => await GenerateOTP())" class="btn_1 full-width">Continue</button>
                             @*<input type="submit" class="btn_1 full-width" value="Continue">*@
-                            @*<div class="form-group">
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                                    <i class="icon_lock_alt"></i>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                <i class="icon_lock_alt"></i>
+                            </div>
+                            <div class="clearfix add_bottom_15">
+                                <div class="checkboxes float-left" style="color: #999;">
+                                    you don't have account
                                 </div>
-                                <div class="clearfix add_bottom_15">
-                                    <div class="checkboxes float-left" style="color: #999;">
-                                        you don't have account
-                                    </div>
-                                    <div class="float-right"><a id="forgot" href="sign-up.html" style="color: #fe900d;">Sign up?</a></div>
-                                </div>*@
+                                <div class="float-right"><a id="forgot" href="sign-up.html" style="color: #fe900d;">Sign up?</a></div>
+                            </div>
                         </div>
                         <!-- /tab_2 -->
                     </div>
