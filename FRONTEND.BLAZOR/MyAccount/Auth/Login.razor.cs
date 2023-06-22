@@ -15,24 +15,22 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string currentPage = "nav-address";
 
         public string phoneNumber { get; set; }
-        public bool isPasswordGenerated = false;
+        public string otp { get; set; }
+        public bool isOtpGenerated = false;
 
         public async Task GenerateOTP()
         {
-            var test = await userService.GenerateOTP(phoneNumber);
-            bool value = test;
+            isOtpGenerated = await userService.GenerateOTP(phoneNumber);
         }
 
-        //protected async override Task OnInitializedAsync()
-        //{
-        //    try
-        //    {
-        //        await GetUsersBookmarksAsync();
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        ErrorMessage = exc.Message;
-        //    }
-        //}
+        public async Task VerifyOTP()
+        {
+            bool isUserVerified = await userService.VerifyOTP(phoneNumber, otp);
+
+            if (isUserVerified)
+            {
+                navManager.NavigateTo("/");
+            }
+        }
     }
 }

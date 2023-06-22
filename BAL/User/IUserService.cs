@@ -9,5 +9,6 @@ namespace BAL.User
     public interface IUserService
     {
         Task<bool> GenerateOTP(string mobileNumber);
+        Task<bool> VerifyOTP(string phoneNumber, string otp);
     }
 }

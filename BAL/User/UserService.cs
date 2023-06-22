@@ -22,20 +22,32 @@ namespace BAL.User
 
         public async Task<bool> GenerateOTP(string mobileNumber)
         {
-            ApplicationUser userToAddOrUpdate = new ApplicationUser
+            try
             {
-                PhoneNumber = mobileNumber,
-                UserName = mobileNumber,
-                Email = "sayyed.abid2003@gmail.com",
-                Otp = Common.GetOTP()
-            };
+                ApplicationUser userToAddOrUpdate = new ApplicationUser
+                {
+                    PhoneNumber = mobileNumber,
+                    UserName = mobileNumber,
+                    Email = "sayyed.abid2003@gmail.com",
+                    Otp = Common.GetOTP()
+                };
 
-            ApplicationUser user = await _userRepository.AdOrUpdateUser(userToAddOrUpdate);
-            var OTP = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "Email");
-            //var message = new Message(new string[] { user.Email! }, "OTP Confirmation", OTP);
-            //_emailService.SendEmail(message);
-            //string test = code.Result;
-            throw new NotImplementedException();
+                ApplicationUser user = await _userRepository.AdOrUpdateUser(userToAddOrUpdate);
+                var OTP = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "Email");
+                //var message = new Message(new string[] { user.Email! }, "OTP Confirmation", OTP);
+                //_emailService.SendEmail(message);
+                //string test = code.Result;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public Task<bool> VerifyOTP(string phoneNumber, string otp)
+        {
+            return _userRepository.VerifyOTP(phoneNumber, otp);
         }
     }
 }
