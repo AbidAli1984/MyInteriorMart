@@ -1,4 +1,5 @@
-﻿using DAL.Models;
+﻿using BOL.IDENTITY;
+using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,9 @@ namespace BAL.Services.Contracts
 {
     public interface IUserService
     {
+        Task<ApplicationUser> GetUserByUserName(string userName);
         Task<bool> GenerateOTP(string mobileNumber);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
-        Task<ApplicationUser> GetUserByUserName(string userName);
+        Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid);
     }
 }

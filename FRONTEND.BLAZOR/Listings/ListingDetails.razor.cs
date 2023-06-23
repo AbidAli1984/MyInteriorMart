@@ -19,11 +19,15 @@ using System.IO;
 using BOL.BANNERADS;
 using FRONTEND.BLAZOR.Data;
 using BAL.Services.Contracts;
+using BOL.IDENTITY;
 
 namespace FRONTEND.BLAZOR.Listings
 {
     public partial class ListingDetails
     {
+        [Inject]
+        private IUserService userService { get; set; }
+
         [Inject]
         private IListingService listingService { get; set; }
 
@@ -33,13 +37,19 @@ namespace FRONTEND.BLAZOR.Listings
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
 
+        [Inject]
+        public IWebHostEnvironment hostEnv { get; set; }
+
+        [Parameter]
+        public string ListingID { get; set; }
+
+
+
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public IdentityUser iUser { get; set; }
 
-        [Parameter]
-        public string ListingID { get; set; }
 
         // Begin: Get All Listing Banner
         public int Banner1Count { get; set; }
@@ -47,14 +57,7 @@ namespace FRONTEND.BLAZOR.Listings
         public IEnumerable<ListingBanner> ListingBannerList { get; set; }
         public async Task GetListingBannerListAsync()
         {
-            var listingCat = await listingContext.Categories
-                .Where(i => i.ListingID == Int32.Parse(ListingID))
-                .FirstOrDefaultAsync();
-
-            ListingBannerList = await listingContext.ListingBanner
-                .Where(i => i.SecondCategoryID == listingCat.SecondCategoryID)
-                .OrderBy(i => i.Priority)
-                .ToListAsync();
+            ListingBannerList = await listingService.GetSecCatListingByListingId(Int32.Parse(ListingID));
 
             Banner1Count = ListingBannerList.Where(i => i.Placement == "banner-1").Count();
         }
@@ -69,14 +72,14 @@ namespace FRONTEND.BLAZOR.Listings
         }
         // End:
 
-        // Begin: Like, Bookmark and Subscribe
-        public int countBookmark { get; set; }
-        public int countLike { get; set; }
-        public int countSubscribe { get; set; }
-
+        // Begin: Like, Bookmark and 
         public bool userAlreadySubscribed = false;
         public bool userAlreadyBookmarked = false;
         public bool userAlreadyLiked = false;
+
+        public int countBookmark { get; set; }
+        public int countLike { get; set; }
+        public int countSubscribe { get; set; }
         // End:
 
         // Begin: User Details
@@ -84,13 +87,13 @@ namespace FRONTEND.BLAZOR.Listings
         public string ipAddress { get; set; }
         // End:
 
-        public FreeListingViewModel listing { get; set; }
+        public FreeListingViewModel listingViewModel { get; set; }
 
         // Bein: Open Close Properties
-        public string FromTime { get; set; }
-        public string ToTime { get; set; }
+        public string OpenTime { get; set; }
+        public string CloseTime { get; set; }
         public string OpenOn { get; set; }
-        public bool Closed { get; set; }
+        public bool IsClosed { get; set; }
         // End:
 
         // Begin: Rating properties
@@ -110,25 +113,24 @@ namespace FRONTEND.BLAZOR.Listings
             var authstate = await authenticationState.GetAuthenticationStateAsync();
             var user = authstate.User;
             var userName = user.Identity.Name;
-            string userGuid = await applicationContext.Users.Where(i => i.UserName == userName).Select(i => i.Id).FirstOrDefaultAsync();
+            string userGuid = (await userService.GetUserByUserName(userName)).Id;
+
+            // Check if logged in user already subscribed
+            userAlreadySubscribed = await auditService.CheckIfUserSubscribedToListing(listingId, userGuid);
+            userAlreadyBookmarked = await auditService.CheckIfUserBookmarkedListing(listingId, userGuid);
+            userAlreadyLiked = await auditService.CheckIfUserLikedListing(listingId, userGuid);
 
             // Shafi: Get Listing Owner Guid
-            string listingOwnerGuid = await listingContext.Listing.Where(l => l.ListingID == listingId).Select(l => l.OwnerGuid).FirstOrDefaultAsync();
+            Listing listing = await listingService.GetListingByListingId(listingId);
+            string listingOwnerGuid = listing.OwnerGuid;
+            string Designation = listing.Designation;
             // End:
 
-            // Shafi: Get Owner Name
-            string Name = await applicationContext.UserProfile.Where(p => p.OwnerGuid == listingOwnerGuid).Select(p => p.Name).FirstOrDefaultAsync();
-            // End:
+            UserProfile userProfile = await userService.GetProfileByOwnerGuid(listingOwnerGuid);
+            string Name = userProfile.Name;
+            int ProfileID = userProfile.ProfileID;
 
-            // Shafi: Get Profile ID for Profile Image
-            int ProfileID = await applicationContext.UserProfile.Where(p => p.OwnerGuid == listingOwnerGuid).Select(p => p.ProfileID).FirstOrDefaultAsync();
-            // End:
-
-            // Shafi: Get Owner Designation
-            string Designation = await listingContext.Listing.Where(l => l.ListingID == listingId).Select(l => l.Designation).FirstOrDefaultAsync();
-            // End:
-
-            listing = new FreeListingViewModel();
+            listingViewModel = new FreeListingViewModel();
 
             // Begin: Address View Model
             var country = await GetCountry(listingId);
@@ -167,17 +169,17 @@ namespace FRONTEND.BLAZOR.Listings
             };
             // End:
 
-            listing.Listing = await listingContext.Listing.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
-            listing.Communication = await listingContext.Communication.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
-            listing.Address = lavm;
-            listing.Category = lcvm;
-            listing.Specialisation = specialisation;
-            listing.PaymentMode = await listingContext.PaymentMode.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
-            listing.WorkingHour = await listingContext.WorkingHours.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
-            listing.FromTime = FromTime;
-            listing.ToTime = ToTime;
-            listing.OpenOn = OpenOn;
-            listing.Closed = Closed;
+            listingViewModel.Listing = listing;
+            listingViewModel.Communication = await listingService.GetCommunicationByListingId(listingId);
+            listingViewModel.Address = lavm;
+            listingViewModel.Category = lcvm;
+            listingViewModel.Specialisation = specialisation;
+            listingViewModel.PaymentMode = await listingService.GetPaymentModeByListingId(listingId);
+            listingViewModel.WorkingHour = await listingService.GetWorkingHoursByListingId(listingId); ;
+            listingViewModel.FromTime = OpenTime;
+            listingViewModel.ToTime = CloseTime;
+            listingViewModel.OpenOn = OpenOn;
+            listingViewModel.Closed = IsClosed;
 
             // Shafi: Get Time Zone
             DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
@@ -204,19 +206,12 @@ namespace FRONTEND.BLAZOR.Listings
                 .Where(i => i.ListingID == listingId)
                 .Where(i => i.Subscribe == true)
                 .CountAsync();
-
-            // Check if logged in user already subscribed
-            userAlreadySubscribed = await auditService.CheckIfUserSubscribedToListing(listingId, userGuid);
-            userAlreadyBookmarked = await auditService.CheckIfUserBookmarkedListing(listingId, userGuid);
-            userAlreadyLiked = await auditService.CheckIfUserLikedListing(listingId, userGuid);
         }
 
         // Begin: Get Local Address
         public async Task<string> GetLocalAddress(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
-
-            var localAddress = await listingContext.Address.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
+            var localAddress = await listingService.GetAddressByListingId(listingId);
 
             return localAddress.LocalAddress;
 
@@ -226,7 +221,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get Specialisation
         public async Task<Specialisation> GetSpecialisation(int listingId)
         {
-            var specialisation = await listingContext.Specialisation.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var specialisation = await listingService.GetSpecialisationByListingId(listingId);
 
             return specialisation;
 
@@ -582,46 +577,23 @@ namespace FRONTEND.BLAZOR.Listings
         public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
         public async Task GetReviewsAsync()
         {
-            var listingAllReviews = await listingContext.Rating
-                .Where(i => i.ListingID == Int32.Parse(ListingID))
-                .ToListAsync();
+            var listingAllReviews = await listingService.GetRatingsByListingId(Int32.Parse(ListingID));
 
             foreach(var i in listingAllReviews)
             {
-                var profile = await applicationContext.UserProfile
-                    .Where(r => r.OwnerGuid == i.OwnerGuid)
-                    .FirstOrDefaultAsync();
-
-                if (profile != null)
+                var profile = await userService.GetProfileByOwnerGuid(i.OwnerGuid);
+                ReviewListingViewModel rlvm = new ReviewListingViewModel
                 {
-                    ReviewListingViewModel rlvm = new ReviewListingViewModel
-                    {
-                        ReviewID = i.RatingID,
-                        OwnerGuid = i.OwnerGuid,
-                        Comment = i.Comment,
-                        Date = i.Date,
-                        VisitTime = i.Time.ToString(),
-                        Ratings = i.Ratings,
-                        Name = profile.Name
-                    };
+                    ReviewID = i.RatingID,
+                    OwnerGuid = i.OwnerGuid,
+                    Comment = i.Comment,
+                    Date = i.Date,
+                    VisitTime = i.Time.ToString(),
+                    Ratings = i.Ratings,
+                };
 
-                    listReviews.Add(rlvm);
-                }
-                else
-                {
-                    ReviewListingViewModel rlvm = new ReviewListingViewModel
-                    {
-                        ReviewID = i.RatingID,
-                        OwnerGuid = i.OwnerGuid,
-                        Comment = i.Comment,
-                        Date = i.Date,
-                        VisitTime = i.Time.ToString(),
-                        Ratings = i.Ratings,
-                        Name = ""
-                    };
-
-                    listReviews.Add(rlvm);
-                }
+                rlvm.Name = profile != null ? profile.Name : "";
+                listReviews.Add(rlvm);
             }
         }
         // End: Write Review
@@ -629,7 +601,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Country
         public async Task<Country> GetCountry(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var add = await listingService.GetAddressByListingId(listingId);
 
             var country = await sharedContext.Country.Where(i => i.CountryID == add.CountryID).FirstOrDefaultAsync();
 
@@ -641,7 +613,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get State
         public async Task<State> GetState(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var add = await listingService.GetAddressByListingId(listingId);
 
             var state = await sharedContext.State.Where(i => i.StateID == add.StateID).FirstOrDefaultAsync();
 
@@ -653,7 +625,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get State
         public async Task<City> GetCity(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var add = await listingService.GetAddressByListingId(listingId);
 
             var city = await sharedContext.City.Where(i => i.CityID == add.City).FirstOrDefaultAsync();
 
@@ -665,7 +637,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get State
         public async Task<Station> GetAssembly(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var add = await listingService.GetAddressByListingId(listingId);
 
             var assembly = await sharedContext.Station.Where(i => i.StationID == add.AssemblyID).FirstOrDefaultAsync();
 
@@ -677,7 +649,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get Pincode
         public async Task<Pincode> GetPincode(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var add = await listingService.GetAddressByListingId(listingId);
 
             var pincode = await sharedContext.Pincode.Where(i => i.PincodeID == add.PincodeID).FirstOrDefaultAsync();
 
@@ -689,7 +661,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get Pincode
         public async Task<Locality> GetLocality(int listingId)
         {
-            var add = await listingContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            var add = await listingService.GetAddressByListingId(listingId);
 
             var locality = await sharedContext.Locality.Where(i => i.LocalityID == add.LocalityID).FirstOrDefaultAsync();
 
@@ -701,7 +673,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get First Category
         public async Task<FirstCategory> GetFirstCat(int listingId)
         {
-            var firstCat = await listingContext.Categories.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
+            var firstCat = await listingService.GetCategoryByListingId(listingId);
 
             var category = await categoriesContext.FirstCategory.Where(i => i.FirstCategoryID == firstCat.FirstCategoryID).FirstOrDefaultAsync();
 
@@ -712,7 +684,7 @@ namespace FRONTEND.BLAZOR.Listings
         // Begin: Get Second Category
         public async Task<SecondCategory> GetSecondCat(int listingId)
         {
-            var firstCat = await listingContext.Categories.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
+            var firstCat = await listingService.GetCategoryByListingId(listingId);
 
             var category = await categoriesContext.SecondCategory.Where(i => i.SecondCategoryID == firstCat.SecondCategoryID).FirstOrDefaultAsync();
 
@@ -724,7 +696,7 @@ namespace FRONTEND.BLAZOR.Listings
         public async Task BusinessOpenClose(int listingId)
         {
             // Get Listing
-            var listingWh = await listingContext.WorkingHours.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
+            var listingWh = await listingService.GetWorkingHoursByListingId(listingId);
             // End:
 
             // Get Time Zone
@@ -734,196 +706,75 @@ namespace FRONTEND.BLAZOR.Listings
             DateTime currentTime = DateTime.Parse(time, System.Globalization.CultureInfo.CurrentCulture);
             // End:
 
-            if (listing != null)
+            if (listingViewModel != null)
             {
                 try
                 {
                     if (day == "Monday")
                     {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.MondayFrom.ToString("hh:mm tt");
-                        string ToTime = listingWh.MondayTo.ToString("hh:mm tt");
+                        OpenTime = listingWh.MondayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.MondayTo.ToString("hh:mm tt");
                         OpenOn = "Tuesday";
-                        // End:
-
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.MondayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
-
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
-                        else
-                        {
-                            Closed = false;
-                        }
                     }
-
-                    if (day == "Tuesday")
+                    else if (day == "Tuesday")
                     {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.TuesdayFrom.ToString("hh:mm tt");
-                        ToTime = listingWh.TuesdayTo.ToString("hh:mm tt");
+                        OpenTime = listingWh.TuesdayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.TuesdayTo.ToString("hh:mm tt");
                         OpenOn = "Wednesday";
-                        // End:
-
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.TuesdayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
-
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
-                        else
-                        {
-                            Closed = false;
-                        }
                     }
-
-                    if (day == "Wednesday")
+                    else if (day == "Wednesday")
                     {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.WednesdayFrom.ToString("hh:mm tt");
-                        ToTime = listingWh.WednesdayTo.ToString("hh:mm tt");
+                        OpenTime = listingWh.WednesdayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.WednesdayTo.ToString("hh:mm tt");
                         OpenOn = "Thursday";
-                        // End:
-
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.WednesdayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
-
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
-                        else
-                        {
-                            Closed = false;
-                        }
                     }
-
-                    if (day == "Thursday")
+                    else if (day == "Thursday")
                     {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.ThursdayFrom.ToString("hh:mm tt");
-                        ToTime = listingWh.ThursdayTo.ToString("hh:mm tt");
+                        OpenTime = listingWh.ThursdayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.ThursdayTo.ToString("hh:mm tt");
                         OpenOn = "Friday";
-                        // End:
-
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.ThursdayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
-
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
-                        else
-                        {
-                            Closed = false;
-                        }
                     }
-
-                    if (day == "Friday")
+                    else if (day == "Friday")
                     {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.FridayFrom.ToString("hh:mm tt");
-                        ToTime = listingWh.FridayTo.ToString("hh:mm tt");
+                        OpenTime = listingWh.FridayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.FridayTo.ToString("hh:mm tt");
                         OpenOn = "Saturday";
-                        // End:
-
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.FridayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
-
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
-                        else
-                        {
-                            Closed = false;
-                        }
                     }
-
-                    if (day == "Saturday")
+                    else if (day == "Saturday")
                     {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.SaturdayFrom.ToString("hh:mm tt");
-                        ToTime = listingWh.SaturdayTo.ToString("hh:mm tt");
+                        OpenTime = listingWh.SaturdayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.SaturdayTo.ToString("hh:mm tt");
                         if (listingWh.SundayHoliday != true)
                         {
                             OpenOn = "Sunday";
                         }
-                        // End:
+                    }
+                    else if (day == "Sunday")
+                    {
+                        OpenTime = listingWh.SundayFrom.ToString("hh:mm tt");
+                        CloseTime = listingWh.SundayTo.ToString("hh:mm tt");
+                        OpenOn = "Monday";
+                    }
 
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.SaturdayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
+                    if (!String.IsNullOrEmpty(CloseTime))
+                    {
+                        DateTime cToTime = DateTime.Parse(CloseTime, System.Globalization.CultureInfo.CurrentCulture);
+                        IsClosed = currentTime > cToTime;
+                    }
 
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
+                    if ((listingWh.SaturdayHoliday == true && listingWh.SundayHoliday == true) 
+                        || listingWh.SaturdayHoliday == true || listingWh.SundayHoliday == true)
+                    {
+                        OpenTime = null;
+                        CloseTime = null;
+                        IsClosed = true;
+
+                        if ((listingWh.SaturdayHoliday == true && listingWh.SundayHoliday == true))
+                            OpenOn = "Monday";
+                        else if (listingWh.SaturdayHoliday == true)
+                            OpenOn = "Sunday";
                         else
-                        {
-                            Closed = false;
-                        }
-                    }
-
-                    if (day == "Sunday")
-                    {
-                        // Shafi: Display ViewBag in Index view
-                        FromTime = listingWh.SundayFrom.ToString("hh:mm tt");
-                        ToTime = listingWh.SundayTo.ToString("hh:mm tt");
-                        OpenOn = "Monday";
-                        // End:
-
-                        // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                        string timeString = listingWh.SundayTo.ToString("hh:mm tt");
-                        DateTime cToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                        // End:
-
-                        if (currentTime > cToTime)
-                        {
-                            Closed = true;
-                        }
-                        else
-                        {
-                            Closed = false;
-                        }
-                    }
-
-                    if (listingWh.SaturdayHoliday == true && listingWh.SundayHoliday == true)
-                    {
-                        FromTime = null;
-                        ToTime = null;
-                        OpenOn = "Monday";
-                        Closed = true;
-                    }
-
-                    if (listingWh.SaturdayHoliday == true && listingWh.SundayHoliday == false)
-                    {
-                        FromTime = null;
-                        ToTime = null;
-                        OpenOn = "Sunday";
-                        Closed = true;
-                    }
-
-                    if (listingWh.SundayHoliday == true)
-                    {
-                        FromTime = null;
-                        ToTime = null;
-                        OpenOn = "Monday";
-                        Closed = true;
+                            OpenOn = "Monday";
                     }
                 }
                 catch (Exception exc)
@@ -938,8 +789,6 @@ namespace FRONTEND.BLAZOR.Listings
         public async Task GetRatingAverage(int listingId)
         {
             // Get rating
-            var ratings = await listingContext.Rating.Where(r => r.ListingID == listingId).ToListAsync();
-
             var ratingCount = await listingService.GetRatingAsync(listingId);
 
             if (ratingCount.Count() > 0)
@@ -1035,8 +884,7 @@ namespace FRONTEND.BLAZOR.Listings
                                 Comment = Comment
                             };
 
-                            await listingContext.AddAsync(objRating);
-                            await listingContext.SaveChangesAsync();
+                            await listingService.AddAsync(objRating);
                             await GetReviewsAsync();
 
                             await NoticeWithIcon(NotificationType.Success, "Success", "Thank you for submitting your review.");
@@ -1101,8 +949,7 @@ namespace FRONTEND.BLAZOR.Listings
                     {
                         try
                         {
-                            var cur = await listingContext.Rating
-                                .Where(i => i.OwnerGuid == CurrentUserGuid && i.ListingID == Int32.Parse(ListingID)).FirstOrDefaultAsync();
+                            var cur = await listingService.GetRatingsByListingIdAndOwnerId(Int32.Parse(ListingID), CurrentUserGuid);
 
                             if(cur != null)
                             {
@@ -1114,8 +961,7 @@ namespace FRONTEND.BLAZOR.Listings
                                 cur.Comment = Comment;
                             }
 
-                            listingContext.Update(cur);
-                            await listingContext.SaveChangesAsync();
+                            await listingService.UpdateAsync(cur);
                             await GetReviewsAsync();
 
                             await NoticeWithIcon(NotificationType.Success, "Success", "Thank you for editing your review.");
@@ -1145,9 +991,7 @@ namespace FRONTEND.BLAZOR.Listings
 
         public async Task CheckUserRatingExist()
         {
-            CurrentUserRating = await listingContext.Rating
-                .Where(i => i.ListingID == Int32.Parse(ListingID) && i.OwnerGuid == CurrentUserGuid)
-                .FirstOrDefaultAsync();
+            CurrentUserRating = await listingService.GetRatingsByListingIdAndOwnerId(Int32.Parse(ListingID), CurrentUserGuid);
             if(CurrentUserRating != null)
             {
                 Rating = CurrentUserRating.Ratings;
@@ -1172,20 +1016,13 @@ namespace FRONTEND.BLAZOR.Listings
         public bool LogoExist { get; set; }
         public string LogoUrl { get; set; }
 
-        [Inject]
-        public IWebHostEnvironment hostEnv { get; set; }
         public async Task CheckIfLogoExist()
         {
             var file = hostEnv.WebRootPath + "\\FileManager\\ListingLogo\\" + ListingID + ".jpg";
-            if (File.Exists(file) == true)
+            LogoExist = File.Exists(file);
+            if (LogoExist)
             {
-                LogoExist = true;
                 LogoUrl = "/FileManager/ListingLogo/" + ListingID + ".jpg";
-            }
-            else
-            {
-                LogoExist = false;
-                LogoUrl = null;
             }
             await Task.Delay(10);
         }
@@ -1200,7 +1037,7 @@ namespace FRONTEND.BLAZOR.Listings
                 var user = authstate.User;
                 if(user.Identity.IsAuthenticated)
                 {
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

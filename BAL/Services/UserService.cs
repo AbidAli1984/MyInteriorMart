@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BAL.Utils;
 using DAL.Repositories.Contracts;
 using BAL.Services.Contracts;
+using BOL.IDENTITY;
 
 namespace BAL.Services
 {
@@ -16,6 +17,11 @@ namespace BAL.Services
             this._userRepository = userRepository;
             this._userManager = userManager;
             //_emailService = new EmailService();
+        }
+
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
+        {
+            return await _userRepository.GetUserByUserName(userName);
         }
 
         public async Task<bool> GenerateOTP(string mobileNumber)
@@ -43,14 +49,14 @@ namespace BAL.Services
             }
         }
 
-        public async Task<ApplicationUser> GetUserByUserName(string userName)
-        {
-            return await _userRepository.GetUserByUserName(userName);
-        }
-
         public Task<bool> VerifyOTP(string phoneNumber, string otp)
         {
             return _userRepository.VerifyOTP(phoneNumber, otp);
+        }
+
+        public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
+        {
+            return await _userRepository.GetProfileByOwnerGuid(ownerGuid);
         }
     }
 }

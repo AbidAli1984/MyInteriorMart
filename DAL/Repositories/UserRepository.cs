@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BOL.IDENTITY;
 
 namespace DAL.Repositories
 {
@@ -50,6 +51,11 @@ namespace DAL.Repositories
         {
             var user = await userDbContext.Users.Where(x => x.PhoneNumber == phoneNumber && x.Otp == otp).FirstOrDefaultAsync();
             return user != null;
+        }
+
+        public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
+        {
+            return await userDbContext.UserProfile.Where(p => p.OwnerGuid == ownerGuid).FirstOrDefaultAsync();
         }
     }
 }

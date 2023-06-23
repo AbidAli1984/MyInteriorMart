@@ -1,5 +1,4 @@
 ﻿@page "/Listing/Index/{ListingID}"
-@inject ListingDbContext listingContext
 @inject AuditDbContext auditContext
 @inject CategoriesDbContext categoriesContext
 @inject SharedDbContext sharedContext
@@ -22,10 +21,10 @@
             <div class="box_detail_cus">
                 <div class="cust-profile">
                     <img src="resources/img/icon/profile.svg" alt="profile">
-                    @if (listing != null)
+                    @if (listingViewModel != null)
                     {
                         <h6 class="cust-name">
-                            @listing.Listing.Name
+                            @listingViewModel.Listing.Name
                             @if (userAgent != null)
                             {
                                 <span>@userAgent</span>
@@ -38,129 +37,129 @@
             <div class="listing-specialisat box_detail_cus">
                 <h6>Specialisation</h6>
                 <ul class="listing-specialisat-list">
-                    @if (listing != null)
+                    @if (listingViewModel != null)
                     {
-                        @if (listing.Specialisation.AcceptTenderWork == true)
+                        @if (listingViewModel.Specialisation.AcceptTenderWork == true)
                         {
                             <li><i class="icon-check-1"></i> Accept Tender Work</li>
                         }
-                        @if (listing.Specialisation.Banks == true)
+                        @if (listingViewModel.Specialisation.Banks == true)
                         {
                             <li><i class="icon-check-1"></i> Bank</li>
                         }
-                        @if (listing.Specialisation.ExhibitionStall == true)
+                        @if (listingViewModel.Specialisation.ExhibitionStall == true)
                         {
                             <li><i class="icon-check-1"></i> Exhibition Stall</li>
                         }
-                        @if (listing.Specialisation.Hotel == true)
+                        @if (listingViewModel.Specialisation.Hotel == true)
                         {
                             <li><i class="icon-check-1"></i> Hotel</li>
                         }
-                        @if (listing.Specialisation.Restaurants == true)
+                        @if (listingViewModel.Specialisation.Restaurants == true)
                         {
                             <li><i class="icon-check-1"></i> Restaurants</li>
                         }
-                        @if (listing.Specialisation.BeautyParlors == true)
+                        @if (listingViewModel.Specialisation.BeautyParlors == true)
                         {
                             <li><i class="icon-check-1"></i> Beauty Parlors</li>
                         }
-                        @if (listing.Specialisation.Factory == true)
+                        @if (listingViewModel.Specialisation.Factory == true)
                         {
                             <li><i class="icon-check-1"></i> Factory</li>
                         }
-                        @if (listing.Specialisation.Laboratory == true)
+                        @if (listingViewModel.Specialisation.Laboratory == true)
                         {
                             <li><i class="icon-check-1"></i> Laboratory</li>
                         }
-                        @if (listing.Specialisation.Salons == true)
+                        @if (listingViewModel.Specialisation.Salons == true)
                         {
                             <li><i class="icon-check-1"></i> Salons</li>
                         }
-                        @if (listing.Specialisation.Bungalow == true)
+                        @if (listingViewModel.Specialisation.Bungalow == true)
                         {
                             <li><i class="icon-check-1"></i> Bungalow</li>
                         }
-                        @if (listing.Specialisation.Farmhouse == true)
+                        @if (listingViewModel.Specialisation.Farmhouse == true)
                         {
                             <li><i class="icon-check-1"></i> Farmhouse</li>
                         }
-                        @if (listing.Specialisation.Mandir == true)
+                        @if (listingViewModel.Specialisation.Mandir == true)
                         {
                             <li><i class="icon-check-1"></i> Mandir</li>
                         }
-                        @if (listing.Specialisation.Shop == true)
+                        @if (listingViewModel.Specialisation.Shop == true)
                         {
                             <li><i class="icon-check-1"></i> Shop</li>
                         }
-                        @if (listing.Specialisation.CallCenter == true)
+                        @if (listingViewModel.Specialisation.CallCenter == true)
                         {
                             <li><i class="icon-check-1"></i> Call Center</li>
                         }
-                        @if (listing.Specialisation.Gurudwara == true)
+                        @if (listingViewModel.Specialisation.Gurudwara == true)
                         {
                             <li><i class="icon-check-1"></i> Gurudwara</li>
                         }
-                        @if (listing.Specialisation.Mosque == true)
+                        @if (listingViewModel.Specialisation.Mosque == true)
                         {
                             <li><i class="icon-check-1"></i> Mosque</li>
                         }
-                        @if (listing.Specialisation.ShoppingMall == true)
+                        @if (listingViewModel.Specialisation.ShoppingMall == true)
                         {
                             <li><i class="icon-check-1"></i> Shopping Mall</li>
                         }
-                        @if (listing.Specialisation.Church == true)
+                        @if (listingViewModel.Specialisation.Church == true)
                         {
                             <li><i class="icon-check-1"></i> Church</li>
                         }
-                        @if (listing.Specialisation.Gym == true)
+                        @if (listingViewModel.Specialisation.Gym == true)
                         {
                             <li><i class="icon-check-1"></i> Gym</li>
                         }
-                        @if (listing.Specialisation.Office == true)
+                        @if (listingViewModel.Specialisation.Office == true)
                         {
                             <li><i class="icon-check-1"></i> Office</li>
                         }
-                        @if (listing.Specialisation.Showroom == true)
+                        @if (listingViewModel.Specialisation.Showroom == true)
                         {
                             <li><i class="icon-check-1"></i> Showroom</li>
                         }
-                        @if (listing.Specialisation.Company == true)
+                        @if (listingViewModel.Specialisation.Company == true)
                         {
                             <li><i class="icon-check-1"></i> Company</li>
                         }
-                        @if (listing.Specialisation.HealthClub == true)
+                        @if (listingViewModel.Specialisation.HealthClub == true)
                         {
                             <li><i class="icon-check-1"></i> Health Club</li>
                         }
-                        @if (listing.Specialisation.Plazas == true)
+                        @if (listingViewModel.Specialisation.Plazas == true)
                         {
                             <li><i class="icon-check-1"></i> Plazas</li>
                         }
-                        @if (listing.Specialisation.Warehouse == true)
+                        @if (listingViewModel.Specialisation.Warehouse == true)
                         {
                             <li><i class="icon-check-1"></i> Warehouse</li>
                         }
-                        @if (listing.Specialisation.ComputerInstitute == true)
+                        @if (listingViewModel.Specialisation.ComputerInstitute == true)
                         {
                             <li><i class="icon-check-1"></i> Computer Institute</li>
                         }
-                        @if (listing.Specialisation.Home == true)
+                        @if (listingViewModel.Specialisation.Home == true)
                         {
                             <li><i class="icon-check-1"></i> Home</li>
                         }
-                        @if (listing.Specialisation.ResidentialSociety == true)
+                        @if (listingViewModel.Specialisation.ResidentialSociety == true)
                         {
                             <li><i class="icon-check-1"></i> Residential Society</li>
                         }
-                        @if (listing.Specialisation.Dispensary == true)
+                        @if (listingViewModel.Specialisation.Dispensary == true)
                         {
                             <li><i class="icon-check-1"></i> Dispensary</li>
                         }
-                        @if (listing.Specialisation.Hospital == true)
+                        @if (listingViewModel.Specialisation.Hospital == true)
                         {
                             <li><i class="icon-check-1"></i> Hospital</li>
                         }
-                        @if (listing.Specialisation.Resorts == true)
+                        @if (listingViewModel.Specialisation.Resorts == true)
                         {
                             <li><i class="icon-check-1"></i> Resorts</li>
                         }
@@ -170,49 +169,49 @@
             <div class="listing-specialisat box_detail_cus">
                 <h6>PAYMENT DETAILS</h6>
                 <ul class="listing-specialisat-list">
-                    @if (listing != null)
+                    @if (listingViewModel != null)
                     {
-                        if (listing.PaymentMode.Cash == true)
+                        if (listingViewModel.PaymentMode.Cash == true)
                         {
                             <li><i class="icon-check-1"></i> Cash</li>
                         }
 
-                        if (listing.PaymentMode.NetBanking == true)
+                        if (listingViewModel.PaymentMode.NetBanking == true)
                         {
                             <li><i class="icon-check-1"></i> Net Banking</li>
                         }
 
-                        if (listing.PaymentMode.Cheque == true)
+                        if (listingViewModel.PaymentMode.Cheque == true)
                         {
                             <li><i class="icon-check-1"></i> Cheque</li>
                         }
 
-                        if (listing.PaymentMode.RtgsNeft == true)
+                        if (listingViewModel.PaymentMode.RtgsNeft == true)
                         {
                             <li><i class="icon-check-1"></i> RTGS &amp; NEFT</li>
                         }
 
-                        if (listing.PaymentMode.DebitCard == true)
+                        if (listingViewModel.PaymentMode.DebitCard == true)
                         {
                             <li><i class="icon-check-1"></i> Debit Card</li>
                         }
 
-                        if (listing.PaymentMode.CreditCard == true)
+                        if (listingViewModel.PaymentMode.CreditCard == true)
                         {
                             <li><i class="icon-check-1"></i> Credit Card</li>
                         }
 
-                        if (listing.PaymentMode.PayTM == true)
+                        if (listingViewModel.PaymentMode.PayTM == true)
                         {
                             <li><i class="icon-check-1"></i> Pay TM</li>
                         }
 
-                        if (listing.PaymentMode.PhonePay == true)
+                        if (listingViewModel.PaymentMode.PhonePay == true)
                         {
                             <li><i class="icon-check-1"></i> Phone Pay</li>
                         }
 
-                        if (listing.PaymentMode.Paypal == true)
+                        if (listingViewModel.PaymentMode.Paypal == true)
                         {
                             <li><i class="icon-check-1"></i> Paypal</li>
                         }
@@ -252,7 +251,7 @@
                     </a>
                 </div>
             </div>
-            @if (listing != null)
+            @if (listingViewModel != null)
             {
                 <div class="company-listing-main">
                     <div class="listing-details">
@@ -264,12 +263,12 @@
                         <div class="col-lg-8 col-md-12 company-details-list padding-all-5">
                             <div class="company-addes">
                                 <div class="company-details">
-                                    <h5 class="company-name">@listing.Listing.CompanyName</h5>
+                                    <h5 class="company-name">@listingViewModel.Listing.CompanyName</h5>
                                     <small>
                                         <a href="#0" class="claimbusiness"><i class="icon-pencil-1"></i>write a preview</a>
                                     </small>
                                 </div>
-                                <span class="company-category-name">@listing.Category.FirstCategory.Name > @listing.Category.SecondCategory.Name</span>
+                                <span class="company-category-name">@listingViewModel.Category.FirstCategory.Name > @listingViewModel.Category.SecondCategory.Name</span>
                                 <div class="company-rating">
                                     <div class="cat_star">
                                         <i class="icon_star @(rating1 > 0 ? "active" : "")"></i>
@@ -288,36 +287,37 @@
                                 {
                                     <p>
                                         <i class="icon-location-6"></i>
-                                        @listing.Address.Locality.LocalityName, @listing.Address.Pincode.PincodeNumber <a href="" @onclick:preventDefault @onclick="@(async() => await ToggleCompleteAddressAsync())">more...</a>
+                                        @listingViewModel.Address.Locality.LocalityName, @listingViewModel.Address.Pincode.PincodeNumber <a href="" @onclick:preventDefault @onclick="@(async() => await ToggleCompleteAddressAsync())">more...</a>
                                     </p>
                                 }
                                 else
                                 {
-                            <p>
-                                <i class="icon-location-6"></i>
-                                @listing.Address.LocalAddress, @listing.Address.Locality.LocalityName, @listing.Address.Assembly.Name, @listing.Address.Pincode.PincodeNumber, @listing.Address.City.Name, @listing.Address.State.Name, @listing.Address.Country.Name <a href="" @onclick:preventDefault @onclick="@(async() => await ToggleCompleteAddressAsync())">less...</a>
-                            </p>
+                                    <p>
+                                        <i class="icon-location-6"></i>
+                                        @listingViewModel.Address.LocalAddress, @listingViewModel.Address.Locality.LocalityName, @listingViewModel.Address.Assembly.Name, @listingViewModel.Address.Pincode.PincodeNumber, @listingViewModel.Address.City.Name, @listingViewModel.Address.State.Name, @listingViewModel.Address.Country.Name <a href="" @onclick:preventDefault @onclick="@(async() => await ToggleCompleteAddressAsync())">less...</a>
+                                    </p>
                                 }
-                            <p>
-                                <i class="icon-address"></i> @listing.Address.Assembly.Name<span style="margin-left:30px;"><i class="icon-map-1"></i>@listing.Address.City.Name</span>
+                                <p>
+                                    <i class="icon-address"></i> @listingViewModel.Address.Assembly.Name<span style="margin-left:30px;"><i class="icon-map-1"></i>@listingViewModel.Address.City.Name</span>
 
-                                @if (listing.Communication.Website != null)
-                                {
-                                    <span style="margin-left:30px;">
-                                    <i class="icon-globe-4"></i>
-                                    <a href="@listing.Communication.Website" target="_blank" title="@listing.Communication.Website">
-                                        @listing.Communication.Website
-                                    </a>
+                                    @if (listingViewModel.Communication.Website != null)
+                                    {
+                                        <span style="margin-left:30px;">
+                                            <i class="icon-globe-4"></i>
+                                            <a href="@listingViewModel.Communication.Website" target="_blank" title="@listingViewModel.Communication.Website">
+                                                @listingViewModel.Communication.Website
+                                            </a>
                                         </span>
-                                }
+                                    }
 
-                            </p>
+                                </p>
                             </div>
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-12 col-md-12 p-0 company-establishment">
-                                        <p><i class="icon-calendar-5"></i> Year of Establishment @listing.Listing.YearOfEstablishment.ToString("yyyy") 
-                                        <span style="margin-left:30px;">Employees: @listing.Listing.NumberOfEmployees</span>
+                                        <p>
+                                            <i class="icon-calendar-5"></i> Year of Establishment @listingViewModel.Listing.YearOfEstablishment.ToString("yyyy")
+                                            <span style="margin-left:30px;">Employees: @listingViewModel.Listing.NumberOfEmployees</span>
                                         </p>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@
                                     <i class="icon-map-1 mim-marginLeft-Minus20"></i>
                                     <span>
                                         <b>Hours : </b>
-                                        @if (Closed == true)
+                                        @if (IsClosed == true)
                                         {
                                             <b style="color: red;"> Closed Now </b>
                                         }
@@ -343,37 +343,37 @@
                                         <div class="row">
                                             <div class="col-4">Monday</div>
                                             <div class="col-8">
-                                                @listing.WorkingHour.MondayFrom.ToString("hh:mm tt") to @listing.WorkingHour.MondayTo.ToString("hh:mm tt")
+                                                @listingViewModel.WorkingHour.MondayFrom.ToString("hh:mm tt") to @listingViewModel.WorkingHour.MondayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Tuesday</div>
                                             <div class="col-8">
-                                                @listing.WorkingHour.TuesdayFrom.ToString("hh:mm tt") to @listing.WorkingHour.TuesdayTo.ToString("hh:mm tt")
+                                                @listingViewModel.WorkingHour.TuesdayFrom.ToString("hh:mm tt") to @listingViewModel.WorkingHour.TuesdayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Wednesday</div>
                                             <div class="col-8">
-                                                @listing.WorkingHour.WednesdayFrom.ToString("hh:mm tt") to @listing.WorkingHour.WednesdayTo.ToString("hh:mm tt")
+                                                @listingViewModel.WorkingHour.WednesdayFrom.ToString("hh:mm tt") to @listingViewModel.WorkingHour.WednesdayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Friday</div>
                                             <div class="col-8">
-                                                @listing.WorkingHour.FridayFrom.ToString("hh:mm tt") to @listing.WorkingHour.FridayTo.ToString("hh:mm tt")
+                                                @listingViewModel.WorkingHour.FridayFrom.ToString("hh:mm tt") to @listingViewModel.WorkingHour.FridayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Saturday</div>
                                             <div class="col-8">
-                                                @listing.WorkingHour.SaturdayFrom.ToString("hh:mm tt") to @listing.WorkingHour.SaturdayTo.ToString("hh:mm tt")
+                                                @listingViewModel.WorkingHour.SaturdayFrom.ToString("hh:mm tt") to @listingViewModel.WorkingHour.SaturdayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Sunday</div>
                                             <div class="col-8">
-                                                @listing.WorkingHour.SundayFrom.ToString("hh:mm tt") to @listing.WorkingHour.SundayTo.ToString("hh:mm tt")
+                                                @listingViewModel.WorkingHour.SundayFrom.ToString("hh:mm tt") to @listingViewModel.WorkingHour.SundayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                     </div>
@@ -391,7 +391,7 @@
                                 <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
                                 @if (userAuthenticated == true)
                                 {
-                                    <button @onclick="@(async() => await ToggleBookmark(listing.Listing.ListingID))"
+                                    <button @onclick="@(async() => await ToggleBookmark(listingViewModel.Listing.ListingID))"
                                             id="BookmarkMe" class="pushRight btn btn-light btn-sm ml-1">
                                         <i class="icon-bookmark-empty"></i> Bookmark
                                         <span id="BookmarkCount">
@@ -442,7 +442,7 @@
                                 }
 
                                 <!-- Begin: Subscribe -->
-                                
+
                                 @if (userAuthenticated == true)
                                 {
                                     <button @onclick="@(async() => await ToggleSubscribeAsync(Int32.Parse(ListingID)))" id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
@@ -464,18 +464,18 @@
                             </div>
                             @if (HideContact == false)
                             {
-                        <div id="contactDetails" class="pt-0 pb-2">
-                            <i class="icon-mobile-6"></i> <a href="tel:@listing.Communication.Mobile" title="Call Now">@listing.Communication.Mobile</a>
-                            <i class="icon-mobile-6"></i> <a href="tel:@listing.Communication.Mobile" title="Whatsapp">@listing.Communication.Mobile</a>
-                            @if (listing.Communication.Telephone != null)
-                            {
-                                <i class="icon-phone"></i> <a href="tel:@listing.Communication.Telephone" title="Whatsapp">@listing.Communication.Telephone</a>
-                            }
-                            @if (listing.Communication.TelephoneSecond != null)
-                            {
-                                <i class="icon-phone"></i> <a href="tel:@listing.Communication.TelephoneSecond" title="Whatsapp">@listing.Communication.TelephoneSecond</a>
-                            }
-                        </div>
+                                <div id="contactDetails" class="pt-0 pb-2">
+                                    <i class="icon-mobile-6"></i> <a href="tel:@listingViewModel.Communication.Mobile" title="Call Now">@listingViewModel.Communication.Mobile</a>
+                                    <i class="icon-mobile-6"></i> <a href="tel:@listingViewModel.Communication.Mobile" title="Whatsapp">@listingViewModel.Communication.Mobile</a>
+                                    @if (listingViewModel.Communication.Telephone != null)
+                                    {
+                                        <i class="icon-phone"></i> <a href="tel:@listingViewModel.Communication.Telephone" title="Whatsapp">@listingViewModel.Communication.Telephone</a>
+                                    }
+                                    @if (listingViewModel.Communication.TelephoneSecond != null)
+                                    {
+                                        <i class="icon-phone"></i> <a href="tel:@listingViewModel.Communication.TelephoneSecond" title="Whatsapp">@listingViewModel.Communication.TelephoneSecond</a>
+                                    }
+                                </div>
                             }
                             <div class="col-lg-12 social-share p-0">
                                 <a href="#0"><i class="icon-facebook-squared-1"></i></a>

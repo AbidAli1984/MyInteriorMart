@@ -13,10 +13,27 @@ namespace DAL.Repositories.Contracts
 
         Task<IEnumerable<ListingBanner>> GetListingBannerBySecondCategoryId(int secondCategoryId);
 
-        Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);
-
         Task<int> CountRatingAsync(int ListingID, int rating);
 
-        public Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid);
+        Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid);
+
+        Task<Listing> GetListingByListingId(int listingId);
+
+        Task<Communication> GetCommunicationByListingId(int listingId);
+
+        Task<PaymentMode> GetPaymentModeByListingId(int listingId);
+
+        Task<WorkingHours> GetWorkingHoursByListingId(int listingId);
+
+        Task<Address> GetAddressByListingId(int listingId);
+
+        Task<Specialisation> GetSpecialisationByListingId(int listingId);
+
+        Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId);
+        Task<Rating> GetRatingsByListingIdAndOwnerId(int listingId, string ownerId);
+
+        Task AddAsync(object data);
+
+        Task UpdateAsync(object data);
     }
 }

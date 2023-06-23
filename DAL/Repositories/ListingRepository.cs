@@ -33,12 +33,6 @@ namespace DAL.Repositories
                 .ToListAsync(); ;
         }
 
-        public async Task<IEnumerable<Rating>> GetRatingAsync(int ListingID)
-        {
-            var ratings = await _listingDbContext.Rating.Where(r => r.ListingID == ListingID).ToListAsync();
-            return ratings;
-        }
-
         public async Task<int> CountRatingAsync(int ListingID, int rating)
         {
             var count = await _listingDbContext.Rating.Where(r => r.ListingID == ListingID && r.Ratings == rating).CountAsync();
@@ -62,6 +56,58 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid)
         {
             return await _listingDbContext.Listing.Where(i => i.OwnerGuid == currentUserGuid).OrderByDescending(i => i.ListingID).ToListAsync();
+        }
+
+        public async Task<Listing> GetListingByListingId(int listingId)
+        {
+            return await _listingDbContext.Listing.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Communication> GetCommunicationByListingId(int listingId)
+        {
+            return await _listingDbContext.Communication.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+        }
+
+        public async Task<PaymentMode> GetPaymentModeByListingId(int listingId)
+        {
+            return await _listingDbContext.PaymentMode.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+        }
+
+        public async Task<WorkingHours> GetWorkingHoursByListingId(int listingId)
+        {
+            return await _listingDbContext.WorkingHours.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Address> GetAddressByListingId(int listingId)
+        {
+            return await _listingDbContext.Address.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Specialisation> GetSpecialisationByListingId(int listingId)
+        {
+            return await _listingDbContext.Specialisation.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId)
+        {
+            return await _listingDbContext.Rating.Where(l => l.ListingID == listingId).ToListAsync();
+        }
+
+        public async Task<Rating> GetRatingsByListingIdAndOwnerId(int listingId, string ownerId)
+        {
+            return await _listingDbContext.Rating.Where(l => l.ListingID == listingId && l.OwnerGuid == ownerId).FirstOrDefaultAsync();
+        }
+
+        public async Task AddAsync(object data)
+        {
+            await _listingDbContext.AddAsync(data);
+            await _listingDbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(object data)
+        {
+            _listingDbContext.Update(data);
+            await _listingDbContext.SaveChangesAsync();
         }
     }
 }
