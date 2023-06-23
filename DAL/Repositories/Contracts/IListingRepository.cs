@@ -16,5 +16,7 @@ namespace DAL.Repositories.Contracts
         Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);
 
         Task<int> CountRatingAsync(int ListingID, int rating);
+
+        public Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid);
     }
 }

@@ -58,5 +58,10 @@ namespace DAL.Repositories
             var result = await _listingDbContext.Rating.Where(x => x.Date.Day == date.Day && x.Date.Month == x.Date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
             return result;
         }
+
+        public async Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid)
+        {
+            return await _listingDbContext.Listing.Where(i => i.OwnerGuid == currentUserGuid).OrderByDescending(i => i.ListingID).ToListAsync();
+        }
     }
 }

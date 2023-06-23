@@ -1,15 +1,5 @@
 ﻿@page "/ManageListing/AllListing"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
-@inject CategoriesDbContext categoriesContext
-@inject ApplicationDbContext applicationContext
 @inject AuthenticationStateProvider authenticationState
-@inject NotificationService _notice
-@inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using AntDesign
-@using BOL.SHARED
 
 <AuthorizeView>
     <Authorized>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,6 @@ namespace BAL.Services.Contracts
     {
         Task<bool> GenerateOTP(string mobileNumber);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
+        Task<ApplicationUser> GetUserByUserName(string userName);
     }
 }

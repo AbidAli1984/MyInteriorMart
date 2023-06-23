@@ -3,6 +3,7 @@ using BOL.BANNERADS;
 using DAL.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BOL.LISTING;
 
 namespace BAL.Services
 {
@@ -19,7 +20,7 @@ namespace BAL.Services
             return await _listingRepository.CountRatingAsync(ListingID, rating);
         }
 
-        public async Task<IEnumerable<BOL.LISTING.Rating>> GetRatingAsync(int ListingID)
+        public async Task<IEnumerable<Rating>> GetRatingAsync(int ListingID)
         {
             return await _listingRepository.GetRatingAsync(ListingID);
         }
@@ -29,6 +30,11 @@ namespace BAL.Services
             var listingCat = await _listingRepository.GetCategoryByListingId(listingId);
 
             return await _listingRepository.GetListingBannerBySecondCategoryId(listingCat.SecondCategoryID);
+        }
+
+        public async Task<IEnumerable<BOL.LISTING.Listing>> GetUsersListingAsync(string currentUserGuid)
+        {
+            return await _listingRepository.GetUsersListingAsync(currentUserGuid);
         }
     }
 }

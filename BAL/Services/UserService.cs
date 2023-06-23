@@ -43,6 +43,11 @@ namespace BAL.Services
             }
         }
 
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
+        {
+            return await _userRepository.GetUserByUserName(userName);
+        }
+
         public Task<bool> VerifyOTP(string phoneNumber, string otp)
         {
             return _userRepository.VerifyOTP(phoneNumber, otp);

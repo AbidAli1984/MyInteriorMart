@@ -12,5 +12,6 @@ namespace DAL.Repositories.Contracts
         Task<ApplicationUser> AdOrUpdateUser(ApplicationUser user);
         Task<ApplicationUser> GetUserByMobileNo(string mobileNo);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
+        Task<ApplicationUser> GetUserByUserName(string userName);
     }
 }

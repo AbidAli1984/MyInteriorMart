@@ -1,12 +1,9 @@
-﻿using AntDesign;
-using BOL.SHARED;
+﻿using BAL.Services.Contracts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR.MyAccount.ManageListing
@@ -18,13 +15,19 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
         public bool buttonBusy { get; set; }
         public bool disable { get; set; }
 
+
+        [Inject]
+        private IListingService listingService { get; set; }
+
+        [Inject]
+        private IUserService userService { get; set; }
+
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public string OwnerGuid { get; set; }
@@ -34,7 +37,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 
         public async Task GetUsersListingAsync()
         {
-            userListings = await listingContext.Listing.Where(i => i.OwnerGuid == CurrentUserGuid).OrderByDescending(i => i.ListingID).ToListAsync();
+            userListings = await listingService.GetUsersListingAsync(CurrentUserGuid);
         }
 
         protected async override Task OnInitializedAsync()
@@ -53,7 +56,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    IdentityUser iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

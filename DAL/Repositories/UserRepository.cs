@@ -41,6 +41,11 @@ namespace DAL.Repositories
             return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo).FirstOrDefaultAsync();
         }
 
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
+        {
+            return await userDbContext.Users.Where(i => i.UserName == userName).FirstOrDefaultAsync();
+        }
+
         public async Task<bool> VerifyOTP(string phoneNumber, string otp)
         {
             var user = await userDbContext.Users.Where(x => x.PhoneNumber == phoneNumber && x.Otp == otp).FirstOrDefaultAsync();
