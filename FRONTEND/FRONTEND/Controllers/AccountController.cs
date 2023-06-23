@@ -19,22 +19,24 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using BAL.Addresses;
 using System.Security.Cryptography;
+using DAL.USER;
+using DAL.Models;
 
 namespace FRONTEND.Controllers
 {
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> SignInManager;
-        private readonly UserManager<IdentityUser> UserManager;
-        private readonly ApplicationDbContext ApplicationContext;
+        private readonly UserManager<ApplicationUser> UserManager;
+        private readonly UserDbContext ApplicationContext;
         private readonly SharedDbContext SharedContext;
         private readonly AuditDbContext AuditContext;
         public readonly IUserRoleClaim UserRoleClaim;
         private readonly INotification Notification;
         private readonly IAddresses Addresses;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, 
-            ApplicationDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, 
+        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<ApplicationUser> userManager,
+            UserDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, 
             IUserRoleClaim userRoleClaim, INotification notification, IAddresses addresses)
         {
             SignInManager = signInManager;
@@ -209,7 +211,7 @@ namespace FRONTEND.Controllers
                 if (otpRecord.Mobile == mobile)
                 {
                     // Shafi: Create User
-                    var user = new IdentityUser { UserName = mobile, Email = email, PhoneNumber = mobile };
+                    var user = new ApplicationUser { UserName = mobile, Email = email, PhoneNumber = mobile };
                     await UserManager.CreateAsync(user, password);
                     // End:
 

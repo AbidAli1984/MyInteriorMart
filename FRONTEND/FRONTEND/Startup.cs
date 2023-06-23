@@ -48,6 +48,7 @@ using BAL.Keyword;
 using BAL.Claims.Listing;
 using Microsoft.Net.Http.Headers;
 using DAL.USER;
+using DAL.Models;
 
 namespace FRONTEND
 {
@@ -149,11 +150,11 @@ namespace FRONTEND
             // End:
 
             // Shafi: 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<UserDbContext>();
 
             // Shafi: Cookie based authentication and login
             // ConfigureApplicationCookie must be called after calling AddIdentity or AddDefaultIdentity.

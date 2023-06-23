@@ -157,7 +157,7 @@ namespace DAL.DBContexts.USER.Migrations
                     b.ToTable("UserProfile","dbo");
                 });
 
-            modelBuilder.Entity("DAL.CustomModel.ApplicationUser", b =>
+            modelBuilder.Entity("DAL.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -380,7 +380,7 @@ namespace DAL.DBContexts.USER.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("DAL.CustomModel.ApplicationUser", null)
+                    b.HasOne("DAL.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -389,7 +389,7 @@ namespace DAL.DBContexts.USER.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("DAL.CustomModel.ApplicationUser", null)
+                    b.HasOne("DAL.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -404,7 +404,7 @@ namespace DAL.DBContexts.USER.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAL.CustomModel.ApplicationUser", null)
+                    b.HasOne("DAL.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -413,7 +413,7 @@ namespace DAL.DBContexts.USER.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("DAL.CustomModel.ApplicationUser", null)
+                    b.HasOne("DAL.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

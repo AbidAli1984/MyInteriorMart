@@ -48,4 +48,8 @@
   <ItemGroup>
     <ProjectReference Include="..\BOL\BOL.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UserRepository\" />
+  </ItemGroup>
 </Project>

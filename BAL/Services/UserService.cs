@@ -1,13 +1,11 @@
-﻿using DAL.CustomModel;
-using DAL.UserRepository;
+﻿using DAL.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using BAL.Utils;
+using DAL.Repositories.Contracts;
+using BAL.Services.Contracts;
 
-namespace BAL.User
+namespace BAL.Services
 {
     public class UserService : IUserService
     {

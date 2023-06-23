@@ -1,13 +1,13 @@
-using BAL.User;
 using DAL.AUDIT;
 using DAL.BANNER;
 using DAL.BILLING;
 using DAL.CATEGORIES;
-using DAL.CustomModel;
+using DAL.Repositories.Contracts;
+using DAL.Models;
 using DAL.LISTING;
 using DAL.SHARED;
 using DAL.USER;
-using DAL.UserRepository;
+using DAL.Repositories;
 using FRONTEND.BLAZOR.Areas.Identity;
 using FRONTEND.BLAZOR.Data;
 using FRONTEND.BLAZOR.Services;
@@ -23,6 +23,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using REPO;
 using System.IO;
+using BAL.Services.Contracts;
+using BAL.Services;
 
 namespace FRONTEND.BLAZOR
 {

@@ -37,6 +37,7 @@ using BAL.Claims;
 using BAL.Identity;
 using BAL.Keyword;
 using BAL.Claims.Listing;
+using DAL.USER;
 
 namespace ADMIN
 {
@@ -68,7 +69,7 @@ namespace ADMIN
 #endif
 
             // Begin: ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MimApplication")));
             // End:
@@ -114,7 +115,7 @@ namespace ADMIN
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<UserDbContext>();
 
             // Shafi: Cookie based authentication and login
             // ConfigureApplicationCookie must be called after calling AddIdentity or AddDefaultIdentity.

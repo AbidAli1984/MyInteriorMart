@@ -1,11 +1,11 @@
-﻿using DAL.CustomModel;
+﻿using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.UserRepository
+namespace DAL.Repositories.Contracts
 {
     public interface IUserRepository
     {

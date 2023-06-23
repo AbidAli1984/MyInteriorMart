@@ -20,6 +20,8 @@ using BAL.Identity;
 using Hangfire;
 using BAL.Audit;
 using Microsoft.AspNetCore.Http;
+using DAL.USER;
+using DAL.Models;
 
 namespace IDENTITY
 {
@@ -35,15 +37,15 @@ namespace IDENTITY
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MimApplication")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<UserDbContext>();
 
             // Shafi: Cookie based authentication and login
             // ConfigureApplicationCookie must be called after calling AddIdentity or AddDefaultIdentity.

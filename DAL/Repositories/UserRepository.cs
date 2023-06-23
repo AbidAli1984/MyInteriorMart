@@ -1,4 +1,5 @@
-﻿using DAL.CustomModel;
+﻿using DAL.Repositories.Contracts;
+using DAL.Models;
 using DAL.USER;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.UserRepository
+namespace DAL.Repositories
 {
     public class UserRepository : IUserRepository
     {

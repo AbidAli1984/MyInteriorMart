@@ -23,6 +23,7 @@
     <Folder Include="Dashboard\Staff\" />
     <Folder Include="Dashboard\Notifications\" />
     <Folder Include="Dashboard\Search\" />
+    <Folder Include="User\" />
   </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@ using System.Globalization;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using FRONTEND.BLAZOR.Data;
-using DAL.CustomModel;
+using DAL.Models;
 
 namespace FRONTEND.BLAZOR.Services
 {
