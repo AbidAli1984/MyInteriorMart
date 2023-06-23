@@ -17,6 +17,8 @@ using AntDesign;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using BOL.BANNERADS;
+using FRONTEND.BLAZOR.Data;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.BLAZOR.Listings
 {
@@ -24,6 +26,9 @@ namespace FRONTEND.BLAZOR.Listings
     {
         [Inject]
         private IListingService listingService { get; set; }
+
+        [Inject]
+        private IAuditService auditService { get; set; }
 
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
@@ -201,9 +206,9 @@ namespace FRONTEND.BLAZOR.Listings
                 .CountAsync();
 
             // Check if logged in user already subscribed
-            userAlreadySubscribed = await listingService.CheckIfUserSubscribedToListing(listingId, userGuid);
-            userAlreadyBookmarked = await listingService.CheckIfUserBookmarkedListing(listingId, userGuid);
-            userAlreadyLiked = await listingService.CheckIfUserLikedListing(listingId, userGuid);
+            userAlreadySubscribed = await auditService.CheckIfUserSubscribedToListing(listingId, userGuid);
+            userAlreadyBookmarked = await auditService.CheckIfUserBookmarkedListing(listingId, userGuid);
+            userAlreadyLiked = await auditService.CheckIfUserLikedListing(listingId, userGuid);
         }
 
         // Begin: Get Local Address

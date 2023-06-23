@@ -32,9 +32,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         // End: Toggle Edit
 
         [Inject]
-        private IListingService listingService { get; set; }
-
-        [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }

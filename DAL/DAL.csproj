@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UserRepository\**" />
+    <EmbeddedResource Remove="UserRepository\**" />
+    <None Remove="UserRepository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="DBContexts\AUDIT\Migrations\20200730103143_9.cs" />
     <Compile Remove="DBContexts\AUDIT\Migrations\20200730103143_9.Designer.cs" />
     <Compile Remove="DBContexts\AUDIT\Migrations\20200731114018_12.cs" />
@@ -47,9 +53,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BOL\BOL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UserRepository\" />
   </ItemGroup>
 </Project>

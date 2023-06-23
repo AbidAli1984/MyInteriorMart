@@ -22,9 +22,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
 
         [Inject]
-        private IListingService listingService { get; set; }
-
-        [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }

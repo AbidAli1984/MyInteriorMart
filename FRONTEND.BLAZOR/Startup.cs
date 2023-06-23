@@ -103,10 +103,13 @@ namespace FRONTEND.BLAZOR
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddTransient<CategoryRepo>();
-            services.AddTransient<IListingService, ListingService>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IListingService, ListingService>();
+            services.AddTransient<IListingRepository, ListingRepository>();
+            services.AddTransient<IAuditService, AuditService>();
+            services.AddTransient<IAuditRepository, AuditRepository>();
 
         }
 

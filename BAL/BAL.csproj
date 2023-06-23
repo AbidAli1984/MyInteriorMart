@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="User\**" />
+    <EmbeddedResource Remove="User\**" />
+    <None Remove="User\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Hangfire.Core" Version="1.7.17" />
     <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
     <PackageReference Include="SendGrid" Version="9.17.0" />
@@ -23,7 +29,6 @@
     <Folder Include="Dashboard\Staff\" />
     <Folder Include="Dashboard\Notifications\" />
     <Folder Include="Dashboard\Search\" />
-    <Folder Include="User\" />
   </ItemGroup>
 
 </Project>

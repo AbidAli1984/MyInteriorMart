@@ -24,7 +24,7 @@ using DAL.Models;
 
 namespace FRONTEND.BLAZOR.Services
 {
-    public class ListingService : IListingService
+    public class ListingService_bak : IListingService_bak
     {
         private readonly ListingDbContext listingContext;
         private readonly BillingDbContext billingContext;
@@ -35,7 +35,7 @@ namespace FRONTEND.BLAZOR.Services
         private readonly IHistoryAudit historyAudit;
         private readonly IHttpContextAccessor httpConAccess;
 
-        public ListingService(ListingDbContext listingContext, UserManager<ApplicationUser> userManager, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, AuditDbContext auditContext, IHistoryAudit historyAudit, IHttpContextAccessor httpConAccess)
+        public ListingService_bak(ListingDbContext listingContext, UserManager<ApplicationUser> userManager, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, AuditDbContext auditContext, IHistoryAudit historyAudit, IHttpContextAccessor httpConAccess)
         {
             this.listingContext = listingContext;
             this.userManager = userManager;
@@ -46,295 +46,30 @@ namespace FRONTEND.BLAZOR.Services
             this.httpConAccess = httpConAccess;
         }
 
-        public bool CheckIfListingFullfillFreeListingCrieteria(int id)
-        {
-            var companyExist = listingContext.Listing.Any(i => i.ListingID == id);
-            var communicationExist = listingContext.Communication.Any(i => i.CommunicationID == id);
-            var addressExist = listingContext.Address.Any(i => i.AddressID == id);
-            var categoryExist = listingContext.Categories.Any(i => i.CategoryID == id);
-            var specialisationExist = listingContext.Specialisation.Any(i => i.SpecialisationID == id);
-            var workingHoursExist = listingContext.WorkingHours.Any(i => i.WorkingHoursID == id);
-            var paymentExist = listingContext.PaymentMode.Any(i => i.PaymentID == id);
-
-            if (companyExist == true && communicationExist == true && addressExist == true && categoryExist == true && specialisationExist == true && workingHoursExist == true && paymentExist == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         // End:
 
-        // Shafi: Check if record exists
-        public bool CompanyExists(int id)
+
+        // Shafi: Check if business is open or close
+        
+        public async Task<int> CountViewsAsync(int days, int ListingId)
         {
-            var result = listingContext.Listing.Any(i => i.ListingID == id);
+            DateTime date = DateTime.Now.AddDays(-days);
+            var result = await listingContext.ListingViews.Where(x => x.Date.Day == date.Day && x.Date.Month == date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
             return result;
         }
 
-        public bool CommunicationExists(int id)
+        public async Task<int> CountReviewAsync(int days, int ListingId)
         {
-            var result = listingContext.Communication.Any(i => i.CommunicationID == id);
+            DateTime date = DateTime.Now.AddDays(-days);
+            var result = await listingContext.Rating.Where(x => x.Date.Day == date.Day && x.Date.Month == x.Date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
             return result;
         }
 
-        public bool AddressExists(int id)
+        public async Task<int> CountLikesAsync(int days, int ListingId)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool CategoriesExists(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool PaymentExists(int id)
-        {
-            var result = listingContext.PaymentMode.Any(i => i.PaymentID == id);
+            DateTime date = DateTime.Now.AddDays(-days);
+            var result = await auditContext.ListingLikeDislike.Where(x => x.VisitDate.Day == date.Day && x.VisitDate.Month == x.VisitDate.Month && x.VisitDate.Year == date.Year && x.ListingID == ListingId).CountAsync();
             return result;
-        }
-
-        public bool SocialExists(int id)
-        {
-            var result = listingContext.SocialNetwork.Any(i => i.SocialNetworkID == id);
-            return result;
-        }
-
-        public bool CertificationsExists(int id)
-        {
-            var result = listingContext.Certification.Any(i => i.CertificationID == id);
-            return result;
-        }
-
-        public bool ProfileExists(int id)
-        {
-            var result = listingContext.Profile.Any(i => i.ProfileID == id);
-            return result;
-        }
-
-        public bool SpecialisationExists(int id)
-        {
-            var result = listingContext.Specialisation.Any(i => i.SpecialisationID == id);
-            return result;
-        }
-
-        public bool WorkingExists(int id)
-        {
-            var result = listingContext.WorkingHours.Any(i => i.WorkingHoursID == id);
-            return result;
-        }
-
-        public bool Kilometer10Exists(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool BranchesExists(int id)
-        {
-            var result = listingContext.Branches.Any(i => i.BranchID == id);
-            return result;
-        }
-
-        public bool LogoExists(int id)
-        {
-            string directoryPath = webHost.WebRootPath + "\\FileManager\\ListingLogo\\";
-            DirectoryInfo directory = new DirectoryInfo(directoryPath);
-            string filePath = directoryPath + id + ".jpg";
-            if (File.Exists(filePath))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool ThumbnailExists(int id)
-        {
-            string directoryPath = webHost.WebRootPath + "\\FileManager\\ListingThumbnail\\";
-            DirectoryInfo directory = new DirectoryInfo(directoryPath);
-            string filePath = directoryPath + id + ".jpg";
-            if (File.Exists(filePath))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool OwnerPhotoExists(int id)
-        {
-            string directoryPath = webHost.WebRootPath + "\\FileManager\\ListingOwnerPhoto\\";
-            DirectoryInfo directory = new DirectoryInfo(directoryPath);
-            string filePath = directoryPath + id + ".jpg";
-            if (File.Exists(filePath))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        // End:
-
-        // Shafi: Ownership Verification
-        public async Task<bool> CompanyOwnerAsync(int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Listing.Where(p => p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> SocialOwnerAsync(int SocialNetworkID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.SocialNetwork.Where(p => p.SocialNetworkID == SocialNetworkID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> CertificationOwnerAsync(int CertificationID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Certification.Where(p => p.CertificationID == CertificationID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> CommunicationOwnerAsync(int CommunicationID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Communication.Where(p => p.CommunicationID == CommunicationID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> AddressOwnerAsync(int AddressID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Address.Where(a => a.AddressID == AddressID && a.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> CategoryOwnerAsync(int CategoryID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Categories.Where(p => p.CategoryID == CategoryID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public async Task<bool> ProfileOwnerAsync(int ProfileID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Profile.Where(p => p.ProfileID == ProfileID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> PaymentOwnerAsync(int PaymentID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.PaymentMode.Where(p => p.PaymentID == PaymentID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> WorkingOwnerAsync(int WorkingHoursID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.WorkingHours.Where(p => p.WorkingHoursID == WorkingHoursID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> SpecialisationOwnerAsync(int SpecialisationID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Specialisation.Where(p => p.SpecialisationID == SpecialisationID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> BranchesOwnerAsync(int BranchID, int ListingID, string UserGuid)
-        {
-            var OwnerGuid = await listingContext.Branches.Where(p => p.BranchID == BranchID && p.ListingID == ListingID).Select(i => i.OwnerGuid).FirstOrDefaultAsync();
-
-            if (UserGuid == OwnerGuid)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
         // End:
 
@@ -346,364 +81,6 @@ namespace FRONTEND.BLAZOR.Services
         }
         // End:
 
-        // Shafi: Get Plan Name
-        public string GetPlanName(string PlanType, int? PlanID)
-        {
-            if (PlanType == "Listing Plans")
-            {
-                var planName = billingContext.Plan.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-            else if (PlanType == "Banner Plans")
-            {
-                var planName = billingContext.BannerPlan.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-            else if (PlanType == "Advertisement Plans")
-            {
-                var planName = billingContext.AdvertisementPlan.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-            else if (PlanType == "Data Plans")
-            {
-                var planName = billingContext.DataPlan.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-            else if (PlanType == "SMS Plans")
-            {
-                var planName = billingContext.SMSPlans.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-            else if (PlanType == "Email Plans")
-            {
-                var planName = billingContext.EmailPlans.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-            else
-            {
-                var planName = billingContext.MagazinePlan.Where(p => p.PlanID == PlanID).Select(p => p.Name).FirstOrDefault();
-                return planName.ToString();
-            }
-        }
-        // End:
-
-        // Shafi: Manage Rating
-        public async Task CreateRatingAsync(int ListingID, string OwnerGuid, string IPAddress, DateTime Date, DateTime Time, int Ratings, string Comment, string UserEmail)
-        {
-
-            Rating rating = new Rating()
-            {
-                ListingID = ListingID,
-                OwnerGuid = OwnerGuid,
-                IPAddress = IPAddress,
-                Date = Date,
-                Time = Time,
-                Ratings = Ratings,
-                Comment = Comment
-            };
-
-
-            await listingContext.AddAsync(rating);
-            await listingContext.SaveChangesAsync();
-
-            // Shafi: Find listing and communication details
-            var listing = await listingContext.Listing.Where(l => l.ListingID == ListingID).FirstOrDefaultAsync();
-            var communication = await listingContext.Communication.Where(l => l.ListingID == ListingID).FirstOrDefaultAsync();
-            // End:
-        }
-
-        public async Task<bool> ReviewExistsAsync(int ListingID, string OwnerGuid)
-        {
-            var result = await listingContext.Rating.Where(r => r.ListingID == ListingID && r.OwnerGuid == OwnerGuid).FirstOrDefaultAsync();
-
-            if (result != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<IEnumerable<Rating>> GetRatingAsync(int ListingID)
-        {
-            var ratings = await listingContext.Rating.Where(r => r.ListingID == ListingID).ToListAsync();
-            return ratings;
-        }
-
-        public async Task<Rating> RatingDetailsAsync(int ListingID)
-        {
-            var rating = await listingContext.Rating.Where(r => r.ListingID == ListingID).FirstOrDefaultAsync();
-            return rating;
-        }
-
-        public async Task<string> RatingAverageAsync(int ListingID)
-        {
-            // Shafi: Get rating average
-            var allRating = await listingContext.Rating.Where(r => r.ListingID == ListingID).ToListAsync();
-            var ratingCount = allRating.Count();
-
-            if (ratingCount > 0)
-            {
-                var R1 = await CountRatingAsync(ListingID, 1);
-                var R2 = await CountRatingAsync(ListingID, 2);
-                var R3 = await CountRatingAsync(ListingID, 3);
-                var R4 = await CountRatingAsync(ListingID, 4);
-                var R5 = await CountRatingAsync(ListingID, 5);
-
-                decimal averageCount = 5 * R5 + 4 * R4 + 3 * R3 + 2 * R2 + 1 * R1;
-                decimal weightedCount = R5 + R4 + R3 + R2 + R1;
-                decimal ratingAverage = averageCount / weightedCount;
-
-                return ratingAverage.ToString("0.0");
-            }
-            else
-            {
-                return "0";
-            }
-            // End:
-        }
-
-        public async Task<int> CountRatingAsync(int ListingID, int rating)
-        {
-            var count = await listingContext.Rating.Where(r => r.ListingID == ListingID && r.Ratings == rating).CountAsync();
-            return count;
-        }
-        
-
-        // Shafi: Get all listing details
-        public async Task<Listing> GetListingDetailsAsync(int ListingID)
-        {
-            var listing = await listingContext.Listing.Where(r => r.ListingID == ListingID).FirstOrDefaultAsync();
-
-            return listing;
-        }
-
-        public async Task<Communication> CommunicationDetailsAsync(int ListingID)
-        {
-            var communication = await listingContext.Communication.Where(r => r.ListingID == ListingID).FirstOrDefaultAsync();
-            return communication;
-        }
-        // End:
-
-        // Shafi: Begin analytics
-        public async Task IncrementViewCountByOneAsync(int? ListingID)
-        {
-            if (ListingID != null)
-            {
-                var record = await listingContext.ListingViewCount.Where(c => c.ListingID == ListingID).FirstOrDefaultAsync();
-
-                // Shafi: Check if record exisits
-                if (record != null)
-                {
-                    // Shafi: Get last count then increment by 1
-                    var lastCount = record.ViewCount;
-                    record.ViewCount = lastCount + 1;
-                    // End:
-
-                    // Shafi: Update record
-                    listingContext.Update(record);
-                    await listingContext.SaveChangesAsync();
-                    // End:
-                }
-                // Shafi: Execute this if record does not exists
-                else
-                {
-                    // Shafi: Create new record
-                    ListingViewCount count = new ListingViewCount();
-
-                    // Shafi: Add details to record
-                    count.ListingID = ListingID.Value;
-                    count.ViewCount = 1;
-
-                    // Shafi: Create record and save changes
-                    await listingContext.AddAsync(count);
-                    await listingContext.SaveChangesAsync();
-                    // End:
-                }
-                // End:
-            }
-        }
-
-        public async Task RecordListingViewAsync(int? ListingID, string UserType, string OwnerGuid, string IPAddress, DateTime Date, string Country, string City, string Pincode, string State, string IPV4, string Latitude, string Longitude)
-        {
-            if (ListingID != null)
-            {
-                ListingViews listingView = new ListingViews();
-                listingView.ListingID = ListingID.Value;
-                listingView.UserType = UserType;
-                listingView.OwnerGuid = OwnerGuid;
-                listingView.IPAddress = IPAddress;
-                listingView.Date = Date;
-                listingView.Country = Country;
-                listingView.City = City;
-                listingView.Pincode = Pincode;
-                listingView.State = State;
-                listingView.IPv4 = IPV4;
-                listingView.Latitude = Latitude;
-                listingView.Longitude = Longitude;
-
-                // Shafi: Update record
-                await listingContext.AddAsync(listingView);
-                await listingContext.SaveChangesAsync();
-                // End:
-            }
-        }
-
-        public async Task<IEnumerable<ListingViews>> GetListingViewsAsync(int ListingID)
-        {
-
-            //DateTime date = DateTime.Now.AddDays(-Days);
-            var result = await listingContext.ListingViews
-                .Where(x => x.ListingID == ListingID)
-                .OrderByDescending(x => x.ListingID)
-                .ToListAsync();
-            return result;
-        }
-        // End:
-
-        // Shafi: Check if business is open or close
-        public async Task<string> BusinessOpenOrCloseAsync(int ListingID)
-        {
-            // Shafi: Begin: Get timing of listing
-            var listingTiming = await listingContext.WorkingHours.Where(w => w.ListingID == ListingID).FirstOrDefaultAsync();
-            // End:
-
-            // Shafi: Get Time Zone
-            DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-            string day = timeZoneDate.ToString("dddd");
-            string time = timeZoneDate.ToString("hh:mm tt");
-            DateTime currentTime = DateTime.Parse(time, System.Globalization.CultureInfo.CurrentCulture);
-            // End:
-
-            // Shafi: Business Open Now & Close
-            if (day == "Monday")
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.MondayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Tuesday")
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.TuesdayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Wednesday")
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.WednesdayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Thursday")
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.ThursdayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Friday")
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.FridayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Saturday" && listingTiming.SaturdayHoliday == false)
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.SaturdayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Saturday" && listingTiming.SaturdayHoliday != true)
-            {
-                return "Closed Now";
-            }
-            else if (day == "Sunday" && listingTiming.SundayHoliday == false)
-            {
-                // Shafi: Get ToTime in ("hh:mm tt") format then convert it to string then create date time from it
-                string timeString = listingTiming.SundayTo.ToString("hh:mm tt");
-                DateTime ToTime = DateTime.Parse(timeString, System.Globalization.CultureInfo.CurrentCulture);
-                // End:
-
-                if (currentTime > ToTime)
-                {
-                    return "Closed Now";
-                }
-                else
-                {
-                    return "Open Now";
-                }
-            }
-            else if (day == "Sunday" && listingTiming.SundayHoliday != true)
-            {
-                return "Closed Now";
-            }
-            else
-            {
-                return "Open Now";
-            }
-        }
-
         // Shafi: Function to count views and get day name
         public string GetDayName(int days)
         {
@@ -711,32 +88,11 @@ namespace FRONTEND.BLAZOR.Services
             return date.ToString("d ddd");
         }
 
-        public async Task<int> CountViewsAsync(int days, int ListingId)
-        {
-            DateTime date = DateTime.Now.AddDays(-days);
-            var result = await listingContext.ListingViews.Where(x => x.Date.Day == date.Day && x.Date.Month == date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
-            return result;
-        }
-
-        public async Task<int> CountLikesAsync(int days, int ListingId)
-        {
-            DateTime date = DateTime.Now.AddDays(-days);
-            var result = await auditContext.ListingLikeDislike.Where(x => x.VisitDate.Day == date.Day && x.VisitDate.Month == x.VisitDate.Month && x.VisitDate.Year == date.Year && x.ListingID == ListingId).CountAsync();
-            return result;
-        }
-
         public async Task<bool> CheckIfUserLikedListing(int listingId, string userGuid)
         {
             var liked = await auditContext.ListingLikeDislike.Where(i => i.ListingID == listingId && i.UserGuid == userGuid).AnyAsync();
 
-            if (liked == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return liked == true;
         }
 
         // Begin: Listing Subscribe
@@ -746,28 +102,7 @@ namespace FRONTEND.BLAZOR.Services
             var result = await auditContext.Subscribes.Where(x => x.VisitDate.Day == date.Day && x.VisitDate.Month == x.VisitDate.Month && x.VisitDate.Year == date.Year && x.ListingID == ListingId).CountAsync();
             return result;
         }
-
-        public async Task <bool> CheckIfUserSubscribedToListing(int listingId, string userGuid)
-        {
-            var subscribed = await auditContext.Subscribes.Where(i => i.ListingID == listingId && i.UserGuid == userGuid).AnyAsync();
-
-            if(subscribed == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         // End: Listing Subscribe
-
-        public async Task<int> CountReviewAsync(int days, int ListingId)
-        {
-            DateTime date = DateTime.Now.AddDays(-days);
-            var result = await listingContext.Rating.Where(x => x.Date.Day == date.Day && x.Date.Month == x.Date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
-            return result;
-        }
         // End:
 
         public async Task<DashboardListingLast30DaysViews> GetLast30DaysListingViewsAsync(int ListingID)
@@ -1244,30 +579,6 @@ namespace FRONTEND.BLAZOR.Services
             return subscribes;
         }
 
-        public async Task<int> CountListingReviewsAsync(int ListingID)
-        {
-            var count = await listingContext.Rating.Where(r => r.ListingID == ListingID).CountAsync();
-            return count;
-        }
-
-        public async Task<int> CountListingLikesAsync(int ListingID)
-        {
-            var count = await auditContext.ListingLikeDislike.Where(r => r.ListingID == ListingID).CountAsync();
-            return count;
-        }
-
-        public async Task<int> CountListingSubscribeAsync(int ListingID)
-        {
-            var count = await auditContext.Subscribes.Where(r => r.ListingID == ListingID).CountAsync();
-            return count;
-        }
-
-        public async Task<int> CountListingViewsAsync(int ListingID)
-        {
-            var count = await listingContext.ListingViews.Where(r => r.ListingID == ListingID).CountAsync();
-            return count;
-        }
-
         // Begin: Bookmark  
         public async Task<int> CountListingBookmarkAsync(int ListingID)
         {
@@ -1283,20 +594,6 @@ namespace FRONTEND.BLAZOR.Services
             DateTime date = DateTime.Now.AddDays(-days);
             var result = await auditContext.Bookmarks.Where(x => x.VisitDate.Day == date.Day && x.VisitDate.Month == x.VisitDate.Month && x.VisitDate.Year == date.Year && x.ListingID == ListingId).CountAsync();
             return result;
-        }
-
-        public async Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid)
-        {
-            var bookmarked = await auditContext.Bookmarks.Where(i => i.ListingID == listingId && i.UserGuid == userGuid).AnyAsync();
-
-            if (bookmarked == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public async Task Bookmark(int? ListingID, string Bookmark, string UserGuid)
@@ -1659,62 +956,6 @@ namespace FRONTEND.BLAZOR.Services
             };
 
             return reviews;
-        }
-
-        public async Task<IEnumerable<DashboardListingViewCountByCountryViewModel>> GetListingViewsCountByCountry(int ListingID)
-        {
-            var result = await (from x in listingContext.ListingViews
-                                where x.ListingID == ListingID
-                                group x by x.Country into y
-                                select new DashboardListingViewCountByCountryViewModel
-                                {
-                                    Country = y.Key,
-                                    Count = y.Count()
-                                })
-                          .ToListAsync();
-
-            return result;
-        }
-
-        public async Task<DashboardListingViewByMonth> CountListingViewsByMonth(int subtractMonth, int ListingID)
-        {
-            var date = DateTime.Now.AddMonths(-subtractMonth);
-            var result = await listingContext.ListingViews.Where(x => x.Date.Month == date.Month && x.Date.Year == date.Year && x.ListingID == ListingID).CountAsync();
-            DashboardListingViewByMonth model = new DashboardListingViewByMonth()
-            {
-                MonthName = date.ToString("MMM"),
-                Count = result
-            };
-
-            return model;
-        }
-
-        public async Task<bool> CheckIfUserHas5Listings(string ownerGuid)
-        {
-            var count = await listingContext.Listing.Where(i => i.OwnerGuid == ownerGuid).CountAsync();
-            if (count > 3)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public string ListingCompanyName(int listingId)
-        {
-            string CompanyName = listingContext.Listing.Where(i => i.ListingID == listingId).Select(i => i.CompanyName).FirstOrDefault();
-
-            if (CompanyName == "")
-            {
-                CompanyName = "Name Not Available";
-                return CompanyName;
-            }
-            else
-            {
-                return CompanyName;
-            }
         }
     }
 }
