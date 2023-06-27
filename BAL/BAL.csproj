@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BOL\BOL.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\FRONTEND\Utils\Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

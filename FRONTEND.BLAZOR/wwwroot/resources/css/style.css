@@ -7552,8 +7552,8 @@ ul.bullets li:before {
   font-size: 21px;
   font-size: 1.3125rem;
   position: absolute;
-  left: 12px;
-  top: 9px!important;
+  left: 10px;
+  top: 4px!important;
   color: #ccc;
   width: 25px;
   height: 25px;
@@ -8341,4 +8341,8 @@ article.blog .post_info ul li:last-child i {
 }
 .comment_info span {
   padding: 0 10px;
+}
+
+.ant-input {
+    padding-left: 40px;
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BAL.Utils
+namespace Utils
 {
-    class Common
+    public class Helper
     {
         public static string GetOTP()
         {

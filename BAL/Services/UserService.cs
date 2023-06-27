@@ -1,10 +1,10 @@
 ﻿using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using BAL.Utils;
 using DAL.Repositories.Contracts;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
+using Utils;
 
 namespace BAL.Services
 {
@@ -33,7 +33,8 @@ namespace BAL.Services
                     PhoneNumber = mobileNumber,
                     UserName = mobileNumber,
                     Email = "sayyed.abid2003@gmail.com",
-                    Otp = Common.GetOTP()
+                    Otp = Helper.GetOTP(),
+                    TwoFactorEnabled = true
                 };
 
                 ApplicationUser user = await _userRepository.AdOrUpdateUser(userToAddOrUpdate);
@@ -49,9 +50,10 @@ namespace BAL.Services
             }
         }
 
-        public Task<bool> VerifyOTP(string phoneNumber, string otp)
+        public async Task<bool> VerifyOTP(string phoneNumber, string otp)
         {
-            return _userRepository.VerifyOTP(phoneNumber, otp);
+            ApplicationUser user = await _userRepository.GetUserByMobileNo(phoneNumber);
+            return user.Otp == otp;
         }
 
         public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
