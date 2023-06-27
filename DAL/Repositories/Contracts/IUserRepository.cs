@@ -11,7 +11,9 @@ namespace DAL.Repositories.Contracts
     public interface IUserRepository
     {
         Task<ApplicationUser> AdOrUpdateUser(ApplicationUser user);
+        Task DeleteUserByPhoneNumberOrEmail(ApplicationUser user);
         Task<ApplicationUser> GetUserByMobileNo(string mobileNo);
+        Task<ApplicationUser> GetRegisterdUserByMobileNo(string mobileNo);
         Task<ApplicationUser> GetUserByUserName(string userName);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
         Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid);

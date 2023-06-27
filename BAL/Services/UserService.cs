@@ -5,6 +5,7 @@ using DAL.Repositories.Contracts;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
 using Utils;
+using BOL.IDENTITY.ViewModels;
 
 namespace BAL.Services
 {
@@ -21,7 +22,30 @@ namespace BAL.Services
 
         public async Task<ApplicationUser> GetUserByUserName(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+                return null;
             return await _userRepository.GetUserByUserName(userName);
+        }
+
+        public async Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber)
+        {
+            if (string.IsNullOrEmpty(mobileNumber))
+                return false;
+            var registeredUser = await _userRepository.GetRegisterdUserByMobileNo(mobileNumber);
+            return registeredUser != null;
+        }
+
+        public async Task<IdentityResult> Register(UserRegisterViewModel userRegisterViewModel)
+        {
+            var user = new ApplicationUser { 
+                UserName = userRegisterViewModel.Email,
+                Email = userRegisterViewModel.Email, 
+                PhoneNumber = userRegisterViewModel.Mobile, 
+                PhoneNumberConfirmed=true,
+                IsRegistrationCompleted = true
+            };
+            var result = await _userManager.CreateAsync(user, userRegisterViewModel.Password);
+            return result;
         }
 
         public async Task<bool> GenerateOTP(string mobileNumber)
@@ -33,12 +57,11 @@ namespace BAL.Services
                     PhoneNumber = mobileNumber,
                     UserName = mobileNumber,
                     Email = "sayyed.abid2003@gmail.com",
-                    Otp = Helper.GetOTP(),
-                    TwoFactorEnabled = true
+                    Otp = Helper.GetOTP()
                 };
 
                 ApplicationUser user = await _userRepository.AdOrUpdateUser(userToAddOrUpdate);
-                var OTP = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "Email");
+                //var OTP = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "Email");
                 //var message = new Message(new string[] { user.Email! }, "OTP Confirmation", OTP);
                 //_emailService.SendEmail(message);
                 //string test = code.Result;
@@ -50,10 +73,15 @@ namespace BAL.Services
             }
         }
 
-        public async Task<bool> VerifyOTP(string phoneNumber, string otp)
+        public async Task<bool> VerifyOTP(string mobileNumber, string otp)
         {
-            ApplicationUser user = await _userRepository.GetUserByMobileNo(phoneNumber);
-            return user.Otp == otp;
+            ApplicationUser user = await _userRepository.GetUserByMobileNo(mobileNumber);
+            bool isVerified = user.Otp == otp;
+            if (isVerified)
+            {
+                await _userRepository.DeleteUserByPhoneNumberOrEmail(user);
+            }
+            return isVerified;
         }
 
         public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)

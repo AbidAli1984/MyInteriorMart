@@ -1,5 +1,9 @@
 ﻿using BAL.Services.Contracts;
+using BOL.IDENTITY.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Utils;
 
@@ -9,6 +13,9 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
     {
         [Inject]
         private IUserService userService { get; set; }
+
+        [Inject]
+        NavigationManager navManager { get; set; }
 
         public string Email { get; set; }
         public string emailErrMessage { get; set; }
@@ -30,6 +37,13 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
         public async Task GenerateOTP()
         {
+            var isUserWithMobileExists = await userService.IsMobileNoAlreadyRegistered(Mobile);
+            if(isUserWithMobileExists)
+            {
+                mobileErrMessage = $"Mobile number {Mobile} is already registered";
+                return;
+            }
+
             mobileErrMessage = FieldValidator.mobileErrMessage(Mobile);
             if (!string.IsNullOrEmpty(mobileErrMessage))
             {
@@ -38,20 +52,17 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
             await userService.GenerateOTP(Mobile);
             isOtpGenerated = true;// await userService.GenerateOTP(phoneNumber);
+            mobileErrMessage = "Otp sent successfully! to your mobile number " + Mobile;
         }
 
         public async Task VerifyOTP()
         {
             isOtpVerified = await userService.VerifyOTP(Mobile, otp);
 
-            //if (isUserVerified)
-            //{
-            //    navManager.NavigateTo("/");
-            //}
-
+            mobileErrMessage = isOtpVerified ? "Mobile number verified successfully!" : "Invalid OTP";
         }
 
-        public async Task RegisterUser()
+        public async void RegisterUser()
         {
             emailErrMessage = FieldValidator.emailErrMessage(Email);
             mobileErrMessage = FieldValidator.mobileErrMessage(Mobile);
@@ -62,6 +73,17 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
                 || !string.IsNullOrEmpty(passwordErrMessage) || !string.IsNullOrEmpty(confirmPasswordErrMessage))
             {
                 return;
+            }
+
+            var user = new UserRegisterViewModel { Email = Email.ToLower(), Mobile = Mobile, Password = Password };
+            IdentityResult result = await userService.Register(user);
+            if (result.Succeeded)
+            {
+                navManager.NavigateTo("/Auth/Login");
+            }
+            else
+            {
+                errorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
             }
         }
     }

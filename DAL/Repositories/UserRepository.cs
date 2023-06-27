@@ -42,6 +42,11 @@ namespace DAL.Repositories
             return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo).FirstOrDefaultAsync();
         }
 
+        public async Task<ApplicationUser> GetRegisterdUserByMobileNo(string mobileNo)
+        {
+            return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo && x.IsRegistrationCompleted).FirstOrDefaultAsync();
+        }
+
         public async Task<ApplicationUser> GetUserByUserName(string userName)
         {
             return await userDbContext.Users.Where(i => i.UserName == userName).FirstOrDefaultAsync();
@@ -56,6 +61,16 @@ namespace DAL.Repositories
         public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
         {
             return await userDbContext.UserProfile.Where(p => p.OwnerGuid == ownerGuid).FirstOrDefaultAsync();
+        }
+
+        public async Task DeleteUserByPhoneNumberOrEmail(ApplicationUser user)
+        {
+            var userToDelete = await userDbContext.Users.Where(x => x.PhoneNumber == user.PhoneNumber || x.Email == user.Email).FirstOrDefaultAsync();
+            if (userToDelete != null)
+            {
+                userDbContext.Remove(userToDelete);
+                userDbContext.SaveChanges();
+            }
         }
     }
 }

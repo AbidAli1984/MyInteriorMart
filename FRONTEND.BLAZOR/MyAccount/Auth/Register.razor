@@ -12,38 +12,56 @@
                         <div class="" id="">
                             <div class="form-group">
                                 <Input @bind-Value="@Email" class="form-control" Type="email" required Placeholder="Email Address" MaxLength="100" />
-                                <i class="icon_mail"></i>
+                                @*<i class="icon_mail"></i>*@
                                 <span class="text-danger field-validation-error">@emailErrMessage</span>
-                            </div>
-                            <div class="form-group">
-                                <Input @bind-Value="@Mobile" class="form-control" Type="tel" required Placeholder="Mobile Number" MaxLength="10" />
-                                <i class="icon_mobile"></i>
-                                <span class="text-danger field-validation-error">@mobileErrMessage</span>
                             </div>
                             @if (!isOtpGenerated)
                             {
-                                <button @onclick="@(async () => await GenerateOTP())" class="btn_1 full-width">Generate OTP</button>
+                                <div class="form-group">
+                                    <Input @bind-Value="@Mobile" class="form-control" Type="tel" required Placeholder="Mobile Number" MaxLength="10" />
+                                    @*<i class="icon_mobile"></i>*@
+                                </div>
+                                <button @onclick="@(async () => await GenerateOTP())" class="btn btn-primary w-100">Generate OTP</button>
                             }
-                            @*<input type="submit" class="btn_1 full-width" value="Continue">*@
-                            @if (isOtpGenerated)
+                            else
+                            {
+                                <div class="form-group">
+                                    <span class="icon_lock_alt"></span>
+                                    @Mobile
+                                </div>
+                            }
+                            @if (isOtpGenerated && !isOtpVerified)
                             {
                                 <div class="form-group">
                                     <Input @bind-Value="@otp" class="form-control" Type="tel" Placeholder="otp" MaxLength="6" />
-                                    <i class="icon_lock_alt"></i>
+                                    @*<i class="icon_lock_alt"></i>*@
                                 </div>
-                                <button @onclick="@(async () => await VerifyOTP())" class="btn_1 full-width">Verify</button>
+                                <button @onclick="@(async () => await VerifyOTP())" class="btn btn-primary w-100">Verify</button>
                             }
                             <div class="form-group">
+                                <span class="@(isOtpGenerated ? "text-success" : "text-danger") field-validation-error">@mobileErrMessage</span>
+                            </div>
+                            @*<input type="submit" class="btn_1 full-width" value="Continue">*@
+
+                            <div class="form-group">
                                 <Input @bind-Value="@Password" class="form-control" Type="password" required Placeholder="Password" MaxLength="100" />
-                                <i class="icon_star"></i>
+                                @*<i class="icon_star"></i>*@
                                 <span class="text-danger field-validation-error">@passwordErrMessage</span>
                             </div>
                             <div class="form-group">
                                 <Input @bind-Value="@ConfirmPassword" class="form-control" Type="password" required Placeholder="Email Address" MaxLength="100" />
-                                <i class="icon_star"></i>
+                                @*<i class="icon_star"></i>*@
                                 <span class="text-danger field-validation-error">@confirmPasswordErrMessage</span>
                             </div>
-                            <button @onclick="@(async () => await RegisterUser())" class="btn_1 full-width">Register</button>
+                            @if (isOtpVerified)
+                            {
+                                <button @onclick="@(async () => RegisterUser())" class="btn btn-primary w-100">Register</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-light w-100">Register</button>
+                            }
+                            <span class="text-danger field-validation-error">@errorMessage</span>
                             <div class="clearfix add_bottom_15">
                                 <div class="checkboxes float-left" style="color: #999;">
                                     Already have an account!

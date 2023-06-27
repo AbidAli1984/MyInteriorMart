@@ -45,9 +45,10 @@ namespace Utils
                 bool hasUpper = false;
                 bool hasLower = false;
                 string errorMessage = "";
+                string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,";
                 foreach (char c in password)
                 {
-                    if (char.IsSymbol(c))
+                    if (specialChar.IndexOf(c) > -1)
                         hasSymbol = true;
                     else if (char.IsNumber(c))
                         hasDigit = true;
