@@ -1,12 +1,14 @@
-﻿@inject IDENTITY.Services.IUsersAndRoles usersAndRoles
-@inject BAL.Services.Contracts.IUserService userService
+﻿@using BAL.Services.Contracts
+
+@inject ISuspendedUserService suspendedUserService
+@inject IUserService userService
 @inject UserManager<IdentityUser>  userManager
 @inject IAddresses addressManager
 
 @{
     ViewData["Title"] = "All Blocked Users";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
-    var listBlockedUsers = await usersAndRoles.ListBlockedUserAsync();
+    var suspendedUsers = await suspendedUserService.GetSuspendedUsers();
 }
 
 @{
@@ -24,7 +26,7 @@
 }
 <!-- End: -->
 
-<h3>@ViewData["Title"] <span class="badge badge-secondary"><span style="font-size:16px;">@listBlockedUsers.Count()</span></span></h3>
+<h3>@ViewData["Title"] <span class="badge badge-secondary"><span style="font-size:16px;">@suspendedUsers.Count()</span></span></h3>
 <hr />
 
 <div class="table-responsive">
@@ -45,7 +47,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in listBlockedUsers)
+            @foreach (var item in suspendedUsers)
             {
                 var profile = await userService.GetProfileByOwnerGuid(item.SuspendedTo);
                 var suspendedUser = await userManager.FindByIdAsync(item.SuspendedTo);

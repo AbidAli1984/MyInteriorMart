@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using IDENTITY.Services;
 using DAL.Models;
+using BAL.Services.Contracts;
 
 namespace IDENTITY.Areas.Identity.Pages.Account
 {
@@ -22,17 +23,20 @@ namespace IDENTITY.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IUsersAndRoles usersAndRoles;
+        private readonly IUserService _userService;
+        private readonly ISuspendedUserService _suspendedUserService;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager,
-            IUsersAndRoles usersAndRoles)
+            IUserService userService,
+            ISuspendedUserService suspendedUserService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            this.usersAndRoles = usersAndRoles;
+            this._userService = userService;
+            this._suspendedUserService = suspendedUserService;
         }
 
         [BindProperty]
@@ -87,7 +91,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
 
                 if(user != null)
                 {
-                    if (await usersAndRoles.UserSuspended(user.Id) == true)
+                    if (await _suspendedUserService.IsUserSuspended(user.Id))
                     {
                         return Redirect("/Home/AccountSuspended");
                     }

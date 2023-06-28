@@ -106,6 +106,8 @@ namespace FRONTEND.BLAZOR
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ISuspendedUserService, SuspendedUserService>();
+            services.AddTransient<ISuspendedUserRepository, SuspendedUserRepository>();
             services.AddTransient<IListingService, ListingService>();
             services.AddTransient<IListingRepository, ListingRepository>();
             services.AddTransient<IAuditService, AuditService>();

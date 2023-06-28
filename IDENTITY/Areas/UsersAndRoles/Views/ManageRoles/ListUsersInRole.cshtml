@@ -1,6 +1,6 @@
 ﻿@model ShowUsersByRoleViewModel
 @inject BAL.Identity.IUserRoleClaim userRoleClaim
-@inject IUsersAndRoles usersAndRoles
+@inject BAL.Services.Contracts.ISuspendedUserService suspendedUserService
 
 @{
     ViewData["Title"] = "User in Role " + TempData["RoleName"];
@@ -68,7 +68,7 @@
                 @foreach (var userName in Model.UserName)
                 {
                     var userID = await userRoleClaim.GetUserId(userName);
-                    bool userSuspended = await usersAndRoles.UserSuspended(userID);
+                    bool userSuspended = await suspendedUserService.IsUserSuspended(userID);
                     <tr>
                         <td>@userName</td>
                         <td>@TempData["RoleName"]</td>

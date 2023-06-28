@@ -159,7 +159,6 @@ namespace ADMIN
             services.AddTransient<IListingManager, ListingManager>();
             services.AddTransient<IBilling, Billing>();
             services.AddTransient<INotification, Notification>();
-            services.AddTransient<IUsersAndRoles, UsersAndRoles>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IDashboardListing, DashboardListing>();
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();

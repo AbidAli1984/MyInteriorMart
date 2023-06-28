@@ -214,13 +214,11 @@ namespace FRONTEND
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IBilling, Billing>();
             services.AddTransient<ICategory, Category>();
-            services.AddTransient<IUsersAndRoles, UsersAndRoles>();
             services.AddTransient<ICategory, Category>();
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IListingManager, ListingManager>();
             services.AddTransient<IBilling, Billing>();
             services.AddTransient<INotification, Notification>();
-            services.AddTransient<IUsersAndRoles, UsersAndRoles>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IDashboardListing, DashboardListing>();
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();

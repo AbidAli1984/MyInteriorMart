@@ -84,7 +84,6 @@ namespace IDENTITY
             // End:
 
             // Shafi: Repositories
-            services.AddTransient<IUsersAndRoles, UsersAndRoles>();
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IClaimsAdmin, ClaimsAdmin>();

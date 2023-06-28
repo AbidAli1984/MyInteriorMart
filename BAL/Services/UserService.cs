@@ -6,6 +6,7 @@ using BAL.Services.Contracts;
 using BOL.IDENTITY;
 using Utils;
 using BOL.IDENTITY.ViewModels;
+using System;
 
 namespace BAL.Services
 {
@@ -13,10 +14,12 @@ namespace BAL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this._userRepository = userRepository;
             this._userManager = userManager;
+            this._signInManager = signInManager;
             //_emailService = new EmailService();
         }
 

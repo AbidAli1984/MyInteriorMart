@@ -17,6 +17,7 @@ using BAL.Messaging;
 using BAL.Messaging.Notify;
 using Microsoft.AspNetCore.Hosting;
 using IDENTITY.Services;
+using BAL.Services.Contracts;
 
 namespace IDENTITY.Areas.Identity.Pages.Account
 {
@@ -29,7 +30,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly INotification notification;
         private IWebHostEnvironment webHost;
-        private readonly IUsersAndRoles UsersAndRoles;
+        private readonly IUserService _userService;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -37,7 +38,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender, INotification notification,
             IWebHostEnvironment webHost,
-            IUsersAndRoles usersAndRoles)
+            IUserService usersService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -45,7 +46,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             this.notification = notification;
             this.webHost = webHost;
-            UsersAndRoles = usersAndRoles;
+            _userService = usersService;
         }
 
         [BindProperty]
@@ -93,12 +94,17 @@ namespace IDENTITY.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.Phone };
-                if (await UsersAndRoles.CheckIfUserWithSameMobileExists(Input.Phone) == false)
+                if (await _userService.IsMobileNoAlreadyRegistered(Input.Phone))
+                {
+                    TempData["ErrorMessage"] = $"This number already registered.";
+                    ModelState.AddModelError(string.Empty, TempData["ErrorMessage"].ToString());
+                }
+                else
                 {
                     var result = await _userManager.CreateAsync(user, Input.Password);
                     if (result.Succeeded)
                     {
-                        if (await UsersAndRoles.CheckIfUserWithSameMobileExists(Input.Phone) != false)
+                        if (await _userService.IsMobileNoAlreadyRegistered(Input.Phone) != false)
                         {
                             _logger.LogInformation("User created a new account with password.");
 
@@ -147,11 +153,6 @@ namespace IDENTITY.Areas.Identity.Pages.Account
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
                     }
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = $"This number already registered.";
-                    ModelState.AddModelError(string.Empty, TempData["ErrorMessage"].ToString());
                 }
             }
             // If we got this far, something failed, redisplay form

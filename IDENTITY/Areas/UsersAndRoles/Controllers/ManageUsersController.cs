@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using BAL.Services.Contracts;
 using IDENTITY.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,12 +18,12 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
     public class ManageUsersController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
-        private readonly IUsersAndRoles usersAndRoles;
+        private readonly ISuspendedUserService _suspendedUserService;
 
-        public ManageUsersController(UserManager<IdentityUser> _userManager, IUsersAndRoles usersAndRoles)
+        public ManageUsersController(UserManager<IdentityUser> _userManager, ISuspendedUserService suspendedUserService)
         {
             userManager = _userManager;
-            this.usersAndRoles = usersAndRoles;
+            this._suspendedUserService = suspendedUserService;
         }
 
         [Authorize(Policy = "Admin-Dashboard-Users-View")]
@@ -104,7 +105,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
 
                 var suspendedUser = await userManager.FindByIdAsync(SuspendedTo);
 
-                await usersAndRoles.SuspendUser(SuspendedTo, SuspendedBy, SuspendedDate, ReasonForSuspending);
+                await _suspendedUserService.SuspendUser(SuspendedTo, SuspendedBy, SuspendedDate, ReasonForSuspending);
                 return Redirect("/UsersAndRoles/RoleCategoryAndRoles");
             }
             else
@@ -156,7 +157,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
 
                 var unsuspendedUser = await userManager.FindByIdAsync(UnsuspendedTo);
 
-                await usersAndRoles.UnsuspendUser(UnsuspendedTo, UnsuspendedBy, UnsuspendedDate, ReasonForUnsuspending);
+                await _suspendedUserService.UnSuspendUser(UnsuspendedTo, UnsuspendedBy, UnsuspendedDate, ReasonForUnsuspending);
                 return Redirect("/Home/AccountUnsuspended");
             }
             else
