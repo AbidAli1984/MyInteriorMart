@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<IdentityUser>
-@inject IUserProfileRepo userProfileRepo
+@inject BAL.Services.Contracts.IUserService userService
 @inject IAddresses addressRepo
 @inject IUsersAndRoles usersAndRolesRepo
 
@@ -95,101 +95,100 @@
             @{ int count = 0; }
             @foreach (var user in Model)
             {
-                var profile = await userProfileRepo.GetUserProfileAsync(user.Id);
-            <tr>
-                <td><strong>@(count += 1)</strong></td>
-                <td>
-                    <img alt="" src="~/img/profile-thumbnail.jpg" height="20">
-                </td>
-                <td>
+                var profile = await userService.GetProfileByOwnerGuid(user.Id);
+                <tr>
+                    <td><strong>@(count += 1)</strong></td>
+                    <td>
+                        <img alt="" src="~/img/profile-thumbnail.jpg" height="20">
+                    </td>
+                    <td>
+                        @if (profile != null)
+                        {
+                            <span>@profile.Name</span>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td>@user.Email</td>
+
+                    @if (user.PhoneNumber != null)
+                    {
+                        <td>@user.PhoneNumber</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center;">-</td>
+                    }
+
+                    <td>
+                        @if (user.EmailConfirmed == true)
+                        {
+                            <span class="badge badge-success">Confirmed</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Pending</span>
+                        }
+                    </td>
+                    <td>
+                    </td>
                     @if (profile != null)
                     {
-                        <span>@profile.Name</span>
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-                </td>
-                <td>@user.Email</td>
-
-                @if (user.PhoneNumber != null)
-                {
-                    <td>@user.PhoneNumber</td>
-                }
-                else
-                {
-                    <td style="text-align:center;">-</td>
-                }
-
-                <td>
-                    @if (user.EmailConfirmed == true)
-                    {
-                        <span class="badge badge-success">Confirmed</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">Pending</span>
-                    }
-                </td>
-                <td>
-
-                </td>
-                @if (profile != null)
-                {
-                    var country = await addressRepo.CountryDetailsAsync(profile.CountryID);
-                    var city = await addressRepo.CityDetailsAsync(profile.CityID);
-                    var assembly = await addressRepo.StationDetailsAsync(profile.AssemblyID);
-                    var pincode = await addressRepo.PincodeDetailsAsync(profile.PincodeID);
+                        var country = await addressRepo.CountryDetailsAsync(profile.CountryID);
+                        var city = await addressRepo.CityDetailsAsync(profile.CityID);
+                        var assembly = await addressRepo.StationDetailsAsync(profile.AssemblyID);
+                        var pincode = await addressRepo.PincodeDetailsAsync(profile.PincodeID);
 
 
-                    if (pincode != null)
-                    {
-                        <td>@pincode.PincodeNumber</td>
+                        if (pincode != null)
+                        {
+                            <td>@pincode.PincodeNumber</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+                        if (assembly != null)
+                        {
+                            <td>@assembly.Name</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+                        if (city != null)
+                        {
+                            <td>@city.Name</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+                        if (country != null)
+                        {
+                            <td>@country.Name</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+
                     }
                     else
                     {
                         <td>-</td>
-                    }
-                    if (assembly != null)
-                    {
-                        <td>@assembly.Name</td>
-                    }
-                    else
-                    {
+                        <td>-</td>
+                        <td>-</td>
                         <td>-</td>
                     }
-                    if (city != null)
-                    {
-                        <td>@city.Name</td>
-                    }
-                    else
-                    {
-                        <td>-</td>
-                    }
-                    if (country != null)
-                    {
-                        <td>@country.Name</td>
-                    }
-                    else
-                    {
-                        <td>-</td>
-                    }
+                    <td>
+                        <a href="~/ManageUsers/UserProfile/@user.Id" class="btn btn-primary btn-sm" target="_blank">Profile</a>
 
-                }
-                else
-                {
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                }
-                <td>
-                    <a href="~/ManageUsers/UserProfile/@user.Id" class="btn btn-primary btn-sm" target="_blank">Profile</a>
-
-                    @*<a asp-area="SuperAdministrator" asp-controller="ManageRoles" asp-action="AssignUserToRole" asp-route-userEmail="@user.Email" >Assign Role</a>*@
-                </td>
-            </tr>
+                        @*<a asp-area="SuperAdministrator" asp-controller="ManageRoles" asp-action="AssignUserToRole" asp-route-userEmail="@user.Email" >Assign Role</a>*@
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

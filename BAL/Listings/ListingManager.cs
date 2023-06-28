@@ -27,15 +27,13 @@ namespace BAL.Listings
         private readonly ListingDbContext listingContext;
         private readonly BillingDbContext billingContext;
         private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
         private readonly IWebHostEnvironment webHost;
         private readonly INotification notification;
         private readonly AuditDbContext auditContext;
 
-        public ListingManager(ListingDbContext listingContext, UserManager<IdentityUser> userManager, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, INotification notification, AuditDbContext auditContext)
+        public ListingManager(ListingDbContext listingContext, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, INotification notification, AuditDbContext auditContext)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
             this.sharedManager = sharedManager;
             this.billingContext = billingContext;
             this.webHost = webHost;

@@ -1,7 +1,8 @@
-﻿@inject IUserProfileRepo userProfileRepo
+﻿
+@inject BAL.Services.Contracts.IUserService userService
 
-@{ 
-    var userProfile = await userProfileRepo.GetUserProfileAsync(ViewBag.OwnerGuid);
+@{
+    var userProfile = await userService.GetProfileByOwnerGuid(ViewBag.OwnerGuid);
 }
 
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>

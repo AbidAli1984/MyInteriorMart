@@ -3,7 +3,7 @@
 @inject IAddresses addressRepo
 @inject IListingManager listingRepo
 @inject UserManager<IdentityUser> userRepo
-@inject IUserProfileRepo userProfileRepo
+@inject BAL.Services.Contracts.IUserService userService
 
 @{
     ViewData["Title"] = "All Likes";
@@ -56,7 +56,7 @@
 
                 // Begin: Get user details
                 var user = await userRepo.FindByIdAsync(item.UserGuid);
-                var profile = await userProfileRepo.GetUserProfileAsync(item.UserGuid);
+                var profile = await userService.GetProfileByOwnerGuid(item.UserGuid);
                 // End:
 
                 <tr>

@@ -1,5 +1,5 @@
 ﻿@inject IDENTITY.Services.IUsersAndRoles usersAndRoles
-@inject IDENTITY.Services.IUserProfileRepo userProfile
+@inject BAL.Services.Contracts.IUserService userService
 @inject UserManager<IdentityUser>  userManager
 @inject IAddresses addressManager
 
@@ -50,41 +50,41 @@
         <tbody>
             @foreach (var item in listUnblockedUsers)
             {
-                var profile = await userProfile.GetUserProfileAsync(item.SuspendedTo);
+                var profile = await userService.GetProfileByOwnerGuid(item.SuspendedTo);
                 var suspendedUser = await userManager.FindByIdAsync(item.SuspendedTo);
                 var suspendedBy = await userManager.FindByIdAsync(item.SuspendedBy);
                 var unsuspendedBy = await userManager.FindByIdAsync(item.UnsuspendedBy);
                 var country = await addressManager.CountryDetailsAsync(profile.CountryID);
                 var city = await addressManager.CityDetailsAsync(profile.CityID);
                 var pincode = await addressManager.PincodeDetailsAsync(profile.PincodeID);
-            <tr>
-                <td><span>@(profile != null ? $"{profile.Name}" : "N/A")</span></td>
-                <td>@suspendedUser.Email</td>
-                <td>@item.SuspendedDate.ToString("dd MMM, yyyy")</td>
-                <td>@item.SuspendedDate.ToString("hh:mm tt")</td>
-                <td>@suspendedBy.Email</td>
-                <td>@(suspendedUser.PhoneNumber != null ? $"{suspendedUser.PhoneNumber}" : "Not Available")</td>
-                <td>@(profile != null ? $"{country.Name}" : "N/A")</td>
-                <td>@(profile != null ? $"{city.Name}" : "N/A")</td>
-                <td>@(profile != null ? $"{pincode.PincodeNumber}" : "N/A")</td>
-                <td>@unsuspendedBy.Email</td>
-                <td>@item.UnsuspendedDate.ToString("dd MMM, yyyy")</td>
-                <td>@item.UnsuspendedDate.ToString("hh:mm tt")</td>
-                <td>
-                    <!-- Shafi: Block user -->
-                    <form action="~/SuperAdministrator/ManageUsers/SuspendUser" method="post">
-                        <input type="hidden" name="SuspendedTo" value="@item.SuspendedTo" />
-                        <input type="hidden" name="SuspendedBy" value="@item.SuspendedBy" />
-                        <button type="submit" class="btn btn-danger-gradient btn-sm"><i class="fas fa-times-circle"></i> <span style="margin-left:3px;">Block This User</span></button>
-                    </form>
-                    <!-- End: -->
-                </td>
-                <td>
-                    <!-- Shafi: View Profile -->
-                    <a href="~/SuperAdministrator/ManageUsers/UserProfile/@item.SuspendedTo" class="btn btn-sm btn-purple-gradient">View Profile</a>
-                    <!-- End: -->
-                </td>
-            </tr>
+                <tr>
+                    <td><span>@(profile != null ? $"{profile.Name}" : "N/A")</span></td>
+                    <td>@suspendedUser.Email</td>
+                    <td>@item.SuspendedDate.ToString("dd MMM, yyyy")</td>
+                    <td>@item.SuspendedDate.ToString("hh:mm tt")</td>
+                    <td>@suspendedBy.Email</td>
+                    <td>@(suspendedUser.PhoneNumber != null ? $"{suspendedUser.PhoneNumber}" : "Not Available")</td>
+                    <td>@(profile != null ? $"{country.Name}" : "N/A")</td>
+                    <td>@(profile != null ? $"{city.Name}" : "N/A")</td>
+                    <td>@(profile != null ? $"{pincode.PincodeNumber}" : "N/A")</td>
+                    <td>@unsuspendedBy.Email</td>
+                    <td>@item.UnsuspendedDate.ToString("dd MMM, yyyy")</td>
+                    <td>@item.UnsuspendedDate.ToString("hh:mm tt")</td>
+                    <td>
+                        <!-- Shafi: Block user -->
+                        <form action="~/SuperAdministrator/ManageUsers/SuspendUser" method="post">
+                            <input type="hidden" name="SuspendedTo" value="@item.SuspendedTo" />
+                            <input type="hidden" name="SuspendedBy" value="@item.SuspendedBy" />
+                            <button type="submit" class="btn btn-danger-gradient btn-sm"><i class="fas fa-times-circle"></i> <span style="margin-left:3px;">Block This User</span></button>
+                        </form>
+                        <!-- End: -->
+                    </td>
+                    <td>
+                        <!-- Shafi: View Profile -->
+                        <a href="~/SuperAdministrator/ManageUsers/UserProfile/@item.SuspendedTo" class="btn btn-sm btn-purple-gradient">View Profile</a>
+                        <!-- End: -->
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

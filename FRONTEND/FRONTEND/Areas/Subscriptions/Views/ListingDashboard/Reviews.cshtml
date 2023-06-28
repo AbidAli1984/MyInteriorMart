@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BOL.LISTING.Rating>
-@inject IUserProfileRepo userProfileRepo
+@inject BAL.Services.Contracts.IUserService userService
 @inject IListingManager listingRepo
 
 @{
@@ -12,7 +12,7 @@
 @foreach (var item in Model)
 {
     // Begin: Get user profile through User Profile Repository
-    var profile = await userProfileRepo.GetUserProfileAsync(item.OwnerGuid);
+    var profile = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
     // End:
     // Begin: Get listing details
     var listing = await listingRepo.GetListingDetailsAsync(item.ListingID);

@@ -1,5 +1,5 @@
 ﻿@inject IDENTITY.Services.IUsersAndRoles usersAndRoles
-@inject IDENTITY.Services.IUserProfileRepo userProfile
+@inject BAL.Services.Contracts.IUserService userService
 @inject UserManager<IdentityUser>  userManager
 @inject IAddresses addressManager
 
@@ -47,7 +47,7 @@
         <tbody>
             @foreach (var item in listBlockedUsers)
             {
-                var profile = await userProfile.GetUserProfileAsync(item.SuspendedTo);
+                var profile = await userService.GetProfileByOwnerGuid(item.SuspendedTo);
                 var suspendedUser = await userManager.FindByIdAsync(item.SuspendedTo);
                 var suspendedBy = await userManager.FindByIdAsync(item.SuspendedBy);
                 var country = await addressManager.CountryDetailsAsync(profile.CountryID);

@@ -11,12 +11,13 @@ using IDENTITY.Services;
 using BAL.Audit;
 using DAL.AUDIT;
 using IDENTITY.Data;
-using IDENTITY.Models;
 using BAL.Addresses;
 using DAL.LISTING;
 using Humanizer;
 using BOL.VIEWMODELS;
 using Hangfire;
+using BAL.Services.Contracts;
+using BOL.IDENTITY;
 
 namespace HUBS.Notifications
 {
@@ -25,14 +26,14 @@ namespace HUBS.Notifications
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IUsersOnlineRepository usersOnlineRepo;
-        private readonly IUserProfileRepo userProfileRepo;
+        private readonly IUserService userService;
         private readonly AuditDbContext auditContext;
         private readonly ListingDbContext listingContext;
-        public NotificationUserDashboardHub(UserManager<IdentityUser> userManager, IUsersOnlineRepository usersOnlineRepo, IUserProfileRepo userProfileRepo, AuditDbContext auditContext, ListingDbContext listingContext)
+        public NotificationUserDashboardHub(UserManager<IdentityUser> userManager, IUsersOnlineRepository usersOnlineRepo, IUserService userService, AuditDbContext auditContext, ListingDbContext listingContext)
         {
             this.userManager = userManager;
             this.usersOnlineRepo = usersOnlineRepo;
-            this.userProfileRepo = userProfileRepo;
+            this.userService = userService;
             this.auditContext = auditContext;
             this.listingContext = listingContext;
         }
@@ -46,7 +47,7 @@ namespace HUBS.Notifications
         public async Task<UserProfile> GetUserProfile()
         {
             var user = GetUser();
-            var profile = await userProfileRepo.GetUserProfileAsync(user.Id.ToString());
+            var profile = await userService.GetProfileByOwnerGuid(user.Id.ToString());
             return profile;
         }       
 
@@ -86,7 +87,7 @@ namespace HUBS.Notifications
             // End:
 
             // Shafi: Get profile of user who liked listing
-            var profile = await userProfileRepo.GetUserProfileAsync(userGuid);
+            var profile = await userService.GetProfileByOwnerGuid(userGuid);
             // End:
 
             // Shafi: Initialize a variable

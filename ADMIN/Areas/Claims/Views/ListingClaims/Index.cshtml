@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<BOL.AUDITTRAIL.ListingClaim>
 @inject IListingManager listingManager
-@inject IUserProfileRepo userProfileRepo
+@inject BAL.Services.Contracts.IUserService userService
 
 @{
     ViewData["Title"] = "All";
@@ -49,7 +49,7 @@
     {
         columns.Add(model => model.VerificationDate.ToString("dddd MMM, yyyy")).Titled("Verification Date").Filterable(true).Sortable(true);
         columns.Add(model => $"<a href=\"/Listing/Index/{model.ListingID}\" target='_blank'>{listingManager.ListingCompanyName(model.ListingID)}</a>").Filterable(true).Sortable(true).Titled("Listing Name").Css("companyName").Encoded(false);
-        columns.Add(model  => userProfileRepo.UserEmailByGuid(model.ClaimedBy)).Titled("Claimed By").Filterable(true).Sortable(true);
+        columns.Add(model  => userService.GetUserEmailById(model.ClaimedBy)).Titled("Claimed By").Filterable(true).Sortable(true);
         columns.Add(model => model.ClaimType).Titled("Claim Type").Filterable(true).Sortable(true);
         columns.Add(model => model.Email).Titled("Email").Filterable(true).Sortable(true);
         columns.Add(model => model.Mobile).Titled("Mobile").Filterable(true).Sortable(true);

@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BOL.LISTING.Rating>
-@inject IUserProfileRepo userProfileRepo
+@inject BAL.Services.Contracts.IUserService userService
 @inject IListingManager listingRepo
 
 @{
@@ -12,7 +12,7 @@
 @foreach (var item in Model)
 {
     // Begin: Get user profile through User Profile Repository
-    var profile = await userProfileRepo.GetUserProfileAsync(item.OwnerGuid);
+    var profile = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
     // End:
     // Begin: Get listing details
     var listing = await listingRepo.GetListingDetailsAsync(item.ListingID);
@@ -74,11 +74,11 @@
                             <i class="fa fa-star text-warning" aria-hidden="true"></i>
                             <i class="fa fa-star text-warning" aria-hidden="true"></i>
                         }
-                    <span style="font-weight:bold; margin-left:15px;">
-                        <a href="~/Listing/Index/@item.ListingID" target="_blank" title="Edit review for Listing">
-                            @listing.CompanyName
-                        </a>
-                    </span><span style="margin-left:25px;">@DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()</span>
+                        <span style="font-weight:bold; margin-left:15px;">
+                            <a href="~/Listing/Index/@item.ListingID" target="_blank" title="Edit review for Listing">
+                                @listing.CompanyName
+                            </a>
+                        </span><span style="margin-left:25px;">@DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()</span>
                     </div>
                     <p style="margin-top:10px;">
                         @item.Comment

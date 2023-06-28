@@ -17,5 +17,6 @@ namespace BAL.Services.Contracts
         Task<bool> GenerateOTP(string mobileNumber);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
         Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid);
+        string GetUserEmailById(string userGuid);
     }
 }

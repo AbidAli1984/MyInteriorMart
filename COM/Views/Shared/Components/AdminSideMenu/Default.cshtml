@@ -1,13 +1,13 @@
 ﻿@inject IDENTITY.Services.IMenuByClaim menuByClaimRepo
-@inject IDENTITY.Services.IUserProfileRepo userProfileRepo 
-@inject UserManager<IdentityUser> userManager; 
+@inject BAL.Services.Contracts.IUserService userService
+@inject UserManager<IdentityUser> userManager;
 
-@{ 
+@{
     var user = await userManager.FindByNameAsync(User.Identity.Name);
-    var userProfile = await userProfileRepo.GetUserProfileAsync(user.Id.ToString());
+    var userProfile = await userService.GetProfileByOwnerGuid(user.Id.ToString());
     string userName = "";
     string userProfileImage = "";
-    if(userProfile != null)
+    if (userProfile != null)
     {
         userName = userProfile.Name;
         userProfileImage = $"/FileManager/ProfileImages/{userProfile.ProfileID.ToString()}.jpg";
@@ -172,14 +172,14 @@
                 </li>
             }
             @*<li class="slide">
-            <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3" /><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z" /></svg><span class="side-menu__label">Banners</span><i class="angle fe fe-chevron-down"></i></a>
-            <ul class="slide-menu">
-                <li><a class="slide-item" href="~/Banner/Campaigns">Campaigns</a></li>
-                <li><a class="slide-item" href="~/Banner/BannerPages">Pages</a></li>
-                <li><a class="slide-item" href="~/Banner/BannerSpaces">Spaces</a></li>
-                <li><a class="slide-item" href="~/Banner/BannerTypes">Types</a></li>
-            </ul>
-        </li>*@
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3" /><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z" /></svg><span class="side-menu__label">Banners</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="~/Banner/Campaigns">Campaigns</a></li>
+                        <li><a class="slide-item" href="~/Banner/BannerPages">Pages</a></li>
+                        <li><a class="slide-item" href="~/Banner/BannerSpaces">Spaces</a></li>
+                        <li><a class="slide-item" href="~/Banner/BannerTypes">Types</a></li>
+                    </ul>
+                </li>*@
             @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Locality") == true)
             {
                 <li class="slide">
@@ -251,20 +251,20 @@
             </li>
 
             @*<li class="side-item side-item-category">Billing & Subscriptions</li>
-        <li class="slide">
-            <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M4 12c0 4.08 3.06 7.44 7 7.93V4.07C7.05 4.56 4 7.92 4 12z" opacity=".3" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z" /></svg><span class="side-menu__label">Plans & Products</span><i class="angle fe fe-chevron-down"></i></a>
-            <ul class="slide-menu">
-                <li><a class="slide-item" href="~/Billing/Products/">Products</a></li>
-                <li><a class="slide-item" href="~/Billing/Plans/">Listing Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/BannerPlans/">Banner Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/AdvertisementPlans/">Advertisement Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/DataPlans/">Data Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/EmailPlans/">Email Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/SMSPlans/">SMS Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/MagazinePlans/">Magazine Plans</a></li>
-                <li><a class="slide-item" href="~/Billing/Periods/">Periods</a></li>
-            </ul>
-        </li>*@
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M4 12c0 4.08 3.06 7.44 7 7.93V4.07C7.05 4.56 4 7.92 4 12z" opacity=".3" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z" /></svg><span class="side-menu__label">Plans & Products</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="~/Billing/Products/">Products</a></li>
+                        <li><a class="slide-item" href="~/Billing/Plans/">Listing Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/BannerPlans/">Banner Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/AdvertisementPlans/">Advertisement Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/DataPlans/">Data Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/EmailPlans/">Email Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/SMSPlans/">SMS Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/MagazinePlans/">Magazine Plans</a></li>
+                        <li><a class="slide-item" href="~/Billing/Periods/">Periods</a></li>
+                    </ul>
+                </li>*@
             @if (await menuByClaimRepo.RoleHasClaimType(ViewBag.UserID, "Admin.Pages") == true)
             {
                 <li class="side-item side-item-category">CMS & Pages</li>

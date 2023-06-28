@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BOL.AUDITTRAIL.Bookmarks>
-@inject IDENTITY.Services.IUserProfileRepo userProfile
+@inject BAL.Services.Contracts.IUserService userService
 
 @{
     ViewData["Title"] = "All Bookmarks";
@@ -18,7 +18,7 @@
 <div class="row style-alt">
     @foreach (var item in Model)
     {
-        var user = await userProfile.GetUserProfileAsync(item.UserGuid);
+        var user = await userService.GetProfileByOwnerGuid(item.UserGuid);
         if (user != null)
         {
             <div class="col-sm-3 col-md-3">

@@ -3,7 +3,7 @@
 @inject IAddresses addressRepo
 @inject IListingManager listingRepo
 @inject UserManager<IdentityUser> userRepo
-@inject IUserProfileRepo userProfileRepo
+@inject BAL.Services.Contracts.IUserService userService
 
 @{
     ViewData["Title"] = "All Reviews";
@@ -60,35 +60,35 @@
 
                 // Begin: Get user details
                 var user = await userRepo.FindByIdAsync(item.OwnerGuid);
-                var profile = await userProfileRepo.GetUserProfileAsync(item.OwnerGuid);
+                var profile = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
                 // End:
 
-            <tr>
-                <td><strong>@item.RatingID</strong></td>
-                <td>@listing.CompanyName</td>
-                <td>@listing.Name</td>
-                <td>@item.Ratings Stars</td>
-                <td>
-                    <p title="@item.Date.ToString("ddd MMM, yyyy")">
-                        @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()
-                    </p>
-                </td>
-                <td>
-                    @if (profile != null)
-                    {
-                        <span>@profile.Name</span>
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-                </td>
-                <td>@user.PhoneNumber</td>
-                <td>@user.Email</td>
-                <td>
-                    <a href="~/ManageUsers/UserProfile/" class="btn btn-primary btn-sm" target="_blank">View</a>
-                </td>
-            </tr>
+                <tr>
+                    <td><strong>@item.RatingID</strong></td>
+                    <td>@listing.CompanyName</td>
+                    <td>@listing.Name</td>
+                    <td>@item.Ratings Stars</td>
+                    <td>
+                        <p title="@item.Date.ToString("ddd MMM, yyyy")">
+                            @DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize()
+                        </p>
+                    </td>
+                    <td>
+                        @if (profile != null)
+                        {
+                            <span>@profile.Name</span>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a href="~/ManageUsers/UserProfile/" class="btn btn-primary btn-sm" target="_blank">View</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

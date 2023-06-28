@@ -61,10 +61,6 @@ namespace BAL.Services
                 };
 
                 ApplicationUser user = await _userRepository.AdOrUpdateUser(userToAddOrUpdate);
-                //var OTP = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "Email");
-                //var message = new Message(new string[] { user.Email! }, "OTP Confirmation", OTP);
-                //_emailService.SendEmail(message);
-                //string test = code.Result;
                 return true;
             }
             catch
@@ -87,6 +83,12 @@ namespace BAL.Services
         public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
         {
             return await _userRepository.GetProfileByOwnerGuid(ownerGuid);
+        }
+
+        public string GetUserEmailById(string userGuid)
+        {
+            var user = _userManager.FindByIdAsync(userGuid).GetAwaiter().GetResult();
+            return user.Email;
         }
     }
 }

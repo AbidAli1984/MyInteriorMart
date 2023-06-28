@@ -38,7 +38,6 @@ namespace COM
             // Shafi: Add Repositories
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IListingManager, ListingManager>();
-            services.AddTransient<IUserProfileRepo, UserProfileRepo>();
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
             services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();

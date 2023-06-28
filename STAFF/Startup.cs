@@ -152,7 +152,6 @@ namespace STAFF
             services.AddTransient<IListingManager, ListingManager>();
             services.AddTransient<IBilling, Billing>();
             services.AddTransient<INotification, Notification>();
-            services.AddTransient<IUserProfileRepo, UserProfileRepo>();
             services.AddTransient<IUsersAndRoles, UsersAndRoles>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IDashboardListing, DashboardListing>();

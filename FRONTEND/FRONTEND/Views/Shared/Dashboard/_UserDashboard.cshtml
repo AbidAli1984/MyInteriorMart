@@ -1,5 +1,4 @@
 ﻿@inject IUsersOnlineRepository userOnlineRepo
-@inject IUserProfileRepo userProfileRepo
 
 @{
     var allUnreadNotificationCount = await userOnlineRepo.CountAllUnreadNotificationsOfNotifierAsync(User.Identity.Name);
