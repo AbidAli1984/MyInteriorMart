@@ -10,6 +10,7 @@ using FRONTEND.BLAZOR.Services;
 using AntDesign;
 using DAL.SHARED;
 using BOL.SHARED;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.BLAZOR.Shared
 {
@@ -17,6 +18,10 @@ namespace FRONTEND.BLAZOR.Shared
     {
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
+
+        [Inject]
+        IUserService userService { get; set; }
+
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
@@ -42,12 +47,8 @@ namespace FRONTEND.BLAZOR.Shared
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
-
-                    // Shafi: Get role
-                    var role = await applicationContext.Roles.ToListAsync();
-                    // End:
 
                     if (user.IsInRole("Staffs") == true)
                     {

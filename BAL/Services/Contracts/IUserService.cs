@@ -11,9 +11,10 @@ namespace BAL.Services.Contracts
 {
     public interface IUserService
     {
-        Task<ApplicationUser> GetUserByUserName(string userName);
+        Task<ApplicationUser> GetUserByUserNameOrEmail(string userName);
         Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber);
         Task<IdentityResult> Register(UserRegisterViewModel user);
+        Task<SignInResult> SignIn(string email, string password, bool rememberMe);
         Task<bool> GenerateOTP(string mobileNumber);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
         Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid);

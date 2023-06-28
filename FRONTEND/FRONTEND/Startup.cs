@@ -49,6 +49,10 @@ using BAL.Claims.Listing;
 using Microsoft.Net.Http.Headers;
 using DAL.USER;
 using DAL.Models;
+using BAL.Services.Contracts;
+using BAL.Services;
+using DAL.Repositories.Contracts;
+using DAL.Repositories;
 
 namespace FRONTEND
 {
@@ -230,6 +234,8 @@ namespace FRONTEND
             services.AddTransient<IKeywords, Keywords>();
             services.AddTransient<IListingStaff, ListingStaff>();
             services.AddTransient<IClaimListing, ClaimListing>();
+            services.AddTransient<ISuspendedUserService, SuspendedUserService>();
+            services.AddTransient<ISuspendedUserRepository, SuspendedUserRepository>();
             // End:
 
             // Shafi: Add Claim based authorization

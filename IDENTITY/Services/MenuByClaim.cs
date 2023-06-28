@@ -1,4 +1,5 @@
-﻿using IDENTITY.Data;
+﻿using DAL.Models;
+using IDENTITY.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,8 +13,8 @@ namespace IDENTITY.Services
     {
         private readonly ApplicationDbContext applicationContext;
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserManager<IdentityUser> userManager;
-        public MenuByClaim(ApplicationDbContext applicationContext, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public MenuByClaim(ApplicationDbContext applicationContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             this.applicationContext = applicationContext;
             this.roleManager = roleManager;

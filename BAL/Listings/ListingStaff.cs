@@ -1,6 +1,7 @@
 ﻿using BAL.Dashboard.Listing;
 using BOL.VIEWMODELS;
 using DAL.LISTING;
+using DAL.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,9 @@ namespace BAL.Listings
     {
         private readonly IDashboardListing dashboardListing;
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public ListingStaff(IDashboardListing dashboardListing, ListingDbContext listingContext, UserManager<IdentityUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public ListingStaff(IDashboardListing dashboardListing, ListingDbContext listingContext, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             this.dashboardListing = dashboardListing;
             this.listingContext = listingContext;

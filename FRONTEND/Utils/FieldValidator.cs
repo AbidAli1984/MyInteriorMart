@@ -8,7 +8,7 @@ namespace Utils
     {
         private static string requiredMessage = "Please enter an";
         private static string validMessage = "Please enter a valid";
-        public static string fieldErrorMessage(string text, string fieldName)
+        public static string requiredFieldMessage(string text, string fieldName)
         {
             if (String.IsNullOrEmpty(text))
                 return $"{requiredMessage} {fieldName}.";

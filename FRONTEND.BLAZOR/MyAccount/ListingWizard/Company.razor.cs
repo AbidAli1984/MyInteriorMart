@@ -11,11 +11,18 @@ using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class Company
     {
+
+        [Inject]
+        private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject]
+        IUserService userService { get; set; }
+
         // Begin: Check if record exisit with listingId
         [Parameter]
         public int? listingId { get; set; }
@@ -23,8 +30,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public string currentPage = "nav-company";
         public bool buttonBusy { get; set; }
 
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
+
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
@@ -364,7 +370,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

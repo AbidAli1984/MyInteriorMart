@@ -1,35 +1,89 @@
-﻿using BOL.AUDITTRAIL;
+﻿using BAL.Services.Contracts;
+using BOL.AUDITTRAIL;
 using BOL.VIEWMODELS;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Utils;
 
 namespace FRONTEND.BLAZOR.MyAccount.Auth
 {
     public partial class Login
     {
-        // Begin: Check if record exisit with listingId
-        public string currentPage = "nav-address";
+        [Inject]
+        ISuspendedUserService _suspendedUserService { get; set; }
 
-        public string phoneNumber { get; set; }
-        public string otp { get; set; }
-        public bool isOtpGenerated = false;
+        [Inject]
+        ILogger<Login> _logger { get; set; }
 
-        public async Task GenerateOTP()
+        [Inject]
+        SignInManager<ApplicationUser> _signInManager { get; set; }
+
+        public string Email { get; set; }
+        public string emailErrMessage { get; set; }
+
+        public string Password { get; set; }
+        public string passwordErrMessage { get; set; }
+
+        public string errorMessage { get; set; }
+
+        public bool RememberMe { get; set; }
+
+
+        public async Task LoginUser(string returnUrl = null)
         {
-            isOtpGenerated = await userService.GenerateOTP(phoneNumber);
-        }
+            emailErrMessage = FieldValidator.requiredFieldMessage(Email, "email address.");
+            passwordErrMessage = FieldValidator.requiredFieldMessage(Password, "password.");
 
-        public async Task VerifyOTP()
-        {
-            bool isUserVerified = await userService.VerifyOTP(phoneNumber, otp);
-
-            if (isUserVerified)
+            if (!string.IsNullOrEmpty(emailErrMessage) || !string.IsNullOrEmpty(passwordErrMessage))
             {
-                navManager.NavigateTo("/");
+                return;
+            }
+
+            returnUrl = returnUrl ?? "/";
+
+            var user = await userService.GetUserByUserNameOrEmail(Email);
+
+            if (user != null)
+            {
+                if (await _suspendedUserService.IsUserSuspended(user.Id))
+                {
+                    navManager.NavigateTo("/Home/AccountSuspended");
+                }
+                else
+                {
+                    // This doesn't count login failures towards account lockout
+                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                    var result = await _signInManager.PasswordSignInAsync(Email, Password, RememberMe, lockoutOnFailure: true);
+                    //userService.SignIn(Email, Password, RememberMe);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User logged in.");
+                        navManager.NavigateTo(returnUrl);
+                    }
+                    else
+                    {
+                        errorMessage = "Invalid login attempt.";
+                    }
+                    if (result.RequiresTwoFactor)
+                    {
+                        navManager.NavigateTo($"./LoginWith2fa?ReturnUrl={returnUrl}&RememberMe={RememberMe}");
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        navManager.NavigateTo("./Lockout");
+                    }
+                }
+            }
+            else
+            {
+                errorMessage = "Invalid login attempt.";
             }
         }
     }

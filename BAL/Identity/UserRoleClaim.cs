@@ -1,5 +1,6 @@
 ﻿using BOL.AUDITTRAIL;
 using DAL.AUDIT;
+using DAL.Models;
 using DAL.SHARED;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,10 @@ namespace BAL.Identity
     {
 
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly SharedDbContext SharedContext;
         private readonly AuditDbContext AuditContext;
-        public UserRoleClaim(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SharedDbContext sharedContext, AuditDbContext auditContext)
+        public UserRoleClaim(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, SharedDbContext sharedContext, AuditDbContext auditContext)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;

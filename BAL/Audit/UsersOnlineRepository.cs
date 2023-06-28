@@ -8,14 +8,15 @@ using DAL.AUDIT;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BOL.VIEWMODELS;
+using DAL.Models;
 
 namespace BAL.Audit
 {
     public class UsersOnlineRepository : IUsersOnlineRepository
     {
         private readonly AuditDbContext auditContext;
-        private readonly UserManager<IdentityUser> userManager;
-        public UsersOnlineRepository(AuditDbContext auditContext, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public UsersOnlineRepository(AuditDbContext auditContext, UserManager<ApplicationUser> userManager)
         {
             this.auditContext = auditContext;
             this.userManager = userManager;

@@ -39,23 +39,20 @@
                     </div>
                     <div class="tab-content checkout">
                         <div class="" id="">
-                            @if (!isOtpGenerated)
-                            {
-                                <div class="form-group">
-                                    <Input @bind-Value="@phoneNumber" class="form-control" Type="tel" Placeholder="Mobile Number" MaxLength="10" />
-                                    <i class="icon_mobile"></i>
-                                </div>
-                                <button @onclick="@(async () => await GenerateOTP())" class="btn_1 full-width">Continue</button>
-                            }
-                            @*<input type="submit" class="btn_1 full-width" value="Continue">*@
-                            @if (isOtpGenerated)
-                            {
-                                <div class="form-group">
-                                    <Input @bind-Value="@otp" class="form-control" Type="tel" Placeholder="otp" MaxLength="6" />
-                                    <i class="icon_lock_alt"></i>
-                                </div>
-                                <button @onclick="@(async () => await VerifyOTP())" class="btn_1 full-width">Verify</button>
-                            }
+                            <div class="form-group">
+                                <Input @bind-Value="@Email" class="form-control" Type="email" required Placeholder="Email Address" MaxLength="100" />
+                                @*<i class="icon_mail"></i>*@
+                                <span class="text-danger field-validation-error">@emailErrMessage</span>
+                            </div>
+                            <div class="form-group">
+                                <Input @bind-Value="@Password" class="form-control" Type="password" required Placeholder="Password" MaxLength="100" />
+                                @*<i class="icon_star"></i>*@
+                                <span class="text-danger field-validation-error">@passwordErrMessage</span>
+                            </div>
+                            <div class="form-group">
+                                <span class="text-danger field-validation-error">@errorMessage</span>
+                            </div>
+                            <button @onclick="@(async () => await LoginUser())" class="btn btn-primary w-100">Login</button>
                             <div class="clearfix add_bottom_15">
                                 <div class="checkboxes float-left" style="color: #999;">
                                     You don't have account!

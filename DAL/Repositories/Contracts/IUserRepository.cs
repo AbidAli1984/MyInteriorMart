@@ -14,7 +14,7 @@ namespace DAL.Repositories.Contracts
         Task DeleteUserByPhoneNumberOrEmail(ApplicationUser user);
         Task<ApplicationUser> GetUserByMobileNo(string mobileNo);
         Task<ApplicationUser> GetRegisterdUserByMobileNo(string mobileNo);
-        Task<ApplicationUser> GetUserByUserName(string userName);
+        Task<ApplicationUser> GetUserByUserNameOrEmail(string userName);
         Task<bool> VerifyOTP(string phoneNumber, string otp);
         Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid);
     }

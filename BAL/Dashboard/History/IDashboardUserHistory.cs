@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BOL.AUDITTRAIL;
+using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace BAL.Dashboard.History
@@ -17,8 +18,8 @@ namespace BAL.Dashboard.History
         Task<IEnumerable<Bookmarks>> UsersBookmarkedListingsAsync(int subtractDays);
         Task<IEnumerable<UserHistory>> MostActiveUsersAsync(int subtractDays);
         Task<IEnumerable<UserHistory>> MostInactiveUsersAsync(int subtractDays);
-        Task<IEnumerable<UserManager<IdentityUser>>> GetUsersWithThreeOrMoreListingAsync();
-        Task<IEnumerable<UserManager<IdentityUser>>> GetUsersWithZeroListingAsync();
-        Task<IEnumerable<UserManager<IdentityUser>>> GetUsersWithMostReviewAsync();
+        Task<IEnumerable<UserManager<ApplicationUser>>> GetUsersWithThreeOrMoreListingAsync();
+        Task<IEnumerable<UserManager<ApplicationUser>>> GetUsersWithZeroListingAsync();
+        Task<IEnumerable<UserManager<ApplicationUser>>> GetUsersWithMostReviewAsync();
     }
 }

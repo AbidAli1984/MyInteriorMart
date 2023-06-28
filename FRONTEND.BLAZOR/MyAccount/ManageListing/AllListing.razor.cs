@@ -56,7 +56,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    IdentityUser iUser = await userService.GetUserByUserName(user.Identity.Name);
+                    IdentityUser iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

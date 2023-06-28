@@ -23,11 +23,11 @@ namespace BAL.Services
             //_emailService = new EmailService();
         }
 
-        public async Task<ApplicationUser> GetUserByUserName(string userName)
+        public async Task<ApplicationUser> GetUserByUserNameOrEmail(string userNameOrEmail)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (string.IsNullOrEmpty(userNameOrEmail))
                 return null;
-            return await _userRepository.GetUserByUserName(userName);
+            return await _userRepository.GetUserByUserNameOrEmail(userNameOrEmail);
         }
 
         public async Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber)
@@ -92,6 +92,11 @@ namespace BAL.Services
         {
             var user = _userManager.FindByIdAsync(userGuid).GetAwaiter().GetResult();
             return user.Email;
+        }
+
+        public async Task<SignInResult> SignIn(string email, string password, bool rememberMe = false)
+        {
+            return await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: true);
         }
     }
 }

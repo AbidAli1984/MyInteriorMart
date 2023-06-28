@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using BOL.VIEWMODELS;
 using BOL.AUDITTRAIL;
 using BOL.CATEGORIES;
+using DAL.Models;
 
 namespace BAL.Search
 {
@@ -27,10 +28,11 @@ namespace BAL.Search
         private readonly AuditDbContext auditContext;
         private readonly SharedDbContext sharedContext;
         private readonly IHistoryAudit historyAudit;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IListingManager listingManager;
-        public Search(ListingDbContext listingContext, SharedDbContext addressContext, CategoriesDbContext categoryContext, AuditDbContext auditContext, SharedDbContext sharedContext, IHistoryAudit historyAudit, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IListingManager listingManager)
+        public Search(ListingDbContext listingContext, SharedDbContext addressContext, CategoriesDbContext categoryContext, AuditDbContext auditContext, 
+            SharedDbContext sharedContext, IHistoryAudit historyAudit, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IListingManager listingManager)
         {
             this.listingContext = listingContext;
             this.addressContext = addressContext;

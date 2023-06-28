@@ -14,6 +14,7 @@ using BOL.VIEWMODELS;
 using System.Text.Encodings.Web;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
+using DAL.Models;
 
 namespace BAL.Claims.Listing
 {
@@ -24,9 +25,10 @@ namespace BAL.Claims.Listing
         public AuditDbContext AuditContext;
         public INotification Notification;
         public ListingDbContext ListingContext;
-        public UserManager<IdentityUser> UserManager;
+        public UserManager<ApplicationUser> UserManager;
         private readonly IWebHostEnvironment webHost;
-        public ClaimListing(IConfiguration configuration, IWebHostEnvironment env, AuditDbContext auditContext, INotification notification, ListingDbContext listingContext, IWebHostEnvironment webHost, UserManager<IdentityUser> userManager)
+        public ClaimListing(IConfiguration configuration, IWebHostEnvironment env, AuditDbContext auditContext, INotification notification, 
+            ListingDbContext listingContext, IWebHostEnvironment webHost, UserManager<ApplicationUser> userManager)
         {
             Configuration = configuration;
             HostEnvironment = env;

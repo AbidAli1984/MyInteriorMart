@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using IDENTITY.Services;
 using DAL.Models;
 using BAL.Services.Contracts;
 
@@ -23,19 +19,16 @@ namespace IDENTITY.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IUserService _userService;
         private readonly ISuspendedUserService _suspendedUserService;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager,
-            IUserService userService,
             ISuspendedUserService suspendedUserService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            this._userService = userService;
             this._suspendedUserService = suspendedUserService;
         }
 

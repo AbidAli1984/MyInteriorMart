@@ -14,16 +14,17 @@ using System.Net;
 using System.Security.Authentication;
 using System.Net.Mail;
 using System.Web;
+using DAL.Models;
 
 namespace BAL.Messaging.Notify
 {
     public class Notification : INotification
     {
         private readonly ListingDbContext listingManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly SharedDbContext sharedContext;
 
-        public Notification(ListingDbContext listingManager, UserManager<IdentityUser> userManager, SharedDbContext sharedContext)
+        public Notification(ListingDbContext listingManager, UserManager<ApplicationUser> userManager, SharedDbContext sharedContext)
         {
             this.listingManager = listingManager;
             this.userManager = userManager;

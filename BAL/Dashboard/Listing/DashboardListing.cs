@@ -16,18 +16,19 @@ using BOL.AUDITTRAIL;
 using BOL.LISTING;
 using DAL.AUDIT;
 using System.Security.Cryptography;
+using DAL.Models;
 
 namespace BAL.Dashboard.Listing
 {
     public class DashboardListing : IDashboardListing
     {
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IWebHostEnvironment hostEnvironment;
         private readonly CategoriesDbContext categoryManager;
         private readonly AuditDbContext auditContext;
-        public DashboardListing(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment hostEnvironment, CategoriesDbContext categoryManager, AuditDbContext auditContext)
+        public DashboardListing(ListingDbContext listingContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment hostEnvironment, CategoriesDbContext categoryManager, AuditDbContext auditContext)
         {
             this.listingContext = listingContext;
             this.userManager = userManager;

@@ -101,7 +101,7 @@ namespace FRONTEND.BLAZOR
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddTransient<CategoryRepo>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IUserService, UserService>();

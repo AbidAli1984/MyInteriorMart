@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.DBContexts.USER.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20230627131229_CreateInitialTables")]
-    partial class CreateInitialTables
+    [Migration("20230628193128_CreateIntialTables")]
+    partial class CreateIntialTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("ProductVersion", "3.1.32")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BOL.IDENTITY.RoleCategory", b =>
@@ -37,7 +37,7 @@ namespace DAL.DBContexts.USER.Migrations
 
                     b.HasKey("RoleCategoryID");
 
-                    b.ToTable("RoleCategory", "dbo");
+                    b.ToTable("RoleCategory","dbo");
                 });
 
             modelBuilder.Entity("BOL.IDENTITY.RoleCategoryAndRole", b =>
@@ -97,7 +97,7 @@ namespace DAL.DBContexts.USER.Migrations
 
                     b.HasKey("SuspendedId");
 
-                    b.ToTable("SuspendedUser", "dbo");
+                    b.ToTable("SuspendedUser","dbo");
                 });
 
             modelBuilder.Entity("BOL.IDENTITY.UserProfile", b =>
@@ -135,8 +135,8 @@ namespace DAL.DBContexts.USER.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("OwnerGuid")
                         .IsRequired()
@@ -154,7 +154,7 @@ namespace DAL.DBContexts.USER.Migrations
 
                     b.HasKey("ProfileID");
 
-                    b.ToTable("UserProfile", "dbo");
+                    b.ToTable("UserProfile","dbo");
                 });
 
             modelBuilder.Entity("DAL.Models.ApplicationUser", b =>
@@ -170,10 +170,13 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRegistrationCompleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -183,12 +186,12 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("Otp")
                         .HasColumnType("nvarchar(max)");
@@ -209,17 +212,17 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                        .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
+                        .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -235,18 +238,18 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
+                        .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -303,12 +306,12 @@ namespace DAL.DBContexts.USER.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -345,12 +348,12 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -367,8 +370,6 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasForeignKey("RoleCategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("RoleCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -420,11 +421,6 @@ namespace DAL.DBContexts.USER.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BOL.IDENTITY.RoleCategory", b =>
-                {
-                    b.Navigation("RoleCategoryAndRole");
                 });
 #pragma warning restore 612, 618
         }

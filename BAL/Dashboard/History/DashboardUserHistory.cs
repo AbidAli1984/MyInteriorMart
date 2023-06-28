@@ -16,19 +16,20 @@ using BOL.AUDITTRAIL;
 using BOL.LISTING;
 using DAL.AUDIT;
 using System.Security.Cryptography;
+using DAL.Models;
 
 namespace BAL.Dashboard.History
 {
     public class DashboardUserHistory : IDashboardUserHistory
     {
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IWebHostEnvironment hostEnvironment;
         private readonly CategoriesDbContext categoryManager;
         private readonly AuditDbContext auditContext;
 
-        public DashboardUserHistory(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment hostEnvironment, CategoriesDbContext categoryManager, AuditDbContext auditContext)
+        public DashboardUserHistory(ListingDbContext listingContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment hostEnvironment, CategoriesDbContext categoryManager, AuditDbContext auditContext)
         {
             this.listingContext = listingContext;
             this.userManager = userManager;
@@ -152,17 +153,17 @@ namespace BAL.Dashboard.History
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserManager<IdentityUser>>> GetUsersWithThreeOrMoreListingAsync()
+        public Task<IEnumerable<UserManager<ApplicationUser>>> GetUsersWithThreeOrMoreListingAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserManager<IdentityUser>>> GetUsersWithZeroListingAsync()
+        public Task<IEnumerable<UserManager<ApplicationUser>>> GetUsersWithZeroListingAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserManager<IdentityUser>>> GetUsersWithMostReviewAsync()
+        public Task<IEnumerable<UserManager<ApplicationUser>>> GetUsersWithMostReviewAsync()
         {
             throw new NotImplementedException();
         }
