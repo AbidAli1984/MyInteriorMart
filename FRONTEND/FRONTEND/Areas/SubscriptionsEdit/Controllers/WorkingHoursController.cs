@@ -16,6 +16,7 @@ using BAL.Audit;
 using System.Data;
 using System;
 using System.Collections.Generic;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
 {
@@ -24,20 +25,15 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
     public class WorkingHoursController : Controller
     {
         private readonly ListingDbContext listingContext;
-        private readonly SharedDbContext sharedContext;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IEmailSender emailSender;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public WorkingHoursController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SharedDbContext sharedContext, IEmailSender emailSender, IHistoryAudit audit, IListingManager listingManager)
+        public WorkingHoursController(ListingDbContext listingContext, IUserService userService,
+            IHistoryAudit audit, IListingManager listingManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.sharedContext = sharedContext;
-            this.emailSender = emailSender;
+            this._userService = userService;
             this.audit = audit;
             this.listingManager = listingManager;
         }
@@ -46,7 +42,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -83,7 +79,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -123,7 +119,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("WorkingHoursID,ListingID,OwnerGuid,IPAddress,MondayFrom,MondayTo,TuesdayFrom,TuesdayTo,WednesdayFrom,WednesdayTo,ThursdayFrom,ThursdayTo,FridayFrom,FridayTo,SaturdayHoliday,SaturdayFrom,SaturdayTo,SundayHoliday,SundayFrom,SundayTo")] WorkingHours workingHours)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -171,7 +167,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
                         string activity = "Updated Working Hours for " + listing.CompanyName + " with id " + listing.ListingID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

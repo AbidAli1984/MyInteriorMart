@@ -7,6 +7,9 @@ using BOL.IDENTITY;
 using Utils;
 using BOL.IDENTITY.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace BAL.Services
 {
@@ -21,6 +24,11 @@ namespace BAL.Services
             this._userManager = userManager;
             this._signInManager = signInManager;
             //_emailService = new EmailService();
+        }
+
+        public async Task<List<ApplicationUser>> GetUsers()
+        {
+            return await _userManager.Users.ToListAsync();
         }
 
         public async Task<ApplicationUser> GetUserByUserNameOrEmail(string userNameOrEmail)
@@ -63,7 +71,7 @@ namespace BAL.Services
                     Otp = Helper.GetOTP()
                 };
 
-                ApplicationUser user = await _userRepository.AdOrUpdateUser(userToAddOrUpdate);
+                ApplicationUser user = await _userRepository.AddOrUpdateUser(userToAddOrUpdate);
                 return true;
             }
             catch
@@ -83,9 +91,14 @@ namespace BAL.Services
             return isVerified;
         }
 
-        public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
+        public async Task<ApplicationUser> GetUserById(string id)
         {
-            return await _userRepository.GetProfileByOwnerGuid(ownerGuid);
+            return await _userManager.FindByIdAsync(id);
+        }
+
+        public async Task<IList<string>> GetRolesByUser(ApplicationUser user)
+        {
+            return await _userManager.GetRolesAsync(user);
         }
 
         public string GetUserEmailById(string userGuid)

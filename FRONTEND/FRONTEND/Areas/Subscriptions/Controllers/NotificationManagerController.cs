@@ -14,17 +14,13 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     [Authorize]
     public class NotificationManagerController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
         private readonly IUsersOnlineRepository usersOnlineRepository;
         private readonly AuditDbContext auditContext;
-        private readonly IHistoryAudit historyAudit;
 
-        public NotificationManagerController(UserManager<IdentityUser> userManager, IUsersOnlineRepository usersOnlineRepository, AuditDbContext auditContext, IHistoryAudit historyAudit)
+        public NotificationManagerController(IUsersOnlineRepository usersOnlineRepository, AuditDbContext auditContext)
         {
-            this.userManager = userManager;
             this.usersOnlineRepository = usersOnlineRepository;
             this.auditContext = auditContext;
-            this.historyAudit = historyAudit;
         }
 
         [HttpPost]

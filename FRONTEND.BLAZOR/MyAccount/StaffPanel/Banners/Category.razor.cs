@@ -1,7 +1,9 @@
-﻿using BOL.BANNERADS;
+﻿using BAL.Services.Contracts;
+using BOL.BANNERADS;
 using BOL.CATEGORIES;
 using BOL.LABOURNAKA;
 using BOL.LABOURNAKA.ViewModal;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Hosting;
@@ -20,9 +22,11 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel.Banners
     {
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
-
         [Inject]
         public IWebHostEnvironment webEnv { get; set; }
+        [Inject]
+        public IUserService userService { get; set; }
+
 
         public string CurrentUserGuid { get; set; }
 
@@ -30,7 +34,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel.Banners
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public string OwnerGuid { get; set; }
@@ -291,7 +295,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel.Banners
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

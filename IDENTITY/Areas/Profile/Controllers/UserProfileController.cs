@@ -8,6 +8,7 @@ using DAL.SHARED;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using BAL.Services.Contracts;
 
 namespace IDENTITY.Areas.Profile.Controllers
 {
@@ -16,18 +17,19 @@ namespace IDENTITY.Areas.Profile.Controllers
     {
         private readonly ApplicationDbContext applicationContext;
         private readonly SharedDbContext sharedContext;
-        private readonly UserManager<IdentityUser> userManager;
-        public UserProfileController(ApplicationDbContext applicationContext, SharedDbContext sharedContext, UserManager<IdentityUser> userManager)
+        private readonly IUserService _userService;
+        public UserProfileController(ApplicationDbContext applicationContext, SharedDbContext sharedContext, 
+            IUserService userService)
         {
             this.applicationContext = applicationContext;
             this.sharedContext = sharedContext;
-            this.userManager = userManager;
+            this._userService = userService;
         }
 
         public async Task<IActionResult> Index()
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -48,7 +50,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Create()
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -73,7 +75,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Create([Bind("ProfileID,OwnerGuid,IPAddress,CreatedDate,CreatedTime,Name,Gender,DateOfBirth,CountryID,StateID,CityID,AssemblyID,PincodeID,TimeZoneOfCountry")] UserProfile userProfile)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -115,7 +117,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Edit()
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -151,7 +153,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Edit([Bind("ProfileID,OwnerGuid,IPAddress,CreatedDate,CreatedTime,Name,Gender,DateOfBirth,CountryID,StateID,CityID,AssemblyID,PincodeID,TimeZoneOfCountry")] UserProfile userProfile)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

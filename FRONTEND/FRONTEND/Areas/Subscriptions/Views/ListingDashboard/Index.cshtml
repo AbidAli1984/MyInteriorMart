@@ -1,5 +1,5 @@
 ﻿@inject BAL.Listings.IListingManager listingManager
-@inject BAL.Services.Contracts.IUserService userService
+@inject BAL.Services.Contracts.IUserProfileService userProfileService
 @inject BAL.Addresses.IAddresses addressRepo
 
 @using BOL.VIEWMODELS.Dashboards
@@ -475,7 +475,7 @@
         var planes = [];
         @foreach (var item in getListingViews)
         {
-            var profile = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
+            var profile = await userProfileService.GetProfileByOwnerGuid(item.OwnerGuid);
 
             if(profile != null)
             {

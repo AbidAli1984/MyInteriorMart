@@ -12,18 +12,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using BAL.Messaging.Notify;
 using Microsoft.AspNetCore.Hosting;
+using DAL.Models;
 
 namespace IDENTITY.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly INotification notification;
         private readonly IWebHostEnvironment webHost;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender, INotification notification, IWebHostEnvironment webHost)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, INotification notification, IWebHostEnvironment webHost)
         {
             _userManager = userManager;
             _emailSender = emailSender;

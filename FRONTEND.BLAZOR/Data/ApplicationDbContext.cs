@@ -14,7 +14,6 @@ namespace FRONTEND.BLAZOR.Data
         {
         }
 
-        public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<RoleCategory> RoleCategory { get; set; }
         public DbSet<RoleCategoryAndRole> RoleCategoryAndRole { get; set; }
         public DbSet<SuspendedUser> SuspendedUser { get; set; }

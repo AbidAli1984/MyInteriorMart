@@ -17,6 +17,8 @@ using BAL.Messaging.Notify;
 using StringRandomizer;
 using StringRandomizer.Options;
 using StringRandomizer.Stores;
+using DAL.Models;
+using BAL.Services.Contracts;
 
 namespace ADMIN.Areas.Claims.Controllers
 {
@@ -24,20 +26,16 @@ namespace ADMIN.Areas.Claims.Controllers
     [Authorize]
     public class ListingClaimsController : Controller
     {
-        public IClaimListing ClaimListing;
-        public UserManager<IdentityUser> UserManager;
-        public ListingDbContext ListingContext;
+        public IUserService _userService;
         private readonly IWebHostEnvironment HostingEnvironment;
         private readonly AuditDbContext _context;
         public IConfiguration Configuration;
         public INotification Notification;
 
-        public ListingClaimsController(IClaimListing claimListing, UserManager<IdentityUser> userManager, AuditDbContext context, ListingDbContext listingContext, IWebHostEnvironment hostingEnvironment, IConfiguration configuration, INotification notification)
+        public ListingClaimsController(IUserService userService, AuditDbContext context, IWebHostEnvironment hostingEnvironment, IConfiguration configuration, INotification notification)
         {
-            ClaimListing = claimListing;
-            UserManager = userManager;
+            this._userService = userService;
             _context = context;
-            ListingContext = listingContext;
             HostingEnvironment = hostingEnvironment;
             Configuration = configuration;
             Notification = notification;
@@ -82,7 +80,7 @@ namespace ADMIN.Areas.Claims.Controllers
         [Route("/Claims/ListingClaims/ApproveDocuments/{ClaimId}/{Reason}")]
         public async Task<IActionResult> ApproveDocuments(int ClaimId, string Reason)
         {
-            var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            var currentUser = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             var documentScrutinizedBy = currentUser.Id;
 
             var i = 0;
@@ -120,7 +118,7 @@ namespace ADMIN.Areas.Claims.Controllers
 
                 string ClaimedByUserGuid = claim.ClaimedBy;
                 int OTP = claim.OTP;
-                var user = await UserManager.FindByIdAsync(ClaimedByUserGuid);
+                var user = await _userService.GetUserById(ClaimedByUserGuid);
                 string email = user.Email;
                 string mobile = user.PhoneNumber;
 
@@ -144,7 +142,7 @@ namespace ADMIN.Areas.Claims.Controllers
         [HttpGet]
         public async Task<IActionResult> ClaimVerificationLink(string shortLink)
         {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
 
             if (shortLink != "")
             {
@@ -169,7 +167,7 @@ namespace ADMIN.Areas.Claims.Controllers
         [Route("/Claims/ListingClaims/RejectDocuments/{ClaimId}/{Reason}")]
         public async Task<IActionResult> RejectDocuments(int ClaimId, string Reason)
         {
-            var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            var currentUser = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             var documentScrutinizedBy = currentUser.Id;
 
             var claim = await _context.ListingClaim.Where(i => i.ClaimID == ClaimId).FirstOrDefaultAsync();
@@ -179,8 +177,7 @@ namespace ADMIN.Areas.Claims.Controllers
             _context.Update(claim);
             await _context.SaveChangesAsync();
 
-            string ClaimedByUserGuid = claim.ClaimedBy;
-            var user = await UserManager.FindByIdAsync(ClaimedByUserGuid);
+            var user = await _userService.GetUserById(claim.ClaimedBy);
             string email = user.Email;
             string mobile = user.PhoneNumber;
 

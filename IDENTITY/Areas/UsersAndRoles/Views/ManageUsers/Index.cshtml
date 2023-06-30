@@ -1,5 +1,5 @@
-﻿@model IEnumerable<IdentityUser>
-@inject BAL.Services.Contracts.IUserService userService
+﻿@model IEnumerable<DAL.Models.ApplicationUser>
+@inject BAL.Services.Contracts.IUserProfileService userProfileService
 @inject IAddresses addressRepo
 
 @{
@@ -94,7 +94,7 @@
             @{ int count = 0; }
             @foreach (var user in Model)
             {
-                var profile = await userService.GetProfileByOwnerGuid(user.Id);
+                var profile = await userProfileService.GetProfileByOwnerGuid(user.Id);
                 <tr>
                     <td><strong>@(count += 1)</strong></td>
                     <td>

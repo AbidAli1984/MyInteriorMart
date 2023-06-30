@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using DAL.SHARED;
 using BAL.Listings;
 using BAL.Audit;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -21,16 +22,15 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     public class BranchesController : Controller
     {
         private readonly ListingDbContext listingContext;
-        private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public BranchesController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, SharedDbContext sharedManager, IHistoryAudit audit, IListingManager listingManager)
+        public BranchesController(ListingDbContext listingContext, IUserService userService, 
+            IHistoryAudit audit, IListingManager listingManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.sharedManager = sharedManager;
+            this._userService = userService;
             this.listingManager = listingManager;
             this.audit = audit;
         }
@@ -53,7 +53,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("BranchID,ListingID,OwnerGuid,IPAddress,BranchName,ContactPerson,Email,Mobile,Telephone,BranchAddress")] Branches branches)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -79,7 +79,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -115,7 +115,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("BranchID,ListingID,OwnerGuid,IPAddress,BranchName,ContactPerson,Email,Mobile,Telephone,BranchAddress")] Branches branches)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -148,7 +148,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
                         string activity = "Updated branch details " + branches.BranchName + " with id " + branches.BranchID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

@@ -20,7 +20,7 @@ namespace DAL.Repositories
             this.userDbContext = userDbContext;
         }
 
-        public async Task<ApplicationUser> AdOrUpdateUser(ApplicationUser user)
+        public async Task<ApplicationUser> AddOrUpdateUser(ApplicationUser user)
         {
             var userToUpdte = await GetUserByMobileNo(user.PhoneNumber);
             if (userToUpdte != null)
@@ -56,11 +56,6 @@ namespace DAL.Repositories
         {
             var user = await userDbContext.Users.Where(x => x.PhoneNumber == phoneNumber && x.Otp == otp).FirstOrDefaultAsync();
             return user != null;
-        }
-
-        public async Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid)
-        {
-            return await userDbContext.UserProfile.Where(p => p.OwnerGuid == ownerGuid).FirstOrDefaultAsync();
         }
 
         public async Task DeleteUserByPhoneNumberOrEmail(ApplicationUser user)

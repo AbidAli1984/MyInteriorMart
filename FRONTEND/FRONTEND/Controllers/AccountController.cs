@@ -26,7 +26,7 @@ namespace FRONTEND.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> SignInManager;
+        private readonly SignInManager<ApplicationUser> SignInManager;
         private readonly UserManager<ApplicationUser> UserManager;
         private readonly UserDbContext ApplicationContext;
         private readonly SharedDbContext SharedContext;
@@ -35,7 +35,7 @@ namespace FRONTEND.Controllers
         private readonly INotification Notification;
         private readonly IAddresses Addresses;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<ApplicationUser> userManager,
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
             UserDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, 
             IUserRoleClaim userRoleClaim, INotification notification, IAddresses addresses)
         {

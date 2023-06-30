@@ -1,6 +1,8 @@
 ﻿using AntDesign;
+using BAL.Services.Contracts;
 using BOL.SHARED;
 using BOL.VIEWMODELS;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +16,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 {
     public partial class AllReviews
     {
+        [Inject]
+        public IUserService userService { get; set; }
+
         // Begin: Check if record exisit with listingId
         public string currentPage = "nav-address";
         public bool buttonBusy { get; set; }
@@ -25,7 +30,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public string OwnerGuid { get; set; }
@@ -83,7 +88,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

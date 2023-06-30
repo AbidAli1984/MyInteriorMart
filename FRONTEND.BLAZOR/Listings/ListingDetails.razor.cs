@@ -20,6 +20,7 @@ using BOL.BANNERADS;
 using FRONTEND.BLAZOR.Data;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
+using DAL.Models;
 
 namespace FRONTEND.BLAZOR.Listings
 {
@@ -27,6 +28,8 @@ namespace FRONTEND.BLAZOR.Listings
     {
         [Inject]
         private IUserService userService { get; set; }
+        [Inject]
+        private IUserProfileService userProfileService { get; set; }
 
         [Inject]
         private IListingService listingService { get; set; }
@@ -48,7 +51,7 @@ namespace FRONTEND.BLAZOR.Listings
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
 
 
         // Begin: Get All Listing Banner
@@ -126,7 +129,7 @@ namespace FRONTEND.BLAZOR.Listings
             string Designation = listing.Designation;
             // End:
 
-            UserProfile userProfile = await userService.GetProfileByOwnerGuid(listingOwnerGuid);
+            UserProfile userProfile = await userProfileService.GetProfileByOwnerGuid(listingOwnerGuid);
             string Name = userProfile.Name;
             int ProfileID = userProfile.ProfileID;
 
@@ -581,7 +584,7 @@ namespace FRONTEND.BLAZOR.Listings
 
             foreach(var i in listingAllReviews)
             {
-                var profile = await userService.GetProfileByOwnerGuid(i.OwnerGuid);
+                var profile = await userProfileService.GetProfileByOwnerGuid(i.OwnerGuid);
                 ReviewListingViewModel rlvm = new ReviewListingViewModel
                 {
                     ReviewID = i.RatingID,

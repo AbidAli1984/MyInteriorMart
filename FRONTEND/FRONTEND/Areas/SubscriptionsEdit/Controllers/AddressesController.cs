@@ -16,6 +16,7 @@ using BAL.Listings;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BAL.Audit;
 using System.Data;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
 {
@@ -25,19 +26,16 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
     {
         private readonly ListingDbContext listingContext;
         private readonly SharedDbContext sharedContext;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IEmailSender emailSender;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public AddressesController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SharedDbContext sharedContext, IEmailSender emailSender, IHistoryAudit audit, IListingManager listingManager)
+        public AddressesController(ListingDbContext listingContext, IUserService userService,
+            SharedDbContext sharedContext, IHistoryAudit audit, IListingManager listingManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            this._userService = userService;
             this.sharedContext = sharedContext;
-            this.emailSender = emailSender;
             this.audit = audit;
             this.listingManager = listingManager;
         }
@@ -64,7 +62,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -99,7 +97,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("AddressID,ListingID,OwnerGuid,IPAddress,CountryID,StateID,City,AssemblyID,PincodeID,LocalityID,LocalAddress")] Address address)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -144,7 +142,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
                         // End:
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

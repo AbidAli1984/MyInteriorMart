@@ -1,4 +1,5 @@
 ﻿using BAL.Dashboard.Listing;
+using BAL.Services.Contracts;
 using DAL.LISTING;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,12 +18,12 @@ namespace STAFF.Areas.ListingManagement.Controllers
     {
         private readonly IDashboardListing dashboardListing;
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
-        public HomeController(IDashboardListing dashboardListing, ListingDbContext listingContext, UserManager<IdentityUser> userManager)
+        private readonly IUserService _userService;
+        public HomeController(IDashboardListing dashboardListing, ListingDbContext listingContext, IUserService userService)
         {
             this.dashboardListing = dashboardListing;
             this.listingContext = listingContext;
-            this.userManager = userManager;
+            this._userService = userService;
         }
 
         [Route("/StaffPanel/ListingManagement/Home/Index")]
@@ -38,7 +39,7 @@ namespace STAFF.Areas.ListingManagement.Controllers
         {
             DateTime period = DateTime.Now.AddDays(-periodInDays);
 
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             var data = await listingContext.Listing.Where(i => /*i.OwnerGuid == user.Id && */i.CreatedDate >= period).CountAsync();
             return Json(data);
         }

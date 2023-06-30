@@ -1,5 +1,6 @@
 ﻿using BAL.Listings;
 using DAL.LISTING;
+using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,8 @@ namespace COM.Components.Listings
     {
         private readonly IListingManager listingRepository;
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
-        public ReviewByUserOnTop(IListingManager listingRepository, ListingDbContext listingContext, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public ReviewByUserOnTop(IListingManager listingRepository, ListingDbContext listingContext, UserManager<ApplicationUser> userManager)
         {
             this.listingRepository = listingRepository;
             this.listingContext = listingContext;

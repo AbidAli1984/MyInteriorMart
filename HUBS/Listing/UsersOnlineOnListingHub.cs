@@ -17,21 +17,18 @@ using BOL.VIEWMODELS.Hub;
 using Microsoft.VisualBasic.CompilerServices;
 using DAL.LISTING;
 using Microsoft.AspNetCore.Connections;
+using BAL.Services.Contracts;
 
 namespace HUBS.Listing
 {
     public class UsersOnlineOnListingHub : Hub
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly ApplicationDbContext context;
-        private readonly IAddresses addressManager;
+        private readonly IUserService _userService;
         private readonly ListingDbContext listingManager;
 
-        public UsersOnlineOnListingHub(UserManager<IdentityUser> userManager, ApplicationDbContext context, IAddresses addressManager, ListingDbContext listingManager)
+        public UsersOnlineOnListingHub(IUserService userService, ListingDbContext listingManager)
         {
-            this.userManager = userManager;
-            this.context = context;
-            this.addressManager = addressManager;
+            this._userService = userService;
             this.listingManager = listingManager;
         }
 
@@ -42,7 +39,7 @@ namespace HUBS.Listing
             // Shafi: Get listing and get User ID
             string listingId = Context.GetHttpContext().Request.Query["listingId"];
             var listing = await listingManager.Listing.Where(x => x.ListingID == Int32.Parse(listingId)).FirstOrDefaultAsync();
-            var userId = await userManager.FindByIdAsync(listing.OwnerGuid);
+            var userId = await _userService.GetUserById(listing.OwnerGuid);
             // End:
 
             count++;
@@ -56,7 +53,7 @@ namespace HUBS.Listing
             // Shafi: Get listing and get User ID
             string listingId = Context.GetHttpContext().Request.Query["listingId"];
             var listing = await listingManager.Listing.Where(x => x.ListingID == Int32.Parse(listingId)).FirstOrDefaultAsync();
-            var userId = await userManager.FindByIdAsync(listing.OwnerGuid);
+            var userId = await _userService.GetUserById(listing.OwnerGuid);
             // End:
 
             count--;

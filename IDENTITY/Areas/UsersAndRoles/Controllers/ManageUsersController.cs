@@ -17,12 +17,12 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
     [Authorize]
     public class ManageUsersController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly ISuspendedUserService _suspendedUserService;
 
-        public ManageUsersController(UserManager<IdentityUser> _userManager, ISuspendedUserService suspendedUserService)
+        public ManageUsersController(IUserService userService, ISuspendedUserService suspendedUserService)
         {
-            userManager = _userManager;
+            this._userService = userService;
             this._suspendedUserService = suspendedUserService;
         }
 
@@ -30,25 +30,23 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         [Authorize(Policy = "Admin-Users-ViewAll")]
         public async Task<IActionResult> Index()
         {
-            ViewBag.AllUsers = userManager.Users.Count();
-            ViewBag.VerifiedUsers = userManager.Users.Where(u => u.EmailConfirmed == true).Count();
-            ViewBag.NotVerifiedUsers = userManager.Users.Where(u => u.EmailConfirmed == false).Count();
+            var users = await _userService.GetUsers();
+            ViewBag.AllUsers = users.Count();
+            ViewBag.VerifiedUsers = users.Where(u => u.EmailConfirmed == true).Count();
+            ViewBag.NotVerifiedUsers = users.Where(u => u.EmailConfirmed == false).Count();
 
-            return View(await userManager.Users.OrderByDescending(u => u.Id).ToListAsync());
+            return View(users.OrderByDescending(u => u.Id));
         }
 
         //[HttpGet]
         //public async Task<IActionResult> UsersByRole(string roleHashCode)
         //{
-        //    ViewBag.AllUsers = userManager.Users.Count();
-        //    ViewBag.VerifiedUsers = userManager.Users.Where(u => u.EmailConfirmed == true).Count();
-        //    ViewBag.NotVerifiedUsers = userManager.Users.Where(u => u.EmailConfirmed == false).Count();
+        //    var users = await _userService.GetUsers();
+        //    ViewBag.AllUsers = users.Count();
+        //    ViewBag.VerifiedUsers = users.Where(u => u.EmailConfirmed == true).Count();
+        //    ViewBag.NotVerifiedUsers = users.Where(u => u.EmailConfirmed == false).Count();
 
-        //    // Shafi Wrote: Get list of users in role
-        //    var results = userManager.
-        //    // End:
-
-        //    return View(userManager.Users.ToList());
+        //    return View(users.OrderByDescending(u => u.Id).ToList());
         //}
 
         [Authorize(Policy = "Admin-Users-ViewProfile")]
@@ -57,7 +55,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         public async Task<IActionResult> UserProfile(string userHashCode)
         {
             TempData["userHasCode"] = userHashCode;
-            var userDetails = await userManager.Users.Where(u => u.Id == userHashCode).FirstOrDefaultAsync();
+            var userDetails = await _userService.GetUserById(userHashCode);
 
             return View(userDetails);
         }
@@ -70,11 +68,11 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await userManager.FindByNameAsync(userName);
+            var user = await _userService.GetUserByUserNameOrEmail(userName);
             // End:
 
             // Shafi: Return user profile as model in view
-            var detailsOfUserToSuspend = await userManager.Users.Where(u => u.Id == SuspendedTo).FirstOrDefaultAsync();
+            var detailsOfUserToSuspend = await _userService.GetUserById(SuspendedTo);
             // End:
 
             ViewBag.SuspendedTo = SuspendedTo;
@@ -90,7 +88,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await userManager.FindByNameAsync(userName);
+            var user = await _userService.GetUserByUserNameOrEmail(userName);
             // End:
 
             if (SuspendedTo != null && SuspendedBy != null && Reason != null)
@@ -103,7 +101,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
                 string ReasonForSuspending = Reason + " : " + Comment;
                 // End:
 
-                var suspendedUser = await userManager.FindByIdAsync(SuspendedTo);
+                var suspendedUser = await _userService.GetUserById(SuspendedTo);
 
                 await _suspendedUserService.SuspendUser(SuspendedTo, SuspendedBy, SuspendedDate, ReasonForSuspending);
                 return Redirect("/UsersAndRoles/RoleCategoryAndRoles");
@@ -122,11 +120,11 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await userManager.FindByNameAsync(userName);
+            var user = await _userService.GetUserByUserNameOrEmail(userName);
             // End:
 
             // Shafi: Return user profile as model in view
-            var detailsOfUserToUnsuspend = await userManager.Users.Where(u => u.Id == UnsuspendedTo).FirstOrDefaultAsync();
+            var detailsOfUserToUnsuspend = await _userService.GetUserById(UnsuspendedTo);
             // End:
 
             ViewBag.UnsuspendedTo = UnsuspendedTo;
@@ -141,7 +139,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await userManager.FindByNameAsync(userName);
+            var user = await _userService.GetUserByUserNameOrEmail(userName);
             string UnsuspendedBy = user.Id;
             // End:
 
@@ -155,7 +153,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
                 string ReasonForUnsuspending = Reason + " : " + Comment;
                 // End:
 
-                var unsuspendedUser = await userManager.FindByIdAsync(UnsuspendedTo);
+                var unsuspendedUser = await _userService.GetUserById(UnsuspendedTo);
 
                 await _suspendedUserService.UnSuspendUser(UnsuspendedTo, UnsuspendedBy, UnsuspendedDate, ReasonForUnsuspending);
                 return Redirect("/Home/AccountUnsuspended");

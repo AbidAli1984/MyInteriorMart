@@ -1,5 +1,7 @@
 ﻿using AntDesign;
+using BAL.Services.Contracts;
 using BOL.SHARED;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,23 +10,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IDUserProfile = BOL.IDENTITY.UserProfile;
 
 namespace FRONTEND.BLAZOR.MyAccount.Profile
 {
     public partial class UserProfile
     {
+        [Inject]
+        private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject]
+        public IUserService userService { get; set; }
+        [Inject]
+        private IUserProfileService userProfileService { get; set; }
+
+
         // Begin: Check if record exisit with listingId
         public string currentPage = "nav-address";
         public bool buttonBusy { get; set; }
         public bool disable { get; set; }
-
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
 
@@ -41,7 +49,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         public int? PincodeID { get; set; }
         public string TimeZoneOfCountry { get; set; }
 
-        public Models.UserProfile CurrentUserProfile { get; set; }
+        public IDUserProfile CurrentUserProfile { get; set; }
 
         public IList<string> timeZoneList = new List<string>();
 
@@ -137,9 +145,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         // Begin: Check If Profile Exist
         public async Task GetCurrentUserProfile()
         {
-            CurrentUserProfile = await applicationContext.UserProfile
-                .Where(i => i.OwnerGuid == CurrentUserGuid)
-                .FirstOrDefaultAsync();
+            CurrentUserProfile = await userProfileService.GetProfileByOwnerGuid(CurrentUserGuid);
 
             if(CurrentUserProfile != null)
             {
@@ -157,14 +163,14 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             try
             {
-                if(string.IsNullOrEmpty(IpAddressUser) == false && string.IsNullOrEmpty(Name) == false && string.IsNullOrEmpty(Gender) == false && DateOfBirth != null && CountryID != null && StateID != null && CityID != null && PincodeID != null && string.IsNullOrEmpty(TimeZoneOfCountry) == false)
+                if(!string.IsNullOrEmpty(IpAddressUser) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Gender) && DateOfBirth != null 
+                    && CountryID != null && StateID != null && CityID != null && PincodeID != null && !string.IsNullOrEmpty(TimeZoneOfCountry))
                 {
-
                     if(CurrentUserProfile == null)
                     {
                         try
                         {
-                            Models.UserProfile userProfile = new Models.UserProfile
+                            IDUserProfile userProfile = new IDUserProfile
                             {
                                 OwnerGuid = CurrentUserGuid,
                                 IPAddress = IpAddressUser,
@@ -178,8 +184,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                                 TimeZoneOfCountry = TimeZoneOfCountry
                             };
 
-                            await applicationContext.AddAsync(userProfile);
-                            await applicationContext.SaveChangesAsync();
+                            await userProfileService.AddUserProfile(userProfile);
 
                             // Show notification
                             await NoticeWithIcon(NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
@@ -235,8 +240,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                             CurrentUserProfile.PincodeID = PincodeID.Value;
                             CurrentUserProfile.TimeZoneOfCountry = TimeZoneOfCountry;
 
-                            applicationContext.Update(CurrentUserProfile);
-                            await applicationContext.SaveChangesAsync();
+                            await userProfileService.UpdateUserProfile(CurrentUserProfile);
 
                             disable = false;
 
@@ -298,7 +302,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

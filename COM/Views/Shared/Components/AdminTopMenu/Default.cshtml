@@ -1,9 +1,9 @@
-﻿@inject BAL.Services.Contracts.IUserService userService
-@inject UserManager<IdentityUser> userManager;
+﻿@inject BAL.Services.Contracts.IUserProfileService userProfileService
+@inject UserManager<DAL.Models.ApplicationUser> userManager;
 
 @{
     var user = await userManager.FindByNameAsync(User.Identity.Name);
-    var userProfile = await userService.GetProfileByOwnerGuid(user.Id.ToString());
+    var userProfile = await userProfileService.GetProfileByOwnerGuid(user.Id.ToString());
     string userName = "";
     string userProfileImage = "";
     if (userProfile != null)

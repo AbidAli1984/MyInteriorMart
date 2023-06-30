@@ -236,6 +236,10 @@ namespace FRONTEND
             services.AddTransient<IClaimListing, ClaimListing>();
             services.AddTransient<ISuspendedUserService, SuspendedUserService>();
             services.AddTransient<ISuspendedUserRepository, SuspendedUserRepository>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserProfileService, UserProfileService>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             // End:
 
             // Shafi: Add Claim based authorization

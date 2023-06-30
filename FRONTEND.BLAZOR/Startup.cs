@@ -100,12 +100,14 @@ namespace FRONTEND.BLAZOR
                 .AddEntityFrameworkStores<UserDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             //services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddTransient<CategoryRepo>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserProfileService, UserProfileService>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<ISuspendedUserService, SuspendedUserService>();
             services.AddTransient<ISuspendedUserRepository, SuspendedUserRepository>();
             services.AddTransient<IListingService, ListingService>();

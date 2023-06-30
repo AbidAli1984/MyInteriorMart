@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using DAL.Models;
 
 namespace COM.Components.ListingDashboard
 {
     public class ListingViewAsync : ViewComponent
     {
         private readonly IListingManager listingRepo;
-        private readonly UserManager<IdentityUser> userManager;
-        public ListingViewAsync(IListingManager listingRepo, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public ListingViewAsync(IListingManager listingRepo, UserManager<ApplicationUser> userManager)
         {
             this.listingRepo = listingRepo;
             this.userManager = userManager;

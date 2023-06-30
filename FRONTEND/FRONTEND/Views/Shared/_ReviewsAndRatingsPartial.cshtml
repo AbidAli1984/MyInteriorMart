@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BOL.LISTING.Rating>
-@inject BAL.Services.Contracts.IUserService userService
+@inject BAL.Services.Contracts.IUserProfileService userProfileService
 
 @{
     // Begin: Get Rating
@@ -10,7 +10,7 @@
 @foreach (var item in Model)
 {
     // Begin: Get user profile through User Profile Repository
-    var profile = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
+    var profile = await userProfileService.GetProfileByOwnerGuid(item.OwnerGuid);
     // End:
     // Begin: Get difference between dates
     DateTime currentDate = DateTime.Now;

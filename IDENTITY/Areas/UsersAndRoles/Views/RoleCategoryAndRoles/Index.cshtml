@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<IDENTITY.Models.RoleCategoryAndRole>
 @inject BAL.Identity.IUserRoleClaim userRoleClaimRepo
 @inject RoleManager<IdentityRole> roleManager
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<DAL.Models.ApplicationUser> userManager
 @inject IDENTITY.Data.ApplicationDbContext applicationContext
 
 @{

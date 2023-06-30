@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using BAL.Audit;
 using BAL.Listings;
 using Microsoft.AspNetCore.Http;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -20,15 +21,13 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     {
         private readonly ListingDbContext listingContext;
         private readonly CategoriesDbContext categoryContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
-        private readonly IListingManager listingManager;
 
-        public CategoriesController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, IHistoryAudit audit, IListingManager listingManager, CategoriesDbContext categoryContext)
+        public CategoriesController(ListingDbContext listingContext, IUserService userService, IHistoryAudit audit, CategoriesDbContext categoryContext)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.listingManager = listingManager;
+            this._userService = userService;
             this.audit = audit;
             this.categoryContext = categoryContext;
         }
@@ -83,7 +82,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("CategoryID,ListingID,OwnerGuid,IPAddress,FirstCategoryID,SecondCategoryID,ThirdCategories,FourthCategories,FifthCategories,SixthCategories")] Categories categories)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using BAL.Audit;
 using BAL.Listings;
 using Microsoft.AspNetCore.Http;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -20,19 +21,14 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     {
         private readonly ListingDbContext listingContext;
         private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IHistoryAudit audit;
-        private readonly IListingManager listingManager;
+        private readonly IUserService _userService;
 
-        public AddressesController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SharedDbContext sharedManager, IHistoryAudit audit, IListingManager listingManager)
+        public AddressesController(ListingDbContext listingContext, IUserService userService, 
+            SharedDbContext sharedManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            this._userService = userService;
             this.sharedManager = sharedManager;
-            this.audit = audit;
-            this.listingManager = listingManager;
         }
 
         // GET: Subscriptions/Addresses
@@ -92,7 +88,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("AddressID,ListingID,OwnerGuid,IPAddress,CountryID,StateID,City,AssemblyID,PincodeID,LocalityID,LocalAddress")] Address address)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

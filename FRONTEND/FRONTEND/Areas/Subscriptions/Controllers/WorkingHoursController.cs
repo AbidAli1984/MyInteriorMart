@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using BAL.Audit;
 using BAL.Listings;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -20,14 +21,15 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     public class WorkingHoursController : Controller
     {
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public WorkingHoursController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, IHistoryAudit audit, IListingManager listingManager)
+        public WorkingHoursController(ListingDbContext listingContext, IUserService userService, 
+            IHistoryAudit audit, IListingManager listingManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
+            this._userService = userService;
             this.listingManager = listingManager;
             this.audit = audit;
         }
@@ -57,7 +59,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("WorkingHoursID,ListingID,OwnerGuid,IPAddress,MondayFrom,MondayTo,TuesdayFrom,TuesdayTo,WednesdayFrom,WednesdayTo,ThursdayFrom,ThursdayTo,FridayFrom,FridayTo,SaturdayHoliday,SaturdayFrom,SaturdayTo,SundayHoliday,SundayFrom,SundayTo")] WorkingHours workingHours)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -83,7 +85,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -119,7 +121,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("WorkingHoursID,ListingID,OwnerGuid,IPAddress,MondayFrom,MondayTo,TuesdayFrom,TuesdayTo,WednesdayFrom,WednesdayTo,ThursdayFrom,ThursdayTo,FridayFrom,FridayTo,SaturdayHoliday,SaturdayFrom,SaturdayTo,SundayHoliday,SundayFrom,SundayTo")] WorkingHours workingHours)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -152,7 +154,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
                         string activity = "Updated working hours with id " + workingHours.WorkingHoursID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

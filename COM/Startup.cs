@@ -14,6 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BAL.Dashboard.History;
+using BAL.Services.Contracts;
+using BAL.Services;
+using DAL.Repositories.Contracts;
+using DAL.Repositories;
 
 namespace COM
 {
@@ -41,6 +45,9 @@ namespace COM
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
             services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserProfileService, UserProfileService>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             // End:
 
             services.AddControllersWithViews();

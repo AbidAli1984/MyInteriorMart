@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BOL.CLAIMS;
 using IDENTITY.Data;
+using DAL.Models;
+using BAL.Services.Contracts;
 
 namespace IDENTITY.Areas.UsersAndRoles.Controllers
 {
@@ -18,13 +20,16 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
     public class ManageRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService _userService;
         private readonly ApplicationDbContext applicationContext;
 
-        public ManageRolesController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ApplicationDbContext applicationContext)
+        public ManageRolesController(RoleManager<IdentityRole> roleManager, IUserService userService,
+            UserManager<ApplicationUser> userManager, ApplicationDbContext applicationContext)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
+            this._userService = userService;
             this.applicationContext = applicationContext;
         }
 
@@ -142,9 +147,9 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         // Shafi Wrote: Assign role
         [HttpGet]
         [Authorize(Policy = "Admin-Roles-AssignRoleToUser")]
-        public ActionResult AssignRole()
+        public async Task<ActionResult> AssignRoleAsync()
         {
-            ViewBag.Users = new SelectList(userManager.Users.ToList(), "Id", "UserName");
+            ViewBag.Users = new SelectList(await _userService.GetUsers(), "Id", "UserName");
             ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Name", "Name");
 
             return View();
@@ -155,62 +160,36 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         public async Task<ActionResult> AssignRole(AssignRoleViewModel model)
         {
             // Shafi Wrote: Get User Hastag Id and Role Name
-            ViewBag.Users = new SelectList(userManager.Users.ToList(), "Id", "UserName");
+            ViewBag.Users = new SelectList(await _userService.GetUsers(), "Id", "UserName");
             ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Id", "Name");
             // End:
 
             // Shafi Wrote: Create new user object based on User Hastag ID
-            var user = await userManager.FindByIdAsync(model.UserId);
+            var user = await _userService.GetUserById(model.UserId);
             // End:
 
             // Shafi Wrote: Get user Email ID
-            var email = userManager.Users.Where(u => u.Id.Contains(model.UserId)).Select(u => u.UserName).FirstOrDefault();
+            var email = user.UserName;
             // End:
 
             // Shafi Wrote: Assign user to role if not already in this role
             try
             {
-                if (!await userManager.IsInRoleAsync(user, model.RoleName))
+                bool isInRole = await userManager.IsInRoleAsync(user, model.RoleName);
+                if (isInRole)
                 {
-                    await userManager.AddToRoleAsync(user, model.RoleName);
-
-                    // Shafi Written: Show Message
-                    ViewBag.Success = $"{model.RoleName} role assigned to {email}";
-                    // End:
-
-                    // Shafi Wrote: Get User Hastag Id and Role Name
-                    ViewBag.Users = new SelectList(userManager.Users.ToList(), "Id", "UserName");
-                    ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Id", "Name");
-                    // End:
-
-                    return View();
-                }
-                else if (await userManager.IsInRoleAsync(user, model.RoleName))
-                {
-                    // Shafi Written: Show Message
                     ViewBag.Warning = $"{email} already in {model.RoleName} role";
-                    // End:
-
-                    // Shafi Wrote: Get User Hastag Id and Role Name
-                    ViewBag.Users = new SelectList(userManager.Users.ToList(), "Id", "UserName");
-                    ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Id", "Name");
-                    // End:
-
-                    return View();
                 }
                 else
                 {
-                    // Shafi Written: Show Message
-                    ViewBag.Error = $"Click on Assign User To Role button";
-                    // End:
-
-                    // Shafi Wrote: Get User Hastag Id and Role Name
-                    ViewBag.Users = new SelectList(userManager.Users.ToList(), "Id", "UserName");
-                    ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Id", "Name");
-                    // End:
-
-                    return View();
+                    await userManager.AddToRoleAsync(user, model.RoleName);
+                    ViewBag.Success = $"{model.RoleName} role assigned to {email}";
                 }
+
+                ViewBag.Users = new SelectList(await _userService.GetUsers(), "Id", "UserName");
+                ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Id", "Name");
+
+                return View();
             }
             catch (Exception error)
             {
@@ -220,7 +199,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
                 // End:
 
                 // Shafi Wrote: Get User Hastag Id and Role Name
-                ViewBag.Users = new SelectList(userManager.Users.ToList(), "Id", "UserName");
+                ViewBag.Users = new SelectList(await _userService.GetUsers(), "Id", "UserName");
                 ViewBag.Roles = new SelectList(roleManager.Roles.ToList(), "Id", "Name");
                 // End:
 
@@ -238,7 +217,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         public async Task<ActionResult> RemoveUserFromRole(string userName, string roleName)
         {
             // Shafi Wrote: Find user by his email or user id
-            IdentityUser user = await userManager.FindByNameAsync(userName);
+            var user = await _userService.GetUserByUserNameOrEmail(userName);
             // End:
 
             // Shafi Wrote: Get role id to pass as a parameter in RedirectionAction
@@ -341,7 +320,8 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
             // End:
 
             // Shafi Wrote: Get list of users in role
-            foreach (var user in userManager.Users)
+            var users = await _userService.GetUsers();
+            foreach (var user in users)
             {
                 if (await userManager.IsInRoleAsync(user, role.Name))
                 {

@@ -1,11 +1,13 @@
-﻿@inject IUsersOnlineRepository userOnlineRepo
-@inject BAL.Services.Contracts.IUserService userService
-@inject UserManager<IdentityUser> userManager;
+﻿@using BAL.Services.Contracts;
+
+@inject IUsersOnlineRepository userOnlineRepo
+@inject IUserService userService
+@inject IUserProfileService userProfileService
 
 @{
     var recent10UnreadNotifications = await userOnlineRepo.GetLatest10UnreadNotificationsOfNotifierAsync(User.Identity.Name);
     var allUnreadNotificationCount = await userOnlineRepo.CountAllUnreadNotificationsOfNotifierAsync(User.Identity.Name);
-    var userProfile = await userService.GetProfileByOwnerGuid(ViewBag.OwnerGuid);
+    var userProfile = await userProfileService.GetProfileByOwnerGuid(ViewBag.OwnerGuid);
 }
 
 <div class="main-header sticky side-header nav nav-item">
@@ -147,7 +149,7 @@
                                 DateTime currentDate = DateTime.Now;
                                 TimeSpan timeSpan = currentDate.Subtract(notification.DateTime);
                                 var notificationTime = DateTime.UtcNow.AddMinutes(-timeSpan.TotalMinutes).Humanize();
-                                var actorProfile = await userService.GetProfileByOwnerGuid(notification.ActorGUID);
+                                var actorProfile = await userProfileService.GetProfileByOwnerGuid(notification.ActorGUID);
 
                                 // If actorProfile is not null then execute this
                                 string actorName = "";
@@ -178,7 +180,7 @@
                                 // End:
 
                                 // Shafi: Check if actorIsOnline
-                                var userActor = await userManager.FindByIdAsync(notification.ActorGUID);
+                                var userActor = await userService.GetUserById(notification.ActorGUID);
                                 var actorOnline = await userOnlineRepo.CheckIfUserOnlineByUserID(userActor.Email);
                                 // End:
 

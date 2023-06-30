@@ -22,6 +22,10 @@ using BAL.Audit;
 using Microsoft.AspNetCore.Http;
 using DAL.USER;
 using DAL.Models;
+using BAL.Services.Contracts;
+using DAL.Repositories.Contracts;
+using BAL.Services;
+using DAL.Repositories;
 
 namespace IDENTITY
 {
@@ -90,6 +94,8 @@ namespace IDENTITY
             services.AddTransient<IUserRoleClaim, UserRoleClaim>();
             services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
+            services.AddTransient<IUserProfileService, UserProfileService>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             // End:
 
             services.AddSession(options =>

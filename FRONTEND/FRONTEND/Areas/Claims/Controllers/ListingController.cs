@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Claims.Controllers
 {
@@ -19,15 +20,16 @@ namespace FRONTEND.Areas.Claims.Controllers
     public class ListingController : Controller
     {
         public IClaimListing ClaimListing;
-        public UserManager<IdentityUser> UserManager;
+        public IUserService _userService;
         public AuditDbContext AuditContext;
         public ListingDbContext ListingContext;
         private readonly IWebHostEnvironment HostingEnvironment;
 
-        public ListingController(IClaimListing claimListing, UserManager<IdentityUser> userManager, AuditDbContext auditContext, ListingDbContext listingContext, IWebHostEnvironment hostingEnvironment)
+        public ListingController(IClaimListing claimListing, IUserService userService, AuditDbContext auditContext, 
+            ListingDbContext listingContext, IWebHostEnvironment hostingEnvironment)
         {
             ClaimListing = claimListing;
-            UserManager = userManager;
+            _userService = userService;
             AuditContext = auditContext;
             ListingContext = listingContext;
             HostingEnvironment = hostingEnvironment;
@@ -36,7 +38,7 @@ namespace FRONTEND.Areas.Claims.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(int ListingId)
         {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             ViewBag.UserGuid = user.Id;
 
             HttpContext.Session.SetString("ListingId", ListingId.ToString());
@@ -163,7 +165,7 @@ namespace FRONTEND.Areas.Claims.Controllers
         [Route("/Claims/Listing/DocumentOtp/{shortLink}")]
         public async Task<IActionResult> DocumentOtp(string shortLink)
         {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             var claim = await AuditContext.ListingClaim.Where(i => i.ClaimVerificationShortLink == shortLink).FirstOrDefaultAsync();
 
             if(claim == null)
@@ -185,7 +187,7 @@ namespace FRONTEND.Areas.Claims.Controllers
         [HttpPost]
         public async Task<JsonResult> VerifyDocumentOtp(string shortLink, int? otp)
         {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
 
             if(shortLink != "" && otp != null)
             {

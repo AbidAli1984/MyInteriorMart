@@ -13,6 +13,7 @@ using BOL.AUDITTRAIL;
 using DAL.AUDIT;
 using BOL.VIEWMODELS;
 using System.Linq;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Analytics.Controllers
 {
@@ -23,28 +24,20 @@ namespace FRONTEND.Areas.Analytics.Controllers
     {
         private readonly AuditDbContext auditContext;
         private readonly ListingDbContext listingContext;
-        private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IHistoryAudit audit;
-        private readonly IListingManager listingManager;
+        private readonly IUserService _userService;
 
-        public SubscribesController(AuditDbContext auditContext, ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SharedDbContext sharedManager, IHistoryAudit audit, IListingManager listingManager)
+        public SubscribesController(AuditDbContext auditContext, ListingDbContext listingContext, IUserService userService)
         {
             this.auditContext = auditContext;
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.sharedManager = sharedManager;
-            this.audit = audit;
-            this.listingManager = listingManager;
+            this._userService = userService;
         }
 
         // GET: Analytics/Likes
         public async Task<IActionResult> Index()
         {
             // Shafi: Get user guid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string UserGuid = user.Id;
             // End:
 

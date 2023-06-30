@@ -8,9 +8,9 @@ SharedDbContext Repository
 private readonly SharedDbContext sharedManager;
 SharedDbContext sharedManager;
 
-UserManager<IdentityUser> Repository
+UserManager<ApplicationUser> Repository
 ============================================================================
-private readonly UserManager<IdentityUser> userManager;
+private readonly UserManager<ApplicationUser> userManager;
 this.userManager = userManager;
 
 IEmailSender Repository

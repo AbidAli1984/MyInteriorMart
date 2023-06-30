@@ -1,4 +1,6 @@
-﻿using IDENTITY.Data;
+﻿using BAL.Services.Contracts;
+using DAL.Models;
+using IDENTITY.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +13,12 @@ namespace IDENTITY.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly UserManager<IdentityUser> UserManager;
+        private readonly IUserService _userService;
         private readonly ApplicationDbContext ApplicationContext;
-        private readonly SignInManager<IdentityUser> SignInManager;
-        public LoginController(UserManager<IdentityUser> userManager, ApplicationDbContext applicationContext, SignInManager<IdentityUser> signInManager)
+        private readonly SignInManager<ApplicationUser> SignInManager;
+        public LoginController(IUserService userService, ApplicationDbContext applicationContext, SignInManager<ApplicationUser> signInManager)
         {
-            UserManager = userManager;
+            this._userService = userService;
             ApplicationContext = applicationContext;
             SignInManager = signInManager;
         }
@@ -49,7 +51,7 @@ namespace IDENTITY.Controllers
 
             if(userRecord != null)
             {
-                var user = await UserManager.FindByNameAsync(userRecord.UserName);
+                var user = await _userService.GetUserByUserNameOrEmail(userRecord.UserName);
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, true);

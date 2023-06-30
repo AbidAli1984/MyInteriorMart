@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BAL.Addresses;
 using BAL.Listings;
 using BAL.Search;
+using BAL.Services.Contracts;
 using BOL.VIEWMODELS;
 using DAL.CATEGORIES;
 using DAL.LISTING;
@@ -27,9 +28,11 @@ namespace FRONTEND.Controllers.SearchArchitecture
         private readonly IAddresses addressesRepository;
         private readonly IListingManager listingManager;
         private readonly ISearch searchService;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
 
-        public SearchEngineController(ListingDbContext listingContext, CategoriesDbContext categoryContext, IAddresses addressesRepository, IListingManager listingManager, SharedDbContext sharedContext, ISearch searchService, UserManager<IdentityUser> userManager)
+        public SearchEngineController(ListingDbContext listingContext, CategoriesDbContext categoryContext, 
+            IAddresses addressesRepository, IListingManager listingManager, SharedDbContext sharedContext, 
+            ISearch searchService, IUserService userService)
         {
             this.listingContext = listingContext;
             this.categoryContext = categoryContext;
@@ -37,7 +40,7 @@ namespace FRONTEND.Controllers.SearchArchitecture
             this.listingManager = listingManager;
             this.sharedContext = sharedContext;
             this.searchService = searchService;
-            this.userManager = userManager;
+            this._userService = userService;
         }
 
         [HttpGet]
@@ -626,7 +629,7 @@ namespace FRONTEND.Controllers.SearchArchitecture
             if (User.Identity.IsAuthenticated)
             {
                 var userName = User.Identity.Name;
-                var user = await userManager.FindByNameAsync(userName);
+                var user = await _userService.GetUserByUserNameOrEmail(userName);
                 userGuid = user.Id;
             }
             else

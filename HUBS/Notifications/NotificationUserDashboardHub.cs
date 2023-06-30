@@ -18,36 +18,39 @@ using BOL.VIEWMODELS;
 using Hangfire;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
+using DAL.Models;
 
 namespace HUBS.Notifications
 {
     [Authorize]
     public class NotificationUserDashboardHub : Hub
     {
-        private readonly UserManager<IdentityUser> userManager;
         private readonly IUsersOnlineRepository usersOnlineRepo;
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
+        private readonly IUserProfileService _userProfileService;
         private readonly AuditDbContext auditContext;
         private readonly ListingDbContext listingContext;
-        public NotificationUserDashboardHub(UserManager<IdentityUser> userManager, IUsersOnlineRepository usersOnlineRepo, IUserService userService, AuditDbContext auditContext, ListingDbContext listingContext)
+
+        public NotificationUserDashboardHub(IUsersOnlineRepository usersOnlineRepo, IUserService userService, 
+            IUserProfileService userProfileService, AuditDbContext auditContext, ListingDbContext listingContext)
         {
-            this.userManager = userManager;
             this.usersOnlineRepo = usersOnlineRepo;
-            this.userService = userService;
+            this._userService = userService;
+            this._userProfileService = userProfileService;
             this.auditContext = auditContext;
             this.listingContext = listingContext;
         }
 
-        public async Task<IdentityUser> GetUser()
+        public async Task<ApplicationUser> GetUser()
         {
-            var user = await userManager.FindByNameAsync(Context.User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(Context.User.Identity.Name);
             return user;
         }
 
         public async Task<UserProfile> GetUserProfile()
         {
             var user = GetUser();
-            var profile = await userService.GetProfileByOwnerGuid(user.Id.ToString());
+            var profile = await _userProfileService.GetProfileByOwnerGuid(user.Id.ToString());
             return profile;
         }       
 
@@ -65,7 +68,7 @@ namespace HUBS.Notifications
             // End:
 
             // Shafi: Get Listing Owner (Notifier) Email
-            var notifier = await userManager.FindByIdAsync(notifierGuid);
+            var notifier = await _userService.GetUserById(notifierGuid);
             var notifierEmail = notifier.UserName;
             // End:
 
@@ -87,7 +90,7 @@ namespace HUBS.Notifications
             // End:
 
             // Shafi: Get profile of user who liked listing
-            var profile = await userService.GetProfileByOwnerGuid(userGuid);
+            var profile = await _userProfileService.GetProfileByOwnerGuid(userGuid);
             // End:
 
             // Shafi: Initialize a variable
@@ -145,7 +148,7 @@ namespace HUBS.Notifications
             // End:
 
             // Get actorGUID
-            var actor = await userManager.FindByNameAsync(Context.User.Identity.Name);
+            var actor = await _userService.GetUserByUserNameOrEmail(Context.User.Identity.Name);
             var actorGUID = actor.Id;
             // End:
 

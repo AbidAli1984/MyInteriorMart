@@ -1,9 +1,9 @@
-﻿@model IEnumerable<BOL.AUDITTRAIL.Bookmarks>
-@inject ICategory categoryRepo
-@inject IAddresses addressRepo
+﻿@using BAL.Services.Contracts
+
+@model IEnumerable<BOL.AUDITTRAIL.Bookmarks>
 @inject IListingManager listingRepo
-@inject UserManager<IdentityUser> userRepo
-@inject BAL.Services.Contracts.IUserService userService
+@inject IUserService userService
+@inject IUserProfileService userProfileService
 
 @{
     ViewData["Title"] = "All Subscribes";
@@ -55,8 +55,8 @@
                 // End:
 
                 // Begin: Get user details
-                var user = await userRepo.FindByIdAsync(item.UserGuid);
-                var profile = await userService.GetProfileByOwnerGuid(item.UserGuid);
+                var user = await userService.GetUserById(item.UserGuid);
+                var profile = await userProfileService.GetProfileByOwnerGuid(item.UserGuid);
                 // End:
 
                 <tr>

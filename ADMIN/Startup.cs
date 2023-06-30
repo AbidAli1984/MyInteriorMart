@@ -38,6 +38,11 @@ using BAL.Identity;
 using BAL.Keyword;
 using BAL.Claims.Listing;
 using DAL.USER;
+using DAL.Models;
+using BAL.Services.Contracts;
+using BAL.Services;
+using DAL.Repositories.Contracts;
+using DAL.Repositories;
 
 namespace ADMIN
 {
@@ -111,7 +116,7 @@ namespace ADMIN
             // End:
 
             // Begin: 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
@@ -168,6 +173,8 @@ namespace ADMIN
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
             services.AddTransient<IKeywords, Keywords>();
             services.AddTransient<IClaimListing, ClaimListing>();
+            services.AddTransient<IUserProfileService, UserProfileService>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             // End:
 
             // Shafi: Add Elmah

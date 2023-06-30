@@ -1,5 +1,7 @@
-﻿using BOL.LABOURNAKA;
+﻿using BAL.Services.Contracts;
+using BOL.LABOURNAKA;
 using BOL.LABOURNAKA.ViewModal;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,14 +18,16 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel.LabourNaka
     {
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
-
         [Inject]
         IWebHostEnvironment webEnv { get; set; }
+        [Inject]
+        public IUserService userService { get; set; }
+
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public string OwnerGuid { get; set; }
@@ -173,7 +177,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel.LabourNaka
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

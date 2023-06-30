@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
@@ -16,12 +11,10 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     [Authorize]
     public class ListingFileManagerController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
         private readonly IWebHostEnvironment hostingEnvironment;
-        public ListingFileManagerController(IWebHostEnvironment hostingEnvironment, UserManager<IdentityUser> userManager)
+        public ListingFileManagerController(IWebHostEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.userManager = userManager;
         }
 
         public IActionResult LogoAndThumbnail()

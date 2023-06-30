@@ -14,7 +14,9 @@ using DAL.BANNER;
 using DAL.BILLING;
 using DAL.CATEGORIES;
 using DAL.LISTING;
+using DAL.Models;
 using DAL.SHARED;
+using DAL.USER;
 using IDENTITY.Data;
 using IDENTITY.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -104,11 +106,11 @@ namespace STAFF
             // End:
 
             // Begin: 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<UserDbContext>();
 
             // Shafi: Cookie based authentication and login
             // ConfigureApplicationCookie must be called after calling AddIdentity or AddDefaultIdentity.

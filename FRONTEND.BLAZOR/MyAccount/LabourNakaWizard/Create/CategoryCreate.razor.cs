@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BAL.Services.Contracts;
 using BOL.LABOURNAKA;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,11 +16,16 @@ namespace FRONTEND.BLAZOR.MyAccount.LabourNakaWizard.Create
     {
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
+
+        [Inject]
+        IUserService userService { get; set; }
+
+
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public bool Busy { get; set; }
@@ -135,7 +142,7 @@ namespace FRONTEND.BLAZOR.MyAccount.LabourNakaWizard.Create
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     // Execute Method

@@ -9,11 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using FRONTEND.BLAZOR.Services;
 using AntDesign;
 using BOL.CATEGORIES;
+using DAL.Models;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class Category
     {
+        [Inject]
+        public IUserService userService { get; set; }
+
         // Begin: Check if record exisit with listingId
         [Parameter]
         public int? listingId { get; set; }
@@ -27,7 +32,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
 
@@ -297,7 +302,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

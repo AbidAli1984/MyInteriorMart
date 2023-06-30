@@ -1,4 +1,5 @@
 ﻿using BAL.Services.Contracts;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -56,7 +57,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    IdentityUser iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    ApplicationUser iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

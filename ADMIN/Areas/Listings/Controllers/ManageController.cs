@@ -24,32 +24,11 @@ namespace ADMIN.Areas.Listings.Controllers
     {
         private readonly ListingDbContext listingContext;
         private readonly AuditDbContext auditContext;
-        private readonly BillingDbContext billingContext;
-        private readonly CategoriesDbContext categoriesContext;
-        private readonly SharedDbContext sharedContext;
-        private readonly IHistoryAudit historyAudit;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IListingManager listingManager;
-        private readonly IWebHostEnvironment webHost;
-        private readonly INotification notification;
 
-        public ManageController(ListingDbContext listingContext, AuditDbContext auditContext, BillingDbContext billingContext,
-            CategoriesDbContext categoriesContext, SharedDbContext sharedContext,
-            IHistoryAudit historyAudit, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
-            IListingManager listingManager, IWebHostEnvironment webHost, INotification notification)
+        public ManageController(ListingDbContext listingContext, AuditDbContext auditContext)
         {
             this.listingContext = listingContext;
             this.auditContext = auditContext;
-            this.billingContext = billingContext;
-            this.categoriesContext = categoriesContext;
-            this.sharedContext = sharedContext;
-            this.historyAudit = historyAudit;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.listingManager = listingManager;
-            this.webHost = webHost;
-            this.notification = notification;
         }
 
         [Authorize(Policy = "Admin-Listing-ViewAll")]

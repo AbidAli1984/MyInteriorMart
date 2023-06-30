@@ -16,6 +16,7 @@ using BAL.Messaging.Notify;
 using Microsoft.AspNetCore.Hosting;
 using System.Text;
 using System.Text.Encodings.Web;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -24,20 +25,19 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     public class PaymentModesController : Controller
     {
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
         private readonly INotification notification;
-        private readonly IWebHostEnvironment webHost;
 
-        public PaymentModesController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, IHistoryAudit audit, IListingManager listingManager, INotification notification, IWebHostEnvironment webHost)
+        public PaymentModesController(ListingDbContext listingContext, IUserService userService, 
+            IHistoryAudit audit, IListingManager listingManager, INotification notification)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
+            this._userService = userService;
             this.listingManager = listingManager;
             this.audit = audit;
             this.notification = notification;
-            this.webHost = webHost;
         }
 
         // GET: Subscriptions/PaymentModes/Create
@@ -65,7 +65,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("PaymentID,ListingID,OwnerGuid,IPAddress,Cash,NetBanking,Cheque,RtgsNeft,DebitCard,CreditCard,PayTM,PhonePay,Paypal")] PaymentMode paymentMode)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -147,7 +147,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -183,7 +183,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("PaymentID,ListingID,OwnerGuid,IPAddress,Cash,NetBanking,Cheque,RtgsNeft,DebitCard,CreditCard,PayTM,PhonePay,Paypal")] PaymentMode paymentMode)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -216,7 +216,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
                         string activity = "Updated payment mode details with id " + paymentMode.PaymentID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

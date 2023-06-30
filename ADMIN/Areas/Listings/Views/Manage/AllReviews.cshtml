@@ -1,9 +1,11 @@
-﻿@model IEnumerable<BOL.LISTING.Rating>
+﻿@using BAL.Services.Contracts
+
+@model IEnumerable<BOL.LISTING.Rating>
 @inject ICategory categoryRepo
 @inject IAddresses addressRepo
 @inject IListingManager listingRepo
-@inject UserManager<IdentityUser> userRepo
-@inject BAL.Services.Contracts.IUserService userService
+@inject IUserService userService
+@inject IUserProfileService userProfileService
 
 @{
     ViewData["Title"] = "All Reviews";
@@ -59,8 +61,8 @@
                 // End:
 
                 // Begin: Get user details
-                var user = await userRepo.FindByIdAsync(item.OwnerGuid);
-                var profile = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
+                var user = await userService.GetUserById(item.OwnerGuid);
+                var profile = await userProfileService.GetProfileByOwnerGuid(item.OwnerGuid);
                 // End:
 
                 <tr>

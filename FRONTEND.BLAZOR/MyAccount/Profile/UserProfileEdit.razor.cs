@@ -1,5 +1,7 @@
 ﻿using AntDesign;
+using BAL.Services.Contracts;
 using BOL.SHARED;
+using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,18 +15,23 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 {
     public partial class UserProfileEdit
     {
+        [Inject]
+        private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject]
+        public IUserService userService { get; set; }
+        [Inject]
+        public IUserProfileService userProfileService { get; set; }
+
         // Begin: Check if record exisit with listingId
         public string currentPage = "nav-address";
         public bool buttonBusy { get; set; }
         public bool disable { get; set; }
 
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
 
@@ -42,7 +49,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         public string TimeZoneOfCountry { get; set; }
 
         // Other Properties
-        public Models.UserProfile CurrentUserProfile { get; set; }
+        public BOL.IDENTITY.UserProfile CurrentUserProfile { get; set; }
 
         public IList<string> timeZoneList = new List<string>();
 
@@ -179,9 +186,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         // Begin: Check If Profile Exist
         public async Task GetCurrentUserProfile()
         {
-            CurrentUserProfile = await applicationContext.UserProfile
-                .Where(i => i.OwnerGuid == CurrentUserGuid)
-                .FirstOrDefaultAsync();
+            CurrentUserProfile = await userProfileService.GetProfileByOwnerGuid(CurrentUserGuid);
 
             if (CurrentUserProfile != null)
             {
@@ -283,7 +288,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await applicationContext.Users.Where(i => i.UserName == user.Identity.Name).FirstOrDefaultAsync();
+                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

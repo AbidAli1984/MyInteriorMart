@@ -1,4 +1,5 @@
 ﻿using BAL.Audit;
+using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +16,8 @@ namespace COM.Components.Audit
     {
 
         readonly private IHistoryAudit historyAudit;
-        readonly private UserManager<IdentityUser> userManager;
-        public UserHistory(IHistoryAudit historyAudit, UserManager<IdentityUser> userManager)
+        readonly private UserManager<ApplicationUser> userManager;
+        public UserHistory(IHistoryAudit historyAudit, UserManager<ApplicationUser> userManager)
         {
             this.historyAudit = historyAudit;
             this.userManager = userManager;

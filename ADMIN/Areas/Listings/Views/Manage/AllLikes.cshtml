@@ -1,9 +1,11 @@
-﻿@model IEnumerable<BOL.AUDITTRAIL.ListingLikeDislike>
+﻿@using BAL.Services.Contracts
+
+@model IEnumerable<BOL.AUDITTRAIL.ListingLikeDislike>
 @inject ICategory categoryRepo
 @inject IAddresses addressRepo
 @inject IListingManager listingRepo
-@inject UserManager<IdentityUser> userRepo
-@inject BAL.Services.Contracts.IUserService userService
+@inject IUserService userService
+@inject IUserProfileService userProfileService
 
 @{
     ViewData["Title"] = "All Likes";
@@ -55,8 +57,8 @@
                 // End:
 
                 // Begin: Get user details
-                var user = await userRepo.FindByIdAsync(item.UserGuid);
-                var profile = await userService.GetProfileByOwnerGuid(item.UserGuid);
+                var user = await userService.GetUserById(item.UserGuid);
+                var profile = await userProfileService.GetProfileByOwnerGuid(item.UserGuid);
                 // End:
 
                 <tr>
@@ -64,7 +66,7 @@
                     <td>@listing.CompanyName</td>
                     <td>@listing.Name</td>
                     <td>
-                        @if(item.Like == true)
+                        @if (item.Like == true)
                         {
                             <span>Like</span>
                         }

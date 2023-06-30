@@ -94,7 +94,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.Phone };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.Phone };
                 if (await _userService.IsMobileNoAlreadyRegistered(Input.Phone))
                 {
                     TempData["ErrorMessage"] = $"This number already registered.";

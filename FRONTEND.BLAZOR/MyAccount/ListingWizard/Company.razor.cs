@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BAL.Services.Contracts;
+using DAL.Models;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -35,7 +36,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
 

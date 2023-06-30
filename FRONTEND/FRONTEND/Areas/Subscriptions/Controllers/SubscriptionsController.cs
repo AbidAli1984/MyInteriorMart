@@ -9,6 +9,7 @@ using BOL.PLAN;
 using DAL.BILLING;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -16,12 +17,12 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     public class SubscriptionsController : Controller
     {
         private readonly BillingDbContext _context;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
 
-        public SubscriptionsController(BillingDbContext context, UserManager<IdentityUser> userManager)
+        public SubscriptionsController(BillingDbContext context, IUserService userService)
         {
             _context = context;
-            this.userManager = userManager;
+            this._userService = userService;
         }
 
         // GET: Subscriptions/Subscriptions
@@ -79,7 +80,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
             ViewData["PeriodID"] = await _context.Period.OrderBy(p => p.DurationInMonths).ToListAsync();
 
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

@@ -1,5 +1,6 @@
 ﻿using BAL.Listings;
 using DAL.LISTING;
+using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,9 @@ namespace COM.Components.Listings
     public class RatingBars : ViewComponent
     {
         private readonly IListingManager listingRepository;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ListingDbContext listingContext;
-        public RatingBars(IListingManager listingRepository, UserManager<IdentityUser> userManager, ListingDbContext listingContext)
+        public RatingBars(IListingManager listingRepository, UserManager<ApplicationUser> userManager, ListingDbContext listingContext)
         {
             this.listingRepository = listingRepository;
             this.userManager = userManager;

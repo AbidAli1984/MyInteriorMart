@@ -11,6 +11,7 @@ using AntDesign;
 using DAL.SHARED;
 using BOL.SHARED;
 using BAL.Services.Contracts;
+using DAL.Models;
 
 namespace FRONTEND.BLAZOR.Shared
 {
@@ -26,7 +27,7 @@ namespace FRONTEND.BLAZOR.Shared
         public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
-        public IdentityUser iUser { get; set; }
+        public ApplicationUser iUser { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CreatedTime { get; set; }
         public bool UserStaffPanelAuthenticated { get; set; }

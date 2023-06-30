@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,8 +7,8 @@ namespace COM.Components.Dashboard
 {
     public class DashboardTopMenu : ViewComponent
     {
-        private readonly UserManager<IdentityUser> userManager;
-        public DashboardTopMenu(UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public DashboardTopMenu(UserManager<ApplicationUser> userManager)
         {
             this.userManager = userManager;
         }

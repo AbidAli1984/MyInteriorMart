@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using BAL.Audit;
 using BAL.Listings;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -20,14 +21,15 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     public class SocialNetworksController : Controller
     {
         private readonly ListingDbContext listingContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public SocialNetworksController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, IHistoryAudit audit, IListingManager listingManager)
+        public SocialNetworksController(ListingDbContext listingContext, IUserService userService, 
+            IHistoryAudit audit, IListingManager listingManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
+            this._userService = userService;
             this.listingManager = listingManager;
             this.audit = audit;
         }
@@ -51,7 +53,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("SocialNetworkID,ListingID,OwnerGuid,IPAddress,WhatsappGroupLink,Youtube,Facebook,Instagram,Linkedin,Pinterest,Telegram,Others,Others1")] SocialNetwork socialNetwork)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -77,7 +79,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -113,7 +115,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("SocialNetworkID,ListingID,OwnerGuid,IPAddress,WhatsappGroupLink,Youtube,Facebook,Instagram,Linkedin,Pinterest,Telegram,Others,Others1")] SocialNetwork socialNetwork)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -146,7 +148,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
                         string activity = "Updated social network with id " + socialNetwork.SocialNetworkID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

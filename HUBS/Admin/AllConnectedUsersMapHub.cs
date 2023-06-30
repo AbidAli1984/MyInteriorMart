@@ -24,15 +24,8 @@ namespace HUBS.Admin
 {
     public class AllConnectedUsersMapHub : Hub
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly ApplicationDbContext context;
-        private readonly IAddresses addressManager;
-
-        public AllConnectedUsersMapHub(UserManager<IdentityUser> userManager, ApplicationDbContext context, IAddresses addressManager)
+        public AllConnectedUsersMapHub()
         {
-            this.userManager = userManager;
-            this.context = context;
-            this.addressManager = addressManager;
         }
 
         //public IList<LatitudeLongitudeViewModel> allUsers = new List<LatitudeLongitudeViewModel>();

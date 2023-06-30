@@ -1,6 +1,6 @@
 ﻿@inject BAL.Dashboard.Listing.IDashboardListing dashboardListing
 @inject BAL.Listings.IListingStaff staffListingRepo 
-@inject UserManager<IdentityUser> userManager
+@inject BAL.Services.Contracts.IUserService userService
 
 @{
     ViewData["Title"] = "Listing Dashboard";
@@ -11,7 +11,7 @@
 
 <!-- Begin: Listing Dashboard Repository -->
 @{
-    var user = await userManager.FindByNameAsync(User.Identity.Name);
+    var user = await userService.GetUserByUserNameOrEmail(User.Identity.Name);
 
     var countAllListings = await dashboardListing.CountAllAsync();
     var countOrphanListings = await dashboardListing.CountOrphanAsync();

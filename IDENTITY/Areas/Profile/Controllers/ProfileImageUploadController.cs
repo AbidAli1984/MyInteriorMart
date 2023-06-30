@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using BAL.Services.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IDENTITY.Areas.Profile.Controllers
@@ -14,12 +11,12 @@ namespace IDENTITY.Areas.Profile.Controllers
     [Area("Profile")]
     public class ProfileImageUploadController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly IUserService _userService;
         private readonly IWebHostEnvironment hostingEnvironment;
-        public ProfileImageUploadController(IWebHostEnvironment hostingEnvironment, UserManager<IdentityUser> userManager)
+        public ProfileImageUploadController(IWebHostEnvironment hostingEnvironment, IUserService userService)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.userManager = userManager;
+            this._userService = userService;
 
         }
 
@@ -27,7 +24,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> UploadProfilePicture(int ProfileId, IFormFile file)
         {
             // Shafi Wrote: Get current user and guid
-            IdentityUser currentUser = await userManager.FindByNameAsync(User.Identity.Name);
+            var currentUser = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string userGuid = currentUser.Id;
             // End:
 

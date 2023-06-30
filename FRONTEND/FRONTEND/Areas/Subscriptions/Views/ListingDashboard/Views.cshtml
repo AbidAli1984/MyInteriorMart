@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BOL.LISTING.ListingViews>
-@inject BAL.Services.Contracts.IUserService userService
+@inject BAL.Services.Contracts.IUserProfileService userProfileService
 
 @{
     ViewData["Title"] = "All Listings";
@@ -18,7 +18,7 @@
 <div class="row style-alt">
     @foreach (var item in Model)
     {
-        var user = await userService.GetProfileByOwnerGuid(item.OwnerGuid);
+        var user = await userProfileService.GetProfileByOwnerGuid(item.OwnerGuid);
         if (user != null)
         {
             <div class="col-sm-3 col-md-3">

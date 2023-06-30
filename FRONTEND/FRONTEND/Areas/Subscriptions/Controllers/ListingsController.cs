@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using BAL.Audit;
 using System.Data;
 using BOL.VIEWMODELS;
+using BAL.Services.Contracts;
 
 namespace FRONTEND.Areas.Subscriptions.Controllers
 {
@@ -26,19 +27,16 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
     {
         private readonly ListingDbContext listingContext;
         private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IEmailSender emailSender;
+        private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public ListingsController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SharedDbContext sharedManager, IEmailSender emailSender, IHistoryAudit audit, IListingManager listingManager)
+        public ListingsController(ListingDbContext listingContext, IUserService userService, 
+            SharedDbContext sharedManager, IHistoryAudit audit, IListingManager listingManager)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            this._userService = userService;
             this.sharedManager = sharedManager;
-            this.emailSender = emailSender;
             this.audit = audit;
             this.listingManager = listingManager;
         }
@@ -47,7 +45,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Index()
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -147,7 +145,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         {
             // Shafi: Get current user  
             var userName = User.Identity.Name;
-            var user = await userManager.FindByNameAsync(userName);
+            var user = await _userService.GetUserByUserNameOrEmail(userName);
             // End:
 
             if (User.IsInRole("Listing Manager") || User.IsInRole("Listings") || User.IsInRole("Super Administrator"))
@@ -210,7 +208,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
             // End:
 
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -273,7 +271,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -321,7 +319,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("ListingID,OwnerGuid,IPAddress,CreatedDate,CreatedTime,Name,Gender,CompanyName,YearOfEstablishment,NumberOfEmployees,Designation,NatureOfBusiness,Turnover,ListingURL")] Listing listing)
         {
             // Shafi: Get UserGuid
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string UserGuid = user.Id;
             // End:
 
@@ -363,7 +361,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
                         string activity = "Updated listing details " + listing.CompanyName + " with id " + listing.ListingID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 

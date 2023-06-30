@@ -2,7 +2,7 @@
 
 @inject ISuspendedUserService suspendedUserService
 @inject IUserService userService
-@inject UserManager<IdentityUser>  userManager
+@inject IUserProfileService userProfileService
 @inject IAddresses addressManager
 
 @{
@@ -52,10 +52,10 @@
         <tbody>
             @foreach (var item in suspendedUsers)
             {
-                var profile = await userService.GetProfileByOwnerGuid(item.SuspendedTo);
-                var suspendedUser = await userManager.FindByIdAsync(item.SuspendedTo);
-                var suspendedBy = await userManager.FindByIdAsync(item.SuspendedBy);
-                var unsuspendedBy = await userManager.FindByIdAsync(item.UnsuspendedBy);
+                var profile = await userProfileService.GetProfileByOwnerGuid(item.SuspendedTo);
+                var suspendedUser = await userService.GetUserById(item.SuspendedTo);
+                var suspendedBy = await userService.GetUserById(item.SuspendedBy);
+                var unsuspendedBy = await userService.GetUserById(item.UnsuspendedBy);
                 var country = await addressManager.CountryDetailsAsync(profile.CountryID);
                 var city = await addressManager.CityDetailsAsync(profile.CityID);
                 var pincode = await addressManager.PincodeDetailsAsync(profile.PincodeID);

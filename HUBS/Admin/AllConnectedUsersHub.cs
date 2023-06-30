@@ -15,17 +15,18 @@ using System.Web;
 using BAL.Addresses;
 using BOL.VIEWMODELS.Hub;
 using Microsoft.VisualBasic.CompilerServices;
+using DAL.Models;
 
 namespace HUBS.Admin
 {
     public class AllConnectedUsersHub : Hub
     {
 
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext context;
         private readonly IAddresses addressManager;
 
-        public AllConnectedUsersHub(UserManager<IdentityUser> userManager, ApplicationDbContext context, IAddresses addressManager)
+        public AllConnectedUsersHub(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IAddresses addressManager)
         {
             this.userManager = userManager;
             this.context = context;
@@ -34,7 +35,7 @@ namespace HUBS.Admin
 
         public async override Task OnConnectedAsync()
         {
-            IList<IdentityUser> adminUsers = await userManager.GetUsersInRoleAsync("Administrator");
+            IList<ApplicationUser> adminUsers = await userManager.GetUsersInRoleAsync("Administrator");
             List<string> userIds = adminUsers.Select(i => i.UserName).ToList();
 
             // Shafi: Begin connection

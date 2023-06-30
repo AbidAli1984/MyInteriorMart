@@ -1,11 +1,11 @@
 ﻿@model BOL.LISTING.Rating
 @inject IListingManager listingRepository
-@inject BAL.Services.Contracts.IUserService userService
+@inject BAL.Services.Contracts.IUserProfileService userProfileService
 
 @if (User.Identity.IsAuthenticated == true && Model != null)
 {
     // Begin: Get user profile through User Profile Repository
-    var profile = await userService.GetProfileByOwnerGuid(Model.OwnerGuid);
+    var profile = await userProfileService.GetProfileByOwnerGuid(Model.OwnerGuid);
     // End:
     // Begin: Get difference between dates
     DateTime currentDate = DateTime.Now;
@@ -72,7 +72,7 @@
 @if (User.Identity.IsAuthenticated == false && Model != null)
 {
     // Begin: Get user profile through User Profile Repository
-    var profile = await userService.GetProfileByOwnerGuid(Model.OwnerGuid);
+    var profile = await userProfileService.GetProfileByOwnerGuid(Model.OwnerGuid);
     // End:
     // Begin: Get difference between dates
     DateTime currentDate = DateTime.Now;

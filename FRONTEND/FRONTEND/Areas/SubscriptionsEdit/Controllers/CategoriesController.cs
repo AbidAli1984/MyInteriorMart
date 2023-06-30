@@ -9,14 +9,12 @@ using BOL.LISTING;
 using DAL.LISTING;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Diagnostics.Eventing.Reader;
-using Microsoft.AspNetCore.Http;
-using DAL.SHARED;
 using BAL.Listings;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using BAL.Audit;
 using System.Data;
 using DAL.CATEGORIES;
+using BAL.Services.Contracts;
+using DAL.Models;
 
 namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
 {
@@ -25,21 +23,16 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
     public class CategoriesController : Controller
     {
         private readonly ListingDbContext listingContext;
-        private readonly SharedDbContext sharedManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IUserService _userService;
         private readonly CategoriesDbContext categoryContext;
-        private readonly IEmailSender emailSender;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
 
-        public CategoriesController(ListingDbContext listingContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SharedDbContext sharedManager, IEmailSender emailSender, IHistoryAudit audit, IListingManager listingManager, CategoriesDbContext categoryContext)
+        public CategoriesController(ListingDbContext listingContext, IUserService userService,
+            IHistoryAudit audit, IListingManager listingManager, CategoriesDbContext categoryContext)
         {
             this.listingContext = listingContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.sharedManager = sharedManager;
-            this.emailSender = emailSender;
+            this._userService = userService;
             this.audit = audit;
             this.listingManager = listingManager;
             this.categoryContext = categoryContext;
@@ -66,7 +59,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -109,7 +102,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("CategoryID,ListingID,OwnerGuid,IPAddress,FirstCategoryID,SecondCategoryID,ThirdCategories,FourthCategories,FifthCategories,SixthCategories")] Categories categories)
         {
             // Shafi: Get UserGuid & IP Address
-            IdentityUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            ApplicationUser user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -156,7 +149,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
                         string activity = "Updated listing categories for " + listing.CompanyName + " with id " + listing.ListingID;
 
                         // Shafi: Get user in roles
-                        IList<string> userInRoleName = await userManager.GetRolesAsync(user);
+                        IList<string> userInRoleName = await _userService.GetRolesByUser(user);
                         string roleName = userInRoleName.FirstOrDefault();
                         // End:
 
