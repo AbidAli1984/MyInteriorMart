@@ -8,6 +8,7 @@ namespace DAL.Repositories.Contracts
 {
     public interface IUserRoleRepository
     {
+        Task<int> GetRolesCount();
         Task<List<string>> GetRoleClaimTypesByRoleId(string roleId);
         Task<string> GetRoleClaimNameByRoleIdClaimTypeAndClaimValue(string roleId,
             string claimType, string claimValue);

@@ -35,5 +35,10 @@ namespace DAL.Repositories
                 .Select(i => i.ClaimValue)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<IdentityUserRole<string>>> GetRoles()
+        {
+            return await userDbContext.UserRoles.ToListAsync();
+        }
     }
 }

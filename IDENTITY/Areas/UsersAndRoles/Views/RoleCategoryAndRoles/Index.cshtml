@@ -2,7 +2,7 @@
 @inject BAL.Identity.IUserRoleClaim userRoleClaimRepo
 @inject RoleManager<IdentityRole> roleManager
 @inject UserManager<DAL.Models.ApplicationUser> userManager
-@inject IDENTITY.Data.ApplicationDbContext applicationContext
+@inject BAL.Services.Contracts.IUserRoleService userRoleService
 
 @{
     ViewData["Title"] = "Manages Roles";
@@ -23,7 +23,7 @@
     <!-- Begin: Count all users in role -->
     var groupMe = Model.OrderBy(i => i.RoleCategory.Priority).ToList();
     var resultByGroup = from e in groupMe group e by e.RoleCategory.CategoryName;
-    var countAllUsersInRole = applicationContext.UserRoles.Count();
+    var countAllUsersInRole = await userRoleService.GetRolesCount();
     <!-- End: -->
 }
 <!-- End: -->

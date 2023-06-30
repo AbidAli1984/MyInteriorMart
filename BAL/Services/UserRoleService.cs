@@ -77,5 +77,10 @@ namespace BAL.Services
                 return false;
             }
         }
+
+        public async Task<int> GetRolesCount()
+        {
+            return await _userRoleRepository.GetRolesCount();
+        }
     }
 }
