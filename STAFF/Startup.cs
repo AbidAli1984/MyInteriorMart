@@ -17,12 +17,9 @@ using DAL.LISTING;
 using DAL.Models;
 using DAL.SHARED;
 using DAL.USER;
-using IDENTITY.Data;
-using IDENTITY.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,10 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace STAFF
 {
@@ -64,9 +58,9 @@ namespace STAFF
 #endif
 
             // Begin: ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("MimApplication")));
+                    Configuration.GetConnectionString("MimUser")));
             // End:
 
             // Begin: SharedDbContext
@@ -159,7 +153,6 @@ namespace STAFF
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
             services.AddTransient<IClaimsAdmin, ClaimsAdmin>();
             services.AddTransient<IUserRoleClaim, UserRoleClaim>();
-            services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
             services.AddTransient<IKeywords, Keywords>();
             // End:

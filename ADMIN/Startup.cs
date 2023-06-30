@@ -1,19 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using DAL.AUDIT;
 using DAL.LISTING;
 using DAL.SHARED;
 using DAL.CATEGORIES;
 using DotnetThoughts.AspNetCore;
 using ElmahCore.Mvc;
-using IDENTITY.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,18 +16,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using BAL.Messaging.Notify;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using BAL.Category;
 using BAL.Addresses;
 using BAL.Listings;
 using DAL.BILLING;
 using BAL.Billing;
-using IDENTITY.Services;
 using BAL.Audit;
 using BAL.Dashboard.Listing;
 using BAL.Dashboard.History;
 using DAL.BANNER;
-using ReflectionIT.Mvc.Paging;
 using BAL.Claims;
 using BAL.Identity;
 using BAL.Keyword;
@@ -73,10 +65,10 @@ namespace ADMIN
             }
 #endif
 
-            // Begin: ApplicationDbContext
+            // Begin: UserDbContext
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("MimApplication")));
+                    Configuration.GetConnectionString("MimUser")));
             // End:
 
             // Begin: SharedDbContext
@@ -169,7 +161,6 @@ namespace ADMIN
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
             services.AddTransient<IClaimsAdmin, ClaimsAdmin>();
             services.AddTransient<IUserRoleClaim, UserRoleClaim>();
-            services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
             services.AddTransient<IKeywords, Keywords>();
             services.AddTransient<IClaimListing, ClaimListing>();

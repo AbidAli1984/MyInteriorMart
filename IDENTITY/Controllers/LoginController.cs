@@ -14,12 +14,10 @@ namespace IDENTITY.Controllers
     public class LoginController : Controller
     {
         private readonly IUserService _userService;
-        private readonly ApplicationDbContext ApplicationContext;
         private readonly SignInManager<ApplicationUser> SignInManager;
-        public LoginController(IUserService userService, ApplicationDbContext applicationContext, SignInManager<ApplicationUser> signInManager)
+        public LoginController(IUserService userService, SignInManager<ApplicationUser> signInManager)
         {
             this._userService = userService;
-            ApplicationContext = applicationContext;
             SignInManager = signInManager;
         }
 
@@ -46,8 +44,7 @@ namespace IDENTITY.Controllers
         [HttpPost]
         public async Task<IActionResult> ByMobileOtp(string mobile)
         {
-            var userRecord = await ApplicationContext.Users.Where(i => i.PhoneNumber == mobile).FirstOrDefaultAsync();
-
+            var userRecord = await _userService.GetUserByMobileNumber(mobile);
 
             if(userRecord != null)
             {

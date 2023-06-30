@@ -41,12 +41,6 @@ namespace FRONTEND.BLAZOR
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // Shafi: ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("MimApplication")), ServiceLifetime.Transient);
-            // End:
-
             // Abid: UserDbContext
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
@@ -106,6 +100,8 @@ namespace FRONTEND.BLAZOR
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRoleService, UserRoleService>();
+            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
             services.AddTransient<IUserProfileService, UserProfileService>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<ISuspendedUserService, SuspendedUserService>();

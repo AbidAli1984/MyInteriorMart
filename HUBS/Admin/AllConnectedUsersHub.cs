@@ -16,28 +16,26 @@ using BAL.Addresses;
 using BOL.VIEWMODELS.Hub;
 using Microsoft.VisualBasic.CompilerServices;
 using DAL.Models;
+using BAL.Services.Contracts;
 
 namespace HUBS.Admin
 {
     public class AllConnectedUsersHub : Hub
     {
 
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly ApplicationDbContext context;
+        private readonly IUserProfileService _userProfileService;
+        private readonly IUserService _userService;
         private readonly IAddresses addressManager;
 
-        public AllConnectedUsersHub(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IAddresses addressManager)
+        public AllConnectedUsersHub(IUserService userService, IUserProfileService userProfileService, IAddresses addressManager)
         {
-            this.userManager = userManager;
-            this.context = context;
+            this._userService = userService;
+            this._userProfileService = userProfileService;
             this.addressManager = addressManager;
         }
 
         public async override Task OnConnectedAsync()
         {
-            IList<ApplicationUser> adminUsers = await userManager.GetUsersInRoleAsync("Administrator");
-            List<string> userIds = adminUsers.Select(i => i.UserName).ToList();
-
             // Shafi: Begin connection
             await base.OnConnectedAsync();
             // End:
@@ -69,8 +67,8 @@ namespace HUBS.Admin
             {
                 // Shafi: Get current user id and check if profile for this user exists
                 string profileImage = "";
-                var user = await userManager.FindByNameAsync(Context.User.Identity.Name);
-                var profile = await context.UserProfile.Where(p => p.OwnerGuid == user.Id).FirstOrDefaultAsync();
+                var user = await _userService.GetUserByUserNameOrEmail(Context.User.Identity.Name);
+                var profile = await _userProfileService.GetProfileByOwnerGuid(user.Id);
                 if (profile != null)
                 {
                     profileImage = "/FileManager/ProfileImages/" + profile.ProfileID.ToString() + ".jpg";

@@ -1,31 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using IDENTITY.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using IDENTITY.Services;
 using BAL.Addresses;
 using BAL.Claims;
 using BAL.Identity;
 using Hangfire;
 using BAL.Audit;
-using Microsoft.AspNetCore.Http;
 using DAL.USER;
 using DAL.Models;
-using BAL.Services.Contracts;
-using DAL.Repositories.Contracts;
-using BAL.Services;
-using DAL.Repositories;
 
 namespace IDENTITY
 {
@@ -43,7 +31,7 @@ namespace IDENTITY
         {
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("MimApplication")));
+                    Configuration.GetConnectionString("MimUser")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 // Shafi: Add role to get all roles in manage role controller
@@ -92,10 +80,7 @@ namespace IDENTITY
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IClaimsAdmin, ClaimsAdmin>();
             services.AddTransient<IUserRoleClaim, UserRoleClaim>();
-            services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
-            services.AddTransient<IUserProfileService, UserProfileService>();
-            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             // End:
 
             services.AddSession(options =>

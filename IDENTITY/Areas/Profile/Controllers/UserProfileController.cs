@@ -2,28 +2,28 @@
 using System.Linq;
 using IDENTITY.Data;
 using Microsoft.AspNetCore.Mvc;
-using IDENTITY.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DAL.SHARED;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BAL.Services.Contracts;
+using BOL.IDENTITY;
 
 namespace IDENTITY.Areas.Profile.Controllers
 {
     [Area("Profile")]
     public class UserProfileController : Controller
     {
-        private readonly ApplicationDbContext applicationContext;
-        private readonly SharedDbContext sharedContext;
         private readonly IUserService _userService;
-        public UserProfileController(ApplicationDbContext applicationContext, SharedDbContext sharedContext, 
+        private readonly IUserProfileService _userProfileService;
+        private readonly SharedDbContext sharedContext;
+        public UserProfileController(IUserProfileService userProfileService, SharedDbContext sharedContext,
             IUserService userService)
         {
-            this.applicationContext = applicationContext;
-            this.sharedContext = sharedContext;
             this._userService = userService;
+            this._userProfileService = userProfileService;
+            this.sharedContext = sharedContext;
         }
 
         public async Task<IActionResult> Index()
@@ -33,7 +33,7 @@ namespace IDENTITY.Areas.Profile.Controllers
             string ownerGuid = user.Id;
             // End:
 
-            var profile = await applicationContext.UserProfile.Where(p => p.OwnerGuid == ownerGuid).FirstOrDefaultAsync();
+            var profile = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
 
             if (profile != null)
             {
@@ -49,14 +49,10 @@ namespace IDENTITY.Areas.Profile.Controllers
 
         public async Task<IActionResult> Create()
         {
-            // Shafi: Get UserGuid & IP Address
             var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
             string ownerGuid = user.Id;
-            // End:
 
-            // Shafi: Check if user profile already exists
-            var profileExists = await applicationContext.UserProfile.Where(p => p.OwnerGuid.Contains(ownerGuid)).FirstOrDefaultAsync();
-            // End:
+            var profileExists = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
 
             if (profileExists == null)
             {
@@ -91,16 +87,13 @@ namespace IDENTITY.Areas.Profile.Controllers
             userProfile.CreatedTime = timeZoneDate;
             // End:
 
-            // Shafi: Check if user profile already exists
-            var profileExists = await applicationContext.UserProfile.Where(p => p.OwnerGuid.Contains(ownerGuid)).FirstOrDefaultAsync();
-            // End:
+            var profileExists = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
 
             if (profileExists == null)
             {
                 if (ModelState.IsValid)
                 {
-                    applicationContext.UserProfile.Add(userProfile);
-                    await applicationContext.SaveChangesAsync();
+                    await _userProfileService.AddUserProfile(userProfile);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -121,7 +114,7 @@ namespace IDENTITY.Areas.Profile.Controllers
             string ownerGuid = user.Id;
             // End:
 
-            var profile = await applicationContext.UserProfile.Where(p => p.OwnerGuid == ownerGuid).FirstOrDefaultAsync();
+            var profile = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
 
             if (profile != null)
             {
@@ -170,15 +163,14 @@ namespace IDENTITY.Areas.Profile.Controllers
             // End:
 
             // Shafi: Check if user profile already exists
-            var profileExists = await applicationContext.UserProfile.Where(p => p.OwnerGuid.Contains(ownerGuid)).FirstOrDefaultAsync();
+            var profileExists = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
             // End:
 
             if (userProfile != null)
             {
                 if (ModelState.IsValid)
                 {
-                    applicationContext.Update(userProfile);
-                    await applicationContext.SaveChangesAsync();
+                    await _userProfileService.UpdateUserProfile(userProfile);
                     return RedirectToAction(nameof(Index));
                 }
                 else

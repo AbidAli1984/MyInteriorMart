@@ -1,18 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using BAL.Listings;
 using DAL.LISTING;
 using DAL.SHARED;
-using IDENTITY.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,26 +17,19 @@ using Hangfire.SqlServer;
 using BAL.Messaging.Notify;
 using DAL.AUDIT;
 using BAL.Audit;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using DAL.CATEGORIES;
 using BAL.Addresses;
 using DAL.BILLING;
 using BAL.Billing;
 using BAL.Category;
-using IDENTITY.Services;
 using HUBS.Admin;
 using HUBS.Listing;
 using BAL.Dashboard.Listing;
 using BAL.Dashboard.History;
 using DAL.BANNER;
 using BAL.Claims;
-using BOL.CLAIMS;
-using BOL.CLAIMS.Admin;
 using BAL.Identity;
-using Microsoft.AspNetCore.Http.Features;
 using BAL.Search;
-using ReflectionIT.Mvc.Paging;
 using HUBS.Notifications;
 using BAL.Keyword;
 using BAL.Claims.Listing;
@@ -110,12 +97,6 @@ namespace FRONTEND
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MimUser")));
-            // End:
-
-            // Shafi: ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("MimApplication")));
             // End:
 
             // Shafi: SharedDbContext
@@ -228,7 +209,6 @@ namespace FRONTEND
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
             services.AddTransient<IClaimsAdmin, ClaimsAdmin>();
             services.AddTransient<IUserRoleClaim, UserRoleClaim>();
-            services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<ISearch, Search>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
             services.AddTransient<IKeywords, Keywords>();
@@ -240,6 +220,8 @@ namespace FRONTEND
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserProfileService, UserProfileService>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<IUserRoleService, UserRoleService>();
+            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
             // End:
 
             // Shafi: Add Claim based authorization

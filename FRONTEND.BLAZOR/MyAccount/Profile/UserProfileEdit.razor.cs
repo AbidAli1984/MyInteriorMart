@@ -223,8 +223,8 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                             CurrentUserProfile.PincodeID = PincodeID.Value;
                             CurrentUserProfile.TimeZoneOfCountry = TimeZoneOfCountry;
 
-                            applicationContext.Update(CurrentUserProfile);
-                            await applicationContext.SaveChangesAsync();
+
+                            await userProfileService.UpdateUserProfile(CurrentUserProfile);
 
                             disable = true;
 

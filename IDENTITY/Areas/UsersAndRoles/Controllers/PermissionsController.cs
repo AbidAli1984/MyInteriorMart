@@ -20,16 +20,10 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
     public class PermissionsController : Controller
     {
         private readonly IClaimsAdmin claimsAdmin;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly ApplicationDbContext applicationContext;
-        private readonly IUserRoleClaim userRoleClaim;
 
-        public PermissionsController(IClaimsAdmin claimsAdmin, RoleManager<IdentityRole> roleManager, ApplicationDbContext applicationContext, IUserRoleClaim userRoleClaim)
+        public PermissionsController(IClaimsAdmin claimsAdmin)
         {
             this.claimsAdmin = claimsAdmin;
-            this.roleManager = roleManager;
-            this.applicationContext = applicationContext;
-            this.userRoleClaim = userRoleClaim;
         }
 
         // Shafi: List all claims

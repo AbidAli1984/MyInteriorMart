@@ -22,15 +22,13 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService _userService;
-        private readonly ApplicationDbContext applicationContext;
 
         public ManageRolesController(RoleManager<IdentityRole> roleManager, IUserService userService,
-            UserManager<ApplicationUser> userManager, ApplicationDbContext applicationContext)
+            UserManager<ApplicationUser> userManager)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
             this._userService = userService;
-            this.applicationContext = applicationContext;
         }
 
         // Shafi: List all roles

@@ -38,11 +38,18 @@ namespace BAL.Services
             return await _userRepository.GetUserByUserNameOrEmail(userNameOrEmail);
         }
 
+        public async Task<ApplicationUser> GetUserByMobileNumber(string mobileNumber)
+        {
+            if (string.IsNullOrEmpty(mobileNumber))
+                return null;
+            return await _userRepository.GetRegisterdUserByMobileNo(mobileNumber);
+        }
+
         public async Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber)
         {
             if (string.IsNullOrEmpty(mobileNumber))
                 return false;
-            var registeredUser = await _userRepository.GetRegisterdUserByMobileNo(mobileNumber);
+            var registeredUser = await GetUserByMobileNumber(mobileNumber);
             return registeredUser != null;
         }
 

@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BAL.Audit;
 using BAL.Listings;
 using DAL.AUDIT;
-using IDENTITY.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +37,6 @@ namespace COM
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IListingManager, ListingManager>();
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
-            services.AddTransient<IMenuByClaim, MenuByClaim>();
             services.AddTransient<IUsersOnlineRepository, UsersOnlineRepository>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserProfileService, UserProfileService>();
