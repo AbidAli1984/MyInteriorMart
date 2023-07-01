@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using IDENTITY.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DAL.SHARED;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
 

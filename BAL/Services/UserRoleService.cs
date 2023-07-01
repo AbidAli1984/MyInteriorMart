@@ -1,4 +1,5 @@
 ﻿using BAL.Services.Contracts;
+using BOL.IDENTITY;
 using DAL.Models;
 using DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Identity;
@@ -80,7 +81,79 @@ namespace BAL.Services
 
         public async Task<int> GetRolesCount()
         {
-            return await _userRoleRepository.GetRolesCount();
+            return (await _userRoleRepository.GetUserRoles()).Count();
         }
+
+        #region RoleCategory
+        public async Task<List<RoleCategory>> GetRoleCategories()
+        {
+            return await _userRoleRepository.GetRoleCategories();
+        }
+
+        public async Task<RoleCategory> GetRoleCategoryById(int? roleCategoryId)
+        {
+            if (roleCategoryId == null)
+                return null;
+            return await _userRoleRepository.GetRoleCategoryById(roleCategoryId);
+        }
+
+        public async Task<RoleCategory> AddRoleCategory(RoleCategory roleCategory)
+        {
+            return await _userRoleRepository.AddRoleCategory(roleCategory);
+        }
+
+        public async Task<RoleCategory> UpdateRoleCategory(RoleCategory roleCategory)
+        {
+            return await _userRoleRepository.UpdateRoleCategory(roleCategory);
+        }
+
+        public async Task<bool> DeleteRoleCategory(int id)
+        {
+            return await _userRoleRepository.DeleteRoleCategory(id); ;
+        }
+        #endregion
+
+        #region RoleCategoryAndRole
+        public async Task<RoleCategoryAndRole> GetRoleCategoryAndRoleById(int? id)
+        {
+            if (id == null)
+                return null;
+            return await _userRoleRepository.GetRoleCategoryAndRoleById(id);
+        }
+
+        public async Task<List<RoleCategoryAndRole>> GetRoleCategoryAndRolesIncludeRoleCategory()
+        {
+            return await _userRoleRepository.GetRoleCategoryAndRolesIncludeRoleCategory();
+        }
+
+        public async Task<RoleCategoryAndRole> GetRoleCategoryAndRoleIncludeRoleCategoryById(int? id)
+        {
+            if (id == null)
+                return null;
+            return await _userRoleRepository.GetRoleCategoryAndRoleIncludeRoleCategoryById(id);
+        }
+
+        public async Task<List<IdentityRole>> GetUnassignedRoles()
+        {
+            var assignedRoles = (await _userRoleRepository.GetRoleCategoryAndRoles()).Select(i => i.RoleID).ToList();
+            var allRoles = await _userRoleRepository.GetRoles();
+            return allRoles.Where(i => !assignedRoles.Any(e => i.Id.Contains(e))).ToList();
+        }
+
+        public async Task<RoleCategoryAndRole> AddRoleCategoryAndRole(RoleCategoryAndRole roleCategoryAndRole)
+        {
+            return await _userRoleRepository.AddRoleCategoryAndRole(roleCategoryAndRole);
+        }
+
+        public async Task<RoleCategoryAndRole> UpdateRoleCategoryAndRole(RoleCategoryAndRole roleCategoryAndRole)
+        {
+            return await _userRoleRepository.UpdateRoleCategoryAndRole(roleCategoryAndRole);
+        }
+
+        public async Task<bool> DeleteRoleCategoryAndRole(int id)
+        {
+            return await _userRoleRepository.DeleteRoleCategoryAndRole(id); ;
+        }
+        #endregion
     }
 }

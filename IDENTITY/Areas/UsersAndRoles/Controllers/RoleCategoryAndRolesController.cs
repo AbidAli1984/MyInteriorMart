@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using IDENTITY.Data;
-using IDENTITY.Models;
 using Microsoft.AspNetCore.Authorization;
+using BAL.Services.Contracts;
+using BOL.IDENTITY;
 
 namespace IDENTITY.Areas.UsersAndRoles.Controllers
 {
@@ -13,33 +12,26 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
     [Authorize]
     public class RoleCategoryAndRolesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUserRoleService _userRoleService;
 
-        public RoleCategoryAndRolesController(ApplicationDbContext context)
+        public RoleCategoryAndRolesController(IUserRoleService userRoleService)
         {
-            _context = context;
+            _userRoleService = userRoleService;
         }
 
         // GET: RoleCategoryAndRoles
         [Authorize(Policy = "Admin-RoleCatNRole-ViewAll")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.RoleCategoryAndRole.Include(r => r.RoleCategory);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = await _userRoleService.GetRoleCategoryAndRolesIncludeRoleCategory();
+            return View(applicationDbContext);
         }
 
         // GET: RoleCategoryAndRoles/Details/5
         [Authorize(Policy = "Admin-RoleCatNRole-Read")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var roleCategoryAndRole = await _context.RoleCategoryAndRole
-                .Include(r => r.RoleCategory)
-                .FirstOrDefaultAsync(m => m.RoleCategoryAndRoleID == id);
+            var roleCategoryAndRole = await _userRoleService.GetRoleCategoryAndRoleIncludeRoleCategoryById(id);
             if (roleCategoryAndRole == null)
             {
                 return NotFound();
@@ -52,11 +44,9 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         [Authorize(Policy = "Admin-RoleCatNRole-Create")]
         public async Task<IActionResult> Create()
         {
-            var assignedRoles = await _context.RoleCategoryAndRole.Select(i => i.RoleID).ToListAsync();
-            var allRoles = await _context.Roles.ToListAsync();
-            var unAssignedRoles = allRoles.Where(i => !assignedRoles.Any(e => i.Id.Contains(e))).ToList();
+            var unAssignedRoles = await _userRoleService.GetUnassignedRoles();
 
-            ViewData["RoleCategoryID"] = new SelectList(_context.RoleCategory, "RoleCategoryID", "CategoryName");
+            ViewData["RoleCategoryID"] = new SelectList(await _userRoleService.GetRoleCategories(), "RoleCategoryID", "CategoryName");
             ViewData["Roles"] = new SelectList(unAssignedRoles, "Id", "Name");
             return View();
         }
@@ -71,11 +61,10 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(roleCategoryAndRole);
-                await _context.SaveChangesAsync();
+                await _userRoleService.AddRoleCategoryAndRole(roleCategoryAndRole);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleCategoryID"] = new SelectList(_context.RoleCategory, "RoleCategoryID", "CategoryName", roleCategoryAndRole.RoleCategoryID);
+            ViewData["RoleCategoryID"] = new SelectList(await _userRoleService.GetRoleCategories(), "RoleCategoryID", "CategoryName", roleCategoryAndRole.RoleCategoryID);
             return View(roleCategoryAndRole);
         }
 
@@ -83,17 +72,12 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         [Authorize(Policy = "Admin-RoleCatNRole-Edit")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var roleCategoryAndRole = await _context.RoleCategoryAndRole.FindAsync(id);
+            var roleCategoryAndRole = await _userRoleService.GetRoleCategoryAndRoleById(id);
             if (roleCategoryAndRole == null)
             {
                 return NotFound();
             }
-            ViewData["RoleCategoryID"] = new SelectList(_context.RoleCategory, "RoleCategoryID", "CategoryName", roleCategoryAndRole.RoleCategoryID);
+            ViewData["RoleCategoryID"] = new SelectList(await _userRoleService.GetRoleCategories(), "RoleCategoryID", "CategoryName", roleCategoryAndRole.RoleCategoryID);
             return View(roleCategoryAndRole);
         }
 
@@ -113,12 +97,12 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
             {
                 try
                 {
-                    _context.Update(roleCategoryAndRole);
-                    await _context.SaveChangesAsync();
+                    await _userRoleService.UpdateRoleCategoryAndRole(roleCategoryAndRole);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleCategoryAndRoleExists(roleCategoryAndRole.RoleCategoryAndRoleID))
+                    var roleCatAndRole = await _userRoleService.GetRoleCategoryAndRoleById(roleCategoryAndRole.RoleCategoryAndRoleID);
+                    if (roleCatAndRole == null)
                     {
                         return NotFound();
                     }
@@ -129,7 +113,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleCategoryID"] = new SelectList(_context.RoleCategory, "RoleCategoryID", "CategoryName", roleCategoryAndRole.RoleCategoryID);
+            ViewData["RoleCategoryID"] = new SelectList(await _userRoleService.GetRoleCategories(), "RoleCategoryID", "CategoryName", roleCategoryAndRole.RoleCategoryID);
             return View(roleCategoryAndRole);
         }
 
@@ -137,14 +121,8 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         [Authorize(Policy = "Admin-RoleCatNRole-Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var roleCategoryAndRole = await _userRoleService.GetRoleCategoryAndRoleIncludeRoleCategoryById(id);
 
-            var roleCategoryAndRole = await _context.RoleCategoryAndRole
-                .Include(r => r.RoleCategory)
-                .FirstOrDefaultAsync(m => m.RoleCategoryAndRoleID == id);
             if (roleCategoryAndRole == null)
             {
                 return NotFound();
@@ -159,15 +137,8 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         [Authorize(Policy = "Admin-RoleCatNRole-Create")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var roleCategoryAndRole = await _context.RoleCategoryAndRole.FindAsync(id);
-            _context.RoleCategoryAndRole.Remove(roleCategoryAndRole);
-            await _context.SaveChangesAsync();
+            await _userRoleService.DeleteRoleCategoryAndRole(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool RoleCategoryAndRoleExists(int id)
-        {
-            return _context.RoleCategoryAndRole.Any(e => e.RoleCategoryAndRoleID == id);
         }
     }
 }

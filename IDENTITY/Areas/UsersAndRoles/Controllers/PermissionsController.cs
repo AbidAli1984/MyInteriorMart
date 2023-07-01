@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BAL.Claims;
 using Microsoft.AspNetCore.Authorization;
-using IDENTITY.Data;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using BAL.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Hangfire;
-using System.ComponentModel;
 
 namespace IDENTITY.Areas.UsersAndRoles.Controllers
 {

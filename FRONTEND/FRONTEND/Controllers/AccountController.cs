@@ -1,24 +1,18 @@
-﻿using IDENTITY.Models.ViewModels;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IDENTITY.Data;
 using DAL.SHARED;
 using Microsoft.EntityFrameworkCore;
 using DAL.AUDIT;
-using BOL.AUDITTRAIL;
 using BAL.Identity;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using BAL.Messaging.Notify;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using BAL.Addresses;
-using System.Security.Cryptography;
 using DAL.USER;
 using DAL.Models;
 

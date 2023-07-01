@@ -1,12 +1,7 @@
 ﻿using BAL.Services.Contracts;
 using DAL.Models;
-using IDENTITY.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IDENTITY.Controllers

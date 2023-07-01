@@ -1,22 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Threading;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using System.Linq;
-using IDENTITY.Data;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using System.Web;
-using BAL.Addresses;
-using BOL.VIEWMODELS.Hub;
-using Microsoft.VisualBasic.CompilerServices;
 using DAL.LISTING;
-using Microsoft.AspNetCore.Connections;
 using BAL.Services.Contracts;
 
 namespace HUBS.Listing

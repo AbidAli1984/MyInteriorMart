@@ -42,9 +42,3 @@ End: ---------------------------------------------------------------------------
 add-migration -context DAL.USER.UserDbContext -OutputDir DBContexts\USER\Migrations
 update-database -context DAL.USER.UserDbContext
 End: ------------------------------------------------------------------------------------------------
-
-// Shafi: ApplicationDbContext
-====================================================================================================
-add-migration -context IDENTITY.Data.ApplicationDbContext -OutputDir Data\Migrations
-update-database -context IDENTITY.Data.ApplicationDbContext
-End: -----------------------------------------------------------------------------------------------
