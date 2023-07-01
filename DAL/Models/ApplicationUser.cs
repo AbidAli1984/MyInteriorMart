@@ -9,5 +9,6 @@ namespace DAL.Models
     {
         public string Otp { get; set; }
         public bool IsRegistrationCompleted { get; set; }
+        public bool IsVendor { get; set; }
     }
 }
