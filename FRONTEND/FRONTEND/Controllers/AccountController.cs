@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL.AUDIT;
 using BAL.Identity;
 using Newtonsoft.Json;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
@@ -26,12 +26,12 @@ namespace FRONTEND.Controllers
         private readonly SharedDbContext SharedContext;
         private readonly AuditDbContext AuditContext;
         public readonly IUserRoleClaim UserRoleClaim;
-        private readonly INotification Notification;
+        private readonly INotificationService Notification;
         private readonly IAddresses Addresses;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
             UserDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, 
-            IUserRoleClaim userRoleClaim, INotification notification, IAddresses addresses)
+            IUserRoleClaim userRoleClaim, INotificationService notification, IAddresses addresses)
         {
             SignInManager = signInManager;
             UserManager = userManager;

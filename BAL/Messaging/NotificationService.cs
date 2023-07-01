@@ -3,28 +3,25 @@ using DAL.LISTING;
 using DAL.SHARED;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using System.Security.Authentication;
 using System.Net.Mail;
 using System.Web;
 using DAL.Models;
+using BAL.Messaging.Contracts;
+using RestSharp;
 
-namespace BAL.Messaging.Notify
+namespace BAL.Messaging
 {
-    public class Notification : INotification
+    public class NotificationService : INotificationService
     {
         private readonly ListingDbContext listingManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SharedDbContext sharedContext;
 
-        public Notification(ListingDbContext listingManager, UserManager<ApplicationUser> userManager, SharedDbContext sharedContext)
+        public NotificationService(ListingDbContext listingManager, UserManager<ApplicationUser> userManager, SharedDbContext sharedContext)
         {
             this.listingManager = listingManager;
             this.userManager = userManager;
@@ -78,28 +75,43 @@ namespace BAL.Messaging.Notify
             // End:
         }
 
-        public void SendSMS(string mobile, string smsMessage)
+        public async void SendSMS(string mobile, string smsMessage)
         {
             // Begin: Send Messaging Through Msg91.com
             string AuthKey = "126426AlvG4cN2Kc57e8e865";
             string SenderId = "UMARZO";
             string RealMessage = HttpUtility.UrlEncode(smsMessage);
 
-            // Send Message To Tempo Service Providers
-            StringBuilder sbPostData = new StringBuilder();
-            sbPostData.AppendFormat("authkey={0}", AuthKey);
-            sbPostData.AppendFormat("&mobiles={0}", mobile);
-            sbPostData.AppendFormat("&message={0}", RealMessage);
-            sbPostData.AppendFormat("&sender={0}", SenderId);
-            sbPostData.AppendFormat("&route={0}", "4");
+            var options = new RestClientOptions("https://control.msg91.com/api/v5/otp?template_id=64a074f6d6fc05502c0f84c2&mobile=9833505109");
+            var client = new RestClient(options);
+            var request = new RestRequest("");
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("authkey", "400157AC73pSfg64a06dccP1");
+            request.AddJsonBody("{\"OTP\":\"631248\"}", false);
+            var response = await client.PostAsync(request);
 
-            //Call Send SMS API
-            string sendSMSUri = "https://control.msg91.com/api/sendhttp.php";
-            //Create HTTPWebrequest
-            HttpWebRequest httpWReq = (HttpWebRequest)WebRequest.Create(sendSMSUri);
-            //Prepare and Add URL Encoded data
-            UTF8Encoding encoding = new UTF8Encoding();
-            byte[] data = encoding.GetBytes(sbPostData.ToString());
+            string cont = response.Content;
+
+
+
+
+
+
+            //// Send Message To Tempo Service Providers
+            //StringBuilder sbPostData = new StringBuilder();
+            //sbPostData.AppendFormat("authkey={0}", AuthKey);
+            //sbPostData.AppendFormat("&mobiles={0}", mobile);
+            //sbPostData.AppendFormat("&message={0}", RealMessage);
+            //sbPostData.AppendFormat("&sender={0}", SenderId);
+            //sbPostData.AppendFormat("&route={0}", "4");
+
+            ////Call Send SMS API
+            //string sendSMSUri = "https://control.msg91.com/api/sendhttp.php";
+            ////Create HTTPWebrequest
+            //HttpWebRequest httpWReq = (HttpWebRequest)WebRequest.Create(sendSMSUri);
+            ////Prepare and Add URL Encoded data
+            //UTF8Encoding encoding = new UTF8Encoding();
+            //byte[] data = encoding.GetBytes(sbPostData.ToString());
             //Specify post method
             //httpWReq.Method = "POST";
             //httpWReq.ContentType = "application/x-www-form-urlencoded";

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using DAL.AUDIT;
 using BOL.AUDITTRAIL;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using DAL.LISTING;
@@ -23,11 +23,11 @@ namespace BAL.Claims.Listing
         public IConfiguration Configuration;
         public IWebHostEnvironment HostEnvironment;
         public AuditDbContext AuditContext;
-        public INotification Notification;
+        public INotificationService Notification;
         public ListingDbContext ListingContext;
         public UserManager<ApplicationUser> UserManager;
         private readonly IWebHostEnvironment webHost;
-        public ClaimListing(IConfiguration configuration, IWebHostEnvironment env, AuditDbContext auditContext, INotification notification, 
+        public ClaimListing(IConfiguration configuration, IWebHostEnvironment env, AuditDbContext auditContext, INotificationService notification, 
             ListingDbContext listingContext, IWebHostEnvironment webHost, UserManager<ApplicationUser> userManager)
         {
             Configuration = configuration;

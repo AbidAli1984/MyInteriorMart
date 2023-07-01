@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BOL.AUDITTRAIL;
 using DAL.AUDIT;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using System.Text;
 
@@ -16,10 +16,10 @@ namespace FRONTEND.Controllers
     public class SuggestionsController : Controller
     {
         private readonly AuditDbContext _context;
-        private readonly INotification notificationRepo;
+        private readonly INotificationService notificationRepo;
         private readonly IWebHostEnvironment webHost;
 
-        public SuggestionsController(AuditDbContext context, INotification notificationRepo, IWebHostEnvironment webHost)
+        public SuggestionsController(AuditDbContext context, INotificationService notificationRepo, IWebHostEnvironment webHost)
         {
             _context = context;
             this.notificationRepo = notificationRepo;

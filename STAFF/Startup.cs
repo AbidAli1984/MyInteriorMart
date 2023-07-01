@@ -8,7 +8,8 @@ using BAL.Dashboard.Listing;
 using BAL.Identity;
 using BAL.Keyword;
 using BAL.Listings;
-using BAL.Messaging.Notify;
+using BAL.Messaging;
+using BAL.Messaging.Contracts;
 using DAL.AUDIT;
 using DAL.BANNER;
 using DAL.BILLING;
@@ -147,7 +148,7 @@ namespace STAFF
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IListingManager, ListingManager>();
             services.AddTransient<IBilling, Billing>();
-            services.AddTransient<INotification, Notification>();
+            services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IDashboardListing, DashboardListing>();
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();

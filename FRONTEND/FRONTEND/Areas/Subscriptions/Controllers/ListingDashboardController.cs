@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using DAL.SHARED;
 using BAL.Listings;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using Hangfire;
 using BAL.Audit;
 using DAL.AUDIT;

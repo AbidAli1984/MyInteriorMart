@@ -10,7 +10,7 @@ namespace DAL.Repositories.Contracts
 {
     public interface IUserRepository
     {
-        Task<ApplicationUser> AddOrUpdateUser(ApplicationUser user);
+        Task<ApplicationUser> UpdateUser(ApplicationUser user);
         Task DeleteUserByPhoneNumberOrEmail(ApplicationUser user);
         Task<ApplicationUser> GetUserByMobileNo(string mobileNo);
         Task<ApplicationUser> GetRegisterdUserByMobileNo(string mobileNo);

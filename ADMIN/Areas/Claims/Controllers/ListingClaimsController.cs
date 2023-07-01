@@ -13,7 +13,7 @@ using DAL.LISTING;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using StringRandomizer;
 using StringRandomizer.Options;
 using StringRandomizer.Stores;
@@ -30,9 +30,9 @@ namespace ADMIN.Areas.Claims.Controllers
         private readonly IWebHostEnvironment HostingEnvironment;
         private readonly AuditDbContext _context;
         public IConfiguration Configuration;
-        public INotification Notification;
+        public INotificationService Notification;
 
-        public ListingClaimsController(IUserService userService, AuditDbContext context, IWebHostEnvironment hostingEnvironment, IConfiguration configuration, INotification notification)
+        public ListingClaimsController(IUserService userService, AuditDbContext context, IWebHostEnvironment hostingEnvironment, IConfiguration configuration, INotificationService notification)
         {
             this._userService = userService;
             _context = context;

@@ -25,5 +25,6 @@ namespace BOL.IDENTITY.ViewModels
         [MinLength(6)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+        public bool isVendor { get; set; }
     }
 }

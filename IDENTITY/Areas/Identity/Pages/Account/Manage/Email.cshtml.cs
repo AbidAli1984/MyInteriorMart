@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using DAL.Models;
 
 namespace IDENTITY.Areas.Identity.Pages.Account.Manage
@@ -20,12 +20,12 @@ namespace IDENTITY.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly INotification notification;
+        private readonly INotificationService notification;
 
         public EmailModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender, INotification notification)
+            IEmailSender emailSender, INotificationService notification)
         {
             _userManager = userManager;
             _signInManager = signInManager;

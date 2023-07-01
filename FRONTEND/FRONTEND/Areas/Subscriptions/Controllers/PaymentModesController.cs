@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using BAL.Listings;
 using BAL.Audit;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -28,10 +28,10 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
-        private readonly INotification notification;
+        private readonly INotificationService notification;
 
         public PaymentModesController(ListingDbContext listingContext, IUserService userService, 
-            IHistoryAudit audit, IListingManager listingManager, INotification notification)
+            IHistoryAudit audit, IListingManager listingManager, INotificationService notification)
         {
             this.listingContext = listingContext;
             this._userService = userService;

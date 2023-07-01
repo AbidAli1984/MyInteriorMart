@@ -20,21 +20,18 @@ namespace DAL.Repositories
             this.userDbContext = userDbContext;
         }
 
-        public async Task<ApplicationUser> AddOrUpdateUser(ApplicationUser user)
+        public async Task<ApplicationUser> AddUser(ApplicationUser user)
         {
-            var userToUpdte = await GetUserByMobileNo(user.PhoneNumber);
-            if (userToUpdte != null)
-            {
-                userToUpdte.Otp = user.Otp;
-                userDbContext.SaveChanges();
-                return userToUpdte;
-            }
-            else
-            {
-                var result = await userDbContext.Users.AddAsync(user);
-                userDbContext.SaveChanges();
-                return result.Entity;
-            }
+            var result = await userDbContext.Users.AddAsync(user);
+            await userDbContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<ApplicationUser> UpdateUser(ApplicationUser user)
+        {
+            var result = userDbContext.Users.Update(user);
+            await userDbContext.SaveChangesAsync();
+            return result.Entity;
         }
 
         public async Task<ApplicationUser> GetUserByMobileNo(string mobileNo)

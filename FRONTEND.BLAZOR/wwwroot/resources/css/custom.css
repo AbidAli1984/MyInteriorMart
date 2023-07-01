@@ -312,7 +312,7 @@ footer ul {
 
 .mim-Box-img img {
 	margin: auto;
-	object-fit: cover;
+	/* object-fit: cover; */
 	left: 0;
 	top: 0;
 	height: 100%;
@@ -527,26 +527,23 @@ footer ul {
 	padding: 7px 7px;
 }
 
-	.categories-list .item .detail a {
-		display: block;
-		font-size: 14px;
-		line-height: 18px;
-		font-weight: 500;
-		font-family: 'PoppinsMedium';
-		color: #495057;
-	}
-
-	.categories-list .item .detail a .viewmore {
-		font-size: 13px;
-	}
+.categories-list .item .detail a {
+	display: block;
+	font-size: 16px;
+	line-height: 18px;
+	font-weight: 500;
+	font-family: 'PoppinsMedium';
+}
 
 .categories-list .item .icon {
-	width: 20px;
+	width: 65px;
 	text-align: center;
 	background-color: #fff;
 	display: block;
+	border: 1px solid #fe900d;
 	float: left;
 	margin-right: 12px;
+	padding: 7px;
 }
 
 .categories-list .item .icon img {
@@ -653,6 +650,7 @@ footer ul {
 .listing-specialisat-list {
 	padding: 14px 14px 14px 14px;
 	height: 317px;
+	height: 230px;
 	overflow: hidden;
 	overflow-y: scroll;
 }
@@ -721,7 +719,7 @@ footer ul {
 }
 
 .mim-Address p {
-	margin-bottom: 5px;
+	margin-bottom: 15px;
 }
 
 .company-time {

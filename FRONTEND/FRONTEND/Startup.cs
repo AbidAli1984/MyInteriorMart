@@ -14,7 +14,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Hangfire;
 using Hangfire.SqlServer;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using DAL.AUDIT;
 using BAL.Audit;
 using DAL.CATEGORIES;
@@ -40,6 +40,7 @@ using BAL.Services.Contracts;
 using BAL.Services;
 using DAL.Repositories.Contracts;
 using DAL.Repositories;
+using BAL.Messaging;
 
 namespace FRONTEND
 {
@@ -203,7 +204,7 @@ namespace FRONTEND
             services.AddTransient<IAddresses, Addresses>();
             services.AddTransient<IListingManager, ListingManager>();
             services.AddTransient<IBilling, Billing>();
-            services.AddTransient<INotification, Notification>();
+            services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IHistoryAudit, HistoryAudit>();
             services.AddTransient<IDashboardListing, DashboardListing>();
             services.AddTransient<IDashboardUserHistory, DashboardUserHistory>();
@@ -477,10 +478,6 @@ namespace FRONTEND
                 options.AddPolicy("Admin-Suggestion-ClearCache", policy => policy.RequireClaim("Admin.HistoryAndCache", "Admin.Suggestion.ClearCache"));
                 // End:
             });
-            // End:
-
-            // Shafi: Notifications & Messages
-            services.AddTransient<INotification, Notification>();
             // End:
 
             services.AddSession(options =>

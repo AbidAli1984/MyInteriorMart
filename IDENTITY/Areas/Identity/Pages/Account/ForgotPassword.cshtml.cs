@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using DAL.Models;
 
@@ -21,10 +21,10 @@ namespace IDENTITY.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-        private readonly INotification notification;
+        private readonly INotificationService notification;
         private readonly IWebHostEnvironment webHost;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, INotification notification, IWebHostEnvironment webHost)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, INotificationService notification, IWebHostEnvironment webHost)
         {
             _userManager = userManager;
             _emailSender = emailSender;

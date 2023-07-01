@@ -25,6 +25,8 @@ using REPO;
 using System.IO;
 using BAL.Services.Contracts;
 using BAL.Services;
+using BAL.Messaging.Contracts;
+using BAL.Messaging;
 
 namespace FRONTEND.BLAZOR
 {
@@ -110,7 +112,7 @@ namespace FRONTEND.BLAZOR
             services.AddTransient<IListingRepository, ListingRepository>();
             services.AddTransient<IAuditService, AuditService>();
             services.AddTransient<IAuditRepository, AuditRepository>();
-
+            services.AddTransient<INotificationService, NotificationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

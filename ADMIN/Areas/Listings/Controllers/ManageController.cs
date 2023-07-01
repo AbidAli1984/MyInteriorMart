@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using BAL.Listings;
 using Microsoft.AspNetCore.Hosting;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 
 namespace ADMIN.Areas.Listings.Controllers
 {

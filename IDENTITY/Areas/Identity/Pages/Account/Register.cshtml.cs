@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using BAL.Services.Contracts;
 using DAL.Models;
@@ -26,7 +26,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly INotification notification;
+        private readonly INotificationService notification;
         private IWebHostEnvironment webHost;
         private readonly IUserService _userService;
 
@@ -34,7 +34,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, INotification notification,
+            IEmailSender emailSender, INotificationService notification,
             IWebHostEnvironment webHost,
             IUserService usersService)
         {

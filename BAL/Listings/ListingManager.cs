@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BAL.Messaging.Notify;
+using BAL.Messaging.Contracts;
 using BAL.Audit;
 using DAL.AUDIT;
 using BOL.VIEWMODELS.Dashboards;
@@ -28,10 +28,10 @@ namespace BAL.Listings
         private readonly BillingDbContext billingContext;
         private readonly SharedDbContext sharedManager;
         private readonly IWebHostEnvironment webHost;
-        private readonly INotification notification;
+        private readonly INotificationService notification;
         private readonly AuditDbContext auditContext;
 
-        public ListingManager(ListingDbContext listingContext, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, INotification notification, AuditDbContext auditContext)
+        public ListingManager(ListingDbContext listingContext, SharedDbContext sharedManager, BillingDbContext billingContext, IWebHostEnvironment webHost, INotificationService notification, AuditDbContext auditContext)
         {
             this.listingContext = listingContext;
             this.sharedManager = sharedManager;

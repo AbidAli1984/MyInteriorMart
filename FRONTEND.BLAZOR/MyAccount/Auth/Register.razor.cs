@@ -29,37 +29,27 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string ConfirmPassword { get; set; }
         public string confirmPasswordErrMessage { get; set; }
 
-        public string errorMessage { get; set; }
+        public string message { get; set; }
+        public bool isError { get; set; }
 
         public string otp { get; set; }
         public bool isOtpGenerated { get; set; }
-        public bool isOtpVerified { get; set; }
-
-        public async Task GenerateOTP()
-        {
-            var isUserWithMobileExists = await userService.IsMobileNoAlreadyRegistered(Mobile);
-            if(isUserWithMobileExists)
-            {
-                mobileErrMessage = $"Mobile number {Mobile} is already registered";
-                return;
-            }
-
-            mobileErrMessage = FieldValidator.mobileErrMessage(Mobile);
-            if (!string.IsNullOrEmpty(mobileErrMessage))
-            {
-                return;
-            }
-
-            await userService.GenerateOTP(Mobile);
-            isOtpGenerated = true;// await userService.GenerateOTP(phoneNumber);
-            mobileErrMessage = "Otp sent successfully! to your mobile number " + Mobile;
-        }
+        public bool isVendor { get; set; }
+        public bool isTCAccepted { get; set; }
 
         public async Task VerifyOTP()
         {
-            isOtpVerified = await userService.VerifyOTP(Mobile, otp);
-
-            mobileErrMessage = isOtpVerified ? "Mobile number verified successfully!" : "Invalid OTP";
+            bool isVerified = await userService.VerifyOTP(Mobile, otp);
+            if (isVerified)
+            {
+                //navigate to profile page
+                navManager.NavigateTo("/MyAccount/UserProfileEdit");
+            }
+            else
+            {
+                isError = true;
+                message = "Invalid OTP!";
+            }
         }
 
         public async void RegisterUser()
@@ -75,16 +65,10 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
                 return;
             }
 
-            var user = new UserRegisterViewModel { Email = Email.ToLower(), Mobile = Mobile, Password = Password };
+            var user = new UserRegisterViewModel { Email = Email.ToLower(), Mobile = Mobile, Password = Password, isVendor = isVendor };
+            isOtpGenerated = true;
+            message = $"Otp sent on your mobile number XXXXXX{Mobile.Substring(6)}.";
             IdentityResult result = await userService.Register(user);
-            if (result.Succeeded)
-            {
-                navManager.NavigateTo("/Auth/Login");
-            }
-            else
-            {
-                errorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
-            }
         }
     }
 }

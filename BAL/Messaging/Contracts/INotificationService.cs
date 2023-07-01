@@ -1,12 +1,9 @@
 ﻿using BOL.SHARED;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace BAL.Messaging.Notify
+namespace BAL.Messaging.Contracts
 {
-    public interface INotification
+    public interface INotificationService
     {
         void SendBoth(string mobile, string smsMessage, string email, string emailSubject, string emailMessage);
         void SendSMS(string mobile, string smsMessage);
