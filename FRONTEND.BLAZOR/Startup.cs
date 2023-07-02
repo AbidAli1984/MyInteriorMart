@@ -25,6 +25,7 @@ using BAL.Services.Contracts;
 using BAL.Services;
 using BAL.Messaging.Contracts;
 using BAL.Messaging;
+using FRONTEND.BLAZOR.Middleware;
 
 namespace FRONTEND.BLAZOR
 {
@@ -136,6 +137,7 @@ namespace FRONTEND.BLAZOR
 
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.UseMiddleware<BlazorCookieLoginMiddleware>();
 
             // Begin: Create another public/static folder
             app.UseStaticFiles(new StaticFileOptions()

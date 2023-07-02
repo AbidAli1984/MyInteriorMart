@@ -1,5 +1,9 @@
 ﻿@page "/Auth/Login"
+@using Microsoft.AspNetCore.Identity;
+@using DAL.Models;
 @inject BAL.Services.Contracts.IUserService userService
+@*@inject SignInManager<ApplicationUser> _signInManager
+@inject UserManager<ApplicationUser> _userManager*@
 @inject NavigationManager navManager
 <style>
     .example {
@@ -41,7 +45,7 @@
                             <div class="form-group">
                                 <span class="text-danger field-validation-error">@errorMessage</span>
                             </div>
-                            <button @onclick="@(async () => await LoginUser())" class="btn btn-primary w-100">Login</button>
+                            <button @onclick="@(async () => LoginUser())" class="btn btn-primary w-100">Login</button>
                             <div class="clearfix add_bottom_15">
                                 <div class="checkboxes float-left" style="color: #999;">
                                     You don't have account!

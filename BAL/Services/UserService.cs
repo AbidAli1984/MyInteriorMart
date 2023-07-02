@@ -103,9 +103,40 @@ namespace BAL.Services
             return user.Email;
         }
 
-        public async Task<SignInResult> SignIn(string email, string password, bool rememberMe = false)
+        public async Task<string> SignIn(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            string email, string password, bool rememberMe = false)
         {
-            return await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: true);
+            var usr = await _userManager.FindByEmailAsync(email);
+            if (usr == null)
+            {
+                return "User not found";
+            }
+
+
+            if (await _signInManager.CanSignInAsync(usr))
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(usr, password, true);
+                if (result == SignInResult.Success)
+                {
+                    return string.Empty;
+                    //Guid key = Guid.NewGuid();
+                    //BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = Email, Password = Password };
+                    //navManager.NavigateTo($"/login?key={key}", true);
+                }
+                else
+                {
+                    return "Login failed. Check your password.";
+                }
+            }
+            else
+            {
+                return "Your account is blocked";
+            }
+        }
+
+        public async Task<SignInResult> SignIn(ApplicationUser user, string password, bool rememberMe = false)
+        {
+            return await _signInManager.PasswordSignInAsync(user, password, rememberMe, lockoutOnFailure: true);
         }
     }
 }
