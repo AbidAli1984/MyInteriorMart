@@ -2,6 +2,7 @@
 using BOL.IDENTITY.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,21 +30,23 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string ConfirmPassword { get; set; }
         public string confirmPasswordErrMessage { get; set; }
 
-        public string message { get; set; }
+        public string message;
         public bool isError { get; set; }
 
         public string otp { get; set; }
-        public bool isOtpGenerated { get; set; }
+        public bool isOtpGenerated;
         public bool isVendor { get; set; }
         public bool isTCAccepted { get; set; }
 
         public async Task VerifyOTP()
         {
-            bool isVerified = await userService.VerifyOTP(Mobile, otp);
-            if (isVerified)
+            UserRegisterViewModel userRegisterViewModel = await userService.VerifyOTP(Mobile, otp);
+            if (userRegisterViewModel != null)
             {
-                //navigate to profile page
-                navManager.NavigateTo("/MyAccount/UserProfileEdit");
+                Guid key = Guid.NewGuid();
+                string errorMessage = await userService.SignIn(Email, Password, false, key);
+                if (string.IsNullOrEmpty(errorMessage))
+                    navManager.NavigateTo($"/MyAccount/UserProfile?key={key}", true);
             }
             else
             {
@@ -65,10 +68,25 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
                 return;
             }
 
-            var user = new UserRegisterViewModel { Email = Email.ToLower(), Mobile = Mobile, Password = Password, isVendor = isVendor };
-            isOtpGenerated = true;
-            message = $"Otp sent on your mobile number XXXXXX{Mobile.Substring(6)}.";
-            IdentityResult result = await userService.Register(user);
+            var userExist = await userService.GetUserByMobileNumber(Mobile);
+            if(userExist != null)
+                message = $"Mobile number is already taken.";
+            else
+            {
+                var user = new UserRegisterViewModel { Email = Email.ToLower(), Mobile = Mobile, Password = Password, isVendor = isVendor };
+                IdentityResult result = await userService.Register(user);
+                if (result.Succeeded)
+                {
+                    isOtpGenerated = true;
+                    message = $"Otp sent on your mobile number XXXXXX{Mobile.Substring(6)}.";
+                }
+                else
+                {
+                    message = result.Errors.ToList()[0].Description;
+                }
+            }
+
+            StateHasChanged();
         }
     }
 }

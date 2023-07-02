@@ -25,7 +25,7 @@ using BAL.Services.Contracts;
 using BAL.Services;
 using BAL.Messaging.Contracts;
 using BAL.Messaging;
-using FRONTEND.BLAZOR.Middleware;
+using BAL.Middleware;
 
 namespace FRONTEND.BLAZOR
 {
@@ -88,7 +88,11 @@ namespace FRONTEND.BLAZOR
             // End:
 
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedPhoneNumber = true;
+                //options.SignIn.RequireConfirmedAccount = true;
+            })
                 // Shafi: Add role to get all roles in manage role controller
                 .AddRoles<IdentityRole>()
                 // End:
@@ -137,7 +141,7 @@ namespace FRONTEND.BLAZOR
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseMiddleware<BlazorCookieLoginMiddleware>();
+            app.UseMiddleware<BlazorCookieLoginMiddleware>();
 
             // Begin: Create another public/static folder
             app.UseStaticFiles(new StaticFileOptions()

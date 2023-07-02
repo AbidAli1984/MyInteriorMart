@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace FRONTEND.BLAZOR.Middleware
+namespace BAL.Middleware
 {
     public class BlazorCookieLoginMiddleware
     {
@@ -24,7 +25,8 @@ namespace FRONTEND.BLAZOR.Middleware
 
         public async Task Invoke(HttpContext context, SignInManager<ApplicationUser> signInMgr)
         {
-            if (context.Request.Path == "/login" && context.Request.Query.ContainsKey("key"))
+            string[] paths = { "/", "/MyAccount/UserProfile" };
+            if (paths.Contains(context.Request.Path.ToString()) && context.Request.Query.ContainsKey("key"))
             {
                 var key = Guid.Parse(context.Request.Query["key"]);
                 var info = Logins[key];
@@ -34,7 +36,7 @@ namespace FRONTEND.BLAZOR.Middleware
                 if (result.Succeeded)
                 {
                     Logins.Remove(key);
-                    context.Response.Redirect("/");
+                    context.Response.Redirect(context.Request.Path);
                     return;
                 }
                 else if (result.RequiresTwoFactor)

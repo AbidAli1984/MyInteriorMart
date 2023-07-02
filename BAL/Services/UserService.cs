@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using BAL.Messaging.Contracts;
+using BAL.Middleware;
 
 namespace BAL.Services
 {
@@ -73,18 +74,26 @@ namespace BAL.Services
             return result;
         }
 
-        public async Task<bool> VerifyOTP(string mobileNumber, string otp)
+        public async Task<UserRegisterViewModel> VerifyOTP(string mobileNumber, string otp)
         {
             ApplicationUser userVerified = await _userRepository.GetUserByMobileNo(mobileNumber);
-            bool isVerified = userVerified.Otp == otp;
-            if (isVerified)
+            if (userVerified.Otp == otp)
             {
                 userVerified.Otp = null;
                 userVerified.IsRegistrationCompleted = true;
                 userVerified.PhoneNumberConfirmed = true;
+                //userVerified.LockoutEnabled = false;
                 await _userRepository.UpdateUser(userVerified);
+                return new UserRegisterViewModel
+                {
+                    ConfirmPassword = "XXXXXX",
+                    Password = "XXXXXX",
+                    Email = userVerified.Email,
+                    isVendor = userVerified.IsVendor,
+                    Mobile = userVerified.PhoneNumber
+                };
             }
-            return isVerified;
+            return null;
         }
 
         public async Task<ApplicationUser> GetUserById(string id)
@@ -103,35 +112,25 @@ namespace BAL.Services
             return user.Email;
         }
 
-        public async Task<string> SignIn(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            string email, string password, bool rememberMe = false)
+        public async Task<string> SignIn(string email, string password, bool rememberMe, Guid key)
         {
-            var usr = await _userManager.FindByEmailAsync(email);
+            var usr = await _userRepository.GetUserByUserNameOrEmail(email);
             if (usr == null)
             {
                 return "User not found";
             }
-
 
             if (await _signInManager.CanSignInAsync(usr))
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(usr, password, true);
                 if (result == SignInResult.Success)
                 {
+                    BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = email, Password = password };
                     return string.Empty;
-                    //Guid key = Guid.NewGuid();
-                    //BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = Email, Password = Password };
-                    //navManager.NavigateTo($"/login?key={key}", true);
                 }
-                else
-                {
-                    return "Login failed. Check your password.";
-                }
+                return "Login failed. Check your password.";
             }
-            else
-            {
-                return "Your account is blocked";
-            }
+            return "Your account is blocked";
         }
 
         public async Task<SignInResult> SignIn(ApplicationUser user, string password, bool rememberMe = false)

@@ -16,11 +16,10 @@ namespace BAL.Services.Contracts
         Task<ApplicationUser> GetUserByMobileNumber(string mobileNumber);
         Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber);
         Task<IdentityResult> Register(UserRegisterViewModel user);
-        Task<bool> VerifyOTP(string phoneNumber, string otp);
+        Task<UserRegisterViewModel> VerifyOTP(string phoneNumber, string otp);
         Task<ApplicationUser> GetUserById(string id);
         Task<IList<string>> GetRolesByUser(ApplicationUser user);
         string GetUserEmailById(string userGuid);
-        Task<string> SignIn(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            string email, string password, bool rememberMe);
+        Task<string> SignIn(string email, string password, bool rememberMe, Guid key);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using BAL.Services.Contracts;
 using BOL.IDENTITY;
 using DAL.Models;
-using FRONTEND.BLAZOR.Middleware;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -48,53 +47,10 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
             returnUrl = returnUrl ?? "/MyAccount/UserProfile";
 
-            try
-            {
-                errorMessage = await userService.SignIn(_userManager, _signInManager, Email, Password, RememberMe);
-                if (string.IsNullOrEmpty(errorMessage))
-                {
-                    Guid key = Guid.NewGuid();
-                    BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = Email, Password = Password };
-                    navManager.NavigateTo($"/login?key={key}", true);
-                    navManager.NavigateTo($"/MyAccount/UserProfile", true);
-                }
-
-
-
-
-                //var usr = await _userManager.FindByEmailAsync(Email);
-                //if (usr == null)
-                //{
-                //    errorMessage = "User not found";
-                //    return;
-                //}
-
-
-                //if (await _signInManager.CanSignInAsync(usr))
-                //{
-                //    var result = await _signInManager.CheckPasswordSignInAsync(usr, Password, true);
-                //    if (result == SignInResult.Success)
-                //    {
-                //        Guid key = Guid.NewGuid();
-                //        BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = Email, Password = Password };
-                //        navManager.NavigateTo($"/login?key={key}", true);
-                //    }
-                //    else
-                //    {
-                //        errorMessage = "Login failed. Check your password.";
-                //    }
-                //}
-                //else
-                //{
-                //    errorMessage = "Your account is blocked";
-                //}
-            }
-            catch (Exception ex)
-            {
-                string message = ex.Message;
-                int test = 1;
-                throw;
-            }
+            Guid key = Guid.NewGuid();
+            errorMessage = await userService.SignIn(Email, Password, RememberMe, key);
+            if (string.IsNullOrEmpty(errorMessage))
+                navManager.NavigateTo($"{returnUrl}?key={key}", true);
         }
     }
 }
