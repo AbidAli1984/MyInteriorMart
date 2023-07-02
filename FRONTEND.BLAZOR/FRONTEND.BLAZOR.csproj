@@ -41,7 +41,6 @@
     <ProjectReference Include="..\BAL\BAL.csproj" />
     <ProjectReference Include="..\BOL\BOL.csproj" />
     <ProjectReference Include="..\FRONTEND\Utils\Utils.csproj" />
-    <ProjectReference Include="..\REPO\REPO.csproj" />
   </ItemGroup>
   
   <!-- Shafi: Blazor File Input -->

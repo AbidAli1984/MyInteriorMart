@@ -1,10 +1,10 @@
-﻿using BOL.BANNERADS;
+﻿using BAL.Services.Contracts;
+using BOL.BANNERADS;
 using BOL.CATEGORIES;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,6 +12,9 @@ namespace FRONTEND.BLAZOR.Pages
 {
     public partial class Index
     {
+        [Inject]
+        ICategoryService categoryService { get; set; }
+
         public IEnumerable<SecondCategory> catServices { get; set; }
         public IEnumerable<SecondCategory> catContractors { get; set; }
         public IEnumerable<SecondCategory> catDealers { get; set; }
@@ -31,22 +34,22 @@ namespace FRONTEND.BLAZOR.Pages
 
         public async Task GetServices()
         {
-            catServices = await categoryRepo.GetSecondCategoriesHomeAsync("Services");
+            catServices = await categoryService.GetSecondCategoriesHomeAsync("Services");
         }
 
         public async Task GetContractors()
         {
-            catContractors = await categoryRepo.GetSecondCategoriesHomeAsync("Contractors");
+            catContractors = await categoryService.GetSecondCategoriesHomeAsync("Contractors");
         }
 
         public async Task GetDealers()
         {
-            catDealers = await categoryRepo.GetSecondCategoriesHomeAsync("Dealers");
+            catDealers = await categoryService.GetSecondCategoriesHomeAsync("Dealers");
         }
 
         public async Task GetManufacturers()
         {
-            catManufacturers = await categoryRepo.GetSecondCategoriesHomeAsync("Manufacturers");
+            catManufacturers = await categoryService.GetSecondCategoriesHomeAsync("Manufacturers");
         }
 
         // Begin: Get All Home Banner
