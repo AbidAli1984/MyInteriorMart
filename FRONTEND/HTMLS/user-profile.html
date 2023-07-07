@@ -109,10 +109,13 @@
 					<div class="col-lg-3" id="desktop_view">
 						<div class="nav profile-side-menu  flex-column nav-pills" id="v-pills-tab" role="tablist"
 							aria-orientation="vertical">
-							<a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill"
+							<a class="nav-link " id="v-pills-profile-tab" data-toggle="pill"
 								href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
 								aria-selected="true">Edit Profile</a>
-							<a class="nav-link" id="v-pills-add-listing-tab" data-toggle="pill"
+							<a class="nav-link " id="v-pills-profile-tab" data-toggle="pill"
+								href="#v-pills-address" role="tab" aria-controls="v-pills-address"
+								aria-selected="true">Address</a>							
+							<a class="nav-link active" id="v-pills-add-listing-tab" data-toggle="pill"
 								href="#v-pills-add-listing" role="tab" aria-controls="v-pills-add-listing"
 								aria-selected="false">Add Listing</a>
 							<a class="nav-link" id="v-pills-suggestion-tab" data-toggle="pill"
@@ -137,6 +140,8 @@
 								aria-controls="v-pill-chat" aria-selected="false">Chat</a>
 							<a class="nav-link" id="v-pill-history-tab" data-toggle="pill" href="#v-pill-history"
 								role="tab" aria-controls="v-pill-history" aria-selected="false">History</a>
+							<a class="nav-link" id="v-pill-password-tab" data-toggle="pill" href="#v-pills-password"
+								role="tab" aria-controls="v-pill-password" aria-selected="false">Change Password</a>
 						</div>
 					</div>
 
@@ -150,10 +155,13 @@
 								<a class="dropdown-item" href="#">
 									<div class="nav profile-side-menu  flex-column nav-pills" id="v-pills-tab"
 										role="tablist" aria-orientation="vertical">
-										<a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill"
+										<a class="nav-link " id="v-pills-profile-tab" data-toggle="pill"
 											href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
 											aria-selected="true">Edit Profile</a>
-										<a class="nav-link" id="v-pills-add-listing-tab" data-toggle="pill"
+										<a class="nav-link " id="v-pills-profile-tab" data-toggle="pill"
+											href="#v-pills-address" role="tab" aria-controls="v-pills-address"
+											aria-selected="true">Address</a>
+										<a class="nav-link active" id="v-pills-add-listing-tab" data-toggle="pill"
 											href="#v-pills-add-listing" role="tab" aria-controls="v-pills-add-listing"
 											aria-selected="false">Add Listing</a>
 										<a class="nav-link" id="v-pills-suggestion-tab" data-toggle="pill"
@@ -184,6 +192,8 @@
 										<a class="nav-link" id="v-pill-history-tab" data-toggle="pill"
 											href="#v-pill-history" role="tab" aria-controls="v-pill-history"
 											aria-selected="false">History</a>
+										<a class="nav-link" id="v-pill-password-tab" data-toggle="pill" href="#v-pills-password"
+											role="tab" aria-controls="v-pill-password" aria-selected="false">Change Password</a>
 									</div>
 								</a>
 
@@ -193,51 +203,91 @@
 
 					<div class="col-lg-9">
 						<div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
-							<div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+							<div class="tab-pane fade  " id="v-pills-profile" role="tabpanel"
 								aria-labelledby="v-pills-profile-tab">
 								<div class="add-review">
 									<h5>Edit Profile</h5>
 									<form class="icon-form-group">
 										<div class="row">
-											<div class="form-group col-12">
-												<label>Name</label>
-												<input class="form-control" type="text" name="name">
-												<i class="ti-user"></i>
+											<div class="col-md-6">
+												<div class=" profile_col_1">
+													<div class="profile-section">
+														<label class="-label" for="file">
+															<span><i class="fas fa-camera"></i></span>
+															<span>Change Image</span>
+														</label>
+														<input id="file" type="file" onchange="loadFile(event)" />
+														<img class="profile_img" src="FrontEnd/img/Asset 33.png" id="output" />
+													</div>
+													<h6 class="profile_customer_name text-center">Name Goes Here</h6>
+												</div>
 											</div>
-											<div class="form-group col-12">
-												<label>Last Name</label>
-												<input class="form-control" type="text" name="last_name">
-												<i class="ti-user"></i>
+											<div class="col-md-6">
+												<div class="form-group ">
+													<label>Full Name</label>
+													<input class="form-control" type="text" name="name">
+													<i class="ti-user"></i>
+												</div>
+												<div class="form-group">
+													<label>Mobile Number</label>
+													<input class="form-control" type="text" name="number">
+													<i class="icon_phone"></i>
+												</div>
 											</div>
-											<div class="form-group col-12">
+											<div class="form-group col-md-6">
 												<label>Email</label>
 												<input type="email" class="form-control" name="email" id="email">
 												<i class="icon_mail_alt"></i>
 											</div>
+											
+											<div class="form-group col-md-6">
+												<div class="custom-select-form">
+													<label>Gender</label>
+													<select class="wide add_bottom_10" name="State" id="State">
+														<option value="" selected>Male</option>
+														<option value="Mumbai">Female</option>
+													</select>
+												</div>
+											</div>
+											<div class="text-center col-12 mt-3">
+												<input type="submit" value="Submit" class="btn_1 full-width">
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div class="tab-pane fade  " id="v-pills-address" role="tabpanel"
+								aria-labelledby="v-pills-address-tab">
+								<div class="add-review">
+									<h5>Personal Details</h5>
+									<form class="icon-form-group">
+										<div class="row">
 											<div class="form-group col-12">
-												<label>Old Password</label>
-												<input type="password" class="form-control" name="old_password"
-													id="old_password" value="">
-												<i class="icon_lock_alt"></i>
+												<label>D.O.B</label>
+												<input class="form-control" type="date" name="number">
+												<i class="icon_date"></i>
 											</div>
 											<div class="form-group col-12">
-												<label>New Password</label>
-												<input type="password" class="form-control" name="new_password"
-													id="new_password" value="">
-												<i class="icon_lock_alt"></i>
+												<div class="custom-select-form">
+													<label>Marital Status</label>
+													<select class="wide add_bottom_10" name="State" id="State">
+														<option value="" selected>Single</option>
+														<option value="Mumbai">Married</option>
+													</select>
+												</div>
 											</div>
 											<div class="form-group col-12">
-												<label>Confirm new password</label>
-												<input type="password" class="form-control" name="confirm_password"
-													id="confirm_password" value="">
-												<i class="icon_lock_alt"></i>
+												<label>Qualification</label>
+												<input class="form-control" type="text" name="City">
+												<!-- <i class="ti-location-arrow"></i> -->
 											</div>
 											<div class="form-group col-12">
 												<label>Permanent Address</label>
 												<textarea class="form-control" id="Address" name="Address"
 													style="height:100px;"></textarea>
 											</div>
-											<div class="form-group col-12">
+											<div class="form-group col-6">
 												<div class="custom-select-form">
 													<label>State</label>
 													<select class="wide add_bottom_10" name="State" id="State">
@@ -265,56 +315,63 @@
 								</div>
 							</div>
 
-							<div class="tab-pane fade" id="v-pills-add-listing" role="tabpanel"
+							<div class="tab-pane fade show active" id="v-pills-add-listing" role="tabpanel"
 								aria-labelledby="v-pills-add-listing-tab">
 								<div class="add-review">
 									<h5>Add Listing</h5>
 									<div class="row">
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-company-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/offfice.png" class="listing_img" alt="Company">
 													<div class="add_listing_card_title">Company Details</div>
 												</div>
 											</a>
 										</div>
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-communication-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/communication.png" class="listing_img" alt="Communication">
 													<div class="add_listing_card_title">Communication</div>
 												</div>
 											</a>
 										</div>
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-addresses-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/address.png" class="listing_img" alt="Addresses">
 													<div class="add_listing_card_title">Addresses</div>
 												</div>
 											</a>
 										</div>
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-categories-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/category.png" class="listing_img" alt="Categories">
 													<div class="add_listing_card_title">Categories</div>
 												</div>
 											</a>
 										</div>
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-specialisations-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/specialities.png" class="listing_img" alt="Specialisations">
 													<div class="add_listing_card_title">Specialisations</div>
 												</div>
 											</a>
 										</div>
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-working-hours-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/workin-hour.png" class="listing_img" alt="Working Hours">
 													<div class="add_listing_card_title">Working Hours</div>
 												</div>
 											</a>
 										</div>
 										<div class="col-md-4 col-6 mb-3">
 											<a href="add-payment-modes-details.html">
-												<div class="add_listing_card">
+												<div class="add_listing_card d-flex align-items-center justify-content-start">
+													<img src="./FrontEnd/img/banner/payment.png" class="listing_img" alt="Communication">
 													<div class="add_listing_card_title">Payment Modes</div>
 												</div>
 											</a>
@@ -690,6 +747,40 @@
 								</div>
 
 							</div>
+
+							<div class="tab-pane fade " id="v-pills-password" role="tabpanel"
+								aria-labelledby="v-pills-password-tab">
+								<div class="add-review">
+									<h5>Change Password</h5>
+									<form class="icon-form-group">
+										<div class="row">
+								
+											<div class="form-group col-12">
+												<label>Old Password</label>
+												<input type="password" class="form-control" name="old_password"
+													id="old_password" value="">
+												<i class="icon_lock_alt"></i>
+											</div>
+											<div class="form-group col-12">
+												<label>New Password</label>
+												<input type="password" class="form-control" name="new_password"
+													id="new_password" value="">
+												<i class="icon_lock_alt"></i>
+											</div>
+											<div class="form-group col-12">
+												<label>Confirm new password</label>
+												<input type="password" class="form-control" name="confirm_password"
+													id="confirm_password" value="">
+												<i class="icon_lock_alt"></i>
+											</div>
+								
+											<div class="text-center col-12 mt-3">
+												<input type="submit" value="Submit" class="btn_1 full-width">
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -895,6 +986,14 @@
 	<script src="FrontEnd/js/validate.js"></script>
 	<script src="FrontEnd/js/main.js"></script>
 	<!-- COMMON SCRIPTS End -->
+
+	<script>
+        // Profile Image
+        var loadFile = function (event) {
+            var image = document.getElementById("output");
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 </body>
 
 </html>

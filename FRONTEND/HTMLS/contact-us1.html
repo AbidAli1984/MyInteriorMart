@@ -8,7 +8,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <meta name="description" content="directory and listings ">
    <meta name="author" content="directory">
-   <title>About Us</title>
+   <title>Contact Us</title>
    <!-- Favicons-->
    <link rel="shortcut icon" href="FrontEnd/img/favicon.ico" type="image/x-icon">
    <link rel="apple-touch-icon" type="image/x-icon" href="FrontEnd/img/apple-touch-icon-57x57-precomposed.png">
@@ -62,10 +62,8 @@
                               <img src="FrontEnd/img/icon/user.svg">
                            </a>
                            <div class="dropdown-menu" aria-labelledby="usericon">
-                              <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user"
-                                    style="margin-right: 15px;"></i>My Profile</a>
-                              <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i
-                                    class="fa fa-bell "></i>Notification</a>
+                              <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user" style="margin-right: 15px;"></i>My Profile</a>
+                              <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i class="fa fa-bell "></i>Notification</a>
                               <a class="dropdown-item" href="index.html"><i class="fa fa-sign-out "></i>Logout</a>
                            </div>
                         </div>
@@ -100,105 +98,74 @@
       </header>
       <!-- Menu End -->
 
+      
 
       <main>
-         <div class="container mt-4 mb-4">
-            <div class="row">
-               <div class="col-lg-9 col-md-9 col-sm-12">
-                  <div class="about_img_sec">
-                     <img src="FrontEnd/img/hero_in_hotels_detail.jpg" alt="">
-                  </div>
-                  <div class="card-shadow">
-                     <h2>About The Founder </h2>
-                     <p>Mr. Habib Humza Al - Hameed Is The Founder And Managing Director Of My Interior Mart Which Is
-                        India’s 1st Interior And Construction Industry Search Engine. He Has More Than 17 Years Of
-                        Experience In Interior Industry. He Has Done Numerous Projects Of Interior Contract For His
-                        Various Customers From Mumbai, Navi Mumbai And Thane City.</p>
-                     <p>He Has Passion To Become Mumbai’s #1 Company And To Make His Dream Come True He Works Very Hard
-                        And Spent A Lot Of Time, Money And Has Done Various Research On Various Online Technologies.</p>
-                     <p>To Bring Customers Listing From Different Industries On The First Page Of Google Is His Primary
-                        Objective, And To Serve Customers By Providing Authentic And Genuine Leads Is His Top Aim. In
-                        2018 He Published His Magazine On Interior Design And Construction Industry Called “My Interior
-                        Mart Print Magazine” And Launched Its First Issue In Diwali Month Of The 2018 Year.</p>
-                     <p>In Small Span Of Time He Has Gained Various Customers From Different Industries. He Is Also
-                        Involved In Interior Design And Civil Work For His Customers. He Is Also A Proprietor In
-                        Creative Concept A 10 Years Old Interior Contractor Company.</p>
+         <div class="container">
+            <div class="margin_60_35">
+               <div class="row justify-content-center">
 
-                     <hr>
-
-                     <div class="row">
-                        <div class="col-md-6">
-                           <img src="./FrontEnd/img/banner/vission.png" class="vission_img" alt="Vission">
-                        </div>
-                        <div class="col-md-6">
-                           <h4>Vission</h4>
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, nam veniam veritatis
-                              ducimus ipsum alias beatae, quas laboriosam minus natus fuga delectus laudantium
-                           </p>
-                        </div>
+                  <div class="col-xl-5 col-lg-6 pr-xl-5">
+                     <div class="main_title_3 mb-3">
+                        <span></span>
+                        <h2>Send us a message</h2>
                      </div>
-                     <hr>
-                     <div class="row mt-2">
-                        <div class="col-md-6">
-                           <h4>Mission</h4>
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, nam veniam veritatis
-                              ducimus ipsum alias beatae, quas laboriosam minus natus fuga delectus laudantium
-                           </p>
+                     <div id="message-contact"></div>
+                     <form method="post" action="assets/contact.php" id="contactform" autocomplete="off">
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label>Name</label>
+                                 <input class="form-control" type="text" id="name_contact" name="name_contact">
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label>Last name</label>
+                                 <input class="form-control" type="text" id="lastname_contact" name="lastname_contact">
+                              </div>
+                           </div>
                         </div>
-                        <div class="col-md-6">
-                           <img src="./FrontEnd/img/banner/mission.png" class="vission_img" alt="Vission">
+                        <!-- /row -->
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label>Email</label>
+                                 <input class="form-control" type="email" id="email_contact" name="email_contact">
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label>Telephone</label>
+                                 <input class="form-control" type="text" id="phone_contact" name="phone_contact">
+                              </div>
+                           </div>
                         </div>
-                        
+                        <!-- /row -->
+                        <div class="form-group">
+                           <label>Message</label>
+                           <textarea class="form-control" id="message_contact" name="message_contact"
+                              style="height:150px;"></textarea>
+                        </div>
+                        <p class="add_top_30"><input type="submit" value="Submit" class="btn_1 rounded"
+                              id="submit-contact"></p>
+                     </form>
+                  </div>
+                  <div class="col-xl-5 col-lg-6 pl-xl-5">
+                     <div class="box_contacts">
+                        <i class="ti-support"></i>
+                        <h2>Need Help?</h2>
+                        <a href="tel:+911324567890">+91 1324567890</a> - <a
+                           href="mailto:info@myinteriormart.com">info@myinteriormart.com</a>
+                     </div>
+                     <div class="box_contacts">
+                        <i class="ti-home"></i>
+                        <h2>Address</h2>
+                        <a href="#0">F-306 1st Floor Dream's The Mall, Lal Bahadur Shastri Rd, Bhandup West, Mumbai,
+                           Maharashtra 400078</a>
                      </div>
                   </div>
                </div>
-               <aside class="col-lg-3">
-                  <div class="widget card-shadow-sidebar">
-                     <div class="widget-title">
-                        <h4>About us</h4>
-                     </div>
-                     <ul class="widget-title-list-item">
-                        <li><a href="#">Profile </a></li>
-                        <li><a href="#">Founder Message </a></li>
-                        <li><a href="#">Vission & Mission </a></li>
-                        <li><a href="#">Terms & Conditions </a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#"> Help Center </a></li>
-                        <li><a href="#">Contact Us </a></li>
-                     </ul>
-                  </div>
-
-                  <div class="widget card-shadow-sidebar">
-                     <div class="widget-title">
-                        <h4>Services</h4>
-                     </div>
-                     <ul class="widget-title-list-item">
-                        <li><a href="#">Profile </a></li>
-                        <li><a href="#">Free Buisness Listing </a></li>
-                        <li><a href="#">Buy & Sell Offers </a></li>
-                        <li><a href="#">Job Openings </a></li>
-                        <li><a href="#">Tender Alerts </a></li>
-                        <li><a href="#">Exhibition & Events </a></li>
-                        <li><a href="#">Labour Naka </a></li>
-                        <li><a href="#">Banner Advertisement </a></li>
-                        <li><a href="#">Leads & Enquires </a></li>
-                        <li><a href="#">Online Promotion </a></li>
-                     </ul>
-                  </div>
-                  <div class="widget card-shadow-sidebar">
-                     <div class="widget-title">
-                        <h4> GET IN TOUCH</h4>
-                     </div>
-                     <ul class="widget-title-list-item">
-                        <li><a href="#">Client Testimonials </a></li>
-                        <li><a href="#">Feedback </a></li>
-                        <li><a href="#">Suggestions</a></li>
-                        <li><a href="#">We're Hiring </a></li>
-                     </ul>
-                  </div>
-               </aside>
             </div>
          </div>
       </main>
@@ -285,7 +252,7 @@
    <!-- Page End -->
 
    <!-- Sign In Popup -->
-   <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+   <div id="sign-in-dialog" class="dialog-mfp zoom-anim-dialog mfp-hide">
       <div class="small-dialog-header">
          <h3>Sign In</h3>
       </div>

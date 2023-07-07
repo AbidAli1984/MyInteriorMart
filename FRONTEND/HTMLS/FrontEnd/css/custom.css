@@ -312,7 +312,7 @@ footer ul {
 
 .mim-Box-img img {
 	margin: auto;
-	object-fit: cover;
+	/* object-fit: cover; */
 	left: 0;
 	top: 0;
 	height: 100%;

@@ -116,3 +116,48 @@ $(document).ready(function () {
 });
 
 
+     
+// ---------------- Owl Carousel --------------
+
+
+$('.owl-carousel-1').owlCarousel({
+    rtl: false,
+    loop: true,
+    margin: 10,
+    nav: false,
+    responsiveClass:true,
+    responsive: {
+        0: {
+            items: 1
+        },
+        600: {
+            items: 1
+        },
+        1000: {
+            items: 2
+        }
+    }
+});
+
+$('.owl-carousel').owlCarousel({
+    rtl: false,
+    loop: true,
+    margin: 10,
+    nav: false,
+    responsiveClass:true,
+    responsive: {
+        0: {
+            items: 2
+        },
+        600: {
+            items: 3
+        },
+        1000: {
+            items: 4
+        }
+    }
+})
+
+
+
+
