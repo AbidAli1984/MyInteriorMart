@@ -40,6 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BAL\BAL.csproj" />
     <ProjectReference Include="..\BOL\BOL.csproj" />
+    <ProjectReference Include="..\Components\Components.csproj" />
     <ProjectReference Include="..\FRONTEND\Utils\Utils.csproj" />
   </ItemGroup>
   

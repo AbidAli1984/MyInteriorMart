@@ -13,6 +13,7 @@ namespace BAL.Services.Contracts
     {
         Task<List<ApplicationUser>> GetUsers();
         Task<ApplicationUser> GetUserByUserNameOrEmail(string userName);
+        Task<string> GetUserIdByUserNameOrEmail(string userName);
         Task<ApplicationUser> GetUserByMobileNumber(string mobileNumber);
         Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber);
         Task<IdentityResult> Register(UserRegisterViewModel user);

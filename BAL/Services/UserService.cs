@@ -41,6 +41,13 @@ namespace BAL.Services
                 return null;
             return await _userRepository.GetUserByUserNameOrEmail(userNameOrEmail);
         }
+        public async Task<string> GetUserIdByUserNameOrEmail(string userNameOrEmail)
+        {
+            if (string.IsNullOrEmpty(userNameOrEmail))
+                return string.Empty;
+            ApplicationUser user = await _userRepository.GetUserByUserNameOrEmail(userNameOrEmail);
+            return user.Id;
+        }
 
         public async Task<ApplicationUser> GetUserByMobileNumber(string mobileNumber)
         {

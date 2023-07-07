@@ -1,0 +1,38 @@
+﻿<div class="col-md-6">
+    <div class=" profile_col_1">
+        <div class="profile-section">
+            <label class="-label" for="file">
+                <span><i class="fas fa-camera"></i></span>
+                <span>Change Image</span>
+            </label>
+            <input id="file" type="file" onchange="loadFile(event)" />
+            <img class="profile_img" src="@EditProfile.ImgUrl" id="output" />
+        </div>
+        <h6 class="profile_customer_name text-center">@EditProfile.imgText</h6>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        <label>Full Name</label>
+        <input class="form-control" type="text" @bind="@EditProfile.Name">
+        <i class="ti-user"></i>
+    </div>
+    <div class="form-group">
+        <label>Mobile Number</label>
+        <input class="form-control" type="text" @bind="@EditProfile.Phone" disabled="disabled">
+        <i class="icon_phone"></i>
+    </div>
+</div>
+<div class="form-group col-md-6">
+    <label>Email</label>
+    <input type="email" class="form-control" @bind="@EditProfile.Email" disabled="disabled">
+    <i class="icon_mail_alt"></i>
+</div>
+<div class="form-group col-md-6">
+    <label>Gender</label>
+    <select class="form-control wide add_bottom_10" @bind="@EditProfile.Gender">
+        <option disabled selected>Choose...</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+</div>
