@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using FRONTEND.BLAZOR.Services;
 using AntDesign;
-using DAL.SHARED;
-using BOL.SHARED;
 using BAL.Services.Contracts;
 using DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FRONTEND.BLAZOR.Shared
 {
@@ -23,13 +18,15 @@ namespace FRONTEND.BLAZOR.Shared
         [Inject]
         IUserService userService { get; set; }
 
+        [Inject]
+        SignInManager<DAL.Models.ApplicationUser> SignInManager { get; set; }
+
+        [Inject]
+        NavigationManager navManager { get; set; }
+
         public string CurrentUserGuid { get; set; }
-        public string ErrorMessage { get; set; }
+        public bool isVendor { get; set; }
         public bool userAuthenticated { get; set; } = false;
-        public string IpAddress { get; set; }
-        public ApplicationUser iUser { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime CreatedTime { get; set; }
         public bool UserStaffPanelAuthenticated { get; set; }
 
         protected async override Task OnInitializedAsync()
@@ -41,15 +38,9 @@ namespace FRONTEND.BLAZOR.Shared
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
                 {
-                    // Shafi: Assign Time Zone to CreatedDate & Created Time
-                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-                    IpAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    CreatedDate = timeZoneDate;
-                    CreatedTime = timeZoneDate;
-                    // End:
-
-                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
-                    CurrentUserGuid = iUser.Id;
+                    ApplicationUser appUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    CurrentUserGuid = appUser.Id;
+                    isVendor = appUser.IsVendor;
 
                     if (user.IsInRole("Staffs") == true)
                     {
@@ -61,7 +52,7 @@ namespace FRONTEND.BLAZOR.Shared
             }
             catch (Exception exc)
             {
-                ErrorMessage = exc.Message;
+                
             }
         }
     }

@@ -1,18 +1,7 @@
 ﻿@inherits LayoutComponentBase
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
-@inject CategoriesDbContext categoriesContext
 @inject AuthenticationStateProvider authenticationState
-@inject NotificationService _notice
-@inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using AntDesign
-
-
 
 <div id="page">
-    <!-- Begin: Top Menu -->
     <header class="header_in">
         <div class="container">
             <div class="row">
@@ -23,78 +12,50 @@
                         </a>
                     </div>
                 </div>
+
                 <div class="col-lg-9 col-12">
-                    <nav id="menu" class="main-menu">
-                        <ul id="top_menu">
-                            <li><span><a href="/">Home</a></span></li>
-                            <li><span><a href="/Home/About">About</a></span></li>
-                            <li><span><a href="/Home/Contact">Contact</a></span></li>
-                            <li>
-                                <a href="/MyAccount/ListingWizard/Company" id="sign-in" title="Sign In" class="btn_add listing-btn">Create Free Listing</a>
-                            </li>
-                            <li>
-                                <a href="Identity/Account/Login" class="dropdown-item">
-                                    @*<i class="fa fa-sign-in" style="margin-right: 15px;"></i>*@
-                                    OLD Login
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Auth/Login" class="dropdown-item">
-                                    @*<i class="fa fa-sign-in" style="margin-right: 15px;"></i>*@
-                                    Login
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Auth/Register" class="dropdown-item">
-                                    @*<i class="fa fa-sign-in" style="margin-right: 15px;"></i>*@
-                                    Sign up
-                                </a>
-                            </li>
+                    <ul id="top_menu">
+                        <AuthorizeView>
+                            @if (isVendor)
+                            {
+                                <li>
+                                    <a href="/MyAccount/ListingWizard/Company" id="" title="Sign In" class="btn_add listing-btn">Create Free Listing</a>
+                                </li>
+                            }
                             <li>
                                 <a href="#" class="notification" title="notification">
-                                    <img src="/resources/img/icon/notification.svg" alt="notification">
+                                    <img src="resources/img/icon/notification.svg" alt="notification">
                                 </a>
                             </li>
                             <li>
                                 <div class="dropdown usericon">
-                                    <a class="usericon-btn dropdown-toggle" type="button" id="usericon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="/resources/img/icon/user.svg">
+                                    <a class="usericon-btn dropdown-toggle" type="button" id="usericon"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="resources/img/icon/user.svg">
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="usericon">
-                                        <AuthorizeView>
-                                            <a href="/MyAccount/UserProfile" class="dropdown-item"><i class="fa fa-user" style="margin-right: 15px;"></i>Profile</a>
-                                            <a href="/ManageListing/AllListing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>My Listings</a>
-                                            <a href="/MyAccount/LabourNakaWizard/PersonalCreate" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Naka</a>
-                                            <a href="/ManageListing/AllReviews" class="dropdown-item"><i class="fa fa-thumbs-up" style="margin-right: 15px;"></i>Reviews</a>
-                                            <a href="/ManageListing/AllLikes" class="dropdown-item"><i class="fa fa-heart" style="margin-right: 15px;"></i>Likes</a>
-                                            <a href="/ManageListing/AllBookmarks" class="dropdown-item"><i class="fa fa-bookmark" style="margin-right: 15px;"></i>Bookmarks</a>
-                                            <a href="/ManageListing/AllSubscribes" class="dropdown-item"><i class="fa fa-hand-o-up" style="margin-right: 15px;"></i>Subscribe</a>
-                                            <a href="/Identity/Account/Manage" class="dropdown-item"><i class="fa fa-gear" style="margin-right: 15px;"></i>Settings</a>
-
-                                            <a href="/Auth/Login" class="dropdown-item">
-                                                <i class="fa fa-sign-out" style="margin-right: 15px;"></i>Logout
-                                            </a>
-                                        </AuthorizeView>
-
-                                        <!-- Begin: Staff Panel -->
-                                        <AuthorizeView Roles="Staff">
-                                            <a href="/StaffPanel/Listing" class="dropdown-item">
-                                                <i class="fa fa-list" style="margin-right: 15px;"></i>Staff Panel
-                                            </a>
-                                            <a href="/StaffPanel/Banners/Home" class="dropdown-item">
-                                                <i class="fa fa-ban" style="margin-right: 15px;"></i>Banners
-                                            </a>
-                                            <a href="/StaffPanel/LabourNaka/Categories" class="dropdown-item">
-                                                <i class="fa fa-users" style="margin-right: 15px;"></i>Labour Categories
-                                            </a>
-                                        </AuthorizeView>
-                                        <!-- End: Staff Panel -->
+                                        <a href="/MyAccount/UserProfile" class="dropdown-item"><i class="fa fa-user" style="margin-right: 15px;"></i>My Profile</a>
+                                        <a href="/ManageListing/AllListing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>My Listings</a>
+                                        <a href="/MyAccount/LabourNakaWizard/PersonalCreate" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Naka</a>
+                                        <a href="/ManageListing/AllReviews" class="dropdown-item"><i class="fa fa-thumbs-up" style="margin-right: 15px;"></i>Reviews</a>
+                                        <a href="/ManageListing/AllLikes" class="dropdown-item"><i class="fa fa-heart" style="margin-right: 15px;"></i>Likes</a>
+                                        <a href="/ManageListing/AllBookmarks" class="dropdown-item"><i class="fa fa-bookmark" style="margin-right: 15px;"></i>Bookmarks</a>
+                                        <a href="/ManageListing/AllSubscribes" class="dropdown-item"><i class="fa fa-hand-o-up" style="margin-right: 15px;"></i>Subscribe</a>
+                                        <a href="/Identity/Account/Manage" class="dropdown-item"><i class="fa fa-gear" style="margin-right: 15px;"></i>Settings</a>
+                                        <form method="post" action="/Identity/Account/Logout" id="contactform" autocomplete="off">
+                                            <button type="submit" class="dropdown-item  nav-link"><i class="fa fa-sign-out" style="margin-right: 15px;"></i>Logout</button>
+                                        </form>
+                                        @*<AuthorizeView Roles="Staff">
+                                                Identity/Account/Login
+                                                <a href="/StaffPanel/Listing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>Staff Panel</a>
+                                                <a href="/StaffPanel/Banners/Home" class="dropdown-item"><i class="fa fa-ban" style="margin-right: 15px;"></i>Banners</a>
+                                                <a href="/StaffPanel/LabourNaka/Categories" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Categories</a>
+                                            </AuthorizeView>*@
                                     </div>
                                 </div>
                             </li>
-                        </ul>
-                    </nav>
-                    
+                        </AuthorizeView>
+                    </ul>
                     <!-- /top_menu -->
                     <a href="#menu" class="btn_mobile">
                         <div class="hamburger hamburger--spin" id="hamburger">
@@ -103,27 +64,25 @@
                             </div>
                         </div>
                     </a>
-                    @*<nav id="menu" class="main-menu">
+                    <nav id="menu" class="main-menu">
                         <ul>
                             <li><span><a href="/">Home</a></span></li>
                             <li><span><a href="/Home/About">About</a></span></li>
                             <li><span><a href="/Home/Contact">Contact</a></span></li>
+                            @if (!userAuthenticated)
+                            {
+                                <li><a href="/Auth/Login" class="dropdown-item">Login</a></li>
+                                <li><a href="/Auth/Register" class="dropdown-item">Sign up</a></li>
+                            }
                         </ul>
-                    </nav>*@
+                    </nav>
                 </div>
             </div>
-            <!-- /row -->
         </div>
         <div class="layer"></div>
     </header>
-    <!-- Emd: Top Menu -->
-    <!-- Begin: Search Bar -->
     <BasicSearch />
-    <!-- End: Search Bar -->
-    <!-- Begin: Main Body -->
     @Body
-    <!-- End: Main Body -->
-    <!-- Begin: Footer -->
     <footer>
         <div class="container">
             <div class="row">
@@ -202,5 +161,4 @@
             </div>
         </div>
     </footer>
-    <!-- End: Footer -->
 </div>

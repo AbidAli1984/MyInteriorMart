@@ -2,8 +2,6 @@
 @using Microsoft.AspNetCore.Identity;
 @using DAL.Models;
 @inject BAL.Services.Contracts.IUserService userService
-@*@inject SignInManager<ApplicationUser> _signInManager
-@inject UserManager<ApplicationUser> _userManager*@
 @inject NavigationManager navManager
 <style>
     .example {
@@ -16,46 +14,49 @@
     }
 </style>
 
-@*@section CSS{
-        <link href="~/css/mim-authorization-pages.css" rel="stylesheet" type="text/css" />
-    }*@
-
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div id="sign-in-dialog" class="dialog-mfp zoom-anim-dialog">
                 <div class="step first">
                     <div class="d-flex justify-content-center pt-4">
-                        @*<img src="/resources/img/logo_sticky.svg" width="220" alt="logo" class="logo_sticky">*@
-                        <h1 class="text-center">Sign In</h1>
+                        <h2 class="text-center">Sign In</h2>
                     </div>
                     <div class="tab-content checkout">
                         <div class="" id="">
                             <div class="form-group">
-                                <Input @bind-Value="@Email" class="form-control" Type="email" required Placeholder="Email Address" MaxLength="100" />
-                                @*<i class="icon_mail"></i>*@
+                                <input @bind-value="@Email" class="form-control" type="email" required placeholder="Email" maxlength="100" />
+                                <i class="icon_mail"></i>
                                 <span class="text-danger field-validation-error">@emailErrMessage</span>
                             </div>
                             <div class="form-group">
-                                <Input @bind-Value="@Password" class="form-control" Type="password" required Placeholder="Password" MaxLength="100" />
-                                @*<i class="icon_star"></i>*@
+                                <input @bind-value="@Password" class="form-control" type="password" required id="password" placeholder="Password" maxlength="100" />
+                                <i class="icon_lock_alt"></i>
                                 <span class="text-danger field-validation-error">@passwordErrMessage</span>
                             </div>
                             <div class="form-group">
                                 <span class="text-danger field-validation-error">@errorMessage</span>
                             </div>
-                            <button @onclick="@(async () => LoginUser())" class="btn btn-primary w-100">Login</button>
+                            <div class="clearfix add_bottom_15">
+                                <div class="checkboxes float-left">
+                                    <label class="container_check">
+                                        Remember me
+                                        <input type="checkbox" @onclick="@(() => @RememberMe = !@RememberMe)">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="float-right"><a id="forgot" href="#">Lost Password?</a></div>
+                            </div>
+                            <button @onclick="@(async () => LoginUser())" class="btn btn-primary w-100">Log In</button>
                             <div class="clearfix add_bottom_15">
                                 <div class="checkboxes float-left" style="color: #999;">
                                     You don't have account!
                                 </div>
-                                <div class="float-right">
-                                    <a href="/Auth/Register">Sign Up</a>
+                                <div>
+                                    <a href="/Auth/Register" style="color: #fe900d;">&nbsp; Sign up?</a>
                                 </div>
                             </div>
                         </div>
-                        <!-- /tab_2 -->
                     </div>
                 </div>
             </div>
