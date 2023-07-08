@@ -36,113 +36,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         public string IpAddressUser { get; set; }
         public string TimeZoneOfCountry { get; set; }
 
-        //public bool buttonBusy { get; set; }
-        //public string ErrorMessage { get; set; }
-        //public bool userAuthenticated { get; set; } = false;
-        //public string IpAddress { get; set; }
-        //public string OwnerGuid { get; set; }
-        //public string Name { get; set; }
-        //public string Gender { get; set; }
-        //public string Email { get; set; }
-        //public string Phone { get; set; }
-        //public DateTime? DateOfBirth { get; set; }
-        //public int? CountryID { get; set; }
-        //public int? StateID { get; set; }
-        //public int? CityID { get; set; }
-        //public int? AreaID { get; set; }
-        //public int? PincodeID { get; set; }
-        //public DateTime CreatedTime { get; set; }
-
-
-        //public IList<string> timeZoneList = new List<string>();
-
-        // Begin: Country
-        //public IList<Country> listCountry = new List<Country>();
-        //public async Task ListCountryAsync()
-        //{
-        //    try
-        //    {
-        //        listCountry = await sharedContext.Country.OrderBy(i => i.Name).ToListAsync();
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        ErrorMessage = exc.Message;
-        //    }
-
-        //}
-        // End: Country
-
-        // Begin: State
-        //public IList<State> listState = new List<State>();
-        //public async Task ListStateAsync(ChangeEventArgs e)
-        //    {
-        //    CountryID = Convert.ToInt32(e.Value.ToString());
-
-        //    listState = await sharedContext.State
-        //        .OrderBy(i => i.Name)
-        //        .Where(i => i.CountryID == CountryID)
-        //        .ToListAsync();
-        //}
-        // End: State
-
-        // Begin: City
-        //public IList<City> listCity = new List<City>();
-        //public async Task ListCityAsync(ChangeEventArgs e)
-        //{
-        //    StateID = Convert.ToInt32(e.Value.ToString());
-
-        //    listCity = await sharedContext.City
-        //        .OrderBy(i => i.Name)
-        //        .Where(i => i.StateID == StateID)
-        //        .ToListAsync();
-        //}
-        // End: City
-
-        // Begin: Area
-        //public IList<Station> listArea = new List<Station>();
-        //public async Task ListAreaAsync(ChangeEventArgs e)
-        //{
-        //    CityID = Convert.ToInt32(e.Value.ToString());
-
-        //    listArea = await sharedContext.Station
-        //        .OrderBy(i => i.Name)
-        //        .Where(i => i.CityID == CityID)
-        //        .ToListAsync();
-        //}
-        // End: Area
-
-        // Begin: Pincode
-        //public IList<Pincode> listPincode = new List<Pincode>();
-        //public async Task ListPincodeAsync(ChangeEventArgs e)
-        //{
-        //    AreaID = Convert.ToInt32(e.Value.ToString());
-
-        //    listPincode = await sharedContext.Pincode
-        //        .OrderBy(i => i.PincodeNumber)
-        //        .Where(i => i.StationID == AreaID)
-        //        .ToListAsync();
-        //}
-        // End: Pincode
-
-        // Begin: Get Time Zone
-        //public async Task GetTimeZoneAsync()
-        //{
-        //    var listTimeZone = TimeZoneInfo.GetSystemTimeZones().OrderByDescending(t => t.Id == "India Standard Time").ThenBy(t => t.DisplayName);
-
-        //    foreach (var i in listTimeZone)
-        //    {
-        //        timeZoneList.Add(i.StandardName);
-        //    }
-        //    await Task.Delay(1);
-        //}
-        // End: Get Time Zone
-
-        //public async Task ToggleDisableAsync()
-        //{
-        //    disable = !disable;
-        //    await Task.Delay(1);
-        //}
-
         protected async override Task OnInitializedAsync()
         {
             try
@@ -166,8 +59,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     UserProfileVM.isVendor = applicationUser.IsVendor;
 
                     await GetCurrentUserProfile();
-                    //await ListCountryAsync();
-                    //await GetTimeZoneAsync();
                 }
             }
             catch (Exception exc)
@@ -191,7 +82,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             if (string.IsNullOrEmpty(UserProfileVM.Gender) || string.IsNullOrEmpty(UserProfileVM.Name))
             {
-                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
                 return false;
             }
 
@@ -205,7 +96,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             if (userProfile != null)
             {
-                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
                 return;
             }
 
@@ -222,11 +113,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 };
 
                 await userProfileService.AddUserProfile(userProfile);
-                await helper.NoticeWithIcon(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
+                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
             }
             catch (Exception exc)
             {
-                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
         }
 
@@ -237,7 +128,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             if (userProfile == null)
             {
-                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
                 return;
             }
 
@@ -252,13 +143,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
                 await userProfileService.UpdateUserProfile(userProfile);
 
-                // Show notification
-                await helper.NoticeWithIcon(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
+                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
             }
             catch (Exception exc)
             {
-                // Show notification
-                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
         }
     }

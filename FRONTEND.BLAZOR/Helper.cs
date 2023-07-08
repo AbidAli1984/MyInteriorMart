@@ -6,7 +6,7 @@ namespace FRONTEND.BLAZOR
 {
     public class Helper
     {
-        public async Task NoticeWithIcon(NotificationService _notice, NotificationType type, NotificationPlacement placement, string message, string description)
+        public async Task ShowNotification(NotificationService _notice, NotificationType type, NotificationPlacement placement, string message, string description)
         {
             await _notice.Open(new NotificationConfig()
             {
