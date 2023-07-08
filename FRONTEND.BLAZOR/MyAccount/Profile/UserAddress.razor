@@ -1,0 +1,34 @@
+﻿@page "/MyAccount/UserAddress"
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <SideNavigation isVendor="@UserAddressVM.isVendor" />
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review icon-form-group">
+                                    <h5>Personal Details</h5>
+                                    <div class="row">
+                                        <UserAddressForm UserAddressVM="@UserAddressVM" GetCityByStateIdEvent="GetCityByStateId" 
+                                                         GetAreaByCityIdEvent="GetAreaByCityId" GetPincodesByAreaIdEvent="GetPincodesByAreaId" />
+                                        <div class="text-center col-12 mt-3">
+                                            <button type="submit" class="btn btn-primary w-100" @onclick="@(async() => await UpdateProfileAsync())">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>
