@@ -26,7 +26,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly INotificationService notification;
+        private readonly IMessageMailService notification;
         private IWebHostEnvironment webHost;
         private readonly IUserService _userService;
 
@@ -34,7 +34,7 @@ namespace IDENTITY.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, INotificationService notification,
+            IEmailSender emailSender, IMessageMailService notification,
             IWebHostEnvironment webHost,
             IUserService usersService)
         {

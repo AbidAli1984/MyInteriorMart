@@ -3,6 +3,7 @@ using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.Profile;
 using DAL.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
@@ -18,6 +19,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         public IUserService userService { get; set; }
         [Inject]
         private IUserProfileService userProfileService { get; set; }
+        [Inject]
+        AuthenticationStateProvider authenticationState { get; set; }
+        [Inject]
+        Helper helper { get; set; }
+        [Inject]
+        NavigationManager navManager { get; set; }
 
         public IDUserProfile userProfile { get; set; }
 
@@ -184,7 +191,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             if (string.IsNullOrEmpty(UserProfileVM.Gender) || string.IsNullOrEmpty(UserProfileVM.Name))
             {
-                await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
+                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
                 return false;
             }
 
@@ -198,7 +205,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             if (userProfile != null)
             {
-                await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
+                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
                 return;
             }
 
@@ -215,11 +222,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 };
 
                 await userProfileService.AddUserProfile(userProfile);
-                await NoticeWithIcon(NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
+                await helper.NoticeWithIcon(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
             }
             catch (Exception exc)
             {
-                await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
         }
 
@@ -230,7 +237,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             if (userProfile == null)
             {
-                await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
+                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
                 return;
             }
 
@@ -246,24 +253,13 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 await userProfileService.UpdateUserProfile(userProfile);
 
                 // Show notification
-                await NoticeWithIcon(NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
+                await helper.NoticeWithIcon(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
             }
             catch (Exception exc)
             {
                 // Show notification
-                await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.NoticeWithIcon(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
-        }
-
-        private async Task NoticeWithIcon(NotificationType type, NotificationPlacement placement, string message, string description)
-        {
-            await _notice.Open(new NotificationConfig()
-            {
-                Message = message,
-                Description = description,
-                NotificationType = type,
-                Placement = placement
-            });
         }
     }
 }

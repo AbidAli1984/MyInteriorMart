@@ -20,9 +20,9 @@ namespace BAL.Services
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public INotificationService _notificationService;
+        public IMessageMailService _notificationService;
         public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager,
-            INotificationService notificationService, SignInManager<ApplicationUser> signInManager)
+            IMessageMailService notificationService, SignInManager<ApplicationUser> signInManager)
         {
             _userRepository = userRepository;
             _userManager = userManager;

@@ -21,10 +21,10 @@ namespace IDENTITY.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-        private readonly INotificationService notification;
+        private readonly IMessageMailService notification;
         private readonly IWebHostEnvironment webHost;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, INotificationService notification, IWebHostEnvironment webHost)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, IMessageMailService notification, IWebHostEnvironment webHost)
         {
             _userManager = userManager;
             _emailSender = emailSender;

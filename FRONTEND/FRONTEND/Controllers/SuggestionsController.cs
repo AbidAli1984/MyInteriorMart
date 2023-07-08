@@ -16,10 +16,10 @@ namespace FRONTEND.Controllers
     public class SuggestionsController : Controller
     {
         private readonly AuditDbContext _context;
-        private readonly INotificationService notificationRepo;
+        private readonly IMessageMailService notificationRepo;
         private readonly IWebHostEnvironment webHost;
 
-        public SuggestionsController(AuditDbContext context, INotificationService notificationRepo, IWebHostEnvironment webHost)
+        public SuggestionsController(AuditDbContext context, IMessageMailService notificationRepo, IWebHostEnvironment webHost)
         {
             _context = context;
             this.notificationRepo = notificationRepo;

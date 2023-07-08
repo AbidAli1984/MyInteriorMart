@@ -26,6 +26,7 @@ using BAL.Services;
 using BAL.Messaging.Contracts;
 using BAL.Messaging;
 using BAL.Middleware;
+using AntDesign;
 
 namespace FRONTEND.BLAZOR
 {
@@ -116,7 +117,8 @@ namespace FRONTEND.BLAZOR
             services.AddTransient<IListingRepository, ListingRepository>();
             services.AddTransient<IAuditService, AuditService>();
             services.AddTransient<IAuditRepository, AuditRepository>();
-            services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IMessageMailService, MessageMailService>();
+            services.AddTransient<Helper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

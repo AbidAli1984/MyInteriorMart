@@ -23,11 +23,11 @@ namespace BAL.Claims.Listing
         public IConfiguration Configuration;
         public IWebHostEnvironment HostEnvironment;
         public AuditDbContext AuditContext;
-        public INotificationService Notification;
+        public IMessageMailService Notification;
         public ListingDbContext ListingContext;
         public UserManager<ApplicationUser> UserManager;
         private readonly IWebHostEnvironment webHost;
-        public ClaimListing(IConfiguration configuration, IWebHostEnvironment env, AuditDbContext auditContext, INotificationService notification, 
+        public ClaimListing(IConfiguration configuration, IWebHostEnvironment env, AuditDbContext auditContext, IMessageMailService notification, 
             ListingDbContext listingContext, IWebHostEnvironment webHost, UserManager<ApplicationUser> userManager)
         {
             Configuration = configuration;

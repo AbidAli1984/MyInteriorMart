@@ -1,14 +1,6 @@
 ﻿@page "/MyAccount/UserProfile"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
-@inject CategoriesDbContext categoriesContext
-@inject AuthenticationStateProvider authenticationState
+
 @inject NotificationService _notice
-@inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using AntDesign
-@using BOL.SHARED
 
 <AuthorizeView>
     <Authorized>
@@ -25,7 +17,7 @@
                                 <div class="add-review icon-form-group">
                                     <p style="font-size:24px;">Edit Profile @*<button class="btn btn-link float-right" @onclick="@(async() => await ToggleDisableAsync())">Edit</button>*@</p>
                                     <div class="row">
-                                        <UserProfileForm UserProfileVM="@UserProfileVM" />
+                                        <UserProfileForm UserProfileVM="UserProfileVM" />
                                         <div class="text-center col-12 mt-3">
                                             @if (userProfile == null)
                                             {

@@ -20,12 +20,12 @@ namespace IDENTITY.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly INotificationService notification;
+        private readonly IMessageMailService notification;
 
         public EmailModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender, INotificationService notification)
+            IEmailSender emailSender, IMessageMailService notification)
         {
             _userManager = userManager;
             _signInManager = signInManager;

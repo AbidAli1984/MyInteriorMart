@@ -30,9 +30,9 @@ namespace ADMIN.Areas.Claims.Controllers
         private readonly IWebHostEnvironment HostingEnvironment;
         private readonly AuditDbContext _context;
         public IConfiguration Configuration;
-        public INotificationService Notification;
+        public IMessageMailService Notification;
 
-        public ListingClaimsController(IUserService userService, AuditDbContext context, IWebHostEnvironment hostingEnvironment, IConfiguration configuration, INotificationService notification)
+        public ListingClaimsController(IUserService userService, AuditDbContext context, IWebHostEnvironment hostingEnvironment, IConfiguration configuration, IMessageMailService notification)
         {
             this._userService = userService;
             _context = context;

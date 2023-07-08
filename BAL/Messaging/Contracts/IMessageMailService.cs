@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BAL.Messaging.Contracts
 {
-    public interface INotificationService
+    public interface IMessageMailService
     {
         void SendBoth(string mobile, string smsMessage, string email, string emailSubject, string emailMessage);
         void SendSMS(string mobile, string smsMessage);

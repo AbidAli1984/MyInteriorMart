@@ -28,10 +28,10 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         private readonly IUserService _userService;
         private readonly IHistoryAudit audit;
         private readonly IListingManager listingManager;
-        private readonly INotificationService notification;
+        private readonly IMessageMailService notification;
 
         public PaymentModesController(ListingDbContext listingContext, IUserService userService, 
-            IHistoryAudit audit, IListingManager listingManager, INotificationService notification)
+            IHistoryAudit audit, IListingManager listingManager, IMessageMailService notification)
         {
             this.listingContext = listingContext;
             this._userService = userService;

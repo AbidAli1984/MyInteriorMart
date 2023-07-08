@@ -26,12 +26,12 @@ namespace FRONTEND.Controllers
         private readonly SharedDbContext SharedContext;
         private readonly AuditDbContext AuditContext;
         public readonly IUserRoleClaim UserRoleClaim;
-        private readonly INotificationService Notification;
+        private readonly IMessageMailService Notification;
         private readonly IAddresses Addresses;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
             UserDbContext applicationContext, SharedDbContext sharedContext, AuditDbContext auditContext, 
-            IUserRoleClaim userRoleClaim, INotificationService notification, IAddresses addresses)
+            IUserRoleClaim userRoleClaim, IMessageMailService notification, IAddresses addresses)
         {
             SignInManager = signInManager;
             UserManager = userManager;

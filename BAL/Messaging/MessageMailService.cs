@@ -15,13 +15,13 @@ using RestSharp;
 
 namespace BAL.Messaging
 {
-    public class NotificationService : INotificationService
+    public class MessageMailService : IMessageMailService
     {
         private readonly ListingDbContext listingManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SharedDbContext sharedContext;
 
-        public NotificationService(ListingDbContext listingManager, UserManager<ApplicationUser> userManager, SharedDbContext sharedContext)
+        public MessageMailService(ListingDbContext listingManager, UserManager<ApplicationUser> userManager, SharedDbContext sharedContext)
         {
             this.listingManager = listingManager;
             this.userManager = userManager;
