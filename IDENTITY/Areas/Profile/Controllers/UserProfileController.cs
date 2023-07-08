@@ -81,7 +81,6 @@ namespace IDENTITY.Areas.Profile.Controllers
             // Shafi: Assign Time Zone to Create dDate & Created Time
             DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
             userProfile.CreatedDate = timeZoneDate;
-            userProfile.CreatedTime = timeZoneDate;
             // End:
 
             var profileExists = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
@@ -156,7 +155,6 @@ namespace IDENTITY.Areas.Profile.Controllers
             // Shafi: Assign Time Zone to Create dDate & Created Time
             DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
             userProfile.CreatedDate = timeZoneDate;
-            userProfile.CreatedTime = timeZoneDate;
             // End:
 
             // Shafi: Check if user profile already exists

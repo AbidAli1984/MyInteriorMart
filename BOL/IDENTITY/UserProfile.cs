@@ -20,16 +20,6 @@ namespace BOL.IDENTITY
         [Required(ErrorMessage = "IP Address Required")]
         public string IPAddress { get; set; }
 
-        // Shafi: Date and time
-        [Display(Name = "Created Date")]
-        [DataType(DataType.Date, ErrorMessage = "Date format issue.")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedDate { get; set; }
-
-        [Display(Name = "Created Time")]
-        [DataType(DataType.Time, ErrorMessage = "Time format issue.")]
-        public DateTime CreatedTime { get; set; }
-
         [Display(Name = "Name", Prompt = "Full Name")]
         [MaxLength(50, ErrorMessage = "Maximum 50 characters allowed.")]
         [MinLength(3, ErrorMessage = "Minimum 3 characters rerquired.")]
@@ -45,6 +35,18 @@ namespace BOL.IDENTITY
         [DataType(DataType.Date, ErrorMessage = "Date format issue.")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
+
+        [Display(Name = "MaritalStatus")]
+        [Required(ErrorMessage = "Marital Status required.")]
+        public string MaritalStatus { get; set; }
+
+        [Display(Name = "Qualification")]
+        [Required(ErrorMessage = "Qualification required.")]
+        public string Qualification { get; set; }
+
+        [Display(Name = "Address")]
+        [Required(ErrorMessage = "Address required.")]
+        public string Address { get; set; }
 
         [Display(Name = "Country")]
         [Required(ErrorMessage = "Select Country")]
@@ -69,5 +71,16 @@ namespace BOL.IDENTITY
         [Display(Name = "Time Zone")]
         [Required(ErrorMessage = "Time Zone Required")]
         public string TimeZoneOfCountry { get; set; }
+
+        public bool IsProfileCompleted { get; set; }
+
+        [Display(Name = "Created Date")]
+        [DataType(DataType.Date, ErrorMessage = "Date format issue.")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime CreatedDate { get; set; }
+
+        [Display(Name = "Updated Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime UpdatedDate { get; set; }
     }
 }
