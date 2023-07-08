@@ -16,7 +16,7 @@
             <div class="container margin_60_35">
                 <div class="row">
                     <div class="col-lg-3">
-                        <SideNavigation isVendor="@editProfileVM.isVendor" />
+                        <SideNavigation isVendor="@UserProfileVM.isVendor" />
                     </div>
 
                     <div class="col-lg-9">
@@ -25,7 +25,7 @@
                                 <div class="add-review icon-form-group">
                                     <p style="font-size:24px;">Edit Profile @*<button class="btn btn-link float-right" @onclick="@(async() => await ToggleDisableAsync())">Edit</button>*@</p>
                                     <div class="row">
-                                        <EditProfileForm EditProfile="editProfileVM" />
+                                        <UserProfileForm UserProfileVM="@UserProfileVM" />
                                         <div class="text-center col-12 mt-3">
                                             @if (userProfile == null)
                                             {

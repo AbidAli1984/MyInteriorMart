@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BOL.ComponentModels.MyAccount.Profile
 {
-    public class EditProfileVM
+    public class UserProfileVM
     {
         private string imgUrl;
         public string ImgUrl

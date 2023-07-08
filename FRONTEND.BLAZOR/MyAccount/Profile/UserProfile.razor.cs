@@ -21,7 +21,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
         public IDUserProfile userProfile { get; set; }
 
-        EditProfileVM editProfileVM { get; set; }
+        UserProfileVM UserProfileVM { get; set; }
 
         public bool disable { get; set; }
         public string CurrentUserGuid { get; set; }
@@ -140,7 +140,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             try
             {
-                editProfileVM = new EditProfileVM();
+                UserProfileVM = new UserProfileVM();
                 var authstate = await authenticationState.GetAuthenticationStateAsync();
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
@@ -154,9 +154,9 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
                     ApplicationUser applicationUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
-                    editProfileVM.Email = applicationUser.Email;
-                    editProfileVM.Phone = applicationUser.PhoneNumber;
-                    editProfileVM.isVendor = applicationUser.IsVendor;
+                    UserProfileVM.Email = applicationUser.Email;
+                    UserProfileVM.Phone = applicationUser.PhoneNumber;
+                    UserProfileVM.isVendor = applicationUser.IsVendor;
 
                     await GetCurrentUserProfile();
                     //await ListCountryAsync();
@@ -175,14 +175,14 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             if (userProfile != null)
             {
-                editProfileVM.Gender = userProfile.Gender;
-                editProfileVM.Name = userProfile.Name;
+                UserProfileVM.Gender = userProfile.Gender;
+                UserProfileVM.Name = userProfile.Name;
             }
         }
 
         private async Task<bool> isValidFields()
         {
-            if (string.IsNullOrEmpty(editProfileVM.Gender) || string.IsNullOrEmpty(editProfileVM.Name))
+            if (string.IsNullOrEmpty(UserProfileVM.Gender) || string.IsNullOrEmpty(UserProfileVM.Name))
             {
                 await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
                 return false;
@@ -208,8 +208,8 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 {
                     OwnerGuid = CurrentUserGuid,
                     IPAddress = IpAddressUser,
-                    Name = editProfileVM.Name,
-                    Gender = editProfileVM.Gender,
+                    Name = UserProfileVM.Name,
+                    Gender = UserProfileVM.Gender,
                     CreatedDate = CreatedDate,
                     TimeZoneOfCountry = TimeZoneOfCountry
                 };
@@ -238,8 +238,8 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             {
                 userProfile.OwnerGuid = CurrentUserGuid;
                 userProfile.IPAddress = IpAddressUser;
-                userProfile.Name = editProfileVM.Name;
-                userProfile.Gender = editProfileVM.Gender;
+                userProfile.Name = UserProfileVM.Name;
+                userProfile.Gender = UserProfileVM.Gender;
                 CreatedDate = CreatedDate;
                 userProfile.TimeZoneOfCountry = TimeZoneOfCountry;
 

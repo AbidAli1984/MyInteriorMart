@@ -6,31 +6,31 @@
                 <span>Change Image</span>
             </label>
             <input id="file" type="file" onchange="loadFile(event)" />
-            <img class="profile_img" src="@EditProfile.ImgUrl" id="output" />
+            <img class="profile_img" src="@UserProfileVM.ImgUrl" id="output" />
         </div>
-        <h6 class="profile_customer_name text-center">@EditProfile.imgText</h6>
+        <h6 class="profile_customer_name text-center">@UserProfileVM.imgText</h6>
     </div>
 </div>
 <div class="col-md-6">
     <div class="form-group">
         <label>Full Name</label>
-        <input class="form-control" type="text" @bind="@EditProfile.Name">
+        <input class="form-control" type="text" @bind="@UserProfileVM.Name">
         <i class="ti-user"></i>
     </div>
     <div class="form-group">
         <label>Mobile Number</label>
-        <input class="form-control" type="text" @bind="@EditProfile.Phone" disabled="disabled">
+        <input class="form-control" type="text" @bind="@UserProfileVM.Phone" disabled="disabled">
         <i class="icon_phone"></i>
     </div>
 </div>
 <div class="form-group col-md-6">
     <label>Email</label>
-    <input type="email" class="form-control" @bind="@EditProfile.Email" disabled="disabled">
+    <input type="email" class="form-control" @bind="@UserProfileVM.Email" disabled="disabled">
     <i class="icon_mail_alt"></i>
 </div>
 <div class="form-group col-md-6">
     <label>Gender</label>
-    <select class="form-control wide add_bottom_10" @bind="@EditProfile.Gender">
+    <select class="form-control wide add_bottom_10" @bind="@UserProfileVM.Gender">
         <option disabled selected>Choose...</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
