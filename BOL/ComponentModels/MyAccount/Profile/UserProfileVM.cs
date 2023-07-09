@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace BOL.ComponentModels.MyAccount.Profile
@@ -29,5 +30,6 @@ namespace BOL.ComponentModels.MyAccount.Profile
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Gender { get; set; }
+        public Stream file { get; set; }
     }
 }

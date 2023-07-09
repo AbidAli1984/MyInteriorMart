@@ -5,7 +5,7 @@
                 <span><i class="fas fa-camera"></i></span>
                 <span>Change Image</span>
             </label>
-            <input id="file" type="file" onchange="loadFile(event)" />
+            <Microsoft.AspNetCore.Components.Forms.InputFile id="file" OnChange="UploadProfileImage" />
             <img class="profile_img" src="@UserProfileVM.ImgUrl" id="output" />
         </div>
         <h6 class="profile_customer_name text-center">@UserProfileVM.imgText</h6>

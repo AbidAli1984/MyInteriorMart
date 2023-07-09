@@ -1,9 +1,12 @@
 ﻿using AntDesign;
+using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.Profile;
 using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
@@ -31,6 +34,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         UserProfileVM UserProfileVM { get; set; }
 
         public bool disable { get; set; }
+        private bool isImageChange { get; set; }
         public string CurrentUserGuid { get; set; }
         public DateTime CreatedDate { get; set; }
         public string IpAddressUser { get; set; }
@@ -75,6 +79,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             {
                 UserProfileVM.Gender = userProfile.Gender;
                 UserProfileVM.Name = userProfile.Name;
+                UserProfileVM.ImgUrl = userProfile.ImageUrl + "?DummyId=" + DateTime.Now.Ticks;
             }
         }
 
@@ -141,6 +146,14 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 CreatedDate = CreatedDate;
                 userProfile.TimeZoneOfCountry = TimeZoneOfCountry;
 
+                if (isImageChange)
+                {
+                    isImageChange = false;
+                    string sourceFile = UserProfileVM.ImgUrl.Split("?")[0];
+                    string destFile = Helper.profileImagesPath + CurrentUserGuid + ".jpg";
+                    userProfile.ImageUrl = await FileManagerService.MoveFile(sourceFile, destFile);
+                }
+
                 await userProfileService.UpdateUserProfile(userProfile);
 
                 await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
@@ -149,6 +162,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             {
                 await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
+        }
+
+        public async Task UploadProfileImage()
+        {
+            UserProfileVM.ImgUrl = await helper.UploadProfileImage(UserProfileVM.file, CurrentUserGuid);
+            isImageChange = true;
         }
     }
 }

@@ -20,6 +20,10 @@ namespace BOL.IDENTITY
         [Required(ErrorMessage = "IP Address Required")]
         public string IPAddress { get; set; }
 
+        [Display(Name = "Image Url")]
+        [Required(ErrorMessage = "Image Url Required")]
+        public string ImageUrl { get; set; }
+
         [Display(Name = "Name", Prompt = "Full Name")]
         [MaxLength(50, ErrorMessage = "Maximum 50 characters allowed.")]
         [MinLength(3, ErrorMessage = "Minimum 3 characters rerquired.")]

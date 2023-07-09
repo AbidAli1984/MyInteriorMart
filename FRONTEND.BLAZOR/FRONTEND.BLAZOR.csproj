@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CloudBox\" />
+    <Folder Include="Data\Upload\" />
     <Folder Include="FileManager\LabourNaka\" />
     <Folder Include="wwwroot\CloudBox\" />
   </ItemGroup>
