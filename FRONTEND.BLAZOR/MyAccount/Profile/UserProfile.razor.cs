@@ -36,9 +36,8 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         public bool disable { get; set; }
         private bool isImageChange { get; set; }
         public string CurrentUserGuid { get; set; }
-        public DateTime CreatedDate { get; set; }
         public string IpAddressUser { get; set; }
-        public string TimeZoneOfCountry { get; set; }
+        public string TimeZoneOfCountry { get; set; } = "India Standard Time";
 
         protected async override Task OnInitializedAsync()
         {
@@ -49,13 +48,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
                 {
-                    TimeZoneOfCountry = "India Standard Time";
                     IpAddressUser = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    disable = true;
-
-                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneOfCountry));
-                    CreatedDate = timeZoneDate.Date;
-
                     ApplicationUser applicationUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     UserProfileVM.Email = applicationUser.Email;
@@ -79,7 +72,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             {
                 UserProfileVM.Gender = userProfile.Gender;
                 UserProfileVM.Name = userProfile.Name;
-                UserProfileVM.ImgUrl = userProfile.ImageUrl + "?DummyId=" + DateTime.Now.Ticks;
+                UserProfileVM.ImgUrl = userProfile.ImageUrl;
             }
         }
 
@@ -99,31 +92,33 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             if (!(await isValidFields()))
                 return;
 
-            if (userProfile != null)
+            if (userProfile == null)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
+                try
+                {
+                    IDUserProfile userProfile = new IDUserProfile
+                    {
+                        OwnerGuid = CurrentUserGuid,
+                        IPAddress = IpAddressUser,
+                        Name = UserProfileVM.Name,
+                        Gender = UserProfileVM.Gender,
+                        CreatedDate = helper.GetCurrentDateTime(TimeZoneOfCountry),
+                        TimeZoneOfCountry = TimeZoneOfCountry,
+                        ImageUrl = await MoveProfileImage()
+                    };
+
+                    await userProfileService.AddUserProfile(userProfile);
+                    await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
+                    navManager.NavigateTo("/MyAccount/UserAddress");
+                }
+                catch (Exception exc)
+                {
+                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                }
                 return;
             }
 
-            try
-            {
-                IDUserProfile userProfile = new IDUserProfile
-                {
-                    OwnerGuid = CurrentUserGuid,
-                    IPAddress = IpAddressUser,
-                    Name = UserProfileVM.Name,
-                    Gender = UserProfileVM.Gender,
-                    CreatedDate = CreatedDate,
-                    TimeZoneOfCountry = TimeZoneOfCountry
-                };
-
-                await userProfileService.AddUserProfile(userProfile);
-                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
-            }
-            catch (Exception exc)
-            {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
-            }
+            await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
         }
 
         public async Task UpdateProfileAsync()
@@ -131,43 +126,42 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             if (!(await isValidFields()))
                 return;
 
-            if (userProfile == null)
+            if (userProfile != null)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
+                try
+                {
+                    userProfile.Name = UserProfileVM.Name;
+                    userProfile.Gender = UserProfileVM.Gender;
+                    userProfile.UpdatedDate = helper.GetCurrentDateTime(TimeZoneOfCountry);
+                    userProfile.ImageUrl = await MoveProfileImage();
+
+                    await userProfileService.UpdateUserProfile(userProfile);
+                    await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
+                }
+                catch (Exception exc)
+                {
+                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                }
                 return;
             }
 
-            try
-            {
-                userProfile.OwnerGuid = CurrentUserGuid;
-                userProfile.IPAddress = IpAddressUser;
-                userProfile.Name = UserProfileVM.Name;
-                userProfile.Gender = UserProfileVM.Gender;
-                CreatedDate = CreatedDate;
-                userProfile.TimeZoneOfCountry = TimeZoneOfCountry;
-
-                if (isImageChange)
-                {
-                    isImageChange = false;
-                    string sourceFile = UserProfileVM.ImgUrl.Split("?")[0];
-                    string destFile = Helper.profileImagesPath + CurrentUserGuid + ".jpg";
-                    userProfile.ImageUrl = await FileManagerService.MoveFile(sourceFile, destFile);
-                }
-
-                await userProfileService.UpdateUserProfile(userProfile);
-
-                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
-            }
-            catch (Exception exc)
-            {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
-            }
+            await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
         }
 
         public async Task UploadProfileImage()
         {
             UserProfileVM.ImgUrl = await helper.UploadProfileImage(UserProfileVM.file, CurrentUserGuid);
             isImageChange = true;
+        }
+
+        private async Task<string> MoveProfileImage()
+        {
+            if (isImageChange)
+            {
+                isImageChange = false;
+                UserProfileVM.ImgUrl = await helper.MoveProfileImage(UserProfileVM, CurrentUserGuid);
+            }
+            return UserProfileVM.ImgUrl;
         }
     }
 }

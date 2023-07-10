@@ -94,12 +94,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                         UserAddressVM.City = userProfile.CityID;
                         UserAddressVM.Area = userProfile.AssemblyID;
                         UserAddressVM.Pincode = userProfile.PincodeID;
-                    }
-                    UserAddressVM.States = await sharedService.GetStatesByCountryId();
-                    if (UserAddressVM.States.Count > 0)
-                    {
-                        int.TryParse(Convert.ToString(UserAddressVM.States[0].CountryID), out int countryId);
-                        userProfile.CountryID = countryId;
+                        UserAddressVM.States = await sharedService.GetStatesByCountryId();
+                        if (UserAddressVM.States.Count > 0)
+                        {
+                            int.TryParse(Convert.ToString(UserAddressVM.States[0].CountryID), out int countryId);
+                            userProfile.CountryID = countryId;
+                        }
                     }
                     await GetCityByStateId();
                     await GetAreaByCityId();

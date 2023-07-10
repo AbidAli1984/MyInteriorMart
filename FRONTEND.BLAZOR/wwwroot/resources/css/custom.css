@@ -1433,6 +1433,10 @@ iframe#gmap_canvas {
     font-weight: 400 !important;
 }
 
+.icon-form-group [class*="col"] .form-group i {
+	left: 10px;
+}
+
 .add-review h5 {
     margin-bottom: 20px;
 }

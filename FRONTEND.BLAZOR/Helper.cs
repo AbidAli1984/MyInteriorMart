@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using BAL.FileManager;
+using BOL.ComponentModels.MyAccount.Profile;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -26,11 +27,22 @@ namespace FRONTEND.BLAZOR
             });
         }
 
+        public DateTime GetCurrentDateTime(string TimeZoneOfCountry = "India Standard Time")
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneOfCountry));
+        }
+
         public async Task<string> UploadProfileImage(Stream file, string fileName)
         {
-            string filePath = Helper.tempImagePath + fileName + ".jpg";
-            string imgUrl = await FileManagerService.UploadFile(file, filePath, true);
-            return imgUrl + "?DummyId=" + DateTime.Now.Ticks;
+            string filePath = tempImagePath + fileName + ".jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
+        }
+
+        public async Task<string> MoveProfileImage(UserProfileVM userProfileVM, string fileName)
+        {
+            string sourceFile = userProfileVM.ImgUrl.Split("?")[0];
+            string destFile = profileImagesPath + fileName + ".jpg";
+            return await FileManagerService.MoveFile(sourceFile, destFile);
         }
     }
 }

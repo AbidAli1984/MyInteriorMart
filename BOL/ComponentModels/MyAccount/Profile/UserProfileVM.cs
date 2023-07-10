@@ -12,7 +12,7 @@ namespace BOL.ComponentModels.MyAccount.Profile
         {
             get
             {
-                return string.IsNullOrEmpty(imgUrl) ? "resources/img/Asset 33.png" : imgUrl;
+                return string.IsNullOrEmpty(imgUrl) ? "resources/img/Asset 33.png" : (imgUrl + "?DummyId=" + DateTime.Now.Ticks);
             }
             set { imgUrl = value; }
         }
