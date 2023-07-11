@@ -55,7 +55,7 @@ namespace HUBS.Admin
             {
                 // Shafi: Get current user id and check if profile for this user exists
                 string profileImage = "";
-                var user = await _userService.GetUserByUserNameOrEmail(Context.User.Identity.Name);
+                var user = await _userService.GetUserByUserName(Context.User.Identity.Name);
                 var profile = await _userProfileService.GetProfileByOwnerGuid(user.Id);
                 if (profile != null)
                 {

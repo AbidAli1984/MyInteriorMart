@@ -80,7 +80,7 @@ namespace ADMIN.Areas.Claims.Controllers
         [Route("/Claims/ListingClaims/ApproveDocuments/{ClaimId}/{Reason}")]
         public async Task<IActionResult> ApproveDocuments(int ClaimId, string Reason)
         {
-            var currentUser = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var currentUser = await _userService.GetUserByUserName(User.Identity.Name);
             var documentScrutinizedBy = currentUser.Id;
 
             var i = 0;
@@ -142,7 +142,7 @@ namespace ADMIN.Areas.Claims.Controllers
         [HttpGet]
         public async Task<IActionResult> ClaimVerificationLink(string shortLink)
         {
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
 
             if (shortLink != "")
             {
@@ -167,7 +167,7 @@ namespace ADMIN.Areas.Claims.Controllers
         [Route("/Claims/ListingClaims/RejectDocuments/{ClaimId}/{Reason}")]
         public async Task<IActionResult> RejectDocuments(int ClaimId, string Reason)
         {
-            var currentUser = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var currentUser = await _userService.GetUserByUserName(User.Identity.Name);
             var documentScrutinizedBy = currentUser.Id;
 
             var claim = await _context.ListingClaim.Where(i => i.ClaimID == ClaimId).FirstOrDefaultAsync();

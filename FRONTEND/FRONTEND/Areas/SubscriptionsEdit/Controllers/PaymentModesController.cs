@@ -41,7 +41,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -79,7 +79,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:s
 
@@ -118,7 +118,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("PaymentID,ListingID,OwnerGuid,IPAddress,Cash,NetBanking,Cheque,RtgsNeft,DebitCard,CreditCard,PayTM,PhonePay,Paypal")] PaymentMode paymentMode)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

@@ -88,7 +88,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;

@@ -24,7 +24,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         [Inject]
         SignInManager<ApplicationUser> _signInManager { get; set; }
 
-        public string Email { get; set; }
+        public string EmailOrMobile { get; set; }
         public string emailErrMessage { get; set; }
 
         public string Password { get; set; }
@@ -37,7 +37,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
         public async Task LoginUser(string returnUrl = null)
         {
-            emailErrMessage = FieldValidator.requiredFieldMessage(Email, "email address.");
+            emailErrMessage = FieldValidator.requiredFieldMessage(EmailOrMobile, "email address or mobile no.");
             passwordErrMessage = FieldValidator.requiredFieldMessage(Password, "password.");
 
             if (!string.IsNullOrEmpty(emailErrMessage) || !string.IsNullOrEmpty(passwordErrMessage))
@@ -48,7 +48,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             returnUrl = returnUrl ?? "/MyAccount/UserProfile";
 
             Guid key = Guid.NewGuid();
-            errorMessage = await userService.SignIn(Email, Password, RememberMe, key);
+            errorMessage = await userService.SignIn(EmailOrMobile, Password, RememberMe, key);
             if (string.IsNullOrEmpty(errorMessage))
                 navManager.NavigateTo($"{returnUrl}?key={key}", true);
         }

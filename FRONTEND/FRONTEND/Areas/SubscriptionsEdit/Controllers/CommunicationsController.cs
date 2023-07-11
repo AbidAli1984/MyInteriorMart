@@ -54,7 +54,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -90,7 +90,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("CommunicationID,ListingID,OwnerGuid,IPAddress,Email,Website,Mobile,Whatsapp,Telephone,TollFree,Fax,SkypeID,TelephoneSecond")] Communication communication)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 

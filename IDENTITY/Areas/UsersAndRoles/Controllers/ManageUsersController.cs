@@ -62,7 +62,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await _userService.GetUserByUserNameOrEmail(userName);
+            var user = await _userService.GetUserByUserName(userName);
             // End:
 
             // Shafi: Return user profile as model in view
@@ -82,7 +82,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await _userService.GetUserByUserNameOrEmail(userName);
+            var user = await _userService.GetUserByUserName(userName);
             // End:
 
             if (SuspendedTo != null && SuspendedBy != null && Reason != null)
@@ -114,7 +114,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await _userService.GetUserByUserNameOrEmail(userName);
+            var user = await _userService.GetUserByUserName(userName);
             // End:
 
             // Shafi: Return user profile as model in view
@@ -133,7 +133,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         {
             // Shafi: Get current user guid
             var userName = User.Identity.Name;
-            var user = await _userService.GetUserByUserNameOrEmail(userName);
+            var user = await _userService.GetUserByUserName(userName);
             string UnsuspendedBy = user.Id;
             // End:
 

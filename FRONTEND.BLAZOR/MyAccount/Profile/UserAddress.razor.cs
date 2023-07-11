@@ -37,36 +37,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         public bool isProfileCompleted { get; set; }
         public string CurrentUserGuid { get; set; }
 
-        public async Task GetCityByStateId()
-        {
-            UserAddressVM.Areas.Clear();
-            UserAddressVM.Pincodes.Clear();
-            if (UserAddressVM.State > 0)
-            {
-                UserAddressVM.Cities = await sharedService.GetCitiesByStateId(UserAddressVM.State);
-                StateHasChanged();
-            }
-        }
-
-        public async Task GetAreaByCityId()
-        {
-            UserAddressVM.Pincodes.Clear();
-            if (UserAddressVM.City > 0)
-            {
-                UserAddressVM.Areas = await sharedService.GetAreasByCityId(UserAddressVM.City);
-                StateHasChanged();
-            }
-        }
-
-        public async Task GetPincodesByAreaId()
-        {
-            if (UserAddressVM.Area > 0)
-            {
-                UserAddressVM.Pincodes = await sharedService.GetPincodesByAreaId(UserAddressVM.Area);
-                StateHasChanged();
-            }
-        }
-
         protected async override Task OnInitializedAsync()
         {
             try
@@ -76,7 +46,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
                 {
-                    ApplicationUser applicationUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    ApplicationUser applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     UserAddressVM.isVendor = applicationUser.IsVendor;
 
@@ -109,6 +79,36 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             catch (Exception exc)
             {
 
+            }
+        }
+
+        public async Task GetCityByStateId()
+        {
+            UserAddressVM.Areas.Clear();
+            UserAddressVM.Pincodes.Clear();
+            if (UserAddressVM.State > 0)
+            {
+                UserAddressVM.Cities = await sharedService.GetCitiesByStateId(UserAddressVM.State);
+                StateHasChanged();
+            }
+        }
+
+        public async Task GetAreaByCityId()
+        {
+            UserAddressVM.Pincodes.Clear();
+            if (UserAddressVM.City > 0)
+            {
+                UserAddressVM.Areas = await sharedService.GetAreasByCityId(UserAddressVM.City);
+                StateHasChanged();
+            }
+        }
+
+        public async Task GetPincodesByAreaId()
+        {
+            if (UserAddressVM.Area > 0)
+            {
+                UserAddressVM.Pincodes = await sharedService.GetPincodesByAreaId(UserAddressVM.Area);
+                StateHasChanged();
             }
         }
 

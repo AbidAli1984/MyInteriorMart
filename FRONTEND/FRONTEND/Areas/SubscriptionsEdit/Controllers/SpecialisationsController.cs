@@ -42,7 +42,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -80,7 +80,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -122,7 +122,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("SpecialisationID,ListingID,OwnerGuid,IPAddress,AcceptTenderWork,Banks,BeautyParlors,Bungalow,CallCenter,Church,Company,ComputerInstitute,Dispensary,ExhibitionStall,Factory,Farmhouse,Gurudwara,Gym,HealthClub,Home,Hospital,Hotel,Laboratory,Mandir,Mosque,Office,Plazas,ResidentialSociety,Resorts,Restaurants,Salons,Shop,ShoppingMall,Showroom,Warehouse")] Specialisation specialisation)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

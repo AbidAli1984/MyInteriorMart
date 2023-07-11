@@ -212,7 +212,7 @@ namespace IDENTITY.Areas.UsersAndRoles.Controllers
         public async Task<ActionResult> RemoveUserFromRole(string userName, string roleName)
         {
             // Shafi Wrote: Find user by his email or user id
-            var user = await _userService.GetUserByUserNameOrEmail(userName);
+            var user = await _userService.GetUserByUserName(userName);
             // End:
 
             // Shafi Wrote: Get role id to pass as a parameter in RedirectionAction

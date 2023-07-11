@@ -38,7 +38,7 @@ namespace FRONTEND.Areas.Claims.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(int ListingId)
         {
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             ViewBag.UserGuid = user.Id;
 
             HttpContext.Session.SetString("ListingId", ListingId.ToString());
@@ -165,7 +165,7 @@ namespace FRONTEND.Areas.Claims.Controllers
         [Route("/Claims/Listing/DocumentOtp/{shortLink}")]
         public async Task<IActionResult> DocumentOtp(string shortLink)
         {
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             var claim = await AuditContext.ListingClaim.Where(i => i.ClaimVerificationShortLink == shortLink).FirstOrDefaultAsync();
 
             if(claim == null)
@@ -187,7 +187,7 @@ namespace FRONTEND.Areas.Claims.Controllers
         [HttpPost]
         public async Task<JsonResult> VerifyDocumentOtp(string shortLink, int? otp)
         {
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
 
             if(shortLink != "" && otp != null)
             {

@@ -112,7 +112,7 @@ namespace FRONTEND.BLAZOR.MyAccount.LabourNakaWizard.Create
                     CreatedTime = timeZoneDate;
                     // End:
 
-                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     // Execute Method

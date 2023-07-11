@@ -62,7 +62,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -97,7 +97,7 @@ namespace FRONTEND.Areas.SubscriptionsEdit.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("AddressID,ListingID,OwnerGuid,IPAddress,CountryID,StateID,City,AssemblyID,PincodeID,LocalityID,LocalAddress")] Address address)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 

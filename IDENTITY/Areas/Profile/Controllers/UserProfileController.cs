@@ -26,7 +26,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Index()
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -46,7 +46,7 @@ namespace IDENTITY.Areas.Profile.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string ownerGuid = user.Id;
 
             var profileExists = await _userProfileService.GetProfileByOwnerGuid(ownerGuid);
@@ -68,7 +68,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Create([Bind("ProfileID,OwnerGuid,IPAddress,CreatedDate,CreatedTime,Name,Gender,DateOfBirth,CountryID,StateID,CityID,AssemblyID,PincodeID,TimeZoneOfCountry")] UserProfile userProfile)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -106,7 +106,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Edit()
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string ownerGuid = user.Id;
             // End:
 
@@ -142,7 +142,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> Edit([Bind("ProfileID,OwnerGuid,IPAddress,CreatedDate,CreatedTime,Name,Gender,DateOfBirth,CountryID,StateID,CityID,AssemblyID,PincodeID,TimeZoneOfCountry")] UserProfile userProfile)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

@@ -82,7 +82,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("CategoryID,ListingID,OwnerGuid,IPAddress,FirstCategoryID,SecondCategoryID,ThirdCategories,FourthCategories,FifthCategories,SixthCategories")] Categories categories)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

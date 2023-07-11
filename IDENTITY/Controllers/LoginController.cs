@@ -39,11 +39,11 @@ namespace IDENTITY.Controllers
         [HttpPost]
         public async Task<IActionResult> ByMobileOtp(string mobile)
         {
-            var userRecord = await _userService.GetUserByMobileNumber(mobile);
+            var userRecord = await _userService.GetRegisterdUserByMobileNoOrEmail(mobile);
 
             if(userRecord != null)
             {
-                var user = await _userService.GetUserByUserNameOrEmail(userRecord.UserName);
+                var user = await _userService.GetUserByUserName(userRecord.UserName);
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, true);

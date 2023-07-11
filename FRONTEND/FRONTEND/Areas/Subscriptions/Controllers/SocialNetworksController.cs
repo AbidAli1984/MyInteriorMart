@@ -53,7 +53,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("SocialNetworkID,ListingID,OwnerGuid,IPAddress,WhatsappGroupLink,Youtube,Facebook,Instagram,Linkedin,Pinterest,Telegram,Others,Others1")] SocialNetwork socialNetwork)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -79,7 +79,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -115,7 +115,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("SocialNetworkID,ListingID,OwnerGuid,IPAddress,WhatsappGroupLink,Youtube,Facebook,Instagram,Linkedin,Pinterest,Telegram,Others,Others1")] SocialNetwork socialNetwork)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 

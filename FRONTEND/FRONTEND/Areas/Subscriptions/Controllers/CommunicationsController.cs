@@ -58,7 +58,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create([Bind("CommunicationID,ListingID,OwnerGuid,IPAddress,Email,Website,Mobile,Whatsapp,Telephone,TollFree,Fax,SkypeID,TelephoneSecond")] Communication communication)
         {
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -84,7 +84,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 
@@ -121,7 +121,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("CommunicationID,ListingID,OwnerGuid,IPAddress,Email,Website,Mobile,Whatsapp,Telephone,TollFree,Fax,SkypeID,TelephoneSecond")] Communication communication)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string userGuid = user.Id;
             // End:
 

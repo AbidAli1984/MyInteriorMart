@@ -45,7 +45,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Index()
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -144,8 +144,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Create(DateTime visitDate, DateTime visitTime)
         {
             // Shafi: Get current user  
-            var userName = User.Identity.Name;
-            var user = await _userService.GetUserByUserNameOrEmail(userName);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             // End:
 
             if (User.IsInRole("Listing Manager") || User.IsInRole("Listings") || User.IsInRole("Super Administrator"))
@@ -208,7 +207,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
             // End:
 
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:
@@ -271,7 +270,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string OwnerGuid = user.Id;
             // End:
 
@@ -319,7 +318,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("ListingID,OwnerGuid,IPAddress,CreatedDate,CreatedTime,Name,Gender,CompanyName,YearOfEstablishment,NumberOfEmployees,Designation,NatureOfBusiness,Turnover,ListingURL")] Listing listing)
         {
             // Shafi: Get UserGuid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string UserGuid = user.Id;
             // End:
 

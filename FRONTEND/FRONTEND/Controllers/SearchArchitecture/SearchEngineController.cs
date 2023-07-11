@@ -628,8 +628,7 @@ namespace FRONTEND.Controllers.SearchArchitecture
 
             if (User.Identity.IsAuthenticated)
             {
-                var userName = User.Identity.Name;
-                var user = await _userService.GetUserByUserNameOrEmail(userName);
+                var user = await _userService.GetUserByUserName(User.Identity.Name);
                 userGuid = user.Id;
             }
             else

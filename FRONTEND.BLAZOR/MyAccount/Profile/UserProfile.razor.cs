@@ -49,7 +49,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 if (user.Identity.IsAuthenticated)
                 {
                     IpAddressUser = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    ApplicationUser applicationUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    ApplicationUser applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     UserProfileVM.Email = applicationUser.Email;
                     UserProfileVM.Phone = applicationUser.PhoneNumber;

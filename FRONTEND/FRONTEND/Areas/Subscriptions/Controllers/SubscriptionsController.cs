@@ -80,7 +80,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
             ViewData["PeriodID"] = await _context.Period.OrderBy(p => p.DurationInMonths).ToListAsync();
 
             // Shafi: Get UserGuid & IP Address
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
             string ownerGuid = user.Id;
             // End:

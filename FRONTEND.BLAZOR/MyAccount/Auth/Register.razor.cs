@@ -1,5 +1,5 @@
 ﻿using BAL.Services.Contracts;
-using BOL.IDENTITY.ViewModels;
+using BOL.ComponentModels.MyAccount.Auth;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -18,33 +18,24 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         [Inject]
         NavigationManager navManager { get; set; }
 
-        public string Email { get; set; }
-        public string emailErrMessage { get; set; }
-
-        public string Mobile { get; set; }
-        public string mobileErrMessage { get; set; }
-
-        public string Password { get; set; }
-        public string passwordErrMessage { get; set; }
-
-        public string ConfirmPassword { get; set; }
-        public string confirmPasswordErrMessage { get; set; }
+        private UserRegisterVM UserRegisterVM { get; set; }
 
         public string message;
         public bool isError { get; set; }
-
-        public string otp { get; set; }
         public bool isOtpGenerated;
-        public bool isVendor { get; set; }
         public bool isTCAccepted { get; set; }
+
+        protected async override Task OnInitializedAsync()
+        {
+            UserRegisterVM = new UserRegisterVM();
+        }
 
         public async Task VerifyOTP()
         {
-            UserRegisterViewModel userRegisterViewModel = await userService.VerifyOTP(Mobile, otp);
-            if (userRegisterViewModel != null)
+            if (UserRegisterVM.ConfOTP == UserRegisterVM.OTP)
             {
                 Guid key = Guid.NewGuid();
-                string errorMessage = await userService.SignIn(Email, Password, false, key);
+                string errorMessage = await userService.SignIn(UserRegisterVM.Email, UserRegisterVM.Password, false, key);
                 if (string.IsNullOrEmpty(errorMessage))
                     navManager.NavigateTo($"/MyAccount/UserProfile?key={key}", true);
             }
@@ -57,28 +48,29 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
         public async void RegisterUser()
         {
-            emailErrMessage = FieldValidator.emailErrMessage(Email);
-            mobileErrMessage = FieldValidator.mobileErrMessage(Mobile);
-            passwordErrMessage = FieldValidator.passwordErrorMessage(Password);
-            confirmPasswordErrMessage = FieldValidator.confirmPasswordErrMessage(Password, ConfirmPassword);
+            UserRegisterVM.emailErrMessage = FieldValidator.emailErrMessage(UserRegisterVM.Email);
+            UserRegisterVM.mobileErrMessage = FieldValidator.mobileErrMessage(UserRegisterVM.Mobile);
+            UserRegisterVM.passwordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.Password);
+            UserRegisterVM.confirmPasswordErrMessage = FieldValidator.confirmPasswordErrMessage(UserRegisterVM.Password, UserRegisterVM.ConfirmPassword);
 
-            if (!string.IsNullOrEmpty(emailErrMessage) || !string.IsNullOrEmpty(mobileErrMessage)
-                || !string.IsNullOrEmpty(passwordErrMessage) || !string.IsNullOrEmpty(confirmPasswordErrMessage))
+            if (!string.IsNullOrEmpty(UserRegisterVM.emailErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.mobileErrMessage)
+                || !string.IsNullOrEmpty(UserRegisterVM.passwordErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.confirmPasswordErrMessage))
             {
                 return;
             }
 
-            var userExist = await userService.GetUserByMobileNumber(Mobile);
+            var userExist = await userService.GetRegisterdUserByMobileNoOrEmail(UserRegisterVM.Mobile);
             if(userExist != null)
                 message = $"Mobile number is already taken.";
             else
             {
-                var user = new UserRegisterViewModel { Email = Email.ToLower(), Mobile = Mobile, Password = Password, isVendor = isVendor };
+                var user = new UserRegisterVM { Email = UserRegisterVM.Email.ToLower(), Mobile = UserRegisterVM.Mobile, 
+                    Password = UserRegisterVM.Password, isVendor = UserRegisterVM.isVendor };
                 IdentityResult result = await userService.Register(user);
                 if (result.Succeeded)
                 {
                     isOtpGenerated = true;
-                    message = $"Otp sent on your mobile number XXXXXX{Mobile.Substring(6)}.";
+                    message = $"Otp sent on your mobile number XXXXXX{UserRegisterVM.Mobile.Substring(6)}.";
                 }
                 else
                 {

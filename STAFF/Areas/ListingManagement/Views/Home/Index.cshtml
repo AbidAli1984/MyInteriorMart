@@ -11,7 +11,7 @@
 
 <!-- Begin: Listing Dashboard Repository -->
 @{
-    var user = await userService.GetUserByUserNameOrEmail(User.Identity.Name);
+    var user = await userService.GetUserByUserName(User.Identity.Name);
 
     var countAllListings = await dashboardListing.CountAllAsync();
     var countOrphanListings = await dashboardListing.CountOrphanAsync();

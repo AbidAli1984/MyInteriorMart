@@ -38,7 +38,7 @@ namespace FRONTEND.Areas.Analytics.Controllers
         public async Task<IActionResult> Index()
         {
             // Shafi: Get user guid
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             string UserGuid = user.Id;
             // End:
 

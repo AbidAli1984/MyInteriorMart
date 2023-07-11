@@ -39,16 +39,18 @@ namespace DAL.Repositories
             return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo).FirstOrDefaultAsync();
         }
 
-        public async Task<ApplicationUser> GetRegisterdUserByMobileNo(string mobileNo)
+        public async Task<ApplicationUser> GetRegisterdUserByMobileNoOrEmail(string mobileNoOrEmail)
         {
-            return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo && x.IsRegistrationCompleted).FirstOrDefaultAsync();
+            return await userDbContext.Users
+                .Where(x => (x.PhoneNumber == mobileNoOrEmail || x.Email==mobileNoOrEmail) && x.IsRegistrationCompleted)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<ApplicationUser> GetUserByUserNameOrEmail(string userNameOrEmail)
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
         {
             try
             {
-                return await userDbContext.Users.Where(i => i.UserName == userNameOrEmail || i.Email == userNameOrEmail).FirstOrDefaultAsync();
+                return await userDbContext.Users.Where(i => i.UserName == userName).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {

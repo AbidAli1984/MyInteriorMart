@@ -5,13 +5,12 @@ using DAL.Repositories.Contracts;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
 using Utils;
-using BOL.IDENTITY.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using BAL.Messaging.Contracts;
 using BAL.Middleware;
+using BOL.ComponentModels.MyAccount.Auth;
 
 namespace BAL.Services
 {
@@ -35,36 +34,36 @@ namespace BAL.Services
             return await _userManager.Users.ToListAsync();
         }
 
-        public async Task<ApplicationUser> GetUserByUserNameOrEmail(string userNameOrEmail)
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
         {
-            if (string.IsNullOrEmpty(userNameOrEmail))
+            if (string.IsNullOrEmpty(userName))
                 return null;
-            return await _userRepository.GetUserByUserNameOrEmail(userNameOrEmail);
+            return await _userRepository.GetUserByUserName(userName);
         }
-        public async Task<string> GetUserIdByUserNameOrEmail(string userNameOrEmail)
+        public async Task<string> GetUserIdByUserName(string userName)
         {
-            if (string.IsNullOrEmpty(userNameOrEmail))
+            if (string.IsNullOrEmpty(userName))
                 return string.Empty;
-            ApplicationUser user = await _userRepository.GetUserByUserNameOrEmail(userNameOrEmail);
+            ApplicationUser user = await _userRepository.GetUserByUserName(userName);
             return user.Id;
         }
 
-        public async Task<ApplicationUser> GetUserByMobileNumber(string mobileNumber)
+        public async Task<ApplicationUser> GetRegisterdUserByMobileNoOrEmail(string mobileNumberOrEmail)
         {
-            if (string.IsNullOrEmpty(mobileNumber))
+            if (string.IsNullOrEmpty(mobileNumberOrEmail))
                 return null;
-            return await _userRepository.GetRegisterdUserByMobileNo(mobileNumber);
+            return await _userRepository.GetRegisterdUserByMobileNoOrEmail(mobileNumberOrEmail);
         }
 
         public async Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber)
         {
             if (string.IsNullOrEmpty(mobileNumber))
                 return false;
-            var registeredUser = await GetUserByMobileNumber(mobileNumber);
+            var registeredUser = await GetRegisterdUserByMobileNoOrEmail(mobileNumber);
             return registeredUser != null;
         }
 
-        public async Task<IdentityResult> Register(UserRegisterViewModel userRegisterViewModel)
+        public async Task<IdentityResult> Register(UserRegisterVM userRegisterViewModel)
         {
             var user = new ApplicationUser
             {
@@ -81,7 +80,7 @@ namespace BAL.Services
             return result;
         }
 
-        public async Task<UserRegisterViewModel> VerifyOTP(string mobileNumber, string otp)
+        public async Task<UserRegisterVM> VerifyOTP(string mobileNumber, string otp)
         {
             ApplicationUser userVerified = await _userRepository.GetUserByMobileNo(mobileNumber);
             if (userVerified.Otp == otp)
@@ -91,7 +90,7 @@ namespace BAL.Services
                 userVerified.PhoneNumberConfirmed = true;
                 //userVerified.LockoutEnabled = false;
                 await _userRepository.UpdateUser(userVerified);
-                return new UserRegisterViewModel
+                return new UserRegisterVM
                 {
                     ConfirmPassword = "XXXXXX",
                     Password = "XXXXXX",
@@ -119,9 +118,9 @@ namespace BAL.Services
             return user.Email;
         }
 
-        public async Task<string> SignIn(string email, string password, bool rememberMe, Guid key)
+        public async Task<string> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key)
         {
-            var usr = await _userRepository.GetUserByUserNameOrEmail(email);
+            var usr = await _userRepository.GetRegisterdUserByMobileNoOrEmail(emailOrMobile);
             if (usr == null)
             {
                 return "User not found";
@@ -132,7 +131,7 @@ namespace BAL.Services
                 var result = await _signInManager.CheckPasswordSignInAsync(usr, password, true);
                 if (result == SignInResult.Success)
                 {
-                    BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = email, Password = password };
+                    BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = usr.Email, Password = password };
                     return string.Empty;
                 }
                 return "Login failed. Check your password.";

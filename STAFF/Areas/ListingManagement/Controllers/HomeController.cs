@@ -39,7 +39,7 @@ namespace STAFF.Areas.ListingManagement.Controllers
         {
             DateTime period = DateTime.Now.AddDays(-periodInDays);
 
-            var user = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var user = await _userService.GetUserByUserName(User.Identity.Name);
             var data = await listingContext.Listing.Where(i => /*i.OwnerGuid == user.Id && */i.CreatedDate >= period).CountAsync();
             return Json(data);
         }

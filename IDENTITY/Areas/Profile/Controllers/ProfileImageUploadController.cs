@@ -24,7 +24,7 @@ namespace IDENTITY.Areas.Profile.Controllers
         public async Task<IActionResult> UploadProfilePicture(int ProfileId, IFormFile file)
         {
             // Shafi Wrote: Get current user and guid
-            var currentUser = await _userService.GetUserByUserNameOrEmail(User.Identity.Name);
+            var currentUser = await _userService.GetUserByUserName(User.Identity.Name);
             string userGuid = currentUser.Id;
             // End:
 

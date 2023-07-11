@@ -38,7 +38,7 @@ namespace FRONTEND.BLAZOR.Shared
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
                 {
-                    ApplicationUser appUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    ApplicationUser appUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = appUser.Id;
                     isVendor = appUser.IsVendor;
 

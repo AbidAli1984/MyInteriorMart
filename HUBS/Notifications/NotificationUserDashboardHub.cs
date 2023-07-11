@@ -36,7 +36,7 @@ namespace HUBS.Notifications
 
         public async Task<ApplicationUser> GetUser()
         {
-            var user = await _userService.GetUserByUserNameOrEmail(Context.User.Identity.Name);
+            var user = await _userService.GetUserByUserName(Context.User.Identity.Name);
             return user;
         }
 
@@ -141,7 +141,7 @@ namespace HUBS.Notifications
             // End:
 
             // Get actorGUID
-            var actor = await _userService.GetUserByUserNameOrEmail(Context.User.Identity.Name);
+            var actor = await _userService.GetUserByUserName(Context.User.Identity.Name);
             var actorGUID = actor.Id;
             // End:
 

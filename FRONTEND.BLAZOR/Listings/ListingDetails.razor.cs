@@ -113,7 +113,7 @@ namespace FRONTEND.BLAZOR.Listings
             var authstate = await authenticationState.GetAuthenticationStateAsync();
             var user = authstate.User;
             var userName = user.Identity.Name;
-            string userGuid = (await userService.GetUserByUserNameOrEmail(userName)).Id;
+            string userGuid = (await userService.GetUserByUserName(userName)).Id;
 
             // Check if logged in user already subscribed
             userAlreadySubscribed = await auditService.CheckIfUserSubscribedToListing(listingId, userGuid);
@@ -1037,7 +1037,7 @@ namespace FRONTEND.BLAZOR.Listings
                 var user = authstate.User;
                 if(user.Identity.IsAuthenticated)
                 {
-                    iUser = await userService.GetUserByUserNameOrEmail(user.Identity.Name);
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
 
                     userAuthenticated = true;
