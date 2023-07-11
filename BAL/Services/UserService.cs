@@ -48,58 +48,56 @@ namespace BAL.Services
             return user.Id;
         }
 
-        public async Task<ApplicationUser> GetRegisterdUserByMobileNoOrEmail(string mobileNumberOrEmail)
+        public async Task<ApplicationUser> GetUserByMobileNoOrEmail(string mobileNumberOrEmail)
         {
             if (string.IsNullOrEmpty(mobileNumberOrEmail))
                 return null;
-            return await _userRepository.GetRegisterdUserByMobileNoOrEmail(mobileNumberOrEmail);
+            return await _userRepository.GetUserByMobileNoOrEmail(mobileNumberOrEmail);
         }
 
         public async Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber)
         {
             if (string.IsNullOrEmpty(mobileNumber))
                 return false;
-            var registeredUser = await GetRegisterdUserByMobileNoOrEmail(mobileNumber);
+            var registeredUser = await _userRepository.GetUserByMobileNoOrEmail(mobileNumber);
             return registeredUser != null;
         }
 
-        public async Task<IdentityResult> Register(UserRegisterVM userRegisterViewModel)
+        public async Task<IdentityResult> Register(UserRegisterVM userRegisterVM)
         {
             var user = new ApplicationUser
             {
-                UserName = userRegisterViewModel.Email,
-                Email = userRegisterViewModel.Email,
-                PhoneNumber = userRegisterViewModel.Mobile,
-                IsVendor = userRegisterViewModel.isVendor,
+                UserName = userRegisterVM.Email,
+                Email = userRegisterVM.Email,
+                PhoneNumber = userRegisterVM.Mobile,
+                IsVendor = userRegisterVM.isVendor,
                 Otp = Helper.GetOTP(),
                 PhoneNumberConfirmed = false
             };
-            var result = await _userManager.CreateAsync(user, userRegisterViewModel.Password);
+            userRegisterVM.OTP = user.Otp;
+            var result = await _userManager.CreateAsync(user, userRegisterVM.Password);
             //if (result.Succeeded)
             //    _notificationService.SendSMS(userRegisterViewModel.Mobile, user.Otp);
             return result;
         }
 
-        public async Task<UserRegisterVM> VerifyOTP(string mobileNumber, string otp)
+        public async Task<bool> IsOTPVerifiedAndRegComplete(UserRegisterVM userRegisterVM)
         {
-            ApplicationUser userVerified = await _userRepository.GetUserByMobileNo(mobileNumber);
-            if (userVerified.Otp == otp)
+            userRegisterVM.ConfirmPassword = string.Empty;
+            userRegisterVM.OTP = string.Empty;
+
+            ApplicationUser userVerified = await _userRepository.GetUserByMobileNo(userRegisterVM.Mobile);
+            if (userVerified.Otp == userRegisterVM.ConfOTP)
             {
                 userVerified.Otp = null;
                 userVerified.IsRegistrationCompleted = true;
                 userVerified.PhoneNumberConfirmed = true;
                 //userVerified.LockoutEnabled = false;
                 await _userRepository.UpdateUser(userVerified);
-                return new UserRegisterVM
-                {
-                    ConfirmPassword = "XXXXXX",
-                    Password = "XXXXXX",
-                    Email = userVerified.Email,
-                    isVendor = userVerified.IsVendor,
-                    Mobile = userVerified.PhoneNumber
-                };
+                return true;
             }
-            return null;
+
+            return false;
         }
 
         public async Task<ApplicationUser> GetUserById(string id)
@@ -120,12 +118,12 @@ namespace BAL.Services
 
         public async Task<string> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key)
         {
-            var usr = await _userRepository.GetRegisterdUserByMobileNoOrEmail(emailOrMobile);
+            var usr = await _userRepository.GetUserByMobileNoOrEmail(emailOrMobile);
             if (usr == null)
             {
                 return "User not found";
             }
-
+                
             if (await _signInManager.CanSignInAsync(usr))
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(usr, password, true);

@@ -39,7 +39,7 @@ namespace DAL.Repositories
             return await userDbContext.Users.Where(x => x.PhoneNumber == mobileNo).FirstOrDefaultAsync();
         }
 
-        public async Task<ApplicationUser> GetRegisterdUserByMobileNoOrEmail(string mobileNoOrEmail)
+        public async Task<ApplicationUser> GetUserByMobileNoOrEmail(string mobileNoOrEmail)
         {
             return await userDbContext.Users
                 .Where(x => (x.PhoneNumber == mobileNoOrEmail || x.Email==mobileNoOrEmail) && x.IsRegistrationCompleted)

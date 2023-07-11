@@ -32,10 +32,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
         public async Task VerifyOTP()
         {
-            if (UserRegisterVM.ConfOTP == UserRegisterVM.OTP)
+            if (await userService.IsOTPVerifiedAndRegComplete(UserRegisterVM))
             {
                 Guid key = Guid.NewGuid();
                 string errorMessage = await userService.SignIn(UserRegisterVM.Email, UserRegisterVM.Password, false, key);
+                UserRegisterVM.Password = string.Empty;
                 if (string.IsNullOrEmpty(errorMessage))
                     navManager.NavigateTo($"/MyAccount/UserProfile?key={key}", true);
             }
@@ -59,14 +60,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
                 return;
             }
 
-            var userExist = await userService.GetRegisterdUserByMobileNoOrEmail(UserRegisterVM.Mobile);
+            var userExist = await userService.GetUserByMobileNoOrEmail(UserRegisterVM.Mobile);
             if(userExist != null)
                 message = $"Mobile number is already taken.";
             else
             {
-                var user = new UserRegisterVM { Email = UserRegisterVM.Email.ToLower(), Mobile = UserRegisterVM.Mobile, 
-                    Password = UserRegisterVM.Password, isVendor = UserRegisterVM.isVendor };
-                IdentityResult result = await userService.Register(user);
+                IdentityResult result = await userService.Register(UserRegisterVM);
                 if (result.Succeeded)
                 {
                     isOtpGenerated = true;

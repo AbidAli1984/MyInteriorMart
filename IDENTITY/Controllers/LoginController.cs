@@ -39,7 +39,7 @@ namespace IDENTITY.Controllers
         [HttpPost]
         public async Task<IActionResult> ByMobileOtp(string mobile)
         {
-            var userRecord = await _userService.GetRegisterdUserByMobileNoOrEmail(mobile);
+            var userRecord = await _userService.GetUserByMobileNoOrEmail(mobile);
 
             if(userRecord != null)
             {
