@@ -12,18 +12,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 {
     public partial class Login
     {
-        [Inject]
-        ISuspendedUserService _suspendedUserService { get; set; }
-
-        [Inject]
-        ILogger<Login> _logger { get; set; }
-
-        [Inject]
-        UserManager<ApplicationUser> _userManager { get; set; }
-
-        [Inject]
-        SignInManager<ApplicationUser> _signInManager { get; set; }
-
         public string EmailOrMobile { get; set; }
         public string emailErrMessage { get; set; }
 
@@ -33,7 +21,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string errorMessage { get; set; }
 
         public bool RememberMe { get; set; }
-
 
         public async Task LoginUser(string returnUrl = null)
         {
