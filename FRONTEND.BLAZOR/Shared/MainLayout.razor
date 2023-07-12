@@ -35,6 +35,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="usericon">
                                         <a href="/MyAccount/UserProfile" class="dropdown-item"><i class="fa fa-user" style="margin-right: 15px;"></i>My Profile</a>
+                                        <a href="/ChangePassword" class="dropdown-item"><i class="fa fa-key" style="margin-right: 15px;"></i>Change Password</a>
                                         <a href="/ManageListing/AllListing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>My Listings</a>
                                         <a href="/MyAccount/LabourNakaWizard/PersonalCreate" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Naka</a>
                                         <a href="/ManageListing/AllReviews" class="dropdown-item"><i class="fa fa-thumbs-up" style="margin-right: 15px;"></i>Reviews</a>
@@ -46,11 +47,11 @@
                                             <button type="submit" class="dropdown-item  nav-link"><i class="fa fa-sign-out" style="margin-right: 15px;"></i>Logout</button>
                                         </form>
                                         @*<AuthorizeView Roles="Staff">
-                                                Identity/Account/Login
-                                                <a href="/StaffPanel/Listing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>Staff Panel</a>
-                                                <a href="/StaffPanel/Banners/Home" class="dropdown-item"><i class="fa fa-ban" style="margin-right: 15px;"></i>Banners</a>
-                                                <a href="/StaffPanel/LabourNaka/Categories" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Categories</a>
-                                            </AuthorizeView>*@
+            Identity/Account/Login
+            <a href="/StaffPanel/Listing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>Staff Panel</a>
+            <a href="/StaffPanel/Banners/Home" class="dropdown-item"><i class="fa fa-ban" style="margin-right: 15px;"></i>Banners</a>
+            <a href="/StaffPanel/LabourNaka/Categories" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Categories</a>
+        </AuthorizeView>*@
                                     </div>
                                 </div>
                             </li>
@@ -85,58 +86,6 @@
     @Body
     <footer>
         <div class="container">
-            <div class="row">
-                @*<div class="col-lg-2 col-md-4 col-6">
-                        <div class="footer-link">
-                            <ul class="links">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Home</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-6">
-                        <div class="footer-link">
-                            <ul class="links">
-                                <li><a href="#">Buy</a></li>
-                                <li><a href="#">Buy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-6">
-                        <div class="footer-link">
-                            <ul class="links">
-                                <li><a href="#">Sell</a></li>
-                                <li><a href="#">Sell</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-6">
-                        <div class="footer-link">
-                            <ul class="links">
-                                <li><a href="#">Offer</a></li>
-                                <li><a href="#">Offer</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-6">
-                        <div class="footer-link">
-                            <ul class="links">
-                                <li><a href="#">Job</a></li>
-                                <li><a href="#">Job</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-6">
-                        <div class="footer-link">
-                            <ul class="links">
-                                <li><a href="#">Labour Naka</a></li>
-                                <li><a href="#">Labour Naka</a></li>
-                            </ul>
-                        </div>
-                    </div>*@
-            </div>
-            <!-- /row-->
-            <hr>
             <div class="row">
                 <div class="col-lg-8 col-12 block-center-footer">
                     <ul id="additional_links">

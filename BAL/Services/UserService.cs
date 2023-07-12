@@ -71,7 +71,7 @@ namespace BAL.Services
                 UserName = userRegisterVM.Email,
                 Email = userRegisterVM.Email,
                 PhoneNumber = userRegisterVM.Mobile,
-                IsVendor = userRegisterVM.isVendor,
+                IsVendor = userRegisterVM.IsVendor,
                 Otp = Helper.GetOTP(),
                 PhoneNumberConfirmed = false
             };
@@ -125,7 +125,7 @@ namespace BAL.Services
                 
             if (await _signInManager.CanSignInAsync(usr))
             {
-                var result = await _signInManager.CheckPasswordSignInAsync(usr, password, true);
+                var result = await _signInManager.CheckPasswordSignInAsync(usr, password, false);
                 if (result == SignInResult.Success)
                 {
                     BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = usr.Email, Password = password };
@@ -156,24 +156,20 @@ namespace BAL.Services
 
             if (verifyUsingPassword)
             {
-                var result = await _signInManager.CheckPasswordSignInAsync(userToVerify, userRegisterVM.Password, true);
-                if (result == SignInResult.Success)
-                {
-                    userToVerify.PasswordHash = _userManager.PasswordHasher.HashPassword(userToVerify, userRegisterVM.Password);
-                    userToVerify.Otp = null;
-                    await _userRepository.UpdateUser(userToVerify);
-                    return true;
-                }
-                return false;
+                var result = await _signInManager.CheckPasswordSignInAsync(userToVerify, userRegisterVM.Password, false);
+                return await UpdatePassword(result == SignInResult.Success, userToVerify, userRegisterVM.NewPassword);
             }
 
+            return await UpdatePassword(userToVerify.Otp == userRegisterVM.UserOtp, userToVerify, userRegisterVM.NewPassword);
+        }
 
-            if (userToVerify.Otp == userRegisterVM.UserOtp)
+        private async Task<bool> UpdatePassword(bool isTrue, ApplicationUser userToVerify, string newPassword)
+        {
+            if (isTrue)
             {
-                userToVerify.PasswordHash = _userManager.PasswordHasher.HashPassword(userToVerify, userRegisterVM.Password);
+                userToVerify.PasswordHash = _userManager.PasswordHasher.HashPassword(userToVerify, newPassword);
                 userToVerify.Otp = null;
                 await _userRepository.UpdateUser(userToVerify);
-                //var result = await _userManager.ResetPasswordAsync(userVerified, otp, "Abid@1111");
                 return true;
             }
             return false;

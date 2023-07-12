@@ -49,13 +49,13 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
 
         public async void RegisterUser()
         {
-            UserRegisterVM.emailErrMessage = FieldValidator.emailErrMessage(UserRegisterVM.Email);
-            UserRegisterVM.mobileErrMessage = FieldValidator.mobileErrMessage(UserRegisterVM.Mobile);
-            UserRegisterVM.passwordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.Password);
-            UserRegisterVM.confirmPasswordErrMessage = FieldValidator.confirmPasswordErrMessage(UserRegisterVM.Password, UserRegisterVM.ConfirmPassword);
+            UserRegisterVM.EmailErrMessage = FieldValidator.emailErrMessage(UserRegisterVM.Email);
+            UserRegisterVM.MobileErrMessage = FieldValidator.mobileErrMessage(UserRegisterVM.Mobile);
+            UserRegisterVM.PasswordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.Password);
+            UserRegisterVM.ConfirmPasswordErrMessage = FieldValidator.confirmPasswordErrMessage(UserRegisterVM.Password, UserRegisterVM.ConfirmPassword);
 
-            if (!string.IsNullOrEmpty(UserRegisterVM.emailErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.mobileErrMessage)
-                || !string.IsNullOrEmpty(UserRegisterVM.passwordErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.confirmPasswordErrMessage))
+            if (!string.IsNullOrEmpty(UserRegisterVM.EmailErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.MobileErrMessage)
+                || !string.IsNullOrEmpty(UserRegisterVM.PasswordErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.ConfirmPasswordErrMessage))
             {
                 return;
             }
