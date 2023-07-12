@@ -30,7 +30,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             UserRegisterVM = new UserRegisterVM();
         }
 
-        public async Task VerifyOTP()
+        public async Task VerifyAndUpdatePassword()
         {
             UserRegisterVM.NewPasswordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.NewPassword);
             UserRegisterVM.ConfirmPasswordErrMessage = FieldValidator.confirmPasswordErrMessage(UserRegisterVM.NewPassword, UserRegisterVM.ConfirmPassword);

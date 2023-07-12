@@ -16,7 +16,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         AuthenticationStateProvider authenticationState { get; set; }
         [Inject]
         private IUserService userService { get; set; }
-
         [Inject]
         NavigationManager navManager { get; set; }
         [Inject]
@@ -25,9 +24,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         private UserRegisterVM UserRegisterVM { get; set; }
 
         public string message;
-        public bool isError { get; set; }
-        public bool isOtpGenerated;
-        public bool isTCAccepted { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -48,7 +44,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             }
         }
 
-        public async Task VerifyOTP()
+        public async Task VerifyAndChangePassword()
         {
             UserRegisterVM.PasswordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.Password);
             UserRegisterVM.NewPasswordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.NewPassword);
@@ -68,7 +64,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             }
             else
             {
-                isError = true;
                 message = "Invalid Current Password!";
             }
             StateHasChanged();
