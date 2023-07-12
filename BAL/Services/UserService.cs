@@ -29,6 +29,7 @@ namespace BAL.Services
             this._notificationService = notificationService;
         }
 
+        #region Users
         public async Task<List<ApplicationUser>> GetUsers()
         {
             return await _userManager.Users.ToListAsync();
@@ -74,7 +75,6 @@ namespace BAL.Services
                 Otp = Helper.GetOTP(),
                 PhoneNumberConfirmed = false
             };
-            userRegisterVM.OTP = user.Otp;
             var result = await _userManager.CreateAsync(user, userRegisterVM.Password);
             //if (result.Succeeded)
             //    _notificationService.SendSMS(userRegisterViewModel.Mobile, user.Otp);
@@ -84,15 +84,14 @@ namespace BAL.Services
         public async Task<bool> IsOTPVerifiedAndRegComplete(UserRegisterVM userRegisterVM)
         {
             userRegisterVM.ConfirmPassword = string.Empty;
-            userRegisterVM.OTP = string.Empty;
 
             ApplicationUser userVerified = await _userRepository.GetUserByMobileNo(userRegisterVM.Mobile);
-            if (userVerified.Otp == userRegisterVM.ConfOTP)
+            if (userVerified.Otp == userRegisterVM.UserOtp)
             {
                 userVerified.Otp = null;
                 userVerified.IsRegistrationCompleted = true;
                 userVerified.PhoneNumberConfirmed = true;
-                //userVerified.LockoutEnabled = false;
+                userVerified.EmailConfirmed = true;
                 await _userRepository.UpdateUser(userVerified);
                 return true;
             }
@@ -132,14 +131,53 @@ namespace BAL.Services
                     BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = usr.Email, Password = password };
                     return string.Empty;
                 }
-                return "Login failed. Check your password.";
+                return "Invalid details please check your Email ID or Password";
             }
             return "Your account is blocked";
         }
+        #endregion
 
-        public async Task<SignInResult> SignIn(ApplicationUser user, string password, bool rememberMe = false)
+        #region ForgotOrChangePassword
+        public async Task<bool> IsOTUpdated(UserRegisterVM userRegisterVM)
         {
-            return await _signInManager.PasswordSignInAsync(user, password, rememberMe, lockoutOnFailure: true);
+            var userToUpdate = await GetUserByMobileNoOrEmail(userRegisterVM.Email);
+            if (userToUpdate == null)
+                return false;
+
+            userToUpdate.Otp = Helper.GetOTP();
+            await _userRepository.UpdateUser(userToUpdate);
+            //_notificationService.SendSMS(userRegisterViewModel.Mobile, user.Otp);
+            return true;
         }
+
+        public async Task<bool> IsVerifiedAndPasswordChanged(UserRegisterVM userRegisterVM, bool verifyUsingPassword)
+        {
+            ApplicationUser userToVerify = await _userRepository.GetUserByMobileNoOrEmail(userRegisterVM.Email);
+
+            if (verifyUsingPassword)
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(userToVerify, userRegisterVM.Password, true);
+                if (result == SignInResult.Success)
+                {
+                    userToVerify.PasswordHash = _userManager.PasswordHasher.HashPassword(userToVerify, userRegisterVM.Password);
+                    userToVerify.Otp = null;
+                    await _userRepository.UpdateUser(userToVerify);
+                    return true;
+                }
+                return false;
+            }
+
+
+            if (userToVerify.Otp == userRegisterVM.UserOtp)
+            {
+                userToVerify.PasswordHash = _userManager.PasswordHasher.HashPassword(userToVerify, userRegisterVM.Password);
+                userToVerify.Otp = null;
+                await _userRepository.UpdateUser(userToVerify);
+                //var result = await _userManager.ResetPasswordAsync(userVerified, otp, "Abid@1111");
+                return true;
+            }
+            return false;
+        }
+        #endregion
     }
 }

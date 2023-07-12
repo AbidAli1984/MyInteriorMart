@@ -9,6 +9,7 @@ namespace BAL.Services.Contracts
 {
     public interface IUserService
     {
+        #region Users
         Task<List<ApplicationUser>> GetUsers();
         Task<ApplicationUser> GetUserByUserName(string userName);
         Task<string> GetUserIdByUserName(string userName);
@@ -20,5 +21,12 @@ namespace BAL.Services.Contracts
         Task<IList<string>> GetRolesByUser(ApplicationUser user);
         string GetUserEmailById(string userGuid);
         Task<string> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key);
+        #endregion
+
+        #region ForgotOrChangePassword
+        Task<bool> IsOTUpdated(UserRegisterVM userRegisterVM);
+        Task<bool> IsVerifiedAndPasswordChanged(UserRegisterVM userRegisterVM, bool verifyUsingPassword = false);
+        #endregion
+
     }
 }

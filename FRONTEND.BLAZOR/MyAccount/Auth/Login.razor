@@ -25,7 +25,7 @@
                     <div class="tab-content checkout">
                         <div class="" id="">
                             <div class="form-group">
-                                <input @bind-value="@EmailOrMobile" class="form-control" type="email" required placeholder="Email" maxlength="100" />
+                                <input @bind-value="@EmailOrMobile" class="form-control" type="email" required placeholder="Email ID/Mobile No" maxlength="100" />
                                 <i class="icon_mail"></i>
                                 <span class="text-danger field-validation-error">@emailErrMessage</span>
                             </div>
@@ -45,9 +45,9 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <div class="float-right"><a id="forgot" href="#">Lost Password?</a></div>
+                                <div class="float-right"><a id="forgot" href="/ForgotPassword">Lost Password?</a></div>
                             </div>
-                            <button @onclick="@(async () => LoginUser())" class="btn btn-primary w-100">Log In</button>
+                            <button @onclick="@(async () => await LoginUser())" class="btn btn-primary w-100">Log In</button>
                             <div class="clearfix add_bottom_15">
                                 <div class="checkboxes float-left" style="color: #999;">
                                     You don't have account!

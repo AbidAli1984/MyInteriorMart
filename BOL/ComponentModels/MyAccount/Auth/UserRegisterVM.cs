@@ -17,7 +17,6 @@ namespace BOL.ComponentModels.MyAccount.Auth
         public string passwordErrMessage { get; set; }
         public string confirmPasswordErrMessage { get; set; }
         public bool isVendor { get; set; }
-        public string OTP { get; set; }
-        public string ConfOTP { get; set; }
+        public string UserOtp { get; set; }
     }
 }

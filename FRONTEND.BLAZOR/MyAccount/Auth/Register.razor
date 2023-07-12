@@ -10,7 +10,7 @@
                             @if (isOtpGenerated)
                             {
                                 <div class="form-group">
-                                    <input @bind-value="@UserRegisterVM.ConfOTP" Class="form-control" type="tel" placeholder="otp" maxlength="6" />
+                                    <input @bind-value="@UserRegisterVM.UserOtp" Class="form-control" type="tel" placeholder="otp" maxlength="6" />
                                     <i class="icon_key_alt"></i>
                                 </div>
                                 <span class="@(isError ? "text-danger" : "text-success")">@message</span>

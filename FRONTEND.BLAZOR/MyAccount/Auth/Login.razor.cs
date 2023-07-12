@@ -51,6 +51,8 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             errorMessage = await userService.SignIn(EmailOrMobile, Password, RememberMe, key);
             if (string.IsNullOrEmpty(errorMessage))
                 navManager.NavigateTo($"{returnUrl}?key={key}", true);
+
+            StateHasChanged();
         }
     }
 }
