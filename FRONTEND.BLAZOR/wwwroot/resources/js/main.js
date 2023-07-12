@@ -18,7 +18,27 @@
     });
 })(window.jQuery); 
 
-$(document).ready(function () {    
+$(document).ready(function () {
+    $(document).on('click', "#show_hide_password a", function (event) {
+        debugger;
+        event.preventDefault();
+        var $showHideDiv = $(this.closest('#show_hide_password'));
+        var $input = $showHideDiv.find('input');
+        var $inputAddonIcon = $showHideDiv.find('.input-group-addon i');
+
+        if ($input.attr("type") == "text") {
+            $input.attr('type', 'password');
+            $inputAddonIcon.addClass("fa-eye-slash");
+            $inputAddonIcon.removeClass("fa-eye");
+        } else if ($input.attr("type") == "password") {
+            $input.attr('type', 'text');
+            $inputAddonIcon.removeClass("fa-eye-slash");
+            $inputAddonIcon.addClass("fa-eye");
+        }
+    });
+
+
+
     $('#HideNumber').hide();
     $('#contactDetails').hide();
 

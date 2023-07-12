@@ -73,19 +73,5 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             }
             StateHasChanged();
         }
-
-        public async void GenerateOTP()
-        {
-            isOtpGenerated = await userService.IsOTUpdated(UserRegisterVM);
-            if (isOtpGenerated)
-            {
-                StateHasChanged();
-                await helper.ShowNotification(_notice, AntDesign.NotificationType.Info, AntDesign.NotificationPlacement.BottomRight,
-                    "Confirmation", "Otp Sent Successfully to registered Mobile");
-            }
-            else
-                UserRegisterVM.EmailErrMessage = $"No account found with given Email or Mobile No.";
-            StateHasChanged();
-        }
     }
 }

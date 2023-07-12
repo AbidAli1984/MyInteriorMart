@@ -9531,3 +9531,10 @@ article.blog .post_info {
     border-color: #ffb164;
     cursor: not-allowed;
 }
+
+.input-group-addon i {
+    left: auto !important;
+    right: 8px;
+    color: orange !important;
+    cursor: pointer;
+}

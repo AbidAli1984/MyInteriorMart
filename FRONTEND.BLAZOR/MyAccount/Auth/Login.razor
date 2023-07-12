@@ -29,9 +29,12 @@
                                 <i class="icon_mail"></i>
                                 <span class="text-danger field-validation-error">@emailErrMessage</span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="show_hide_password">
                                 <input @bind-value="@Password" class="form-control" type="password" required id="password" placeholder="Password" maxlength="100" />
                                 <i class="icon_lock_alt"></i>
+                                <div class="input-group-addon">
+                                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                </div>
                                 <span class="text-danger field-validation-error">@passwordErrMessage</span>
                             </div>
                             <div class="form-group">
