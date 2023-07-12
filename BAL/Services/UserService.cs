@@ -146,7 +146,7 @@ namespace BAL.Services
 
             userToUpdate.Otp = Helper.GetOTP();
             await _userRepository.UpdateUser(userToUpdate);
-            //_notificationService.SendSMS(userRegisterViewModel.Mobile, user.Otp);
+            _notificationService.SendSMS(userToUpdate.PhoneNumber, userToUpdate.Otp);
             return true;
         }
 

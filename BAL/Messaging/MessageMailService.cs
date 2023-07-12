@@ -11,7 +11,8 @@ using System.Net.Mail;
 using System.Web;
 using DAL.Models;
 using BAL.Messaging.Contracts;
-using RestSharp;
+using Vonage.Messaging;
+using Vonage.Request;
 
 namespace BAL.Messaging
 {
@@ -75,92 +76,20 @@ namespace BAL.Messaging
             // End:
         }
 
-        public async void SendSMS(string mobile, string smsMessage)
+        public async Task<SendSmsResponse> SendSMS(string mobile, string smsMessage)
         {
-            // Begin: Send Messaging Through Msg91.com
-            string AuthKey = "126426AlvG4cN2Kc57e8e865";
-            string SenderId = "UMARZO";
-            string RealMessage = HttpUtility.UrlEncode(smsMessage);
-
-            var options = new RestClientOptions("https://control.msg91.com/api/v5/otp?template_id=64a074f6d6fc05502c0f84c2&mobile=9833505109");
-            var client = new RestClient(options);
-            var request = new RestRequest("");
-            request.AddHeader("accept", "application/json");
-            request.AddHeader("authkey", "400157AC73pSfg64a06dccP1");
-            request.AddJsonBody("{\"OTP\":\"631248\"}", false);
-            var response = await client.PostAsync(request);
-
-            string cont = response.Content;
-
-
-
-
-
-
-            //// Send Message To Tempo Service Providers
-            //StringBuilder sbPostData = new StringBuilder();
-            //sbPostData.AppendFormat("authkey={0}", AuthKey);
-            //sbPostData.AppendFormat("&mobiles={0}", mobile);
-            //sbPostData.AppendFormat("&message={0}", RealMessage);
-            //sbPostData.AppendFormat("&sender={0}", SenderId);
-            //sbPostData.AppendFormat("&route={0}", "4");
-
-            ////Call Send SMS API
-            //string sendSMSUri = "https://control.msg91.com/api/sendhttp.php";
-            ////Create HTTPWebrequest
-            //HttpWebRequest httpWReq = (HttpWebRequest)WebRequest.Create(sendSMSUri);
-            ////Prepare and Add URL Encoded data
-            //UTF8Encoding encoding = new UTF8Encoding();
-            //byte[] data = encoding.GetBytes(sbPostData.ToString());
-            //Specify post method
-            //httpWReq.Method = "POST";
-            //httpWReq.ContentType = "application/x-www-form-urlencoded";
-            //httpWReq.ContentLength = data.Length;
-            //using (Stream stream = httpWReq.GetRequestStream())
+            //var apiKey = "be40a9d5"; //Configuration["VONAGE_API_KEY"];
+            //var apiSecret = "JGjyEcYMYfA093fM"; //Configuration["VONAGE_API_SECRET"];
+            //var creds = Credentials.FromApiKeyAndSecret(apiKey, apiSecret);
+            //var client = new SmsClient(creds);
+            //var request = new SendSmsRequest
             //{
-            //    stream.Write(data, 0, data.Length);
-            //}
-            //Get the response
-            //HttpWebResponse response = (HttpWebResponse)httpWReq.GetResponse();
-            //StreamReader reader = new StreamReader(response.GetResponseStream());
-            //string responseString = reader.ReadToEnd();
-
-            //Close the response
-            //reader.Close();
-            //response.Close();
-
-
-            // Shafi: Send SMS
-            //string route = "1";
-            //string userName = "myinteriormart";
-            //string apiKey = "8zrLdsv8GeTatccl32Er";
-            //string sender = "MyINTR";
-
-            //StringBuilder shafi = new StringBuilder();
-            //shafi.Append("http://5.9.77.40/api/http");
-            //shafi.AppendFormat("?route={0}", route);
-            //shafi.AppendFormat("&username={0}", userName);
-            //shafi.AppendFormat("&apikey={0}", apiKey);
-            //shafi.AppendFormat("&sender={0}", sender);
-            //shafi.AppendFormat("&mobile={0}", mobile);
-            //shafi.AppendFormat("&message={0}", smsMessage);
-
-            //try
-            //{
-            //    //Call Send SMS API
-            //    string sendSMSUri = shafi.ToString();
-
-            //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sendSMSUri);
-            //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            //    StreamReader stream = new StreamReader(response.GetResponseStream());
-            //    string result = stream.ReadToEnd();
-            //    stream.Close();
-            //}
-            //catch (SystemException ex)
-            //{
-            //    ex.Message.ToString();
-            //}
-            // End:
+            //    To = "917400226413",// + mobile,
+            //    From = "Vonage APIs",
+            //    Text = smsMessage
+            //};
+            //return await client.SendAnSmsAsync(request);
+            return null;
         }
 
         public  void SendSMSInternational(string countryCode, string mobile, string smsMessage)
