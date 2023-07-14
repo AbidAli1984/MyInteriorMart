@@ -1,22 +1,22 @@
 (function ($) {
-    $('.navbar-brand-btn').click(function() {
+    $('.navbar-brand-btn').click(function () {
         $(this).toggleClass('active');
-        $('.mim-HomeSideMenu').toggleClass('show');     
-    });
-    
-    $('.navbar-brand-offer-menu .navbar-brand-offer-btn').click(function() {
-        $(this).toggleClass('active');
-        $(this).closest('.category-list').next('.brand-category-list').find('.navbar-brand-offer-list').toggleClass('show'); 
+        $('.mim-HomeSideMenu').toggleClass('show');
     });
 
-    $('.navbar-brand-offer-list .nav-link').click(function() {
+    $('.navbar-brand-offer-menu .navbar-brand-offer-btn').click(function () {
+        $(this).toggleClass('active');
+        $(this).closest('.category-list').next('.brand-category-list').find('.navbar-brand-offer-list').toggleClass('show');
+    });
+
+    $('.navbar-brand-offer-list .nav-link').click(function () {
         $('.navbar-brand-offer-menu .navbar-brand-offer-btn').click();
     });
 
-    $('.mim-box-list a').click(function() {
+    $('.mim-box-list a').click(function () {
         $('.navbar-brand-btn').click();
     });
-})(window.jQuery); 
+})(window.jQuery);
 
 $(document).ready(function () {
     $(document).on('click', "#show_hide_password a", function (event) {
@@ -52,7 +52,7 @@ $(document).ready(function () {
         $("#ViewNumber").show();
         $("#HideNumber").hide();
         $(this).parent('.social-details').next('#contactDetails ').hide();
-    });  
+    });
     $(".gander").select2({
         placeholder: "Gander",
         allowClear: true,
@@ -84,7 +84,7 @@ $(document).ready(function () {
     $(".pincode").select2({
         placeholder: "Choose one",
         allowClear: true,
-    });  
+    });
 
     $(".locality").select2({
         placeholder: "Choose one",
@@ -104,80 +104,33 @@ $(document).ready(function () {
         allowClear: true,
     });
 
-    $("#v-pills-tabContent form").on('submit',function(e) {
+    $("#v-pills-tabContent form").on('submit', function (e) {
         console.log('test');
         e.preventDefault();
         var li_count = $('#v-pills-tab-listing a').length;
         var current_active = $('.# a.active').index();
-  
-        if(current_active<li_count){
-          $('#v-pills-tab-listing a.active').next('a.nav-link').attr('data-toggle','pill').tab('show');
-        }else{
-          alert('Last Step');
+
+        if (current_active < li_count) {
+            $('#v-pills-tab-listing a.active').next('a.nav-link').attr('data-toggle', 'pill').tab('show');
+        } else {
+            alert('Last Step');
         }
     });
 
     var selectAllItems = "#select-all";
     var checkboxItem = ":checkbox";
 
-    $(selectAllItems).click(function() {
-      
-      if (this.checked) {
-        $(checkboxItem).each(function() {
-          this.checked = true;
-        });
-      } else {
-        $(checkboxItem).each(function() {
-          this.checked = false;
-        });
-      }
-      
-    });   
-});
+    $(selectAllItems).click(function () {
 
-
-     
-// ---------------- Owl Carousel --------------
-
-
-$('.owl-carousel-1').owlCarousel({
-    rtl: false,
-    loop: true,
-    margin: 10,
-    nav: false,
-    responsiveClass:true,
-    responsive: {
-        0: {
-            items: 1
-        },
-        600: {
-            items: 1
-        },
-        1000: {
-            items: 2
+        if (this.checked) {
+            $(checkboxItem).each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(checkboxItem).each(function () {
+                this.checked = false;
+            });
         }
-    }
+
+    });
 });
-
-$('.owl-carousel').owlCarousel({
-    rtl: false,
-    loop: true,
-    margin: 10,
-    nav: false,
-    responsiveClass:true,
-    responsive: {
-        0: {
-            items: 2
-        },
-        600: {
-            items: 3
-        },
-        1000: {
-            items: 4
-        }
-    }
-})
-
-
-
-

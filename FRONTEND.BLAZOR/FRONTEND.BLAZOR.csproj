@@ -13,11 +13,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\FileManager\banner\Dream Home.jpg" />
+    <Content Remove="wwwroot\FileManager\banner\Furniture-1.jpg" />
+    <Content Remove="wwwroot\FileManager\banner\Furniture.jpg" />
+    <Content Remove="wwwroot\FileManager\banner\Real Estate.jpg" />
     <Content Remove="wwwroot\resources\img\icon\notification.svg" />
     <Content Remove="wwwroot\resources\img\icon\user.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\FileManager\banner\Dream Home.jpg" />
+    <None Include="wwwroot\FileManager\banner\Furniture.jpg" />
+    <None Include="wwwroot\FileManager\banner\Furniture-1.jpg" />
+    <None Include="wwwroot\FileManager\banner\Real Estate.jpg" />
+    <None Include="wwwroot\FileManager\banner\static\hometop1.jpg" />
+    <None Include="wwwroot\FileManager\banner\static\hometop3.jpg" />
+    <None Include="wwwroot\FileManager\banner\static\hometop2.jpg" />
+    <None Include="wwwroot\FileManager\banner\static\hometop4.jpg" />
     <None Include="wwwroot\resources\img\icon\notification.svg" />
     <None Include="wwwroot\resources\img\icon\user.svg" />
   </ItemGroup>

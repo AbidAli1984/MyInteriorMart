@@ -20,17 +20,50 @@ namespace FRONTEND.BLAZOR.Pages
         public IEnumerable<SecondCategory> catDealers { get; set; }
         public IEnumerable<SecondCategory> catManufacturers { get; set; }
 
-        public int HomeBanner1Count { get; set; }
-        public int HomeBanner2Count { get; set; }
-        public int HomeBanner3Count { get; set; }
-        public int HomeBanner4Count { get; set; }
-        public int HomeBanner5Count { get; set; }
-        public int HomeBanner6Count { get; set; }
-        public int HomeBanner7Count { get; set; }
-        public int HomeBanner8Count { get; set; }
-        public int HomeBanner9Count { get; set; }
-        public int HomeBanner10Count { get; set; }
-        public int HomeBanner11Count { get; set; }
+        public IList<HomeBanner> HomeBannerTop { get; set; }
+        public IList<HomeBanner> HomeBannerMiddle1 { get; set; }
+        public IList<HomeBanner> HomeBannerMiddle2 { get; set; }
+        public IList<HomeBanner> HomeBannerBottom { get; set; }
+        public int HomeBannerTopLimit { get; set; } = 4;
+        public int HomeBannerMiddle1Limit { get; set; } = 2;
+        public int HomeBannerMiddle2Limit { get; set; } = 2;
+        public int HomeBannerBottomLimit { get; set; } = 2;
+
+        protected async override Task OnInitializedAsync()
+        {
+            await GetHomeBannerListAsync();
+            await GetServices();
+            await GetContractors();
+            await GetDealers();
+            await GetManufacturers();
+        }
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await jsRuntime.InvokeVoidAsync("Coursel.initializeHomePageCarousel");
+            }
+        }
+
+        IList<HomeBanner> HomeBannerList { get; set; }
+
+        public async Task GetHomeBannerListAsync()
+        {
+            HomeBannerList = await listingContext.HomeBanner
+                .OrderBy(i => i.Priority)
+                .ToListAsync();
+
+            HomeBannerTop = HomeBannerList.Where(i => i.Placement == "HomeTop").ToList();
+            HomeBannerTopLimit = HomeBannerTop.Count > HomeBannerTopLimit ? HomeBannerTop.Count : HomeBannerTopLimit;
+            HomeBannerMiddle1 =  HomeBannerList.Where(i => i.Placement == "HomeMiddle1").ToList();
+            HomeBannerMiddle1Limit = HomeBannerMiddle1.Count > HomeBannerMiddle1Limit ? HomeBannerMiddle1.Count : HomeBannerMiddle1Limit;
+            HomeBannerMiddle2 = HomeBannerList.Where(i => i.Placement == "HomeMiddle2").ToList();
+            HomeBannerMiddle2Limit = HomeBannerMiddle2.Count > HomeBannerMiddle2Limit ? HomeBannerMiddle2.Count : HomeBannerMiddle2Limit;
+            HomeBannerBottom = HomeBannerList.Where(i => i.Placement == "HomeBottom").ToList();
+            HomeBannerBottomLimit = HomeBannerBottom.Count > HomeBannerBottomLimit ? HomeBannerBottom.Count : HomeBannerBottomLimit;
+            StateHasChanged();
+        }
 
         public async Task GetServices()
         {
@@ -50,45 +83,6 @@ namespace FRONTEND.BLAZOR.Pages
         public async Task GetManufacturers()
         {
             catManufacturers = await categoryService.GetSecondCategoriesHomeAsync("Manufacturers");
-        }
-
-        // Begin: Get All Home Banner
-         public IEnumerable<HomeBanner> HomeBannerList { get; set; }
-        public async Task GetHomeBannerListAsync()
-        {
-            HomeBannerList = await listingContext.HomeBanner
-                .OrderBy(i => i.Priority)
-                .ToListAsync();
-
-            HomeBanner1Count = HomeBannerList.Where(i => i.Placement == "banner-1").Count();
-            HomeBanner2Count = HomeBannerList.Where(i => i.Placement == "banner-2").Count();
-            HomeBanner3Count = HomeBannerList.Where(i => i.Placement == "banner-3").Count();
-            HomeBanner4Count = HomeBannerList.Where(i => i.Placement == "banner-4").Count();
-            HomeBanner5Count = HomeBannerList.Where(i => i.Placement == "banner-5").Count();
-            HomeBanner6Count = HomeBannerList.Where(i => i.Placement == "banner-6").Count();
-            HomeBanner7Count = HomeBannerList.Where(i => i.Placement == "banner-7").Count();
-            HomeBanner8Count = HomeBannerList.Where(i => i.Placement == "banner-8").Count();
-            HomeBanner9Count = HomeBannerList.Where(i => i.Placement == "banner-9").Count();
-            HomeBanner10Count = HomeBannerList.Where(i => i.Placement == "banner-10").Count();
-            HomeBanner11Count = HomeBannerList.Where(i => i.Placement == "banner-11").Count();
-        }
-        // End: Get All Home Banner
-
-        protected async override Task OnInitializedAsync()
-        {
-            await GetServices();
-            await GetContractors();
-            await GetDealers();
-            await GetManufacturers();
-            await GetHomeBannerListAsync();
-        }
-
-        protected override async Task OnAfterRenderAsync(bool render)
-        {
-            if(render)
-            {
-                await jsRuntime.InvokeVoidAsync("InitializeCarousel");
-            }
         }
     }
 }

@@ -9,166 +9,35 @@
 @inject IWebHostEnvironment webEnv
 <!-- Begin: Main Body -->
 <div class="container">
-    <!--Banner Start-->
-    <div class="banner-block">
-        <div class="row">
-            <!-- Banner 1 (Small) -->
-            <div class="col-6 col-sm-6 col-md-6 col-lg-3 banner-space">
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner1Count != 0)
-                        {
-
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-1").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-1").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/004-400-x-267.png" alt="First slide">
-                            </div>
-                        }
-                    </div>
+    <!--Top Banner Start-->
+    <div class="banner-img-4 owl-carousel owl-theme mt-4">
+        @if (HomeBannerTop != null && HomeBannerTopLimit > 0)
+        {
+            for (int i = 0; i < HomeBannerTopLimit; i++)
+            {
+                <div class="item">
+                    @if (HomeBannerTop.Count() > i)
+                    {
+                        var ban = HomeBannerTop[i];
+                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                            </figure>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/static/hometop{i+1}.jpg") alt="">
+                            </figure>
+                        </a>
+                    }
                 </div>
-            </div>
-            <!-- Banner 2 (Small) -->
-            <div class="col-6 col-sm-6 col-md-6 col-lg-3 banner-space">
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner2Count != 0)
-                        {
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-2").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-2").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/004-400-x-267.png" alt="First slide">
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <!-- Banner 3 (Small) -->
-            <div class="col-6 col-sm-6 col-md-6 col-lg-3 banner-space">
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner3Count != 0)
-                        {
-
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-3").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-3").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/004-400-x-267.png" alt="First slide">
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <!-- Banner 4 (Small) -->
-            <div class="col-6 col-sm-6 col-md-6 col-lg-3 banner-space">
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner4Count != 0)
-                        {
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-4").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-4").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/004-400-x-267.png" alt="First slide">
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
+            }
+        }
     </div>
-    <!--Banner End-->
+    <!--Top Banner End-->
     <!-- category start -->
     <div class="category-featured">
         <div class="show-brand">
@@ -219,7 +88,7 @@
                                 <!-- Begin: Banner 5 (Large )-->
                                 <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
                                     <div class="carousel-inner">
-                                        @if (HomeBannerList != null && HomeBanner5Count != 0)
+                                        @if (1 == 2)
                                         {
                                             // First Slide
                                             var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-5").FirstOrDefault();
@@ -300,90 +169,35 @@
         </div>
     </div>
     <!-- category end -->
-    <!--Category Banner Start-->
-    <div class="banner-block">
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-6 banner-space">
-                <!-- Begin: Banner 6 (Medium) -->
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner6Count != 0)
-                        {
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-6").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-6").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/005-1600-x-600.jpg" alt="First slide">
-                            </div>
-                        }
-                    </div>
+    <!--Middle Banner 1 Start-->
+    <div class="banner-img-2 owl-carousel owl-theme mt-4">
+        @if (HomeBannerMiddle1 != null && HomeBannerMiddle1Limit > 0)
+        {
+            for (int i = 0; i < HomeBannerMiddle1Limit; i++)
+            {
+                <div class="item">
+                    @if (HomeBannerMiddle1.Count() > i)
+                    {
+                        var ban = HomeBannerMiddle1[i];
+                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                            </figure>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
+                            </figure>
+                        </a>
+                    }
                 </div>
-                <!-- End: Banner 6 (Medium) -->
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 banner-space">
-                <!-- Begin: Banner 7 (Medium) -->
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner7Count != 0)
-                        {
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-7").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-7").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/005-1600-x-600.jpg" alt="First slide">
-                            </div>
-                        }
-                    </div>
-                </div>
-                <!-- End: Banner 6 (Medium) -->
-            </div>
-        </div>
+            }
+        }
     </div>
-    <!--Category Banner Start-->
+    <!--Middle Banner 1 End-->
     <!-- category start -->
     <div class="category-featured">
         <div class="show-brand">
@@ -433,7 +247,7 @@
                                 <!-- Begin: Banner 8 (Large)-->
                                 <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
                                     <div class="carousel-inner">
-                                        @if (HomeBannerList != null && HomeBanner8Count != 0)
+                                        @if (1 == 2)
                                         {
                                             // First Slide
                                             var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-8").FirstOrDefault();
@@ -513,90 +327,35 @@
         </div>
     </div>
     <!-- category end -->
-    <!--Category Banner Start-->
-    <div class="banner-block">
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-6 banner-space">
-                <!-- Begin: Banner 9 (Medium) -->
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner9Count != 0)
-                        {
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-9").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-6").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/005-1600-x-600.jpg" alt="First slide">
-                            </div>
-                        }
-                    </div>
+    <!--Middle Banner 2 Start-->
+    <div class="banner-img-2 owl-carousel owl-theme mt-4">
+        @if (HomeBannerMiddle2 != null && HomeBannerMiddle2Limit > 0)
+        {
+            for (int i = 0; i < HomeBannerMiddle2Limit; i++)
+            {
+                <div class="item">
+                    @if (HomeBannerMiddle2.Count() > i)
+                    {
+                        var ban = HomeBannerMiddle2[i];
+                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                            </figure>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
+                            </figure>
+                        </a>
+                    }
                 </div>
-                <!-- End: Banner 9 (Medium) -->
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 banner-space">
-                <!-- Begin: Banner 10 (Medium) -->
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (HomeBannerList != null && HomeBanner10Count != 0)
-                        {
-                            // First Slide
-                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-10").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-10").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                    </a>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/005-1600-x-600.jpg" alt="First slide">
-                            </div>
-                        }
-                    </div>
-                </div>
-                <!-- End: Banner 10 (Medium) -->
-            </div>
-        </div>
+            }
+        }
     </div>
-    <!--Category Banner Start-->
+    <!--Middle Banner2 End-->
     <!-- category start -->
     <div class="category-featured">
         <div class="show-brand">
@@ -647,7 +406,7 @@
                                 <!-- Begin: Banner 11 (Large)-->
                                 <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
                                     <div class="carousel-inner">
-                                        @if (HomeBannerList != null && HomeBanner11Count != 0)
+                                        @if (1 == 2)
                                         {
                                             // First Slide
                                             var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-11").FirstOrDefault();
@@ -727,5 +486,34 @@
         </div>
     </div>
     <!-- category end -->
+    <!-- Banner Bottom Start -->
+    <div class="banner-img-2 owl-carousel owl-theme mt-4">
+        @if (HomeBannerBottom != null && HomeBannerBottomLimit > 0)
+        {
+            for (int i = 0; i < HomeBannerBottomLimit; i++)
+            {
+                <div class="item">
+                    @if (HomeBannerBottom.Count() > i)
+                    {
+                        var ban = HomeBannerBottom[i];
+                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                            </figure>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="grid_item small">
+                            <figure>
+                                <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
+                            </figure>
+                        </a>
+                    }
+                </div>
+            }
+        }
+    </div>
+    <!-- Banner Bottom End -->
 </div>
 <!-- End: Main Body -->
