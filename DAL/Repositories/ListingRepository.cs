@@ -109,5 +109,14 @@ namespace DAL.Repositories
             _listingDbContext.Update(data);
             await _listingDbContext.SaveChangesAsync();
         }
+
+        #region Banner
+        public async Task<IList<HomeBanner>> GetHomeBannerList()
+        {
+            return await _listingDbContext.HomeBanner
+                .OrderBy(i => i.Priority)
+                .ToListAsync();
+        }
+        #endregion
     }
 }

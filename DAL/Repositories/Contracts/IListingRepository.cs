@@ -35,5 +35,9 @@ namespace DAL.Repositories.Contracts
         Task AddAsync(object data);
 
         Task UpdateAsync(object data);
+
+        #region Banner
+        Task<IList<HomeBanner>> GetHomeBannerList();
+        #endregion
     }
 }

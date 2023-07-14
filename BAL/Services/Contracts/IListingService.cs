@@ -1,4 +1,5 @@
 ﻿using BOL.BANNERADS;
+using BOL.ComponentModels.Pages;
 using BOL.LISTING;
 using System;
 using System.Collections.Generic;
@@ -38,5 +39,9 @@ namespace BAL.Services.Contracts
         Task AddAsync(object data);
 
         Task UpdateAsync(object data);
+
+        #region Banner
+        Task<IndexVM> GetHomeBannerList();
+        #endregion
     }
 }

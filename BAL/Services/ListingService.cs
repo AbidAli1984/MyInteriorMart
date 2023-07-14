@@ -4,6 +4,8 @@ using DAL.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BOL.LISTING;
+using BOL.ComponentModels.Pages;
+using System.Linq;
 
 namespace BAL.Services
 {
@@ -92,5 +94,20 @@ namespace BAL.Services
         {
             await _listingRepository.UpdateAsync(data);
         }
+
+        #region Banner
+        public async Task<IndexVM> GetHomeBannerList()
+        {
+            var HomeBannerList = await _listingRepository.GetHomeBannerList();
+            IndexVM indexVM = new IndexVM()
+            {
+                HomeBannerTop = HomeBannerList.Where(i => i.Placement == "HomeTop").ToList(),
+                HomeBannerMiddle1 = HomeBannerList.Where(i => i.Placement == "HomeMiddle1").ToList(),
+                HomeBannerMiddle2 = HomeBannerList.Where(i => i.Placement == "HomeMiddle2").ToList(),
+                HomeBannerBottom = HomeBannerList.Where(i => i.Placement == "HomeBottom").ToList()
+            };
+            return indexVM;
+        }
+        #endregion
     }
 }

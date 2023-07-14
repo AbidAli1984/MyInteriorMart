@@ -11,14 +11,14 @@
 <div class="container">
     <!--Top Banner Start-->
     <div class="banner-img-4 owl-carousel owl-theme mt-4">
-        @if (HomeBannerTop != null && HomeBannerTopLimit > 0)
+        @if (indexVM.HomeBannerTop != null && indexVM.HomeBannerTopLimit > 0)
         {
-            for (int i = 0; i < HomeBannerTopLimit; i++)
+            for (int i = 0; i < indexVM.HomeBannerTopLimit; i++)
             {
                 <div class="item">
-                    @if (HomeBannerTop.Count() > i)
+                    @if (indexVM.HomeBannerTop.Count() > i)
                     {
-                        var ban = HomeBannerTop[i];
+                        var ban = indexVM.HomeBannerTop[i];
                         <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
                             <figure>
                                 <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
@@ -44,13 +44,12 @@
             <div class="row">
                 <div class="col-lg-2 col-md-12 category-list">
                     <div class="navbar-brand">
-                        <button class="btn btn-link navbar-brand-btn" type="button">SERVICES 3415</button>
+                        <button class="btn btn-link navbar-brand-btn" type="button">SERVICES</button>
                     </div>
                     <div class="navbar-brand-offer-menu">
                         <button class="btn btn-link navbar-brand-offer-btn" type="button">SERVICES</button>
                     </div>
                     <div class="mim-HomeSideMenu">
-
                         @if (catServices != null)
                         {
                             <ul>
@@ -171,14 +170,14 @@
     <!-- category end -->
     <!--Middle Banner 1 Start-->
     <div class="banner-img-2 owl-carousel owl-theme mt-4">
-        @if (HomeBannerMiddle1 != null && HomeBannerMiddle1Limit > 0)
+        @if (indexVM.HomeBannerMiddle1 != null && indexVM.HomeBannerMiddle1Limit > 0)
         {
-            for (int i = 0; i < HomeBannerMiddle1Limit; i++)
+            for (int i = 0; i < indexVM.HomeBannerMiddle1Limit; i++)
             {
                 <div class="item">
-                    @if (HomeBannerMiddle1.Count() > i)
+                    @if (indexVM.HomeBannerMiddle1.Count() > i)
                     {
-                        var ban = HomeBannerMiddle1[i];
+                        var ban = indexVM.HomeBannerMiddle1[i];
                         <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
                             <figure>
                                 <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
@@ -329,14 +328,14 @@
     <!-- category end -->
     <!--Middle Banner 2 Start-->
     <div class="banner-img-2 owl-carousel owl-theme mt-4">
-        @if (HomeBannerMiddle2 != null && HomeBannerMiddle2Limit > 0)
+        @if (indexVM.HomeBannerMiddle2 != null && indexVM.HomeBannerMiddle2Limit > 0)
         {
-            for (int i = 0; i < HomeBannerMiddle2Limit; i++)
+            for (int i = 0; i < indexVM.HomeBannerMiddle2Limit; i++)
             {
                 <div class="item">
-                    @if (HomeBannerMiddle2.Count() > i)
+                    @if (indexVM.HomeBannerMiddle2.Count() > i)
                     {
-                        var ban = HomeBannerMiddle2[i];
+                        var ban = indexVM.HomeBannerMiddle2[i];
                         <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
                             <figure>
                                 <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
@@ -488,14 +487,14 @@
     <!-- category end -->
     <!-- Banner Bottom Start -->
     <div class="banner-img-2 owl-carousel owl-theme mt-4">
-        @if (HomeBannerBottom != null && HomeBannerBottomLimit > 0)
+        @if (indexVM.HomeBannerBottom != null && indexVM.HomeBannerBottomLimit > 0)
         {
-            for (int i = 0; i < HomeBannerBottomLimit; i++)
+            for (int i = 0; i < indexVM.HomeBannerBottomLimit; i++)
             {
                 <div class="item">
-                    @if (HomeBannerBottom.Count() > i)
+                    @if (indexVM.HomeBannerBottom.Count() > i)
                     {
-                        var ban = HomeBannerBottom[i];
+                        var ban = indexVM.HomeBannerBottom[i];
                         <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
                             <figure>
                                 <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
