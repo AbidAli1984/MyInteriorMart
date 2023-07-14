@@ -6,6 +6,6 @@ namespace DAL.Repositories.Contracts
 {
     public interface ICategoryRepository
     {
-        Task<IEnumerable<SecondCategory>> GetSecondCategoriesHomeAsync(string FirstCategory);
+        Task<IList<SecondCategory>> GetSecCategoriesByFirstCategoryId(int firstCategoryId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BAL.Services.Contracts;
 using BOL.CATEGORIES;
+using BOL.ComponentModels.Pages;
 using DAL.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,9 +14,11 @@ namespace BAL.Services
         {
             _categoryRepository = categoryRepository;
         }
-        public async Task<IEnumerable<SecondCategory>> GetSecondCategoriesHomeAsync(string firstCategory)
+        public async Task GetCategoriesForIndexPage(IndexVM indexVM)
         {
-            return await _categoryRepository.GetSecondCategoriesHomeAsync(firstCategory);
+            indexVM.Services = await _categoryRepository.GetSecCategoriesByFirstCategoryId(Constants.Cat_Services);
+            indexVM.Contractors = await _categoryRepository.GetSecCategoriesByFirstCategoryId(Constants.Cat_Contractors);
+            indexVM.Dealers = await _categoryRepository.GetSecCategoriesByFirstCategoryId(Constants.Cat_Dealers);
         }
     }
 }

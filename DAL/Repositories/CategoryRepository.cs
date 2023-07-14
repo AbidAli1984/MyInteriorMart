@@ -119,11 +119,11 @@ namespace DAL.Repositories
         // End:
 
         // Shafi: Home Second Categories Where First Category Name is Parameter
-        public async Task<IEnumerable<SecondCategory>> GetSecondCategoriesHomeAsync(string FirstCategory)
+        public async Task<IList<SecondCategory>> GetSecCategoriesByFirstCategoryId(int firstCategoryId)
         {
             return await categoryContext.SecondCategory
+                .Where(c => c.FirstCategoryID == firstCategoryId)
                 .OrderByDescending(c => c.SecondCategoryID)
-                .Where(c => c.FirstCategory.Name == FirstCategory)
                 .ToListAsync();
         }
         // End:

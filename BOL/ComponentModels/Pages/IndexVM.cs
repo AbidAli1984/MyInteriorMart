@@ -1,4 +1,5 @@
 ﻿using BOL.BANNERADS;
+using BOL.CATEGORIES;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,5 +38,10 @@ namespace BOL.ComponentModels.Pages
                 return HomeBannerBottom.Count > 2 ? HomeBannerBottom.Count : 2;
             }
         }
+
+        public IList<SecondCategory> Services { get; set; }
+        public IList<SecondCategory> Contractors { get; set; }
+        public IList<SecondCategory> Dealers { get; set; }
+        public IList<SecondCategory> Manufacturers { get; set; }
     }
 }

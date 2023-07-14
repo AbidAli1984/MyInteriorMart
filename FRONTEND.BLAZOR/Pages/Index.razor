@@ -38,7 +38,7 @@
         }
     </div>
     <!--Top Banner End-->
-    <!-- category start -->
+    <!-- Services Category Start -->
     <div class="category-featured">
         <div class="show-brand">
             <div class="row">
@@ -50,16 +50,14 @@
                         <button class="btn btn-link navbar-brand-offer-btn" type="button">SERVICES</button>
                     </div>
                     <div class="mim-HomeSideMenu">
-                        @if (catServices != null)
+                        @if (indexVM.Services != null)
                         {
                             <ul>
-                                @foreach (var cat in catServices.Skip(16).Take(17))
+                                @foreach (var cat in indexVM.Services.Skip(16).Take(17))
                                 {
-                                    string icon = $"/FileManager/CategoryIcons/Second/{cat.URL}" + ".png";
-
                                     <li class="mim-box-list">
                                         <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
-                                            <img src="@icon" alt="@cat.SearchKeywordName" class="img-fluid">
+                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
                                             @cat.Name
                                         </a>
                                     </li>
@@ -84,57 +82,21 @@
                     <div class="mim-Box">
                         <div class="row no-gutters">
                             <div class="col-md-4 mim-Box-img">
-                                <!-- Begin: Banner 5 (Large )-->
-                                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @if (1 == 2)
-                                        {
-                                            // First Slide
-                                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-5").FirstOrDefault();
-
-                                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                                            <div class="carousel-item active">
-                                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                                </a>
-                                            </div>
-
-
-                                            // All Slides After First
-                                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-5").Skip(1))
-                                            {
-                                                var img = ban.BannerId + ".jpeg";
-                                                <div class="carousel-item">
-                                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                                    </a>
-                                                </div>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <div class="carousel-item active">
-                                                <img class="d-block w-100" src="/banners/011-600-x-900.jpg" alt="First slide">
-                                            </div>
-                                        }
-                                    </div>
+                                <div class="banner-img-1 owl-carousel owl-theme">
+                                    <img class="d-block w-100" src="/banners/011-600-x-900.jpg" alt="First slide">
                                 </div>
-                                <!-- End: Banner 5 (Large )-->
                             </div>
                             <div class="col-md-8">
                                 <div class="tab-content checkout" id="myTabContent">
                                     <div class="tab-pane fade show active" id="cutomize" role="tabpanel" aria-labelledby="cutomize">
                                         <div class="row no-gutters">
-                                            @if (catServices != null)
+                                            @if (indexVM.Services != null)
                                             {
-                                                foreach (var cat in catServices.Take(16))
+                                                foreach (var cat in indexVM.Services.Take(16))
                                                 {
-                                                    string icon = $"/FileManager/CategoryIcons/Second/{cat.URL}" + ".png";
-
                                                     <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
                                                         <a href="/Third/@cat.URL">
-                                                            <img src="@icon" class="img-fluid">
+                                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
                                                             <p>@cat.Name</p>
                                                         </a>
                                                     </div>
@@ -167,7 +129,7 @@
             </div>
         </div>
     </div>
-    <!-- category end -->
+    <!-- Services Category End -->
     <!--Middle Banner 1 Start-->
     <div class="banner-img-2 owl-carousel owl-theme mt-4">
         @if (indexVM.HomeBannerMiddle1 != null && indexVM.HomeBannerMiddle1Limit > 0)
@@ -197,7 +159,7 @@
         }
     </div>
     <!--Middle Banner 1 End-->
-    <!-- category start -->
+    <!-- Contrators Category Start -->
     <div class="category-featured">
         <div class="show-brand">
             <div class="row">
@@ -209,17 +171,14 @@
                         <button class="btn btn-link navbar-brand-offer-btn" type="button">CONTRACTORS</button>
                     </div>
                     <div class="mim-HomeSideMenu">
-
-                        @if (catContractors != null)
+                        @if (indexVM.Contractors != null)
                         {
                             <ul>
-                                @foreach (var cat in catContractors.Skip(16).Take(17))
+                                @foreach (var cat in indexVM.Contractors.Skip(16).Take(17))
                                 {
-                                    string icon = $"/FileManager/CategoryIcons/Second/{cat.URL}" + ".png";
-
                                     <li class="mim-box-list">
                                         <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
-                                            <img src="@icon" alt="@cat.SearchKeywordName" class="img-fluid">
+                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
                                             @cat.Name
                                         </a>
                                     </li>
@@ -243,56 +202,21 @@
                     <div class="mim-Box">
                         <div class="row no-gutters">
                             <div class="col-md-4 mim-Box-img">
-                                <!-- Begin: Banner 8 (Large)-->
-                                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @if (1 == 2)
-                                        {
-                                            // First Slide
-                                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-8").FirstOrDefault();
-
-                                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                                            <div class="carousel-item active">
-                                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                                </a>
-                                            </div>
-
-
-                                            // All Slides After First
-                                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-8").Skip(1))
-                                            {
-                                                var img = ban.BannerId + ".jpeg";
-                                                <div class="carousel-item">
-                                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                                    </a>
-                                                </div>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <div class="carousel-item active">
-                                                <img class="d-block w-100" src="/banners/010-600-x-900.jpg" alt="First slide">
-                                            </div>
-                                        }
-                                    </div>
+                                <div class="banner-img-1 owl-carousel owl-theme">
+                                    <img class="d-block w-100" src="/banners/010-600-x-900.jpg" alt="First slide">
                                 </div>
-                                <!-- End: Banner 8 (Large) -->
                             </div>
                             <div class="col-md-8">
                                 <div class="tab-content checkout" id="myTabContent">
                                     <div class="tab-pane fade show active" id="cutomizework" role="tabpanel" aria-labelledby="cutomizework">
                                         <div class="row no-gutters">
-                                            @if (catContractors != null)
+                                            @if (indexVM.Contractors != null)
                                             {
-                                                foreach (var cat in catContractors.Take(16))
+                                                foreach (var cat in indexVM.Contractors.Take(16))
                                                 {
-                                                    string icon = $"/FileManager/CategoryIcons/Second/{cat.URL}" + ".png";
                                                     <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
                                                         <a href="/Third/@cat.URL">
-                                                            <img src="@icon" class="img-fluid">
+                                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
                                                             <p>@cat.Name</p>
                                                         </a>
                                                     </div>
@@ -325,7 +249,7 @@
             </div>
         </div>
     </div>
-    <!-- category end -->
+    <!-- Contrators Category End -->
     <!--Middle Banner 2 Start-->
     <div class="banner-img-2 owl-carousel owl-theme mt-4">
         @if (indexVM.HomeBannerMiddle2 != null && indexVM.HomeBannerMiddle2Limit > 0)
@@ -355,7 +279,7 @@
         }
     </div>
     <!--Middle Banner2 End-->
-    <!-- category start -->
+    <!-- Dealers Category Start -->
     <div class="category-featured">
         <div class="show-brand">
             <div class="row">
@@ -367,17 +291,14 @@
                         <button class="btn btn-link navbar-brand-offer-btn" type="button">DEALERS</button>
                     </div>
                     <div class="mim-HomeSideMenu">
-
-                        @if (catDealers != null)
+                        @if (indexVM.Dealers != null)
                         {
                             <ul>
-                                @foreach (var cat in catDealers.Skip(16).Take(17))
+                                @foreach (var cat in indexVM.Dealers.Skip(16).Take(17))
                                 {
-                                    string icon = $"/FileManager/CategoryIcons/Second/{cat.URL}" + ".png";
-
                                     <li class="mim-box-list">
                                         <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
-                                            <img src="@icon" alt="@cat.SearchKeywordName" class="img-fluid">
+                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
                                             @cat.Name
                                         </a>
                                     </li>
@@ -402,56 +323,21 @@
                     <div class="mim-Box">
                         <div class="row no-gutters">
                             <div class="col-md-4 mim-Box-img">
-                                <!-- Begin: Banner 11 (Large)-->
-                                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @if (1 == 2)
-                                        {
-                                            // First Slide
-                                            var firstSlide = HomeBannerList.Where(i => i.Placement == "banner-11").FirstOrDefault();
-
-                                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                                            <div class="carousel-item active">
-                                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                                    <img class="d-block w-100" src="/CloudBox/home/@img1st" alt="@firstSlide.Name">
-                                                </a>
-                                            </div>
-
-
-                                            // All Slides After First
-                                            foreach (var ban in HomeBannerList.Where(i => i.Placement == "banner-11").Skip(1))
-                                            {
-                                                var img = ban.BannerId + ".jpeg";
-                                                <div class="carousel-item">
-                                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                                        <img class="d-block w-100" src="/CloudBox/home/@img" alt="@ban.Name">
-                                                    </a>
-                                                </div>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <div class="carousel-item active">
-                                                <img class="d-block w-100" src="/banners/009-600-x-900.jpg" alt="First slide">
-                                            </div>
-                                        }
-                                    </div>
+                                <div class="banner-img-1 owl-carousel owl-theme">
+                                    <img class="d-block w-100" src="/banners/009-600-x-900.jpg" alt="First slide">
                                 </div>
-                                <!-- End: Banner 11 (Large) -->
                             </div>
                             <div class="col-md-8">
                                 <div class="tab-content checkout" id="myTabContent">
                                     <div class="tab-pane fade show active" id="cutomizeworkdealers" role="tabpanel" aria-labelledby="cutomizeworkdealers">
                                         <div class="row no-gutters">
-                                            @if (catDealers != null)
+                                            @if (indexVM.Dealers != null)
                                             {
-                                                foreach (var cat in catDealers.Take(16))
+                                                foreach (var cat in indexVM.Dealers.Take(16))
                                                 {
-                                                    string icon = $"/FileManager/CategoryIcons/Second/{cat.URL}" + ".png";
                                                     <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
                                                         <a href="/Third/@cat.URL">
-                                                            <img src="@icon" class="img-fluid">
+                                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
                                                             <p>@cat.Name</p>
                                                         </a>
                                                     </div>
@@ -484,7 +370,7 @@
             </div>
         </div>
     </div>
-    <!-- category end -->
+    <!-- Dealers Category End -->
     <!-- Banner Bottom Start -->
     <div class="banner-img-2 owl-carousel owl-theme mt-4">
         @if (indexVM.HomeBannerBottom != null && indexVM.HomeBannerBottomLimit > 0)

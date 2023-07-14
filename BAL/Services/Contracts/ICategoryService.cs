@@ -1,4 +1,5 @@
 ﻿using BOL.CATEGORIES;
+using BOL.ComponentModels.Pages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,6 +7,6 @@ namespace BAL.Services.Contracts
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<SecondCategory>> GetSecondCategoriesHomeAsync(string FirstCategory);
+        Task GetCategoriesForIndexPage(IndexVM indexVM);
     }
 }

@@ -7,9 +7,9 @@ function InitializeCarousel() {
     );
 }
 
-var Coursel = {
-    initializeHomePageCarousel: () => {
-        $('.banner-img-4').owlCarousel({
+function initializeHomePageCarousel() {
+    setTimeout(() => {
+        $('.banner-img-1').owlCarousel({
             rtl: false,
             loop: true,
             margin: 10,
@@ -17,13 +17,7 @@ var Coursel = {
             responsiveClass: true,
             responsive: {
                 0: {
-                    items: 2
-                },
-                600: {
-                    items: 3
-                },
-                1000: {
-                    items: 4
+                    items: 1
                 }
             }
         });
@@ -39,13 +33,52 @@ var Coursel = {
                     items: 1
                 },
                 600: {
-                    items: 1
-                },
-                1000: {
                     items: 2
                 }
             }
         });
-    }
+
+        $('.banner-img-3').owlCarousel({
+            rtl: false,
+            loop: true,
+            margin: 10,
+            nav: false,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                400: {
+                    items: 2
+                },
+                800: {
+                    items: 3
+                }
+            }
+        });
+
+        $('.banner-img-4').owlCarousel({
+            rtl: false,
+            loop: true,
+            margin: 10,
+            nav: false,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                300: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                900: {
+                    items: 4
+                }
+            }
+        });
+    }, 200)
+
 }
 /* End: Initialize Bootstrap Carousel */

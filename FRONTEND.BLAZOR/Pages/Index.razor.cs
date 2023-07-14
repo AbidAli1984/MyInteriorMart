@@ -19,56 +19,23 @@ namespace FRONTEND.BLAZOR.Pages
         [Inject]
         ICategoryService categoryService { get; set; }
 
-        public IEnumerable<SecondCategory> catServices { get; set; }
-        public IEnumerable<SecondCategory> catContractors { get; set; }
-        public IEnumerable<SecondCategory> catDealers { get; set; }
-        public IEnumerable<SecondCategory> catManufacturers { get; set; }
-
-        public IndexVM indexVM { get; set; }
+        public IndexVM indexVM { get; set; } = new IndexVM();
 
         protected async override Task OnInitializedAsync()
         {
             indexVM = await listingService.GetHomeBannerList();
-            await GetServices();
-            await GetContractors();
-            await GetDealers();
-            await GetManufacturers();
+            await categoryService.GetCategoriesForIndexPage(indexVM);
+            StateHasChanged();
         }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                await jsRuntime.InvokeVoidAsync("Coursel.initializeHomePageCarousel");
+                await jsRuntime.InvokeVoidAsync("initializeHomePageCarousel");
             }
         }
 
         IList<HomeBanner> HomeBannerList { get; set; }
-
-        public async Task GetHomeBannerListAsync()
-        {
-            
-            StateHasChanged();
-        }
-
-        public async Task GetServices()
-        {
-            catServices = await categoryService.GetSecondCategoriesHomeAsync("Services");
-        }
-
-        public async Task GetContractors()
-        {
-            catContractors = await categoryService.GetSecondCategoriesHomeAsync("Contractors");
-        }
-
-        public async Task GetDealers()
-        {
-            catDealers = await categoryService.GetSecondCategoriesHomeAsync("Dealers");
-        }
-
-        public async Task GetManufacturers()
-        {
-            catManufacturers = await categoryService.GetSecondCategoriesHomeAsync("Manufacturers");
-        }
     }
 }
