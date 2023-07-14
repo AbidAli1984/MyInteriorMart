@@ -1,5 +1,5 @@
 (function ($) {
-    $('.navbar-brand-btn').click(function () {
+    $(document).on('click', '.navbar-brand-btn', function () {
         $(this).toggleClass('active');
         $('.mim-HomeSideMenu').toggleClass('show');
     });
