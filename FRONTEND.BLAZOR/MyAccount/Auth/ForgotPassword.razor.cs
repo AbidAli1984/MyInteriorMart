@@ -23,7 +23,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string message;
         public bool isError { get; set; }
         public bool isOtpGenerated;
-        public bool isTCAccepted { get; set; }
 
         protected async override Task OnInitializedAsync()
         {

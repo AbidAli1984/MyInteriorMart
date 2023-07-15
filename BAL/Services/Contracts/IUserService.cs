@@ -1,4 +1,5 @@
 ﻿using BOL.ComponentModels.MyAccount.Auth;
+using BOL.SHARED;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -20,7 +21,7 @@ namespace BAL.Services.Contracts
         Task<ApplicationUser> GetUserById(string id);
         Task<IList<string>> GetRolesByUser(ApplicationUser user);
         string GetUserEmailById(string userGuid);
-        Task<string> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key);
+        Task<ErrorResponse> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key);
         #endregion
 
         #region ForgotOrChangePassword

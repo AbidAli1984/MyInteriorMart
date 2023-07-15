@@ -1,5 +1,7 @@
-﻿using BAL.Services.Contracts;
+﻿using BAL;
+using BAL.Services.Contracts;
 using BOL.IDENTITY;
+using BOL.SHARED;
 using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +20,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string Password { get; set; }
         public string passwordErrMessage { get; set; }
 
-        public string errorMessage { get; set; }
+        public ErrorResponse errorResponse { get; set; } = new ErrorResponse();
 
         public bool RememberMe { get; set; }
 
@@ -32,11 +34,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
                 return;
             }
 
-            returnUrl = returnUrl ?? "/MyAccount/UserProfile";
-
             Guid key = Guid.NewGuid();
-            errorMessage = await userService.SignIn(EmailOrMobile, Password, RememberMe, key);
-            if (string.IsNullOrEmpty(errorMessage))
+            errorResponse = await userService.SignIn(EmailOrMobile, Password, RememberMe, key);
+            errorResponse.Message = errorResponse.Message;
+            returnUrl = returnUrl ?? errorResponse.RedirectToUrl;
+            if (errorResponse.StatusCode == Constants.Success)
                 navManager.NavigateTo($"{returnUrl}?key={key}", true);
 
             StateHasChanged();

@@ -1,5 +1,7 @@
-﻿using BAL.Services.Contracts;
+﻿using BAL;
+using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.Auth;
+using BOL.SHARED;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -18,27 +20,23 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         [Inject]
         NavigationManager navManager { get; set; }
 
-        private UserRegisterVM UserRegisterVM { get; set; }
+        private UserRegisterVM UserRegisterVM { get; set; } = new UserRegisterVM();
+        public ErrorResponse errorResponse { get; set; } = new ErrorResponse();
 
         public string message;
         public bool isError { get; set; }
         public bool isOtpGenerated;
         public bool isTCAccepted { get; set; }
 
-        protected async override Task OnInitializedAsync()
-        {
-            UserRegisterVM = new UserRegisterVM();
-        }
-
         public async Task VerifyOTP()
         {
             if (await userService.IsOTPVerifiedAndRegComplete(UserRegisterVM))
             {
                 Guid key = Guid.NewGuid();
-                string errorMessage = await userService.SignIn(UserRegisterVM.Email, UserRegisterVM.Password, false, key);
+                errorResponse = await userService.SignIn(UserRegisterVM.Email, UserRegisterVM.Password, false, key);
                 UserRegisterVM.Password = string.Empty;
-                if (string.IsNullOrEmpty(errorMessage))
-                    navManager.NavigateTo($"/MyAccount/UserProfile?key={key}", true);
+                if (errorResponse.StatusCode == Constants.Success)
+                    navManager.NavigateTo($"{errorResponse.RedirectToUrl}?key={key}", true);
             }
             else
             {

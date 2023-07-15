@@ -15,5 +15,12 @@ namespace BAL
         public static int Cat_Dealers = 45;
         public static int Cat_Manufacturers = 45;
         #endregion
+
+        #region HTTP Status Codes
+        public static int Success = 200;
+        public static int Created = 201;
+        public static int BadRequest = 400;
+        public static int Unauthorized = 401;
+        #endregion
     }
 }

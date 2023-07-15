@@ -11,22 +11,26 @@ using Microsoft.EntityFrameworkCore;
 using BAL.Messaging.Contracts;
 using BAL.Middleware;
 using BOL.ComponentModels.MyAccount.Auth;
+using BOL.SHARED;
 
 namespace BAL.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public IMessageMailService _notificationService;
         public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager,
-            IMessageMailService notificationService, SignInManager<ApplicationUser> signInManager)
+            IMessageMailService notificationService, SignInManager<ApplicationUser> signInManager,
+            IUserProfileRepository userProfileRepository)
         {
             _userRepository = userRepository;
             _userManager = userManager;
             _signInManager = signInManager;
-            this._notificationService = notificationService;
+            _notificationService = notificationService;
+            _userProfileRepository = userProfileRepository;
         }
 
         #region Users
@@ -75,6 +79,7 @@ namespace BAL.Services
                 Otp = Helper.GetOTP(),
                 PhoneNumberConfirmed = false
             };
+            userRegisterVM.DisplayOtp = user.Otp;
             var result = await _userManager.CreateAsync(user, userRegisterVM.Password);
             //if (result.Succeeded)
             //    _notificationService.SendSMS(userRegisterViewModel.Mobile, user.Otp);
@@ -115,25 +120,32 @@ namespace BAL.Services
             return user.Email;
         }
 
-        public async Task<string> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key)
+        public async Task<ErrorResponse> SignIn(string emailOrMobile, string password, bool rememberMe, Guid key)
         {
+            ErrorResponse errorViewModel = new ErrorResponse();
             var usr = await _userRepository.GetUserByMobileNoOrEmail(emailOrMobile);
             if (usr == null)
             {
-                return "User not found";
+                errorViewModel.Message = "User not found";
             }
-                
-            if (await _signInManager.CanSignInAsync(usr))
+            else if (await _signInManager.CanSignInAsync(usr))
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(usr, password, false);
                 if (result == SignInResult.Success)
                 {
+                    var userProfile = await _userProfileRepository.GetProfileByOwnerGuid(usr.Id);
+                    errorViewModel.RedirectToUrl = userProfile == null ? "/MyAccount/UserProfile" :
+                        !userProfile.IsProfileCompleted ? "/MyAccount/UserAddress" : "/";
                     BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = usr.Email, Password = password };
-                    return string.Empty;
                 }
-                return "Invalid details please check your Email ID or Password";
+                else
+                    errorViewModel.Message = "Invalid details please check your Email ID or Password";
             }
-            return "Your account is blocked";
+            else
+                errorViewModel.Message = "Your account is blocked";
+
+            errorViewModel.StatusCode = string.IsNullOrEmpty(errorViewModel.Message) ? Constants.Success : Constants.Unauthorized;
+            return errorViewModel;
         }
         #endregion
 
@@ -145,6 +157,7 @@ namespace BAL.Services
                 return false;
 
             userToUpdate.Otp = Helper.GetOTP();
+            userRegisterVM.DisplayOtp = userToUpdate.Otp;
             await _userRepository.UpdateUser(userToUpdate);
             _notificationService.SendSMS(userToUpdate.PhoneNumber, userToUpdate.Otp);
             return true;
