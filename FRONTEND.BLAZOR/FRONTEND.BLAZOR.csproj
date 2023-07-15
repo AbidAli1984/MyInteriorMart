@@ -66,5 +66,19 @@
     <Folder Include="FileManager\LabourNaka\" />
     <Folder Include="wwwroot\CloudBox\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="CloudBox\home\14.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CloudBox\home\15.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CloudBox\listing\1.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CloudBox\readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <!-- End: Blazor File Input -->
 </Project>
