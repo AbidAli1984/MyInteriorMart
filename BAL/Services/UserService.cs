@@ -126,7 +126,7 @@ namespace BAL.Services
             var usr = await _userRepository.GetUserByMobileNoOrEmail(emailOrMobile);
             if (usr == null)
             {
-                errorViewModel.Message = "User not found";
+                errorViewModel.Message = "Invalid Email ID or Password";
             }
             else if (await _signInManager.CanSignInAsync(usr))
             {
@@ -139,7 +139,7 @@ namespace BAL.Services
                     BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = usr.Email, Password = password };
                 }
                 else
-                    errorViewModel.Message = "Invalid details please check your Email ID or Password";
+                    errorViewModel.Message = "Invalid Email ID or Password";
             }
             else
                 errorViewModel.Message = "Your account is blocked";
