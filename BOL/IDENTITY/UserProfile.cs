@@ -65,6 +65,9 @@ namespace BOL.IDENTITY
         [Display(Name = "Pincode")]
         public int PincodeID { get; set; }
 
+        [Display(Name = "Locality")]
+        public int LocalityID { get; set; }
+
         [Display(Name = "Time Zone")]
         [Required(ErrorMessage = "Time Zone Required")]
         public string TimeZoneOfCountry { get; set; }
