@@ -8,41 +8,66 @@ namespace Components.MyAccount.Profile
     public partial class UserAddressForm
     {
         [Parameter]
-        public UserAddressVM UserAddressVM { get; set; }
+        public ProfileInfo ProfileInfo { get; set; }
+        [Parameter]
+        public EventCallback GetStateByCountryIdEvent { get; set; }
         [Parameter]
         public EventCallback GetCityByStateIdEvent { get; set; }
         [Parameter]
         public EventCallback GetAreaByCityIdEvent { get; set; }
         [Parameter]
         public EventCallback GetPincodesByAreaIdEvent { get; set; }
+        [Parameter]
+        public EventCallback GetLocalitiesByPincodeIdEvent { get; set; }
+
+        public async Task GetStateByCountryId(ChangeEventArgs e)
+        {
+            ProfileInfo.UserProfile.CountryID = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.StateID = 0;
+            ProfileInfo.UserProfile.CityID = 0;
+            ProfileInfo.UserProfile.AssemblyID = 0;
+            ProfileInfo.UserProfile.PincodeID = 0;
+            ProfileInfo.UserProfile.LocalityID = 0;
+            await GetStateByCountryIdEvent.InvokeAsync();
+        }
 
         public async Task GetCityByStateId(ChangeEventArgs e)
         {
-            UserAddressVM.City = 0;
-            UserAddressVM.Area = 0;
-            UserAddressVM.Pincode = 0;
-            UserAddressVM.State = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.StateID = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.CityID = 0;
+            ProfileInfo.UserProfile.AssemblyID = 0;
+            ProfileInfo.UserProfile.PincodeID = 0;
+            ProfileInfo.UserProfile.LocalityID = 0;
             await GetCityByStateIdEvent.InvokeAsync();
         }
 
         public async Task GetAreaByCityId(ChangeEventArgs e)
         {
-            UserAddressVM.Area = 0;
-            UserAddressVM.Pincode = 0;
-            UserAddressVM.City = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.CityID = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.AssemblyID = 0;
+            ProfileInfo.UserProfile.PincodeID = 0;
+            ProfileInfo.UserProfile.LocalityID = 0;
             await GetAreaByCityIdEvent.InvokeAsync();
         }
 
         public async Task GetPincodesByAreaId(ChangeEventArgs e)
         {
-            UserAddressVM.Pincode = 0;
-            UserAddressVM.Area = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.AssemblyID = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.PincodeID = 0;
+            ProfileInfo.UserProfile.LocalityID = 0;
             await GetPincodesByAreaIdEvent.InvokeAsync();
         }
 
-        public void SetPinCode(ChangeEventArgs e)
+        public async void GetLocalitiesByPincodeId(ChangeEventArgs e)
         {
-            UserAddressVM.Pincode = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.PincodeID = Convert.ToInt32(e.Value.ToString());
+            ProfileInfo.UserProfile.LocalityID = 0;
+            await GetLocalitiesByPincodeIdEvent.InvokeAsync();
+        }
+
+        public void SetLocalityId(ChangeEventArgs e)
+        {
+            ProfileInfo.UserProfile.LocalityID = Convert.ToInt32(e.Value.ToString());
         }
     }
 }

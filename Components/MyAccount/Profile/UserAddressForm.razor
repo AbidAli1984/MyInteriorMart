@@ -1,33 +1,43 @@
-﻿<div class="form-group col-12">
+﻿<div class="form-group col-4">
     <label>D.O.B</label>
-    <input class="form-control" type="date" name="number" @bind="@UserAddressVM.DOB">
+    <input class="form-control" type="date" name="number" @bind="@ProfileInfo.UserProfile.DateOfBirth">
     <i class="icon_date"></i>
 </div>
-<div class="form-group col-12">
+<div class="form-group col-4">
     <label>Marital Status</label>
-    <select class="form-control wide add_bottom_10" @bind="@UserAddressVM.MaritialStatus">
+    <select class="form-control wide add_bottom_10" @bind="@ProfileInfo.UserProfile.MaritalStatus">
         <option selected value="0">Choose...</option>
         <option value="Single">Single</option>
         <option value="Married">Married</option>
     </select>
 </div>
-<div class="form-group col-12">
+<div class="form-group col-4">
     <label>Qualification</label>
-    <input class="form-control" type="text" name="City" @bind="@UserAddressVM.Qualification">
+    <input class="form-control" type="text" name="City" @bind="@ProfileInfo.UserProfile.Qualification">
     <!-- <i class="ti-location-arrow"></i> -->
 </div>
-<div class="form-group col-12">
-    <label>Permanent Address</label>
-    <textarea class="form-control" id="Address" name="Address"
-              style="height:100px;" @bind="@UserAddressVM.Address"></textarea>
+<div class="form-group col-4">
+    <label>Country <span class="text-danger">*</span></label>
+    <select class="form-control wide add_bottom_10" @onchange="GetStateByCountryId">
+        <option value="0" selected>Choose...</option>
+        @foreach (var p in ProfileInfo.Countries)
+        {
+            @if (ProfileInfo.UserProfile.CountryID == p.CountryID)
+            {
+                <option selected value="@p.CountryID">@p.Name</option>
+                continue;
+            }
+            <option value="@p.CountryID">@p.Name</option>
+        }
+    </select>
 </div>
-<div class="form-group col-6">
-    <label>State</label>
+<div class="form-group col-4">
+    <label>State <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetCityByStateId">
         <option value="0" selected>Choose...</option>
-        @foreach (var p in UserAddressVM.States)
+        @foreach (var p in ProfileInfo.States)
         {
-            @if (UserAddressVM.State == p.StateID)
+            @if (ProfileInfo.UserProfile.StateID == p.StateID)
             {
                 <option selected value="@p.StateID">@p.Name</option>
                 continue;
@@ -36,13 +46,13 @@
         }
     </select>
 </div>
-<div class="form-group col-6">
-    <label>City</label>
+<div class="form-group col-4">
+    <label>City <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetAreaByCityId">
         <option value="0" selected>Choose...</option>
-        @foreach (var p in UserAddressVM.Cities)
+        @foreach (var p in ProfileInfo.Cities)
         {
-            @if (UserAddressVM.City == p.CityID)
+            @if (ProfileInfo.UserProfile.CityID == p.CityID)
             {
                 <option selected value="@p.CityID">@p.Name</option>
                 continue;
@@ -51,13 +61,13 @@
         }
     </select>
 </div>
-<div class="form-group col-6">
-    <label>Area</label>
+<div class="form-group col-4">
+    <label>Locality <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetPincodesByAreaId">
         <option value="0" selected>Choose...</option>
-        @foreach (var p in UserAddressVM.Areas)
+        @foreach (var p in ProfileInfo.Areas)
         {
-            @if (UserAddressVM.Area == p.StationID)
+            @if (ProfileInfo.UserProfile.AssemblyID == p.StationID)
             {
                 <option selected value="@p.StationID">@p.Name</option>
                 continue;
@@ -66,13 +76,13 @@
         }
     </select>
 </div>
-<div class="form-group col-6">
-    <label>Pin Code</label>
-    <select class="form-control wide add_bottom_10" @onchange="SetPinCode">
+<div class="form-group col-4">
+    <label>Pincode <span class="text-danger">*</span></label>
+    <select class="form-control wide add_bottom_10" @onchange="GetLocalitiesByPincodeId">
         <option value="0" selected>Choose...</option>
-        @foreach (var p in UserAddressVM.Pincodes)
+        @foreach (var p in ProfileInfo.Pincodes)
         {
-            @if (UserAddressVM.Pincode == p.PincodeID)
+            @if (ProfileInfo.UserProfile.PincodeID == p.PincodeID)
             {
                 <option selected value="@p.PincodeID">@p.PincodeNumber</option>
                 continue;
@@ -80,4 +90,23 @@
             <option value="@p.PincodeID">@p.PincodeNumber</option>
         }
     </select>
+</div>
+<div class="form-group col-4">
+    <label>Area <span class="text-danger">*</span></label>
+    <select class="form-control wide add_bottom_10" @onchange="SetLocalityId">
+        <option value="0" selected>Choose...</option>
+        @foreach (var p in ProfileInfo.Localities)
+        {
+            @if (ProfileInfo.UserProfile.LocalityID == p.LocalityID)
+            {
+                <option selected value="@p.LocalityID">@p.LocalityName</option>
+                continue;
+            }
+            <option value="@p.LocalityID">@p.LocalityName</option>
+        }
+    </select>
+</div>
+<div class="form-group col-12">
+    <label>Address <span class="text-danger">*</span></label>
+    <textarea class="form-control" id="Address" name="Address" style="height:100px;" @bind="@ProfileInfo.UserProfile.Address"></textarea>
 </div>

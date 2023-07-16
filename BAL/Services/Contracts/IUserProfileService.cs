@@ -1,4 +1,5 @@
-﻿using BOL.IDENTITY;
+﻿using BOL.ComponentModels.MyAccount.Profile;
+using BOL.IDENTITY;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,6 @@ namespace BAL.Services.Contracts
         Task<UserProfile> GetProfileByOwnerGuid(string ownerGuid);
         Task<UserProfile> AddUserProfile(UserProfile userProfile);
         Task<UserProfile> UpdateUserProfile(UserProfile userProfile);
+        Task<ProfileInfo> GetProfileInfo(string currentUserGuid);
     }
 }

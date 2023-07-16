@@ -5,7 +5,7 @@
             <div class="container margin_60_35">
                 <div class="row">
                     <div class="col-lg-3">
-                        <SideNavigation isVendor="@UserAddressVM.isVendor" />
+                        <SideNavigation isVendor="@ProfileInfo.isVendor" />
                     </div>
 
                     <div class="col-lg-9">
@@ -14,8 +14,9 @@
                                 <div class="add-review icon-form-group">
                                     <h5>Personal Info</h5>
                                     <div class="row">
-                                        <UserAddressForm UserAddressVM="@UserAddressVM" GetCityByStateIdEvent="GetCityByStateId" 
-                                                         GetAreaByCityIdEvent="GetAreaByCityId" GetPincodesByAreaIdEvent="GetPincodesByAreaId" />
+                                        <UserAddressForm ProfileInfo="@ProfileInfo" GetStateByCountryIdEvent="GetStateByCountryId" GetCityByStateIdEvent="GetCityByStateId" 
+                                                         GetAreaByCityIdEvent="GetAreaByCityId" GetPincodesByAreaIdEvent="GetPincodesByAreaId" 
+                                                         GetLocalitiesByPincodeIdEvent="GetLocalitiesByPincodeId" />
                                         <div class="text-center col-12 mt-3">
                                             <button type="submit" class="btn btn-primary w-100" @onclick="@(async() => await UpdateProfileAsync())">Submit</button>
                                         </div>

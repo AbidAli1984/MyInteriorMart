@@ -30,50 +30,33 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         [Inject]
         NotificationService _notice { get; set; }
 
-        public IDUserProfile userProfile { get; set; }
-
-        UserAddressVM UserAddressVM { get; set; }
-
-        public bool isProfileCompleted { get; set; }
-        public string CurrentUserGuid { get; set; }
+        ProfileInfo ProfileInfo { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
             try
             {
-                UserAddressVM = new UserAddressVM();
+                ProfileInfo = new ProfileInfo();
                 var authstate = await authenticationState.GetAuthenticationStateAsync();
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
                 {
                     ApplicationUser applicationUser = await userService.GetUserByUserName(user.Identity.Name);
-                    CurrentUserGuid = applicationUser.Id;
-                    UserAddressVM.isVendor = applicationUser.IsVendor;
+                    string CurrentUserGuid = applicationUser.Id;
+                    ProfileInfo = await userProfileService.GetProfileInfo(CurrentUserGuid);
+                    ProfileInfo.isVendor = applicationUser.IsVendor;
 
-                    userProfile = await userProfileService.GetProfileByOwnerGuid(CurrentUserGuid);
-                    if (userProfile == null)
+                    if (ProfileInfo.UserProfile == null)
                         navManager.NavigateTo("/MyAccount/UserProfile");
                     else
                     {
-                        isProfileCompleted = userProfile.IsProfileCompleted;
-                        UserAddressVM.DOB = userProfile.DateOfBirth;
-                        UserAddressVM.MaritialStatus = userProfile.MaritalStatus;
-                        UserAddressVM.Qualification = userProfile.Qualification;
-                        UserAddressVM.Address = userProfile.Address;
-                        UserAddressVM.State = userProfile.StateID;
-                        UserAddressVM.City = userProfile.CityID;
-                        UserAddressVM.Area = userProfile.AssemblyID;
-                        UserAddressVM.Pincode = userProfile.PincodeID;
-                        UserAddressVM.States = await sharedService.GetStatesByCountryId();
-                        if (UserAddressVM.States.Count > 0)
-                        {
-                            int.TryParse(Convert.ToString(UserAddressVM.States[0].CountryID), out int countryId);
-                            userProfile.CountryID = countryId;
-                        }
+                        ProfileInfo.Countries = await sharedService.GetCountries();
                     }
+                    await GetStateByCountryId();
                     await GetCityByStateId();
                     await GetAreaByCityId();
                     await GetPincodesByAreaId();
+                    await GetLocalitiesByPincodeId();
                 }
             }
             catch (Exception exc)
@@ -82,41 +65,72 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             }
         }
 
+        public async Task GetStateByCountryId()
+        {
+            ProfileInfo.States.Clear();
+            ProfileInfo.Cities.Clear();
+            ProfileInfo.Areas.Clear();
+            ProfileInfo.Pincodes.Clear();
+            ProfileInfo.Localities.Clear();
+
+            if (ProfileInfo.UserProfile.CountryID > 0)
+                ProfileInfo.States = await sharedService.GetStatesByCountryId(ProfileInfo.UserProfile.CountryID);
+
+            StateHasChanged();
+        }
+
         public async Task GetCityByStateId()
         {
-            UserAddressVM.Areas.Clear();
-            UserAddressVM.Pincodes.Clear();
-            if (UserAddressVM.State > 0)
-            {
-                UserAddressVM.Cities = await sharedService.GetCitiesByStateId(UserAddressVM.State);
-                StateHasChanged();
-            }
+            ProfileInfo.Cities.Clear();
+            ProfileInfo.Areas.Clear();
+            ProfileInfo.Pincodes.Clear();
+            ProfileInfo.Localities.Clear();
+
+            if (ProfileInfo.UserProfile.StateID > 0)
+                ProfileInfo.Cities = await sharedService.GetCitiesByStateId(ProfileInfo.UserProfile.StateID);
+
+            StateHasChanged();
         }
 
         public async Task GetAreaByCityId()
         {
-            UserAddressVM.Pincodes.Clear();
-            if (UserAddressVM.City > 0)
-            {
-                UserAddressVM.Areas = await sharedService.GetAreasByCityId(UserAddressVM.City);
-                StateHasChanged();
-            }
+            ProfileInfo.Areas.Clear();
+            ProfileInfo.Pincodes.Clear();
+            ProfileInfo.Localities.Clear();
+
+            if (ProfileInfo.UserProfile.CityID > 0)
+                ProfileInfo.Areas = await sharedService.GetAreasByCityId(ProfileInfo.UserProfile.CityID);
+
+            StateHasChanged();
         }
 
         public async Task GetPincodesByAreaId()
         {
-            if (UserAddressVM.Area > 0)
-            {
-                UserAddressVM.Pincodes = await sharedService.GetPincodesByAreaId(UserAddressVM.Area);
-                StateHasChanged();
-            }
+            ProfileInfo.Pincodes.Clear();
+            ProfileInfo.Localities.Clear();
+
+            if (ProfileInfo.UserProfile.AssemblyID > 0)
+                ProfileInfo.Pincodes = await sharedService.GetPincodesByAreaId(ProfileInfo.UserProfile.AssemblyID);
+
+            StateHasChanged();
+        }
+
+        public async Task GetLocalitiesByPincodeId()
+        {
+            ProfileInfo.Localities.Clear();
+
+            if (ProfileInfo.UserProfile.PincodeID > 0)
+                ProfileInfo.Localities = await sharedService.GetLocalitiesByPincode(ProfileInfo.UserProfile.PincodeID);
+
+            StateHasChanged();
         }
 
         private async Task<bool> isValidFields()
         {
-            if (UserAddressVM.DOB == null || string.IsNullOrEmpty(UserAddressVM.MaritialStatus) ||
-                string.IsNullOrEmpty(UserAddressVM.Qualification) || string.IsNullOrEmpty(UserAddressVM.Address) ||
-                UserAddressVM.State <= 0 || UserAddressVM.City <= 0 || UserAddressVM.Area <= 0 || UserAddressVM.Pincode <= 0)
+            if (ProfileInfo.UserProfile.DateOfBirth == null || string.IsNullOrEmpty(ProfileInfo.UserProfile.MaritalStatus) ||
+                string.IsNullOrEmpty(ProfileInfo.UserProfile.Qualification) || ProfileInfo.UserProfile.CountryID <= 0 ||
+                ProfileInfo.UserProfile.StateID <= 0 || ProfileInfo.UserProfile.CityID <= 0 || ProfileInfo.UserProfile.AssemblyID <= 0 || 
+                ProfileInfo.UserProfile.PincodeID <= 0 || ProfileInfo.UserProfile.LocalityID <= 0 || string.IsNullOrEmpty(ProfileInfo.UserProfile.Address))
             {
                 await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
                 return false;
@@ -130,7 +144,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             if (!(await isValidFields()))
                 return;
 
-            if (userProfile == null)
+            if (ProfileInfo.UserProfile == null)
             {
                 await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
                 return;
@@ -138,18 +152,9 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             try
             {
-                userProfile.DateOfBirth = Convert.ToDateTime(UserAddressVM.DOB);
-                userProfile.MaritalStatus = UserAddressVM.MaritialStatus;
-                userProfile.Qualification = UserAddressVM.Qualification;
-                userProfile.Address = UserAddressVM.Address;
-                userProfile.StateID = UserAddressVM.State;
-                userProfile.CityID = UserAddressVM.City;
-                userProfile.AssemblyID = UserAddressVM.Area;
-                userProfile.PincodeID = UserAddressVM.Pincode;
-                userProfile.IsProfileCompleted = true;
-                await userProfileService.UpdateUserProfile(userProfile);
-                isProfileCompleted = true;
+                ProfileInfo.UserProfile.IsProfileCompleted = true;
 
+                await userProfileService.UpdateUserProfile(ProfileInfo.UserProfile);
                 await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
             }
             catch (Exception exc)

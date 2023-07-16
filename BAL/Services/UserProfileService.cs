@@ -1,4 +1,5 @@
 ﻿using BAL.Services.Contracts;
+using BOL.ComponentModels.MyAccount.Profile;
 using BOL.IDENTITY;
 using DAL.Models;
 using DAL.Repositories.Contracts;
@@ -15,7 +16,7 @@ namespace BAL.Services
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public UserProfileService(IUserProfileRepository userProfileRepository, UserManager<ApplicationUser> userManager, 
+        public UserProfileService(IUserProfileRepository userProfileRepository, UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
             this._userProfileRepository = userProfileRepository;
@@ -36,6 +37,15 @@ namespace BAL.Services
         public async Task<UserProfile> UpdateUserProfile(UserProfile userProfile)
         {
             return await _userProfileRepository.UpdateUserProfile(userProfile);
+        }
+
+        public async Task<ProfileInfo> GetProfileInfo(string currentUserGuid)
+        {
+            ProfileInfo profileInfo = new ProfileInfo()
+            {
+                UserProfile = await GetProfileByOwnerGuid(currentUserGuid)
+            };
+            return profileInfo;
         }
     }
 }

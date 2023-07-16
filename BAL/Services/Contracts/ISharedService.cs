@@ -12,6 +12,7 @@ namespace BAL.Services.Contracts
         Task<IList<City>> GetCitiesByStateId(int stateId);
         Task<IList<Station>> GetAreasByCityId(int cityId);
         Task<IList<Pincode>> GetPincodesByAreaId(int areaId);
+        Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId);
         #endregion
     }
 }

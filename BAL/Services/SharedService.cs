@@ -39,5 +39,10 @@ namespace BAL.Services
         {
             return await sharedRepository.GetPincodesByAreaId(areaId);
         }
+
+        public async Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId)
+        {
+            return await sharedRepository.GetLocalitiesByPincode(pincodeId);
+        }
     }
 }

@@ -54,6 +54,15 @@ namespace DAL.Repositories
                 .Where(i => i.StationID == areaId)
                 .ToListAsync();
         }
+
+        public IList<Locality> listLocality = new List<Locality>();
+        public async Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId)
+        {
+            return await sharedDbContext.Locality
+                .OrderBy(i => i.LocalityName)
+                .Where(i => i.PincodeID == pincodeId)
+                .ToListAsync();
+        }
         #endregion
     }
 }
