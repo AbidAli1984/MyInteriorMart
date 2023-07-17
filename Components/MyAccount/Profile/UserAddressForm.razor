@@ -12,9 +12,19 @@
     </select>
 </div>
 <div class="form-group col-4">
-    <label>Qualification</label>
-    <input class="form-control" type="text" name="City" @bind="@ProfileInfo.UserProfile.Qualification">
-    <!-- <i class="ti-location-arrow"></i> -->
+    <label>Qualification <span class="text-danger">*</span></label>
+    <select class="form-control wide add_bottom_10" @onchange="SetQualificationId">
+        <option value="0" selected>Choose...</option>
+        @foreach (var p in ProfileInfo.Qualifications)
+        {
+            @if (ProfileInfo.UserProfile.QualificationId == p.Id)
+            {
+                <option selected value="@p.Id">@p.Name</option>
+                continue;
+            }
+            <option value="@p.Id">@p.Name</option>
+        }
+    </select>
 </div>
 <div class="form-group col-4">
     <label>Country <span class="text-danger">*</span></label>

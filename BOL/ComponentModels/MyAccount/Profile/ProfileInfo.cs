@@ -10,6 +10,7 @@ namespace BOL.ComponentModels.MyAccount.Profile
     {
         public bool isVendor { get; set; }
         public UserProfile UserProfile { get; set; }
+        public IList<Qualification> Qualifications { get; set; }
         public IList<Country> Countries { get; set; }
         public IList<State> States { get; set; }
         public IList<City> Cities { get; set; }
@@ -20,6 +21,7 @@ namespace BOL.ComponentModels.MyAccount.Profile
         public ProfileInfo()
         {
             UserProfile = new UserProfile();
+            Qualifications = new List<Qualification>();
             Countries = new List<Country>();
             States = new List<State>();
             Cities = new List<City>();

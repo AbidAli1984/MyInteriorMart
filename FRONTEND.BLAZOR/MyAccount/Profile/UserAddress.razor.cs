@@ -50,6 +50,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                         navManager.NavigateTo("/MyAccount/UserProfile");
                     else
                     {
+                        ProfileInfo.Qualifications = await sharedService.GetQualifications();
                         ProfileInfo.Countries = await sharedService.GetCountries();
                     }
                     await GetStateByCountryId();
@@ -128,7 +129,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         private async Task<bool> isValidFields()
         {
             if (ProfileInfo.UserProfile.DateOfBirth == null || string.IsNullOrEmpty(ProfileInfo.UserProfile.MaritalStatus) ||
-                string.IsNullOrEmpty(ProfileInfo.UserProfile.Qualification) || ProfileInfo.UserProfile.CountryID <= 0 ||
+                ProfileInfo.UserProfile.QualificationId <= 0 || ProfileInfo.UserProfile.CountryID <= 0 ||
                 ProfileInfo.UserProfile.StateID <= 0 || ProfileInfo.UserProfile.CityID <= 0 || ProfileInfo.UserProfile.AssemblyID <= 0 || 
                 ProfileInfo.UserProfile.PincodeID <= 0 || ProfileInfo.UserProfile.LocalityID <= 0 || string.IsNullOrEmpty(ProfileInfo.UserProfile.Address))
             {

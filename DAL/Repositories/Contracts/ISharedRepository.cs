@@ -6,7 +6,8 @@ namespace DAL.Repositories.Contracts
 {
     public interface ISharedRepository
     {
-        #region States
+        #region Profile Info
+        Task<IList<Qualification>> GetQualifications();
         Task<IList<Country>> GetCountries();
         Task<IList<State>> GetStatesByCountryId(int countryId);
         Task<IList<City>> GetCitiesByStateId(int stateId);

@@ -17,6 +17,12 @@ namespace DAL.Repositories
         }
 
         #region States
+        public async Task<IList<Qualification>> GetQualifications()
+        {
+            return await sharedDbContext.Qualifications
+                .ToListAsync();
+        }
+
         public async Task<IList<Country>> GetCountries()
         {
             return await sharedDbContext.Country

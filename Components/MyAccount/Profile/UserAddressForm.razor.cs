@@ -69,5 +69,10 @@ namespace Components.MyAccount.Profile
         {
             ProfileInfo.UserProfile.LocalityID = Convert.ToInt32(e.Value.ToString());
         }
+
+        public void SetQualificationId(ChangeEventArgs e)
+        {
+            ProfileInfo.UserProfile.QualificationId = Convert.ToInt32(e.Value.ToString());
+        }
     }
 }

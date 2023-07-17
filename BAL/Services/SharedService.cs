@@ -15,6 +15,11 @@ namespace BAL.Services
             this.sharedRepository = sharedRepository;
         }
 
+        public async Task<IList<Qualification>> GetQualifications()
+        {
+            return await sharedRepository.GetQualifications();
+        }
+
         public async Task<IList<Country>> GetCountries()
         {
             return await sharedRepository.GetCountries();
