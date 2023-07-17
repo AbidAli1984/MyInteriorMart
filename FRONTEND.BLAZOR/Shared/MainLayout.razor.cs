@@ -17,6 +17,8 @@ namespace FRONTEND.BLAZOR.Shared
 
         [Inject]
         IUserService userService { get; set; }
+        [Inject]
+        IUserProfileService userProfileService { get; set; }
 
         [Inject]
         SignInManager<DAL.Models.ApplicationUser> SignInManager { get; set; }
@@ -28,6 +30,7 @@ namespace FRONTEND.BLAZOR.Shared
         public bool isVendor { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public bool UserStaffPanelAuthenticated { get; set; }
+        public string imgUrl { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -39,7 +42,8 @@ namespace FRONTEND.BLAZOR.Shared
                 if (user.Identity.IsAuthenticated)
                 {
                     ApplicationUser appUser = await userService.GetUserByUserName(user.Identity.Name);
-                    CurrentUserGuid = appUser.Id;
+                    var userProfile = await userProfileService.GetProfileByOwnerGuid(appUser.Id);
+                    imgUrl = string.IsNullOrEmpty(userProfile.ImageUrl) ? "resources/img/icon/user.svg" : userProfile.ImageUrl;
                     isVendor = appUser.IsVendor;
 
                     if (user.IsInRole("Staffs") == true)

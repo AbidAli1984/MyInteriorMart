@@ -75,7 +75,9 @@ a.notification {
 }
 
 .usericon .usericon-btn img {
-	height: 23px;
+	height: 30px;
+	border-radius: 50%;
+	border: 1px solid gray;
 }
 
 .usericon .usericon-btn {
@@ -109,7 +111,7 @@ a.notification {
 }
 
 .usericon {
-	padding: 7px 2px 0 0px;
+	padding: 4px 2px 0 0px;
 	height: 25px;
 }
 

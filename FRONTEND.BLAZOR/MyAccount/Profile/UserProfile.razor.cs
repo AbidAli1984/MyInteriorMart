@@ -160,6 +160,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             {
                 isImageChange = false;
                 UserProfileVM.ImgUrl = await helper.MoveProfileImage(UserProfileVM, CurrentUserGuid);
+                navManager.NavigateTo("/MyAccount/UserProfile", true);
             }
             return UserProfileVM.ImgUrl;
         }
