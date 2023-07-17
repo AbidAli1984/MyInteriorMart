@@ -37,6 +37,8 @@
     <Compile Remove="DBContexts\SHARED\Migrations\20200707163519_008.Designer.cs" />
     <Compile Remove="DBContexts\USER\Migrations\20230710162724_AddedDefaultToSomeFieldsInUserProfileTable.cs" />
     <Compile Remove="DBContexts\USER\Migrations\20230710162724_AddedDefaultToSomeFieldsInUserProfileTable.Designer.cs" />
+    <Compile Remove="DBContexts\USER\Migrations\20230717115654_AddedQualificationTableInSharedDB.cs" />
+    <Compile Remove="DBContexts\USER\Migrations\20230717115654_AddedQualificationTableInSharedDB.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

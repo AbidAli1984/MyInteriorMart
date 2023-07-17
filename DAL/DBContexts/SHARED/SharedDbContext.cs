@@ -13,6 +13,7 @@ namespace DAL.SHARED
         public DbSet<Designation> Designation { get; set; }
         public DbSet<NatureOfBusiness> NatureOfBusiness { get; set; }
         public DbSet<Turnover> Turnover { get; set; }
+        public DbSet<Qualification> Qualifications { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<City> City { get; set; }
