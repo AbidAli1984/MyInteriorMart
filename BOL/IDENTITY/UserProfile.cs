@@ -45,7 +45,7 @@ namespace BOL.IDENTITY
         public string MaritalStatus { get; set; }
 
         [Display(Name = "Qualification")]
-        public string Qualification { get; set; }
+        public int QualificationId { get; set; }
 
         [Display(Name = "Address")]
         public string Address { get; set; }
