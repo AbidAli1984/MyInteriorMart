@@ -1,9 +1,9 @@
-﻿<div class="form-group col-4">
+﻿<div class="form-group col-md-4">
     <label>D.O.B</label>
     <input class="form-control" type="date" name="number" @bind="@ProfileInfo.UserProfile.DateOfBirth">
     <i class="icon_date"></i>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>Marital Status</label>
     <select class="form-control wide add_bottom_10" @bind="@ProfileInfo.UserProfile.MaritalStatus">
         <option selected value="0">Choose...</option>
@@ -11,7 +11,7 @@
         <option value="Married">Married</option>
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>Qualification <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="SetQualificationId">
         <option value="0" selected>Choose...</option>
@@ -26,7 +26,7 @@
         }
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>Country <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetStateByCountryId">
         <option value="0" selected>Choose...</option>
@@ -41,7 +41,7 @@
         }
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>State <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetCityByStateId">
         <option value="0" selected>Choose...</option>
@@ -56,7 +56,7 @@
         }
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>City <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetAreaByCityId">
         <option value="0" selected>Choose...</option>
@@ -71,7 +71,7 @@
         }
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>Locality <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetPincodesByAreaId">
         <option value="0" selected>Choose...</option>
@@ -86,7 +86,7 @@
         }
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>Pincode <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="GetLocalitiesByPincodeId">
         <option value="0" selected>Choose...</option>
@@ -101,7 +101,7 @@
         }
     </select>
 </div>
-<div class="form-group col-4">
+<div class="form-group col-md-4">
     <label>Area <span class="text-danger">*</span></label>
     <select class="form-control wide add_bottom_10" @onchange="SetLocalityId">
         <option value="0" selected>Choose...</option>
