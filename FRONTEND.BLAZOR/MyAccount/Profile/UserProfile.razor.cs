@@ -108,7 +108,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     };
 
                     await userProfileService.AddUserProfile(userProfile);
-                    navManager.NavigateTo("/MyAccount/UserAddress");
+                    navManager.NavigateTo("/MyAccount/ProfileInfo");
                     await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
                 }
                 catch (Exception exc)

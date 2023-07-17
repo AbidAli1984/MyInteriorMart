@@ -135,7 +135,7 @@ namespace BAL.Services
                 {
                     var userProfile = await _userProfileRepository.GetProfileByOwnerGuid(usr.Id);
                     errorViewModel.RedirectToUrl = userProfile == null ? "/MyAccount/UserProfile" :
-                        !userProfile.IsProfileCompleted ? "/MyAccount/UserAddress" : "/";
+                        !userProfile.IsProfileCompleted ? "/MyAccount/ProfileInfo" : "/";
                     BlazorCookieLoginMiddleware.Logins[key] = new LoginInfo { Email = usr.Email, Password = password };
                 }
                 else

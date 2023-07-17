@@ -30,19 +30,26 @@
                                 <li>
                                     <div class="dropdown usericon">
                                         <a class="usericon-btn dropdown-toggle" type="button" id="usericon"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <img src="@imgUrl">
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="usericon">
                                             <a href="/MyAccount/UserProfile" class="dropdown-item"><i class="fa fa-user" style="margin-right: 15px;"></i>My Profile</a>
+                                            @if (!isVendor)
+                                            {
+                                                <a href="/ManageListing/AllBookmarks" class="dropdown-item"><i class="fa fa-bookmark" style="margin-right: 15px;"></i>Bookmarks</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/MyAccount/ProfileInfo" class="dropdown-item"><i class="fa fa-file-text" style="margin-right: 15px;"></i>Personal Info</a>
+                                                <a href="/Identity/Account/Manage" class="dropdown-item"><i class="fa fa-gear" style="margin-right: 15px;"></i>Settings</a>
+                                            }
                                             <a href="/ChangePassword" class="dropdown-item"><i class="fa fa-key" style="margin-right: 15px;"></i>Change Password</a>
-                                            <a href="/ManageListing/AllListing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>My Listings</a>
-                                            <a href="/MyAccount/LabourNakaWizard/PersonalCreate" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Naka</a>
-                                            <a href="/ManageListing/AllReviews" class="dropdown-item"><i class="fa fa-thumbs-up" style="margin-right: 15px;"></i>Reviews</a>
-                                            <a href="/ManageListing/AllLikes" class="dropdown-item"><i class="fa fa-heart" style="margin-right: 15px;"></i>Likes</a>
-                                            <a href="/ManageListing/AllBookmarks" class="dropdown-item"><i class="fa fa-bookmark" style="margin-right: 15px;"></i>Bookmarks</a>
-                                            <a href="/ManageListing/AllSubscribes" class="dropdown-item"><i class="fa fa-hand-o-up" style="margin-right: 15px;"></i>Subscribe</a>
-                                            <a href="/Identity/Account/Manage" class="dropdown-item"><i class="fa fa-gear" style="margin-right: 15px;"></i>Settings</a>
+                                            @*<a href="/ManageListing/AllListing" class="dropdown-item"><i class="fa fa-list" style="margin-right: 15px;"></i>My Listings</a>
+                                                <a href="/MyAccount/LabourNakaWizard/PersonalCreate" class="dropdown-item"><i class="fa fa-users" style="margin-right: 15px;"></i>Labour Naka</a>
+                                                <a href="/ManageListing/AllReviews" class="dropdown-item"><i class="fa fa-thumbs-up" style="margin-right: 15px;"></i>Reviews</a>
+                                                <a href="/ManageListing/AllLikes" class="dropdown-item"><i class="fa fa-heart" style="margin-right: 15px;"></i>Likes</a>
+                                                <a href="/ManageListing/AllSubscribes" class="dropdown-item"><i class="fa fa-hand-o-up" style="margin-right: 15px;"></i>Subscribe</a>*@
                                             <form method="post" action="/Identity/Account/Logout" id="contactform" autocomplete="off">
                                                 <button type="submit" class="dropdown-item  nav-link"><i class="fa fa-sign-out" style="margin-right: 15px;"></i>Logout</button>
                                             </form>

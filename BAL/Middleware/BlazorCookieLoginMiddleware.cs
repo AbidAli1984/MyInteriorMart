@@ -25,7 +25,7 @@ namespace BAL.Middleware
 
         public async Task Invoke(HttpContext context, SignInManager<ApplicationUser> signInMgr)
         {
-            string[] paths = { "/", "/MyAccount/UserProfile", "/MyAccount/UserAddress" };
+            string[] paths = { "/", "/MyAccount/UserProfile", "/MyAccount/ProfileInfo" };
             if (paths.Contains(context.Request.Path.ToString()) && context.Request.Query.ContainsKey("key"))
             {
                 var key = Guid.Parse(context.Request.Query["key"]);
