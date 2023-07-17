@@ -87,5 +87,9 @@ namespace BOL.LISTING
 
         [Display(Name = "Approved OR Rejected By", Prompt = "Approved OR Rejected By")]
         public bool ApprovedOrRejectedBy { get; set; }
+
+        [Display(Name = "GST Number")]
+        [Required(ErrorMessage = "GST Number required.")]
+        public string GSTNumber { get; set; }
     }
 }
