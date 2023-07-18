@@ -17,11 +17,16 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
     public partial class Category
     {
         [Inject]
+        public IListingService listingService { get; set; }
+        [Inject]
         public IUserService userService { get; set; }
+        [Inject]
+        public Helper helper { get; set; }
 
         // Begin: Check if record exisit with listingId
         [Parameter]
         public int? listingId { get; set; }
+        public int listingID { get; set; }
 
         public string currentPage = "nav-category";
         public bool buttonBusy { get; set; }
@@ -30,11 +35,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
-        public bool userAuthenticated { get; set; } = false;
-        public string IpAddress { get; set; }
         public ApplicationUser iUser { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime CreatedTime { get; set; }
 
         // Begin: Check if record exists
         public bool companyExist { get; set; }
@@ -45,125 +46,92 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool workingHoursExist { get; set; }
         public bool paymentModeExist { get; set; }
 
-        public async Task CompanyExistAsync()
+        protected async override Task OnInitializedAsync()
         {
-            if (listingId != null)
+            try
             {
-                var company = await listingContext.Listing.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
 
-                if (company != null)
+                int.TryParse(Convert.ToString(listingId), out int listId);
+                listingID = listId;
+                // Get User Name
+                var authstate = await authenticationState.GetAuthenticationStateAsync();
+                var user = authstate.User;
+                if (user.Identity.IsAuthenticated)
                 {
-                    companyExist = true;
-                }
-                else
-                {
-                    companyExist = false;
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
+                    CurrentUserGuid = iUser.Id;
+
+                    if (listingId != null)
+                    {
+                        // Begin: Check if record exists
+                        await CompanyExistAsync();
+                        await CommunicationExistAsync();
+                        await AddressExistAsync();
+                        await CategoryExistAsync();
+                        await SpecialisationExistAsync();
+                        await WorkingHoursExistAsync();
+                        await PaymentModeExistAsync();
+                        // End: Check if record exists
+                    }
+
+                    await ListFirstCategories();
+
+                    if (categoryExist == true)
+                    {
+                        string url = "/MyAccount/ListingWizard/CategoryEdit/" + listingId;
+                        navManager.NavigateTo(url);
+                    }
                 }
             }
+            catch (Exception exc)
+            {
+                ErrorMessage = exc.Message;
+            }
+        }
+
+        #region Check if record exists
+        public async Task CompanyExistAsync()
+        {
+            var company = await listingService.GetListingByListingId(listingID);
+            companyExist = company != null;
         }
 
         public async Task CommunicationExistAsync()
         {
-            if (listingId != null)
-            {
-                var communication = await listingContext.Communication.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
-
-                if (communication != null)
-                {
-                    communicationExist = true;
-                }
-                else
-                {
-                    communicationExist = false;
-                }
-            }
+            var communication = await listingService.GetCommunicationByListingId(listingID);
+            communicationExist = communication != null;
         }
 
         public async Task AddressExistAsync()
         {
-            if (listingId != null)
-            {
-                var address = await listingContext.Address.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
-
-                if (address != null)
-                {
-                    addressExist = true;
-                }
-                else
-                {
-                    addressExist = false;
-                }
-            }
+            var address = await listingService.GetAddressByListingId(listingID);
+            addressExist = address != null;
         }
 
         public async Task CategoryExistAsync()
         {
-            if (listingId != null)
-            {
-                var category = await listingContext.Categories.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
-
-                if (category != null)
-                {
-                    categoryExist = true;
-                }
-                else
-                {
-                    categoryExist = false;
-                }
-            }
+            var category = await listingService.GetCategoryByListingId(listingID);
+            categoryExist = category != null;
         }
 
         public async Task SpecialisationExistAsync()
         {
-            if (listingId != null)
-            {
-                var specialisation = await listingContext.Specialisation.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
-
-                if (specialisation != null)
-                {
-                    specialisationExist = true;
-                }
-                else
-                {
-                    specialisationExist = false;
-                }
-            }
+            var specialisation = await listingService.GetSpecialisationByListingId(listingID);
+            specialisationExist = specialisation != null;
         }
 
         public async Task WorkingHoursExistAsync()
         {
-            if (listingId != null)
-            {
-                var wh = await listingContext.WorkingHours.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
-
-                if (wh != null)
-                {
-                    workingHoursExist = true;
-                }
-                else
-                {
-                    workingHoursExist = false;
-                }
-            }
+            var wh = await listingService.GetWorkingHoursByListingId(listingID);
+            workingHoursExist = wh != null;
         }
 
         public async Task PaymentModeExistAsync()
         {
-            if (listingId != null)
-            {
-                var pm = await listingContext.PaymentMode.Where(i => i.ListingID == listingId).FirstOrDefaultAsync();
-
-                if (pm != null)
-                {
-                    paymentModeExist = true;
-                }
-                else
-                {
-                    paymentModeExist = false;
-                }
-            }
+            var pm = await listingService.GetPaymentModeByListingId(listingID);
+            paymentModeExist = pm != null;
         }
-        // End: Check if record exists
+        #endregion
 
         // Properties
         public int? firstCatId { get; set; }
@@ -183,9 +151,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 ErrorMessage = exc.Message;
             }
         }
-        // End: First Category List
 
-        // Begin: Second Category List
         public async Task ListSecondCategories(ChangeEventArgs e)
         {
             try
@@ -199,9 +165,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 ErrorMessage = exc.Message;
             }
         }
-        // End: Second Category List
 
-        // Begin: Update Second Category ID
         public async Task GetSecondCatId(ChangeEventArgs e)
         {
             try
@@ -214,9 +178,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 ErrorMessage = exc.Message;
             }
         }
-        // End: Update Second Category ID
 
-        // Begin: Create Listing Category
         public async Task CreateListingCategory()
         {
             buttonBusy = true;
@@ -235,7 +197,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                         {
                             ListingID = listingId.Value,
                             OwnerGuid = CurrentUserGuid,
-                            IPAddress = IpAddress,
+                            IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString(),
                             FirstCategoryID = firstCatId.Value,
                             SecondCategoryID = secondCatId.Value
                         };
@@ -249,7 +211,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     else
                     {
                         // Show notification
-                        await NoticeWithIcon(NotificationType.Success, NotificationPlacement.BottomRight, "Error", $"Categories for Listing ID {duplicate.ListingID} already exists.");
+                        await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Categories for Listing ID {duplicate.ListingID} already exists.");
 
                         buttonBusy = false;
                     }
@@ -258,7 +220,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 else
                 {
                     // Show notification
-                    await NoticeWithIcon(NotificationType.Success, NotificationPlacement.BottomRight, "Error", $"Listing ID, First Category and Second Category must not be blank.");
+                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Listing ID, First Category and Second Category must not be blank.");
 
                     buttonBusy = false;
                 }
@@ -266,69 +228,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             catch(Exception exc)
             {
                 // Show notification
-                await NoticeWithIcon(NotificationType.Success, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
 
                 buttonBusy = false;
-            }
-        }
-        // End: Create Category
-
-        // Begin: Antdesign Blazor Notification
-        private async Task NoticeWithIcon(NotificationType type, NotificationPlacement placement, string message, string description)
-        {
-            await _notice.Open(new NotificationConfig()
-            {
-                Message = message,
-                Description = description,
-                NotificationType = type,
-                Placement = placement
-            });
-        }
-        // End: Antdesign Blazor Notification
-
-        protected async override Task OnInitializedAsync()
-        {
-            try
-            {
-                // Get User Name
-                var authstate = await authenticationState.GetAuthenticationStateAsync();
-                var user = authstate.User;
-                if (user.Identity.IsAuthenticated)
-                {
-                    // Shafi: Assign Time Zone to CreatedDate & Created Time
-                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-                    IpAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    CreatedDate = timeZoneDate;
-                    CreatedTime = timeZoneDate;
-                    // End:
-
-                    iUser = await userService.GetUserByUserName(user.Identity.Name);
-                    CurrentUserGuid = iUser.Id;
-
-                    userAuthenticated = true;
-
-                    // Begin: Check if record exists
-                    await CompanyExistAsync();
-                    await CommunicationExistAsync();
-                    await AddressExistAsync();
-                    await CategoryExistAsync();
-                    await SpecialisationExistAsync();
-                    await WorkingHoursExistAsync();
-                    await PaymentModeExistAsync();
-                    // End: Check if record exists
-
-                    await ListFirstCategories();
-
-                    if(categoryExist == true)
-                    {
-                        string url = "/MyAccount/ListingWizard/CategoryEdit/" + listingId;
-                        navManager.NavigateTo(url);
-                    }
-                }
-            }
-            catch (Exception exc)
-            {
-                ErrorMessage = exc.Message;
             }
         }
     }
