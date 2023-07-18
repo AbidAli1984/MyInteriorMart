@@ -23,6 +23,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         private IHttpContextAccessor httpConAccess { get; set; }
         [Inject]
         IUserService userService { get; set; }
+        [Inject]
+        Helper helper { get; set; }
 
         // Begin: Check if record exisit with listingId
         [Parameter]
@@ -33,7 +35,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
 
         public string CurrentUserGuid { get; set; }
-        public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
         public string IpAddress { get; set; }
         public ApplicationUser iUser { get; set; }
@@ -48,6 +49,54 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool specialisationExist { get; set; }
         public bool workingHoursExist { get; set; }
         public bool paymentModeExist { get; set; }
+
+        protected async override Task OnInitializedAsync()
+        {
+            try
+            {
+                // Get User Name
+                var authstate = await authenticationState.GetAuthenticationStateAsync();
+                var user = authstate.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    // Shafi: Assign Time Zone to CreatedDate & Created Time
+                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                    IpAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
+                    CreatedDate = timeZoneDate;
+                    CreatedTime = timeZoneDate;
+                    // End:
+
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
+                    CurrentUserGuid = iUser.Id;
+
+                    userAuthenticated = true;
+
+                    // Begin: Check if record exists
+                    await CompanyExistAsync();
+                    await CommunicationExistAsync();
+                    await AddressExistAsync();
+                    await CategoryExistAsync();
+                    await SpecialisationExistAsync();
+                    await WorkingHoursExistAsync();
+                    await PaymentModeExistAsync();
+                    // End: Check if record exists
+
+                    await PopulateGenderAsync();
+                    await PopulateTurnoverAsync();
+                    await PopulateNatureOfBusinessesAsync();
+                    await PopulateDesignationAsync();
+
+                    if (companyExist == true)
+                    {
+                        navManager.NavigateTo($"/MyAccount/ListingWizard/CompanyEdit/{listingId}");
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                string ErrorMessage = exc.Message;
+            }
+        }
 
         public async Task CompanyExistAsync()
         {
@@ -172,13 +221,13 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         // Begin: Listing Properties
         public string Name { get; set; }
         public string Gender { get; set; }
-        public string CompanyName { get; set; }
         public DateTime? YearOfEstablishment { get; set; }
+        public string CompanyName { get; set; }
+        public string GSTNumber { get; set; }
         public int? NumberOfEmployees { get; set; }
         public string DesignationV { get; set; }
         public string NOB { get; set; }
         public string Turnover { get; set; }
-        public string ListingUrl { get; set; }
         // End: Listing Properties
 
         // Begin: Gender Dropdown List
@@ -292,115 +341,58 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         }
         // End: Designation Dropdown List
 
+        private bool isFieldValid()
+        {
+            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Gender) && !string.IsNullOrWhiteSpace(CompanyName) &&
+                !string.IsNullOrWhiteSpace(GSTNumber) && YearOfEstablishment != null && NumberOfEmployees != null && !string.IsNullOrWhiteSpace(IpAddress) &&
+                !string.IsNullOrWhiteSpace(DesignationV) && !string.IsNullOrWhiteSpace(NOB) && !string.IsNullOrWhiteSpace(Turnover);
+        }
+
         // Begin: Create Company
         public async Task CreateCompanyAsync()
         {
-            buttonBusy = true;
+            if (!isFieldValid())
+            {
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
+                return;
+            }
 
             try
             {
-                if (IpAddress != null && Name != null && Gender != null && CompanyName != null && YearOfEstablishment != null && NumberOfEmployees != null && DesignationV != null && NOB != null && Turnover != null)
+                buttonBusy = true;
+                string listingUrl = CompanyName.Replace(" ", "-");
+
+                Listing listing = new Listing
                 {
-                    string listingUrl = CompanyName.Replace(" ", "-");
+                    OwnerGuid = CurrentUserGuid,
+                    CreatedDate = CreatedDate,
+                    CreatedTime = CreatedTime,
+                    IPAddress = IpAddress,
+                    Name = Name,
+                    Gender = Gender,
+                    CompanyName = CompanyName,
+                    GSTNumber = GSTNumber,
+                    YearOfEstablishment = YearOfEstablishment.Value,
+                    NumberOfEmployees = NumberOfEmployees.Value,
+                    Designation = DesignationV,
+                    NatureOfBusiness = NOB,
+                    Turnover = Turnover,
+                    ListingURL = listingUrl,
+                    Approved = false
+                };
 
-                    Listing listing = new Listing
-                    {
-                        OwnerGuid = CurrentUserGuid,
-                        CreatedDate = CreatedDate,
-                        CreatedTime = CreatedTime,
-                        IPAddress = IpAddress,
-                        Name = Name,
-                        Gender = Gender,
-                        CompanyName = CompanyName,
-                        YearOfEstablishment = YearOfEstablishment.Value,
-                        NumberOfEmployees = NumberOfEmployees.Value,
-                        Designation = DesignationV,
-                        NatureOfBusiness = NOB,
-                        Turnover = Turnover,
-                        ListingURL = listingUrl,
-                        Approved = false
-                    };
+                await listingContext.AddAsync(listing);
+                await listingContext.SaveChangesAsync();
 
-                    await listingContext.AddAsync(listing);
-                    await listingContext.SaveChangesAsync();
-
-                    navManager.NavigateTo($"/MyAccount/ListingWizard/Communication/{listing.ListingID}");
-                }
-                else
-                {
-                    await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
-
-                    buttonBusy = false;
-                }
+                navManager.NavigateTo($"/MyAccount/ListingWizard/Communication/{listing.ListingID}");
             }
             catch (Exception exc)
             {
-                await NoticeWithIcon(NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.ShowNotification(_notice,NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
 
                 buttonBusy = false;
             }
         }
         // End: Create Company
-
-        // Begin: Antdesign Blazor Notification
-        private async Task NoticeWithIcon(NotificationType type, NotificationPlacement placement, string message, string description)
-        {
-            await _notice.Open(new NotificationConfig()
-            {
-                Message = message,
-                Description = description,
-                NotificationType = type,
-                Placement = placement
-            });
-        }
-        // End: Antdesign Blazor Notification
-
-        protected async override Task OnInitializedAsync()
-        {
-            try
-            {
-                // Get User Name
-                var authstate = await authenticationState.GetAuthenticationStateAsync();
-                var user = authstate.User;
-                if (user.Identity.IsAuthenticated)
-                {
-                    // Shafi: Assign Time Zone to CreatedDate & Created Time
-                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-                    IpAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    CreatedDate = timeZoneDate;
-                    CreatedTime = timeZoneDate;
-                    // End:
-
-                    iUser = await userService.GetUserByUserName(user.Identity.Name);
-                    CurrentUserGuid = iUser.Id;
-
-                    userAuthenticated = true;
-
-                    // Begin: Check if record exists
-                    await CompanyExistAsync();
-                    await CommunicationExistAsync();
-                    await AddressExistAsync();
-                    await CategoryExistAsync();
-                    await SpecialisationExistAsync();
-                    await WorkingHoursExistAsync();
-                    await PaymentModeExistAsync();
-                    // End: Check if record exists
-
-                    await PopulateGenderAsync();
-                    await PopulateTurnoverAsync();
-                    await PopulateNatureOfBusinessesAsync();
-                    await PopulateDesignationAsync();
-
-                    if (companyExist == true)
-                    {
-                        navManager.NavigateTo($"/MyAccount/ListingWizard/CompanyEdit/{listingId}");
-                    }
-                }
-            }
-            catch (Exception exc)
-            {
-                ErrorMessage = exc.Message;
-            }
-        }
     }
 }
