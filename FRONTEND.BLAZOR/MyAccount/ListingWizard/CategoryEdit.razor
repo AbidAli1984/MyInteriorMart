@@ -99,7 +99,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>First Category <span class="text-danger">*</span></label>
-                                            <select class="form-control" @onchange="GetSecondCategoryIdByFirstCategoryId" disabled="@toggleEdit">
+                                            <select class="form-control" @onchange="GetSecondCategoryIdByFirstCategoryId" disabled="@preventEdit">
                                                 <option selected disabled>Choose...</option>
                                                 @if (CategoryVM.FirstCategories != null && CategoryVM.FirstCategories.Count > 0)
                                                 {
@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Second Category <span class="text-danger">*</span></label>
-                                            <select class="form-control" @onchange="GetOtherCategoriesBySecondCategoryId" disabled="@toggleEdit">
+                                            <select class="form-control" @onchange="GetOtherCategoriesBySecondCategoryId" disabled="@preventEdit">
                                                 <option selected disabled>Choose...</option>
                                                 @if (CategoryVM.SecondCategories != null && CategoryVM.SecondCategories.Count > 0)
                                                 {
@@ -146,13 +146,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-12">
-                                            <div class="clearfix add_bottom_15">
-                                                <div class="checkboxes float-left">
-                                                    <button class="btn_1" @onclick="@(async() => await SelectAllAsync())">Select All</button>
-                                                </div>
-                                            </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 add_bottom_15">
+                                            @if (!preventEdit)
+                                            {
+                                                <button class="btn btn-primary" @onclick="@(async () => await SelectAllCategories())">Select All</button>
+                                            }
                                         </div>
                                     </div>
                                     <div class="row">
@@ -165,7 +165,7 @@
                                                         <div class="checkboxes float-left">
                                                             <label class="container_check">
                                                                 @cat.Name
-                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <input type="checkbox" @bind="cat.IsSelected" disabled="@preventEdit">
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </div>
@@ -182,7 +182,7 @@
                                                         <div class="checkboxes float-left">
                                                             <label class="container_check">
                                                                 @cat.Name
-                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <input type="checkbox" @bind="cat.IsSelected" disabled="@preventEdit">
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </div>
@@ -199,7 +199,7 @@
                                                         <div class="checkboxes float-left">
                                                             <label class="container_check">
                                                                 @cat.Name
-                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <input type="checkbox" @bind="cat.IsSelected" disabled="@preventEdit">
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </div>
@@ -216,7 +216,7 @@
                                                         <div class="checkboxes float-left">
                                                             <label class="container_check">
                                                                 @cat.Name
-                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <input type="checkbox" @bind="cat.IsSelected" disabled="@preventEdit">
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </div>
@@ -226,23 +226,25 @@
                                         }
                                     </div>
                                     <div class="text-left col-12 mt-3">
-                                        @if (toggleEdit == false)
+                                        @if (preventEdit)
                                         {
-                                            if (buttonBusy == false)
+                                            @if (specialisationExist)
                                             {
-                                                <button class="btn btn-primary w-100" @onclick="@(async() => await UpdateListingCategory())" disabled="@toggleEdit">Save & Continue</button>
+                                                <a href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+
+                                                <a href="/MyAccount/ListingWizard/AddressEdit/@listingId" class="pull-right mr-4" style="margin-left:150px;"><img src="/img/arrow-previous.png" height="25" /></a>
                                             }
-                                            else
+                                        }
+                                        else
+                                        {
+                                            if (buttonBusy)
                                             {
                                                 <button class="btn btn-secondary w-100">Saving...</button>
                                             }
-                                        }
-
-                                        @if (specialisationExist == true && toggleEdit == true)
-                                        {
-                                            <a href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
-
-                                            <a href="/MyAccount/ListingWizard/AddressEdit/@listingId" class="pull-right mr-4" style="margin-left:150px;"><img src="/img/arrow-previous.png" height="25" /></a>
+                                            else
+                                            {
+                                                <button class="btn btn-primary w-100" @onclick="@(async() => await UpdateListingCategory())" disabled="@preventEdit">Save & Continue</button>
+                                            }
                                         }
                                     </div>
                                 </div>

@@ -14,5 +14,6 @@ namespace BAL.Services.Contracts
         Task GetSecCategoriesByFirstCategoryId(CategoryVM categoryVM);
         Task GetOtherCategoriesBySeconCategoryId(CategoryVM categoryVM);
         void GetOtherCategoriesToUpdate(CategoryVM categoryVM);
+        void MarkAllCategoriesSelected(CategoryVM categoryVM);
     }
 }

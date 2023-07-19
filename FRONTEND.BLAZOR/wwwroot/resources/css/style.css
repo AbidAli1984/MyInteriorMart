@@ -556,128 +556,131 @@ a {
         outline: none;
     }
 
-    /*-------- 1.2 Buttons --------*/
-    a.btn-primary,
-    .btn-primary {
-        border: none;
-        background: #fb830d;
-        padding: 11px 30px;
-        transition: all 0.3s ease-in-out;
-        font-family: "PoppinsSemiBold";
-        font-size: 16px;
+/*-------- 1.2 Buttons --------*/
+.btn {
+    border: none;
+    padding: 11px 30px;
+    transition: all 0.3s ease-in-out;
+    font-family: "PoppinsSemiBold";
+    font-size: 16px;
+}
+
+a.btn-primary,
+.btn-primary {
+    background: #fb830d;
+}
+
+    a.btn-primary:hover,
+    .btn-primary:hover,
+    .btn-primary:active {
+        background-color: #ffc107 !important;
+        color: #222222 !important;
     }
 
-        a.btn-primary:hover,
-        .btn-primary:hover,
-        .btn-primary:active {
-            background-color: #ffc107 !important;
-            color: #222222 !important;
-        }
+a.btn_1.full-width,
+.btn_1.full-width {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
 
-    a.btn_1.full-width,
-    .btn_1.full-width {
-        display: block;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 5px;
+    a.btn_1.full-width.purchase,
+    .btn_1.full-width.purchase {
+        background-color: #004dda;
     }
 
-        a.btn_1.full-width.purchase,
-        .btn_1.full-width.purchase {
-            background-color: #004dda;
+        a.btn_1.full-width.purchase:hover,
+        .btn_1.full-width.purchase:hover {
+            background-color: #32a067;
+            color: white !important;
         }
 
-            a.btn_1.full-width.purchase:hover,
-            .btn_1.full-width.purchase:hover {
-                background-color: #32a067;
-                color: white !important;
-            }
+    a.btn_1.full-width.wishlist,
+    .btn_1.full-width.wishlist {
+        border-color: #555;
+        color: #555;
+    }
 
-        a.btn_1.full-width.wishlist,
-        .btn_1.full-width.wishlist {
+        a.btn_1.full-width.wishlist:hover,
+        .btn_1.full-width.wishlist:hover {
+            color: white !important;
+            background-color: #555;
             border-color: #555;
-            color: #555;
         }
 
-            a.btn_1.full-width.wishlist:hover,
-            .btn_1.full-width.wishlist:hover {
-                color: white !important;
-                background-color: #555;
-                border-color: #555;
-            }
+a.btn_1.medium,
+.btn_1.medium {
+    font-size: 16px;
+    font-size: 1rem;
+    padding: 18px 40px;
+}
 
-    a.btn_1.medium,
-    .btn_1.medium {
-        font-size: 16px;
-        font-size: 1rem;
-        padding: 18px 40px;
-    }
+a.btn_1.rounded,
+.btn_1.rounded {
+    -webkit-border-radius: 25px !important;
+    -moz-border-radius: 25px !important;
+    -ms-border-radius: 25px !important;
+    border-radius: 25px !important;
+}
 
-    a.btn_1.rounded,
-    .btn_1.rounded {
-        -webkit-border-radius: 25px !important;
-        -moz-border-radius: 25px !important;
-        -ms-border-radius: 25px !important;
-        border-radius: 25px !important;
-    }
+a.btn_1.outline,
+.btn_1.outline {
+    border: 2px solid #004dda;
+    color: #004dda;
+    padding: 11px 40px;
+    background: none;
+}
 
-    a.btn_1.outline,
-    .btn_1.outline {
-        border: 2px solid #004dda;
-        color: #004dda;
-        padding: 11px 40px;
-        background: none;
-    }
-
-        a.btn_1.outline:hover,
-        .btn_1.outline:hover {
-            background: #0054a6;
-            color: #fff;
-            border-color: #0054a6;
-        }
-
-        a.btn_1.outline:focus,
-        .btn_1.outline:focus {
-            outline: none;
-        }
-
-    a.btn_add,
-    .btn_add {
-        border: none;
+    a.btn_1.outline:hover,
+    .btn_1.outline:hover {
+        background: #0054a6;
         color: #fff;
-        background: #E55923;
-        outline: none;
-        cursor: pointer;
-        display: inline-block;
-        text-decoration: none;
-        color: white !important;
-        font-weight: 500;
-        -moz-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        -webkit-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        -ms-border-radius: 3px;
-        border-radius: 3px;
-        line-height: 1 !important;
-        padding: 10px 15px;
-        position: relative;
-        top: 2px;
+        border-color: #0054a6;
     }
-        /* @media (max-width: 991px) {
+
+    a.btn_1.outline:focus,
+    .btn_1.outline:focus {
+        outline: none;
+    }
+
+a.btn_add,
+.btn_add {
+    border: none;
+    color: #fff;
+    background: #E55923;
+    outline: none;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    color: white !important;
+    font-weight: 500;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+    line-height: 1 !important;
+    padding: 10px 15px;
+    position: relative;
+    top: 2px;
+}
+    /* @media (max-width: 991px) {
   a.btn_add,
   .btn_add {
     display: none;
   }
 } */
-        a.btn_add:hover,
-        .btn_add:hover {
-            background-color: #ff0000;
-            color: #fff !important;
-            opacity: 1 !important;
-        }
+    a.btn_add:hover,
+    .btn_add:hover {
+        background-color: #ff0000;
+        color: #fff !important;
+        opacity: 1 !important;
+    }
 
 .closebt {
     -moz-transition: all 0.3s ease-in-out;

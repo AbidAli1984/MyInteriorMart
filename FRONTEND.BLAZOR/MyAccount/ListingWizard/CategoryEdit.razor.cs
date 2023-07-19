@@ -32,7 +32,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public string currentPage = "nav-category";
         public bool buttonBusy { get; set; }
-        public bool toggleEdit { get; set; } = true;
+        public bool preventEdit { get; set; } = true;
         public int firstCatId { get; set; }
         public int secondCatId { get; set; }
 
@@ -70,21 +70,27 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     }
 
                     CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
-                    if(CategoryVM.Category != null && CategoryVM.Category.FirstCategoryID != null)
+                    if(categoryExist)
                     {
-                        await GetSecondCategoryIdByFirstCategoryId(null);
+                        if (CategoryVM.Category.FirstCategoryID != null)
+                        {
+                            await GetSecondCategoryIdByFirstCategoryId(null);
+                        }
+
                         if (CategoryVM.Category.SecondCategoryID != null)
+                        {
                             await GetOtherCategoriesBySecondCategoryId(null);
+                        }
                     }
 
-                    if (categoryExist == true)
-                    {
-                        navManager.NavigateTo($"/MyAccount/ListingWizard/CategoryEdit/{listingId}");
-                    }
-                    else
-                    {
-                        navManager.NavigateTo($"/MyAccount/ListingWizard/Category/{listingId}");
-                    }
+                    //if (categoryExist == true)
+                    //{
+                    //    navManager.NavigateTo($"/MyAccount/ListingWizard/CategoryEdit/{listingId}");
+                    //}
+                    //else
+                    //{
+                    //    navManager.NavigateTo($"/MyAccount/ListingWizard/Category/{listingId}");
+                    //}
                 }
             }
             catch (Exception exc)
@@ -95,7 +101,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task ToggleEditAsync()
         {
-            toggleEdit = !toggleEdit;
+            preventEdit = !preventEdit;
             await Task.Delay(5);
         }
 
@@ -174,9 +180,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
-        public async Task SelectAllAsync()
+        public async Task SelectAllCategories()
         {
-            
+            categoryService.MarkAllCategoriesSelected(CategoryVM);
             await Task.Delay(1);
         }
 
