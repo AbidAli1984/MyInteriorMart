@@ -17,10 +17,50 @@ namespace DAL.Repositories
             this.categoryContext = categoryContext;
         }
 
-        public async Task<IEnumerable<FirstCategory>> GetFirstCategoriesAsync()
+        public async Task<IList<FirstCategory>> GetFirstCategoriesAsync()
         {
             return await categoryContext.FirstCategory
                 .OrderByDescending(i => i.SortOrder)
+                .ToListAsync();
+        }
+
+        public async Task<IList<SecondCategory>> GetSecCategoriesByFirstCategoryId(int firstCategoryId)
+        {
+            return await categoryContext.SecondCategory
+                .Where(c => c.FirstCategoryID == firstCategoryId)
+                .OrderByDescending(c => c.SecondCategoryID)
+                .ToListAsync();
+        }
+
+        public async Task<IList<ThirdCategory>> GetThirdCategoriesBySeconCategoryId(int secondCategoryId)
+        {
+            return await categoryContext.ThirdCategory
+                .Where(c => c.SecondCategoryID == secondCategoryId)
+                .OrderByDescending(c => c.ThirdCategoryID)
+                .ToListAsync();
+        }
+
+        public async Task<IList<FourthCategory>> GetForthCategoriesBySecondCategoryId(int secondCategoryId)
+        {
+            return await categoryContext.FourthCategory
+                .Where(c => c.SecondCategoryID == secondCategoryId)
+                .OrderByDescending(c => c.FourthCategoryID)
+                .ToListAsync();
+        }
+
+        public async Task<IList<FifthCategory>> GetFifthCategoriesBySecondCategoryId(int secondCategoryId)
+        {
+            return await categoryContext.FifthCategory
+                .Where(c => c.SecondCategoryID == secondCategoryId)
+                .OrderByDescending(c => c.FifthCategoryID)
+                .ToListAsync();
+        }
+
+        public async Task<IList<SixthCategory>> GetSixthCategoriesBySecondCategoryId(int secondCategoryId)
+        {
+            return await categoryContext.SixthCategory
+                .Where(c => c.SecondCategoryID == secondCategoryId)
+                .OrderByDescending(c => c.SixthCategoryID)
                 .ToListAsync();
         }
 
@@ -115,16 +155,6 @@ namespace DAL.Repositories
                 .Include(i => i.FourthCategory)
                 .Include(i => i.FifthCategory)
                 .FirstOrDefaultAsync();
-        }
-        // End:
-
-        // Shafi: Home Second Categories Where First Category Name is Parameter
-        public async Task<IList<SecondCategory>> GetSecCategoriesByFirstCategoryId(int firstCategoryId)
-        {
-            return await categoryContext.SecondCategory
-                .Where(c => c.FirstCategoryID == firstCategoryId)
-                .OrderByDescending(c => c.SecondCategoryID)
-                .ToListAsync();
         }
         // End:
 

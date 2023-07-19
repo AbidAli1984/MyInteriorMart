@@ -11,13 +11,16 @@ using AntDesign;
 using BOL.CATEGORIES;
 using DAL.Models;
 using BAL.Services.Contracts;
+using BOL.ComponentModels.MyAccount.ListingWizard;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class CategoryEdit
     {
         [Inject]
-        public IListingService listingService{ get; set; }
+        public IListingService listingService { get; set; }
+        [Inject]
+        public ICategoryService categoryService { get; set; }
         [Inject]
         public Helper helper { get; set; }
 
@@ -25,22 +28,15 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         [Parameter]
         public int? listingId { get; set; }
         public int listingID { get; set; }
+        public CategoryVM CategoryVM { get; set; } = new CategoryVM();
 
         public string currentPage = "nav-category";
         public bool buttonBusy { get; set; }
-
-        // Begin: Toggle Edit
         public bool toggleEdit { get; set; } = true;
-
-        public async Task ToggleEditAsync()
-        {
-            toggleEdit = !toggleEdit;
-            await Task.Delay(5);
-        }
-        // End: Toggle Edit
+        public int firstCatId { get; set; }
+        public int secondCatId { get; set; }
 
         public string ErrorMessage { get; set; }
-        // Begin: Check if record exists
         public bool companyExist { get; set; }
         public bool communicationExist { get; set; }
         public bool addressExist { get; set; }
@@ -73,8 +69,13 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                         // End: Check if record exists
                     }
 
-                    await ListFirstCategories();
-                    await GetSelectedCategory();
+                    CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
+                    if(CategoryVM.Category != null && CategoryVM.Category.FirstCategoryID != null)
+                    {
+                        await GetSecondCategoryIdByFirstCategoryId(null);
+                        if (CategoryVM.Category.SecondCategoryID != null)
+                            await GetOtherCategoriesBySecondCategoryId(null);
+                    }
 
                     if (categoryExist == true)
                     {
@@ -90,6 +91,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             {
                 ErrorMessage = exc.Message;
             }
+        }
+
+        public async Task ToggleEditAsync()
+        {
+            toggleEdit = !toggleEdit;
+            await Task.Delay(5);
         }
 
         #region Check if record exists
@@ -113,8 +120,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task CategoryExistAsync()
         {
-            var category = await listingService.GetCategoryByListingId(listingID);
-            categoryExist = category != null;
+            CategoryVM.Category = await listingService.GetCategoryByListingId(listingID);
+            categoryExist = CategoryVM.Category != null;
         }
 
         public async Task SpecialisationExistAsync()
@@ -137,40 +144,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         #endregion
 
         // Properties
-        public int? firstCatId { get; set; }
-        public int? secondCatId { get; set; }
 
-        // Begin: Get Selected First And Second Category
-        public FirstCategory selectedFirstCategory { get; set; }
-        public SecondCategory selectedSecondCategory { get; set; }
-
-        public async Task GetSelectedCategory()
-        {
-            var cat = await listingContext.Categories
-                .Where(i => i.ListingID == listingId)
-                .FirstOrDefaultAsync();
-
-            if(cat != null)
-            {
-                selectedFirstCategory = await categoriesContext.FirstCategory
-                    .Where(i => i.FirstCategoryID == cat.FirstCategoryID)
-                    .FirstOrDefaultAsync();
-
-                selectedSecondCategory = await categoriesContext.SecondCategory
-                    .Where(i => i.SecondCategoryID == cat.SecondCategoryID)
-                    .FirstOrDefaultAsync();
-            }
-        }
-        // End: Get Selected First And Second Category
-
-        public IList<FirstCategory> listFirstCat { get; set; }
-        public IList<SecondCategory> listSecondCat { get; set; }
-
-        public async Task ListFirstCategories()
+        public async Task GetSecondCategoryIdByFirstCategoryId(ChangeEventArgs e)
         {
             try
             {
-                listFirstCat = await categoriesContext.FirstCategory.OrderBy(i => i.Name).ToListAsync();
+                if (e != null)
+                    CategoryVM.Category.FirstCategoryID = Convert.ToInt32(e.Value.ToString());
+                await categoryService.GetSecCategoriesByFirstCategoryId(CategoryVM);
             }
             catch (Exception exc)
             {
@@ -178,25 +159,13 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
-        public async Task ListSecondCategories(ChangeEventArgs e)
+        public async Task GetOtherCategoriesBySecondCategoryId(ChangeEventArgs e)
         {
             try
             {
-                firstCatId = Convert.ToInt32(e.Value.ToString());
-
-                listSecondCat = await categoriesContext.SecondCategory.OrderBy(i => i.Name).Where(i => i.FirstCategoryID == firstCatId).ToListAsync();
-            }
-            catch (Exception exc)
-            {
-                ErrorMessage = exc.Message;
-            }
-        }
-
-        public async Task GetSecondCatId(ChangeEventArgs e)
-        {
-            try
-            {
-                secondCatId = Convert.ToInt32(e.Value.ToString());
+                if (e != null)
+                    CategoryVM.Category.SecondCategoryID = Convert.ToInt32(e.Value.ToString());
+                await categoryService.GetOtherCategoriesBySeconCategoryId(CategoryVM);
                 await Task.Delay(500);
             }
             catch (Exception exc)
@@ -205,24 +174,26 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
+        public async Task SelectAllAsync()
+        {
+            
+            await Task.Delay(1);
+        }
+
         public async Task UpdateListingCategory()
         {
             buttonBusy = true;
 
             try
             {
-                if (listingId != null && firstCatId != null && secondCatId != null)
+                var category = CategoryVM.Category;
+                if (category != null)
                 {
-                    var listingCat = await listingContext.Categories
-                        .Where(i => i.ListingID == listingId)
-                        .FirstOrDefaultAsync();
-
-                    if (listingCat != null)
+                    
+                    if (listingId != null && category.FirstCategoryID != null && category.SecondCategoryID != null)
                     {
-                        listingCat.FirstCategoryID = firstCatId.Value;
-                        listingCat.SecondCategoryID = secondCatId.Value;
-
-                        listingContext.Update(listingCat);
+                        categoryService.GetOtherCategoriesToUpdate(CategoryVM);
+                        listingContext.Update(CategoryVM.Category);
                         await listingContext.SaveChangesAsync();
 
                         // Navigate To
@@ -231,19 +202,19 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     else
                     {
                         // Show notification
-                        await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Categories for Listing ID {listingCat.ListingID} does not exists.");
+                        await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Listing ID, First Category and Second Category must not be blank.");
 
                         buttonBusy = false;
                     }
-
                 }
                 else
                 {
                     // Show notification
-                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Listing ID, First Category and Second Category must not be blank.");
+                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Categories for Listing ID {listingId} does not exists.");
 
                     buttonBusy = false;
                 }
+
             }
             catch (Exception exc)
             {

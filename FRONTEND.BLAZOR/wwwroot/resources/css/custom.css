@@ -212,10 +212,9 @@ footer ul {
 	text-transform: uppercase;
 	font-weight: normal;
 	display: block;
-	float: left;
 	font-family: 'Arial Narrow', arial;
-	width: 100%;
 	background-color: #fe900d;
+	border-radius: 5px;
 }
 
 .banner-block .grid_item.small {

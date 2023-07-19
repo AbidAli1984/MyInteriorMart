@@ -99,21 +99,20 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>First Category <span class="text-danger">*</span></label>
-                                            <select class="form-control" @onchange="ListSecondCategories" disabled="@toggleEdit">
-                                                @if (selectedFirstCategory != null)
+                                            <select class="form-control" @onchange="GetSecondCategoryIdByFirstCategoryId" disabled="@toggleEdit">
+                                                <option selected disabled>Choose...</option>
+                                                @if (CategoryVM.FirstCategories != null && CategoryVM.FirstCategories.Count > 0)
                                                 {
-                                                    <option selected value="@selectedFirstCategory.FirstCategoryID">@selectedFirstCategory.Name</option>
-                                                }
-                                                else
-                                                {
-                                                    <option selected disabled>Choose...</option>
-                                                }
-
-                                                @if (listFirstCat != null)
-                                                {
-                                                    foreach (var i in listFirstCat)
+                                                    foreach (var cat in CategoryVM.FirstCategories)
                                                     {
-                                                        <option value="@i.FirstCategoryID">@i.Name</option>
+                                                        if (CategoryVM.Category.FirstCategoryID == cat.FirstCategoryID)
+                                                        {
+                                                            <option selected value="@cat.FirstCategoryID">@cat.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@cat.FirstCategoryID">@cat.Name</option>
+                                                        }
                                                     }
                                                 }
                                                 else
@@ -124,21 +123,20 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Second Category <span class="text-danger">*</span></label>
-                                            <select class="form-control" @onchange="GetSecondCatId" disabled="@toggleEdit">
-                                                @if (selectedSecondCategory != null)
+                                            <select class="form-control" @onchange="GetOtherCategoriesBySecondCategoryId" disabled="@toggleEdit">
+                                                <option selected disabled>Choose...</option>
+                                                @if (CategoryVM.SecondCategories != null && CategoryVM.SecondCategories.Count > 0)
                                                 {
-                                                    <option selected value="@selectedSecondCategory.SecondCategoryID">@selectedSecondCategory.Name</option>
-                                                }
-                                                else
-                                                {
-                                                    <option selected disabled>Choose...</option>
-                                                }
-
-                                                @if (listSecondCat != null)
-                                                {
-                                                    foreach (var i in listSecondCat)
+                                                    foreach (var cat in CategoryVM.SecondCategories)
                                                     {
-                                                        <option value="@i.SecondCategoryID">@i.Name</option>
+                                                        if (CategoryVM.Category.SecondCategoryID == cat.SecondCategoryID)
+                                                        {
+                                                            <option selected value="@cat.SecondCategoryID">@cat.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@cat.SecondCategoryID">@cat.Name</option>
+                                                        }
                                                     }
                                                 }
                                                 else
@@ -147,26 +145,105 @@
                                                 }
                                             </select>
                                         </div>
-                                        <div class="text-left col-12 mt-3">
-                                            @if (toggleEdit == false)
-                                            {
-                                                if (buttonBusy == false)
-                                                {
-                                                    <button class="btn btn-primary w-100" @onclick="@(async() => await UpdateListingCategory())" disabled="@toggleEdit">Save & Continue</button>
-                                                }
-                                                else
-                                                {
-                                                    <button class="btn btn-secondary w-100">Saving...</button>
-                                                }
-                                            }
-
-                                            @if (specialisationExist == true && toggleEdit == true)
-                                            {
-                                                <a href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
-
-                                                <a href="/MyAccount/ListingWizard/AddressEdit/@listingId" class="pull-right mr-4" style="margin-left:150px;"><img src="/img/arrow-previous.png" height="25" /></a>
-                                            }
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="clearfix add_bottom_15">
+                                                <div class="checkboxes float-left">
+                                                    <button class="btn_1" @onclick="@(async() => await SelectAllAsync())">Select All</button>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        @if (CategoryVM.ThirdCategories != null && CategoryVM.ThirdCategories.Count > 0)
+                                        {
+                                            @foreach (var cat in CategoryVM.ThirdCategories)
+                                            {
+                                                <div class="col-md-3">
+                                                    <div class="clearfix add_bottom_15">
+                                                        <div class="checkboxes float-left">
+                                                            <label class="container_check">
+                                                                @cat.Name
+                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        @if (CategoryVM.FourthCategories != null && CategoryVM.FourthCategories.Count > 0)
+                                        {
+                                            @foreach (var cat in CategoryVM.FourthCategories)
+                                            {
+                                                <div class="col-md-3">
+                                                    <div class="clearfix add_bottom_15">
+                                                        <div class="checkboxes float-left">
+                                                            <label class="container_check">
+                                                                @cat.Name
+                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        @if (CategoryVM.FifthCategories != null && CategoryVM.FifthCategories.Count > 0)
+                                        {
+                                            @foreach (var cat in CategoryVM.FifthCategories)
+                                            {
+                                                <div class="col-md-3">
+                                                    <div class="clearfix add_bottom_15">
+                                                        <div class="checkboxes float-left">
+                                                            <label class="container_check">
+                                                                @cat.Name
+                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        @if (CategoryVM.SixthCategories != null && CategoryVM.SixthCategories.Count > 0)
+                                        {
+                                            @foreach (var cat in CategoryVM.SixthCategories)
+                                            {
+                                                <div class="col-md-3">
+                                                    <div class="clearfix add_bottom_15">
+                                                        <div class="checkboxes float-left">
+                                                            <label class="container_check">
+                                                                @cat.Name
+                                                                <input type="checkbox" @onclick="@(() => cat.IsSelected = !cat.IsSelected)" disabled="@toggleEdit">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="text-left col-12 mt-3">
+                                        @if (toggleEdit == false)
+                                        {
+                                            if (buttonBusy == false)
+                                            {
+                                                <button class="btn btn-primary w-100" @onclick="@(async() => await UpdateListingCategory())" disabled="@toggleEdit">Save & Continue</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-secondary w-100">Saving...</button>
+                                            }
+                                        }
+
+                                        @if (specialisationExist == true && toggleEdit == true)
+                                        {
+                                            <a href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+
+                                            <a href="/MyAccount/ListingWizard/AddressEdit/@listingId" class="pull-right mr-4" style="margin-left:150px;"><img src="/img/arrow-previous.png" height="25" /></a>
+                                        }
                                     </div>
                                 </div>
                             </div>
