@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using FRONTEND.BLAZOR.Services;
 using AntDesign;
-using BOL.CATEGORIES;
 using DAL.Models;
 using BAL.Services.Contracts;
+using BOL.ComponentModels.MyAccount.ListingWizard;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class Category
     {
         [Inject]
+        private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject]
         public IListingService listingService { get; set; }
+        [Inject]
+        public ICategoryService categoryService { get; set; }
         [Inject]
         public IUserService userService { get; set; }
         [Inject]
@@ -27,17 +26,13 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         [Parameter]
         public int? listingId { get; set; }
         public int listingID { get; set; }
+        public CategoryVM CategoryVM { get; set; } = new CategoryVM();
+        public ApplicationUser iUser { get; set; }
 
         public string currentPage = "nav-category";
         public bool buttonBusy { get; set; }
-
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
         public string ErrorMessage { get; set; }
-        public ApplicationUser iUser { get; set; }
-
-        // Begin: Check if record exists
         public bool companyExist { get; set; }
         public bool communicationExist { get; set; }
         public bool addressExist { get; set; }
@@ -74,8 +69,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                         // End: Check if record exists
                     }
 
-                    await ListFirstCategories();
-
+                    CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
                     if (categoryExist == true)
                     {
                         string url = "/MyAccount/ListingWizard/CategoryEdit/" + listingId;
@@ -133,18 +127,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         }
         #endregion
 
-        // Properties
-        public int? firstCatId { get; set; }
-        public int? secondCatId { get; set; }
-        public IList<FirstCategory> listFirstCat { get; set; }
-        public IList<SecondCategory> listSecondCat { get; set; }
-
-        // Begin: First Category List
-        public async Task ListFirstCategories()
+        public async Task GetSecondCategoryIdByFirstCategoryId(ChangeEventArgs e)
         {
             try
             {
-                listFirstCat = await categoriesContext.FirstCategory.OrderBy(i => i.Name).ToListAsync();
+                CategoryVM.Category.FirstCategoryID = Convert.ToInt32(e.Value.ToString());
+                await categoryService.GetSecCategoriesByFirstCategoryId(CategoryVM);
             }
             catch (Exception exc)
             {
@@ -152,25 +140,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
-        public async Task ListSecondCategories(ChangeEventArgs e)
+        public async Task GetOtherCategoriesBySecondCategoryId(ChangeEventArgs e)
         {
             try
             {
-                firstCatId = Convert.ToInt32(e.Value.ToString());
-
-                listSecondCat = await categoriesContext.SecondCategory.OrderBy(i => i.Name).Where(i => i.FirstCategoryID == firstCatId).ToListAsync();
-            }
-            catch (Exception exc)
-            {
-                ErrorMessage = exc.Message;
-            }
-        }
-
-        public async Task GetSecondCatId(ChangeEventArgs e)
-        {
-            try
-            {
-                secondCatId = Convert.ToInt32(e.Value.ToString());
+                CategoryVM.Category.SecondCategoryID = Convert.ToInt32(e.Value.ToString());
+                await categoryService.GetOtherCategoriesBySeconCategoryId(CategoryVM);
                 await Task.Delay(500);
             }
             catch (Exception exc)
@@ -179,43 +154,31 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
+        public async Task SelectAllCategories()
+        {
+            categoryService.MarkAllCategoriesSelected(CategoryVM);
+            await Task.Delay(1);
+        }
+
         public async Task CreateListingCategory()
         {
             buttonBusy = true;
 
             try
             {
-                if(listingId != null && firstCatId != null && secondCatId != null)
+                var category = CategoryVM.Category;
+                if (listingID > 0 && category.FirstCategoryID > 0 && category.SecondCategoryID > 0)
                 {
-                    var duplicate = await listingContext.Categories
-                        .Where(i => i.ListingID == listingId)
-                        .FirstOrDefaultAsync();
+                    categoryService.GetOtherCategoriesToUpdate(CategoryVM);
+                    CategoryVM.Category.ListingID = listingID;
+                    CategoryVM.Category.OwnerGuid = CurrentUserGuid;
+                    CategoryVM.Category.IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
 
-                    if(duplicate == null)
-                    {
-                        BOL.LISTING.Categories cat = new()
-                        {
-                            ListingID = listingId.Value,
-                            OwnerGuid = CurrentUserGuid,
-                            IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString(),
-                            FirstCategoryID = firstCatId.Value,
-                            SecondCategoryID = secondCatId.Value
-                        };
+                    await listingService.UpdateAsync(CategoryVM.Category);
 
-                        await listingContext.AddAsync(cat);
-                        await listingContext.SaveChangesAsync();
+                    // Navigate To
+                    navManager.NavigateTo($"/MyAccount/ListingWizard/Specialisation/{listingId}");
 
-                        // Navigate To
-                        navManager.NavigateTo($"/MyAccount/ListingWizard/Specialisation/{listingId}");
-                    }
-                    else
-                    {
-                        // Show notification
-                        await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Categories for Listing ID {duplicate.ListingID} already exists.");
-
-                        buttonBusy = false;
-                    }
-                    
                 }
                 else
                 {
@@ -225,7 +188,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     buttonBusy = false;
                 }
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 // Show notification
                 await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);

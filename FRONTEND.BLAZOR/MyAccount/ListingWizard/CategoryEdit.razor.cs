@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using FRONTEND.BLAZOR.Services;
 using AntDesign;
-using BOL.CATEGORIES;
-using DAL.Models;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 
@@ -33,9 +25,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public string currentPage = "nav-category";
         public bool buttonBusy { get; set; }
         public bool preventEdit { get; set; } = true;
-        public int firstCatId { get; set; }
-        public int secondCatId { get; set; }
-
         public string ErrorMessage { get; set; }
         public bool companyExist { get; set; }
         public bool communicationExist { get; set; }
@@ -70,27 +59,13 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     }
 
                     CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
-                    if(categoryExist)
+                    if (categoryExist && CategoryVM.Category.FirstCategoryID > 0)
                     {
-                        if (CategoryVM.Category.FirstCategoryID != null)
-                        {
-                            await GetSecondCategoryIdByFirstCategoryId(null);
-                        }
+                        await GetSecondCategoryIdByFirstCategoryId(null);
 
-                        if (CategoryVM.Category.SecondCategoryID != null)
-                        {
+                        if (CategoryVM.Category.SecondCategoryID > 0)
                             await GetOtherCategoriesBySecondCategoryId(null);
-                        }
                     }
-
-                    //if (categoryExist == true)
-                    //{
-                    //    navManager.NavigateTo($"/MyAccount/ListingWizard/CategoryEdit/{listingId}");
-                    //}
-                    //else
-                    //{
-                    //    navManager.NavigateTo($"/MyAccount/ListingWizard/Category/{listingId}");
-                    //}
                 }
             }
             catch (Exception exc)
@@ -195,12 +170,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 var category = CategoryVM.Category;
                 if (category != null)
                 {
-                    
-                    if (listingId != null && category.FirstCategoryID != null && category.SecondCategoryID != null)
+
+                    if (listingId != null && category.FirstCategoryID > 0 && category.SecondCategoryID > 0)
                     {
                         categoryService.GetOtherCategoriesToUpdate(CategoryVM);
-                        listingContext.Update(CategoryVM.Category);
-                        await listingContext.SaveChangesAsync();
+                        await listingService.UpdateAsync(CategoryVM.Category);
 
                         // Navigate To
                         navManager.NavigateTo($"/MyAccount/ListingWizard/Specialisation/{listingId}");
