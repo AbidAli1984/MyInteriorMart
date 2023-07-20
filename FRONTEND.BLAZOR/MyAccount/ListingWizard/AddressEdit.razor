@@ -384,11 +384,11 @@
                                             {
                                                 @if (buttonBusy == false)
                                                 {
-                                                    <button class="btn_1" @onclick="@(async() => await UpdateAddressAsync())" disabled="@toggleEdit">Save & Continue</button>
+                                                    <button class="btn btn-primary w-100" @onclick="@(async() => await UpdateAddressAsync())" disabled="@toggleEdit">Save & Continue</button>
                                                 }
                                                 else
                                                 {
-                                                    <button class="btn_1">Saving...</button>
+                                                    <button class="btn btn-secondary w-100">Saving...</button>
                                                 }
                                             }
 
