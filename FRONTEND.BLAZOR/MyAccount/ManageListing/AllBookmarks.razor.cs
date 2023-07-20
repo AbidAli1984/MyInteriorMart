@@ -1,12 +1,7 @@
-﻿using AntDesign;
-using BAL.Services.Contracts;
+﻿using BAL.Services.Contracts;
 using BOL.AUDITTRAIL;
-using BOL.SHARED;
 using BOL.VIEWMODELS;
-using DAL.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,26 +15,33 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
         [Inject]
         public IUserService userService { get; set; }
 
-        // Begin: Check if record exisit with listingId
-        public string currentPage = "nav-address";
-        public bool buttonBusy { get; set; }
-        public bool disable { get; set; }
-
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
         public string CurrentUserGuid { get; set; }
-        public string ErrorMessage { get; set; }
-        public bool userAuthenticated { get; set; } = false;
-        public string IpAddress { get; set; }
-        public ApplicationUser iUser { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime CreatedTime { get; set; }
-        public string OwnerGuid { get; set; }
-        public string IpAddressUser { get; set; }
+        public bool isVendor { get; set; } = false;
 
         public IEnumerable<Bookmarks> userBookmarks { get; set; }
 
         public IList<BookmarkListingViewModel> listBLVM = new List<BookmarkListingViewModel>();
+
+        protected async override Task OnInitializedAsync()
+        {
+            try
+            {
+                // Get User Name
+                var authstate = await authenticationState.GetAuthenticationStateAsync();
+                var user = authstate.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
+                    CurrentUserGuid = applicationUser.Id;
+                    isVendor = applicationUser.IsVendor;
+                    await GetUsersBookmarksAsync();
+                }
+            }
+            catch (Exception exc)
+            {
+                string ErrorMessage = exc.Message;
+            }
+        }
 
         public async Task GetUsersBookmarksAsync()
         {
@@ -69,36 +71,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 
                     listBLVM.Add(rlvm);
                 }
-            }
-        }
-
-        protected async override Task OnInitializedAsync()
-        {
-            try
-            {
-                // Get User Name
-                var authstate = await authenticationState.GetAuthenticationStateAsync();
-                var user = authstate.User;
-                if (user.Identity.IsAuthenticated)
-                {
-                    // Shafi: Assign Time Zone to CreatedDate & Created Time
-                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-                    IpAddressUser = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    CreatedDate = timeZoneDate;
-                    CreatedTime = timeZoneDate;
-                    // End:
-
-                    iUser = await userService.GetUserByUserName(user.Identity.Name);
-                    CurrentUserGuid = iUser.Id;
-
-                    userAuthenticated = true;
-
-                    await GetUsersBookmarksAsync();
-                }
-            }
-            catch (Exception exc)
-            {
-                ErrorMessage = exc.Message;
             }
         }
     }

@@ -1,14 +1,8 @@
 ﻿@page "/ManageListing/AllReviews"
 @inject ListingDbContext listingContext
 @inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
 @inject CategoriesDbContext categoriesContext
 @inject AuthenticationStateProvider authenticationState
-@inject NotificationService _notice
-@inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using AntDesign
-@using BOL.SHARED
 
 <style>
     .example {
@@ -27,15 +21,7 @@
             <div class="container margin_60_35">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="nav profile-side-menu  flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <a class="nav-link" href="/MyAccount/UserProfile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-                            <a class="nav-link" href="/ManageListing/AllListing" role="tab" aria-selected="false">My Listings</a>
-                            <a class="nav-link active" href="/ManageListing/AllReviews" role="tab" aria-controls="v-pill-reviews" aria-selected="false">Reviews</a>
-                            <a class="nav-link" href="/ManageListing/AllLikes" role="tab" aria-controls="v-pill-likes" aria-selected="false">Likes</a>
-                            <a class="nav-link" href="/ManageListing/AllBookmarks" role="tab" aria-controls="v-pill-bookmark" aria-selected="false">Bookmarks</a>
-                            <a class="nav-link" href="/ManageListing/AllSubscribes" role="tab" aria-controls="v-pill-subscribe" aria-selected="true">Subscribe</a>
-                            <a class="nav-link" href="/Identity/Account/Manage" role="tab" aria-controls="v-pill-settings" aria-selected="false">Settings</a>
-                        </div>
+                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.Review" />
                     </div>
 
                     <div class="col-lg-9">
