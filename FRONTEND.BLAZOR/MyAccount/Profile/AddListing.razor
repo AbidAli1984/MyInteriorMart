@@ -1,0 +1,78 @@
+﻿@page "/MyAccount/AddListing"
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.AddListing" />
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review">
+                                    <h5>Add Listing</h5>
+                                    <div class="row">
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-company-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Company Details</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-communication-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Communication</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-addresses-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Addresses</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-categories-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Categories</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-specialisations-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Specialisations</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-working-hours-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Working Hours</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="add-payment-modes-details.html">
+                                                <div class="add_listing_card">
+                                                    <div class="add_listing_card_title">Payment Modes</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>

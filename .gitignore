@@ -29,3 +29,4 @@ FRONTEND/Utils/obj/
 Components/bin/
 Components/obj/
 FRONTEND.BLAZOR/wwwroot/FileManager/ProfileImages/
+FRONTEND.BLAZOR/.config/dotnet-tools.json
