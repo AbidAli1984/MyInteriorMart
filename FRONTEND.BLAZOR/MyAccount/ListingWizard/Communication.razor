@@ -11,261 +11,73 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="container">
-            <div class="listing-from-block individual-listing">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab-listing" role="tablist"
-                             aria-orientation="vertical">
-                            <!-- Company -->
-                            @if (companyExist == true)
-                            {
-                                if (currentPage == "nav-company")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="true">Company</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="false">Company</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-company")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Company/" aria-selected="true">Company</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="#0" aria-selected="false">Company</a>
-                                }
-                            }
-
-                            <!-- Communication -->
-                            @if (communicationExist == true)
-                            {
-                                if (currentPage == "nav-communication")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="true">Communication</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="false">Communication</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-communication")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Communication/" aria-selected="true">Communication</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Communication</a>
-                                }
-                            }
-
-                            <!-- Address -->
-                            @if (addressExist == true)
-                            {
-                                if (currentPage == "nav-address")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="true">Address</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="false">Address</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-address")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Address/" aria-selected="true">Address</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Address</a>
-                                }
-                            }
-
-                            <!-- Categories -->
-                            @if (categoryExist == true)
-                            {
-                                if (currentPage == "nav-category")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="true">Category</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="false">Category</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-category")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Category/" aria-selected="true">Category</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Category</a>
-                                }
-                            }
-
-                            <!-- Specialisations -->
-                            @if (specialisationExist == true)
-                            {
-                                if (currentPage == "nav-specialisation")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="true">Specialisation</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="false">Specialisation</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-specialisation")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/Specialisation/" aria-selected="true">Specialisation</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Specialisation</a>
-                                }
-                            }
-
-                            <!-- Working Hours -->
-                            @if (workingHoursExist == true)
-                            {
-                                if (currentPage == "nav-workinghours")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="true">Working Hours</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="false">Working Hours</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-workinghours")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/WorkingHours/" aria-selected="true">Working Hours</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Working Hours</a>
-                                }
-                            }
-
-                            <!-- Payment Modes -->
-                            @if (paymentModeExist == true)
-                            {
-                                if (currentPage == "nav-paymentmode")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="true">Payment Mode</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="false">Payment Mode</a>
-                                }
-                            }
-                            else
-                            {
-                                if (currentPage == "nav-paymentmode")
-                                {
-                                    <a class="nav-link active" href="/MyAccount/ListingWizard/PaymentMode/" aria-selected="true">Payment Mode</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link" href="javascript:void(0)" aria-selected="false">Payment Mode</a>
-                                }
-                            }
-                            <!-- End: Listing Wizard -->
-                            <!-- Begin: Finish -->
-                            @if (currentPage == "nav-logo")
-                            {
-                                <a class="nav-link active" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="true">Logo</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="false">Logo</a>
-                            }
-                            @if (currentPage == "nav-finish")
-                            {
-                                <a class="nav-link active" href="javascript:void(0)" aria-selected="true">Finish</a>
-                            }
-                            <!-- End: Finish -->
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
-                            <!-- Begin: Form -->
-                            <div class="tab-pane fade show active" id="v-pills-Company" role="tabpanel"
-                                 aria-labelledby="v-pills-Company-tab">
-                                <h4 class="add-lidting-title-from">Add Company Details</h4>
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Email <span class="text-danger">*</span></label>
-                                        <Input Type="email" Placeholder="Email" @bind-Value="@email" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Mobile <span class="text-danger">*</span></label>
-                                        <Input Type="number" Placeholder="Mobile" @bind-Value="@mobile" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Whatsapp <span class="text-danger">*</span></label>
-                                        <Input Type="number" Placeholder="Whatsapp" @bind-Value="@whatsapp" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Telephone</label>
-                                        <Input Type="number" Placeholder="Telephone" @bind-Value="@telephone1st" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Telephone</label>
-                                        <Input Type="number" Placeholder="Telephone" @bind-Value="@telephone2nd" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Website</label>
-                                        <Input Type="url" Placeholder="Website" @bind-Value="@website" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Toll Free</label>
-                                        <Input Placeholder="Toll Free" @bind-Value="@tollFree" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Fax</label>
-                                        <Input Type="number" Placeholder="Fax" @bind-Value="@fax" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="name">Skype ID <span class="text-danger">*</span></label>
-                                        <Input Placeholder="Skype ID" @bind-Value="@skypeId" />
-                                    </div>
-                                    <div class="text-left col-12 mt-3">
-                                        @if (buttonBusy == false)
-                                        {
-                                            <button class="btn btn-primary w-100" @onclick="@(async() => await CreateCommunicationAsync())">Save & Continue</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="btn btn-secondary w-100">Saving...</button>
-                                        }
-
-                                        @if (companyExist == true)
-                                        {
-                                            <a class="btn_1 pull-right ml-2" href="/MyAccount/ListingWizard/CompanyEdit/@listingId">Previous</a>
-                                        }
-                                        @if (addressExist == true)
-                                        {
-                                            <a class="btn_1 pull-right" href="/MyAccount/ListingWizard/AddressEdit/@listingId">Next</a>
-                                        }
-                                    </div>
-                                </div>
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-sidebar-content">
+                        <h4>Add Communication Details</h4>
+                        <p class="add-lidting-title-from">
+                            Add Listing / Add Communication Details
+                            <span>
+                                <a class="back_btn mx-3" href="/MyAccount/AddListing">Back</a>
+                            </span>
+                        </p>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="name">Email <span class="text-danger">*</span></label>
+                                <Input Type="email" Placeholder="Email" @bind-Value="@email" />
                             </div>
-                            <!-- End: Form -->
+                            <div class="form-group col-md-4">
+                                <label for="name">Mobile <span class="text-danger">*</span></label>
+                                <Input Type="number" Placeholder="Mobile" @bind-Value="@mobile" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Whatsapp <span class="text-danger">*</span></label>
+                                <Input Type="number" Placeholder="Whatsapp" @bind-Value="@whatsapp" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Telephone</label>
+                                <Input Type="number" Placeholder="Telephone" @bind-Value="@telephone1st" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Telephone</label>
+                                <Input Type="number" Placeholder="Telephone" @bind-Value="@telephone2nd" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Website</label>
+                                <Input Type="url" Placeholder="Website" @bind-Value="@website" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Toll Free</label>
+                                <Input Placeholder="Toll Free" @bind-Value="@tollFree" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Fax</label>
+                                <Input Type="number" Placeholder="Fax" @bind-Value="@fax" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Skype ID <span class="text-danger">*</span></label>
+                                <Input Placeholder="Skype ID" @bind-Value="@skypeId" />
+                            </div>
+                            <div class="text-left col-12 mt-3">
+                                @if (buttonBusy == false)
+                                {
+                                    <button class="btn btn-primary" @onclick="@(async() => await CreateCommunicationAsync())">Save & Continue</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary">Saving...</button>
+                                }
+
+                                @if (companyExist == true)
+                                {
+                                    <a class="btn_1 pull-right ml-2" href="/MyAccount/ListingWizard/CompanyEdit/@listingId">Previous</a>
+                                }
+                                @if (addressExist == true)
+                                {
+                                    <a class="btn_1 pull-right" href="/MyAccount/ListingWizard/AddressEdit/@listingId">Next</a>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
