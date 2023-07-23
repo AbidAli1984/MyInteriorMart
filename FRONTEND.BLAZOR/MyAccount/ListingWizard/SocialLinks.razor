@@ -1,0 +1,28 @@
+﻿@page "/MyAccount/Listing/SocialLinks"
+<AuthorizeView>
+    <Authorized>
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-sidebar-content">
+                        <h4>Social Links</h4>
+                        <p class="add-lidting-title-from">
+                            Add Listing / Social Links
+                            <span>
+                                <a class="back_btn mx-3" href="/MyAccount/AddListing">Back</a>
+                            </span>
+                        </p>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <h1>Social Links</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>
