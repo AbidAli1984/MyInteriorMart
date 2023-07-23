@@ -18,5 +18,7 @@ namespace BOL.VIEWMODELS
         public int Ratings { get; set; }
         public string Comment { get; set; }
         public string VisitTime { get; set; }
+        public int RatingLimit { get { return 5; } }
+        public string CreatedDate { get; set; }
     }
 }

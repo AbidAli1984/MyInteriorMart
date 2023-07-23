@@ -59,7 +59,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                         ReviewID = i.RatingID,
                         ListingId = i.ListingID,
                         OwnerGuid = i.OwnerGuid,
-                        Date = i.Date,
+                        CreatedDate = i.Date.ToString("MMMM dd yyyy"),
                         Name = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,
