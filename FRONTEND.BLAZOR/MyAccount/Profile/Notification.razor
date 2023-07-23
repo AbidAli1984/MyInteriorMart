@@ -1,0 +1,53 @@
+﻿@page "/MyAccount/Notification"
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.Notification" />
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review">
+                                    <h5>Notification</h5>
+                                    <div class="notification-list">
+                                        <span class="text-success">
+                                            <strong>Status Update</strong>
+                                        </span>
+                                        <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                        <p>This is an automated server response message. All systems are online.</p>
+                                    </div>
+
+                                    <div class="notification-list">
+                                        <span class="text-danger">
+                                            <strong>Status Update</strong>
+                                        </span>
+                                        <span class="small float-right text-muted">11:21 AM June 03 2021</span>
+                                        <p>This is an automated server response message. All systems are online.</p>
+                                    </div>
+
+                                    <div class="notification-list">
+                                        <span>
+                                            <strong>Your Order</strong>
+                                        </span>
+                                        <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                        <p>
+                                            Your package containing boAt headphones has been delivered. Thanks for
+                                            shopping! <a href="#">More details</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>

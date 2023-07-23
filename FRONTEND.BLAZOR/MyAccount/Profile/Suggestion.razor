@@ -1,0 +1,39 @@
+﻿@page "/MyAccount/Suggestion"
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.Suggestion" />
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review">
+                                    <h5>Suggestion</h5>
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input class="form-control" type="text" name="suggestion_title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" id="Address" name="Address"
+                                                  style="height:100px;"></textarea>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <input type="submit" value="Submit" class="btn btn-primary w-100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>
