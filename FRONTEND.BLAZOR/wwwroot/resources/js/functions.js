@@ -100,7 +100,7 @@
 			$('#toTop').fadeOut();
 		}
 	});
-	$('#toTop').on('click', function () {
+	$(document).on('click', '#toTop', function () {
 		$('body,html').animate({
 			scrollTop: 0
 		}, 500);
