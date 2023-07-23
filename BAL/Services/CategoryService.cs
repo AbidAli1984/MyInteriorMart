@@ -32,6 +32,7 @@ namespace BAL.Services
 
         public async Task GetSecCategoriesByFirstCategoryId(CategoryVM categoryVM)
         {
+            categoryVM.Category.SecondCategoryID = 0;
             categoryVM.SecondCategories.Clear();
             categoryVM.ThirdCategories.Clear();
             categoryVM.FourthCategories.Clear();

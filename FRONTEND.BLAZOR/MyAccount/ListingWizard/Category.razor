@@ -7,215 +7,142 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="container">
-            <div class="listing-from-block individual-listing">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab-listing" role="tablist"
-                             aria-orientation="vertical">
-                            <!-- Company -->
-                            @if (companyExist == true)
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/CompanyEdit/@listingId" aria-selected="false">Company</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/Company/" aria-selected="true">Company</a>
-                            }
-
-                            <!-- Communication -->
-                            @if (communicationExist == true)
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/CommunicationEdit/@listingId" aria-selected="false">Communication</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/Communication/" aria-selected="true">Communication</a>
-                            }
-
-                            <!-- Address -->
-                            @if (addressExist == true)
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/AddressEdit/@listingId" aria-selected="false">Address</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/Address/" aria-selected="true">Address</a>
-                            }
-
-                            <!-- Categories -->
-                            @if (categoryExist == true)
-                            {
-                                <a class="nav-link active" href="/MyAccount/ListingWizard/CategoryEdit/@listingId" aria-selected="false">Category</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link active" href="/MyAccount/ListingWizard/Category/" aria-selected="true">Category</a>
-                            }
-
-                            <!-- Specialisations -->
-                            @if (specialisationExist == true)
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/SpecialisationEdit/@listingId" aria-selected="false">Specialisation</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/Specialisation/" aria-selected="true">Specialisation</a>
-                            }
-
-                            <!-- Working Hours -->
-                            @if (workingHoursExist == true)
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/WorkingHoursEdit/@listingId" aria-selected="false">Working Hours</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/WorkingHours/" aria-selected="true">Working Hours</a>
-                            }
-
-                            <!-- Payment Modes -->
-                            @if (paymentModeExist == true)
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/PaymentModeEdit/@listingId" aria-selected="false">Payment Mode</a>
-                            }
-                            else
-                            {
-                                <a class="nav-link" href="/MyAccount/ListingWizard/PaymentMode/" aria-selected="true">Payment Mode</a>
-                            }
-                            <!-- End: Listing Wizard -->
-                            <!-- Begin: Finish -->
-                            <a class="nav-link" href="/MyAccount/ListingWizard/Logo/@listingId" aria-selected="false">Logo</a>
-                            <!-- End: Finish -->
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-sidebar-content">
+                        <h4>Add Category Details</h4>
+                        <p class="add-lidting-title-from">
+                            Add Listing / Add Category Details
+                            <span>
+                                <a class="back_btn mx-3" href="/MyAccount/AddListing">Back</a>
+                            </span>
+                        </p>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>First Category <span class="text-danger">*</span></label>
+                                <select class="form-control" @onchange="GetSecondCategoryIdByFirstCategoryId">
+                                    @if (CategoryVM.FirstCategories != null && CategoryVM.FirstCategories.Count > 0)
+                                    {
+                                        <option selected>Choose...</option>
+                                        foreach (var cat in CategoryVM.FirstCategories)
+                                        {
+                                            <option value="@cat.FirstCategoryID">@cat.Name</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option selected disabled>Choose...</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Second Category <span class="text-danger">*</span></label>
+                                <select class="form-control" @onchange="GetOtherCategoriesBySecondCategoryId">
+                                    @if (CategoryVM.SecondCategories != null && CategoryVM.SecondCategories.Count > 0)
+                                    {
+                                        <option selected>Choose...</option>
+                                        foreach (var cat in CategoryVM.SecondCategories)
+                                        {
+                                            <option value="@cat.SecondCategoryID">@cat.Name</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option selected disabled>Choose...</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
-                            <!-- Begin: Form --><div class="tab-content profile-sidebar-content add-lidting" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-Company" role="tabpanel"
-                                     aria-labelledby="v-pills-Company-tab">
-                                    <h4 class="add-lidting-title-from">Add Category</h4>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>First Category <span class="text-danger">*</span></label>
-                                            <select class="form-control" @onchange="GetSecondCategoryIdByFirstCategoryId">
-                                                @if (CategoryVM.FirstCategories != null && CategoryVM.FirstCategories.Count > 0)
-                                                {
-                                                    foreach (var cat in CategoryVM.FirstCategories)
-                                                    {
-                                                        <option value="@cat.FirstCategoryID">@cat.Name</option>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <option selected disabled>Choose...</option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Second Category <span class="text-danger">*</span></label>
-                                            <select class="form-control" @onchange="GetOtherCategoriesBySecondCategoryId">
-                                                @if (CategoryVM.SecondCategories != null && CategoryVM.SecondCategories.Count > 0)
-                                                {
-                                                    foreach (var cat in CategoryVM.SecondCategories)
-                                                    {
-                                                        <option value="@cat.SecondCategoryID">@cat.Name</option>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <option selected disabled>Choose...</option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 add_bottom_15">
-                                            <button class="btn btn-primary" @onclick="@(async () => await SelectAllCategories())">Select All</button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @if (CategoryVM.ThirdCategories != null && CategoryVM.ThirdCategories.Count > 0)
-                                        {
-                                            @foreach (var cat in CategoryVM.ThirdCategories)
-                                            {
-                                                <div class="col-md-3">
-                                                    <div class="clearfix add_bottom_15">
-                                                        <div class="checkboxes float-left">
-                                                            <label class="container_check">
-                                                                @cat.Name
-                                                                <input type="checkbox" @bind="cat.IsSelected">
-                                                                <span class="checkmark"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
-                                        @if (CategoryVM.FourthCategories != null && CategoryVM.FourthCategories.Count > 0)
-                                        {
-                                            @foreach (var cat in CategoryVM.FourthCategories)
-                                            {
-                                                <div class="col-md-3">
-                                                    <div class="clearfix add_bottom_15">
-                                                        <div class="checkboxes float-left">
-                                                            <label class="container_check">
-                                                                @cat.Name
-                                                                <input type="checkbox" @bind="cat.IsSelected">
-                                                                <span class="checkmark"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
-                                        @if (CategoryVM.FifthCategories != null && CategoryVM.FifthCategories.Count > 0)
-                                        {
-                                            @foreach (var cat in CategoryVM.FifthCategories)
-                                            {
-                                                <div class="col-md-3">
-                                                    <div class="clearfix add_bottom_15">
-                                                        <div class="checkboxes float-left">
-                                                            <label class="container_check">
-                                                                @cat.Name
-                                                                <input type="checkbox" @bind="cat.IsSelected">
-                                                                <span class="checkmark"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
-                                        @if (CategoryVM.SixthCategories != null && CategoryVM.SixthCategories.Count > 0)
-                                        {
-                                            @foreach (var cat in CategoryVM.SixthCategories)
-                                            {
-                                                <div class="col-md-3">
-                                                    <div class="clearfix add_bottom_15">
-                                                        <div class="checkboxes float-left">
-                                                            <label class="container_check">
-                                                                @cat.Name
-                                                                <input type="checkbox" @bind="cat.IsSelected">
-                                                                <span class="checkmark"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                    <div class="text-left col-12 mt-3">
-                                        @if (buttonBusy)
-                                        {
-                                            <button class="btn btn-secondary w-100">Saving...</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="btn btn-primary w-100" @onclick="@(async() => await CreateListingCategory())">Save & Continue</button>
-                                        }
-                                    </div>
+                        @if (CategoryVM.Category != null && CategoryVM.Category.SecondCategoryID > 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-12 add_bottom_15">
+                                    <button class="btn btn-primary" @onclick="@(async () => await SelectAllCategories())">Select All</button>
                                 </div>
                             </div>
-                            <!-- End: Form -->
+                        }
+                        <div class="row">
+                            @if (CategoryVM.ThirdCategories != null && CategoryVM.ThirdCategories.Count > 0)
+                            {
+                                @foreach (var cat in CategoryVM.ThirdCategories)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="clearfix add_bottom_15">
+                                            <div class="checkboxes float-left">
+                                                <label class="container_check">
+                                                    @cat.Name
+                                                    <input type="checkbox" @bind="cat.IsSelected">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (CategoryVM.FourthCategories != null && CategoryVM.FourthCategories.Count > 0)
+                            {
+                                @foreach (var cat in CategoryVM.FourthCategories)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="clearfix add_bottom_15">
+                                            <div class="checkboxes float-left">
+                                                <label class="container_check">
+                                                    @cat.Name
+                                                    <input type="checkbox" @bind="cat.IsSelected">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (CategoryVM.FifthCategories != null && CategoryVM.FifthCategories.Count > 0)
+                            {
+                                @foreach (var cat in CategoryVM.FifthCategories)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="clearfix add_bottom_15">
+                                            <div class="checkboxes float-left">
+                                                <label class="container_check">
+                                                    @cat.Name
+                                                    <input type="checkbox" @bind="cat.IsSelected">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (CategoryVM.SixthCategories != null && CategoryVM.SixthCategories.Count > 0)
+                            {
+                                @foreach (var cat in CategoryVM.SixthCategories)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="clearfix add_bottom_15">
+                                            <div class="checkboxes float-left">
+                                                <label class="container_check">
+                                                    @cat.Name
+                                                    <input type="checkbox" @bind="cat.IsSelected">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="text-left col-12 mt-3">
+                                @if (buttonBusy)
+                                {
+                                    <button class="btn btn-secondary">Saving...</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary" @onclick="@(async() => await CreateListingCategory())">Save & Continue</button>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -131,7 +131,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             try
             {
-                CategoryVM.Category.FirstCategoryID = Convert.ToInt32(e.Value.ToString());
+                int.TryParse(e.Value.ToString(), out int firstCatId);
+                CategoryVM.Category.FirstCategoryID = firstCatId;
                 await categoryService.GetSecCategoriesByFirstCategoryId(CategoryVM);
             }
             catch (Exception exc)
@@ -144,7 +145,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             try
             {
-                CategoryVM.Category.SecondCategoryID = Convert.ToInt32(e.Value.ToString());
+                int.TryParse(e.Value.ToString(), out int secondCatId);
+                CategoryVM.Category.SecondCategoryID = secondCatId;
                 await categoryService.GetOtherCategoriesBySeconCategoryId(CategoryVM);
                 await Task.Delay(500);
             }
