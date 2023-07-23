@@ -26,6 +26,7 @@ namespace BOL
         public static int Chat = 15;
         public static int History = 16;
         public static int ChangePassword = 17;
+        public static int MyActivity = 18;
         #endregion
     }
 }

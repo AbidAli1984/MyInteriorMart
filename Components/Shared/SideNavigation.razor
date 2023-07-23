@@ -3,9 +3,7 @@
 <div class="nav profile-side-menu flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     @if (isVendor)
     {
-        <a class="nav-link @ActiveLink(Constants.Like)" href="/ManageListing/AllLikes" role="tab" aria-controls="v-pill-likes" aria-selected="false">Like</a>
-        <a class="nav-link @ActiveLink(Constants.Review)" href="/ManageListing/AllReviews" role="tab" aria-controls="v-pill-reviews" aria-selected="false">Review</a>
-        <a class="nav-link @ActiveLink(Constants.Enquiry)" href="#" role="tab" aria-controls="v-pill-enquiry" aria-selected="false" disabled>Enquiry</a>
+        <a class="nav-link @ActiveLink(Constants.MyActivity)" href="/MyAccount/MyActivity" role="tab" aria-controls="v-pill-reviews" aria-selected="false">My Activity</a>
     }
     <a class="nav-link @ActiveLink(Constants.EditProfile)" href="/MyAccount/UserProfile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Edit Profile</a>
     <a class="nav-link @ActiveLink(Constants.PersonalInfo)" href="/MyAccount/ProfileInfo" role="tab" aria-controls="v-pills-address" aria-selected="true">Personal Info</a>
