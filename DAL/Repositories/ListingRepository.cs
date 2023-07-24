@@ -53,9 +53,14 @@ namespace DAL.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid)
+        public async Task<IEnumerable<Listing>> GetListings()
         {
-            return await _listingDbContext.Listing.Where(i => i.OwnerGuid == currentUserGuid).OrderByDescending(i => i.ListingID).ToListAsync();
+            return await _listingDbContext.Listing.OrderByDescending(i => i.ListingID).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId)
+        {
+            return await _listingDbContext.Listing.Where(i => i.OwnerGuid == ownerId).OrderByDescending(i => i.ListingID).ToListAsync();
         }
 
         public async Task<Listing> GetListingByListingId(int listingId)

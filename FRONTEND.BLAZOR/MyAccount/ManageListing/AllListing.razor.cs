@@ -29,7 +29,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                 {
                     ApplicationUser applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     isVendor = applicationUser.IsVendor;
-                    userListings = await listingService.GetUsersListingAsync(applicationUser.Id);
+                    userListings = await listingService.GetListingsByOwnerId(applicationUser.Id);
                 }
             }
             catch (Exception exc)

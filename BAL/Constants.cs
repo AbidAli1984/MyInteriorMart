@@ -1,6 +1,5 @@
-﻿using System;
+﻿using BOL.VIEWMODELS;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BAL
 {
@@ -22,5 +21,7 @@ namespace BAL
         public static int BadRequest = 400;
         public static int Unauthorized = 401;
         #endregion
+
+        public static IList<SearchResultViewModel> Listings;
     }
 }

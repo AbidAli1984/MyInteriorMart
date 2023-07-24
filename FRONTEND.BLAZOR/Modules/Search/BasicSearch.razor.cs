@@ -1,6 +1,8 @@
-﻿using AntDesign;
+﻿using BAL;
+using BAL.Services.Contracts;
+using BOL.LISTING;
+using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,19 +11,20 @@ namespace FRONTEND.BLAZOR.Modules.Search
 {
     public partial class BasicSearch
     {
-        public class BasicSearchVM
+        [Inject]
+        private IListingService listingService { get; set; }
+        [Inject]
+        private IUserService userService { get; set; }
+
+        private SearchResultViewModel SelectedListing;
+        protected async override Task OnInitializedAsync()
         {
-            public string Type { get; set; }
-            public string Parameter { get; set; }
+            if (Constants.Listings == null)
+                Constants.Listings = await listingService.GetSearchListings();
         }
-
-        public BasicSearchVM SelectedBasicSearchVM { get; set; }
-
-        //public List<BasicSearchVM> ListBasicSearchVM;
-
-        //public async Task<IEnumerable<BasicSearchVM>> Search(string searchText)
-        //{
-        //    return await Task.FromResult(ListBasicSearchVM.Where(x => x.Type))
-        //}
+        private async Task<IEnumerable<SearchResultViewModel>> SearchListings(string searchText)
+        {
+            return await Task.FromResult(Constants.Listings.Where(x => x.label.ToLower().Contains(searchText.ToLower())).ToList());
+        }
     }
 }

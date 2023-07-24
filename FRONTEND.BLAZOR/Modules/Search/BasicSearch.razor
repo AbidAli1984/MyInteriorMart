@@ -1,68 +1,29 @@
-﻿<!-- Begin: Search Bar -->
-<!--<div id="results">
+﻿@inject NavigationManager navManager
+<!-- Begin: Search Bar -->
+<div id="results">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8 col-12">
                 <div class="wrap">
-                    <div>
-                        <BlazoredTypeahead SearchMethod="SearchArticles"
-                                           @bind-Value="SelectedArticle">
-                            <SelectedTemplate>
-                                @context.Title
-                            </SelectedTemplate>
+                    <div class="search">
+                        <BlazoredTypeahead SearchMethod="SearchListings" @bind-Value="SelectedListing" Placeholder="Search">
+                            <SelectedTemplate>@context.value</SelectedTemplate>
                             <ResultTemplate>
-                                @context.Title <strong> by @context.Author </strong>
+                                @context.label
                             </ResultTemplate>
-                        </BlazoredTypeahead>-->
-
-                        @*<input type="text" id="searchBar" name="term" class="searchTerm" placeholder="Search">
-                        <input type="text" id="GetValue" value="" name="GetValue" hidden />
-                        <form id="searchForm" method="get">
-                            <input type="hidden" name="url" id="url" />
-                            <input type="hidden" name="term" id="term" />
-                            <input type="hidden" name="id" id="id" />
-                            <input type="hidden" name="keyword" id="keyword" />
-                            <button type="submit" class="searchButton" id="btnShafiSubmit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </form>*@
-                    <!--</div>
+                        </BlazoredTypeahead>
+                        <button type="submit" class="searchButton">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>-->
+</div>
 <!-- End: Search Bar -->
 
-@if (SelectedArticle != null)
+@if (SelectedListing != null)
 {
-    <p>Selected Film is: @SelectedArticle.Title</p>
-}
-@code {
-    private List<Article> Articles;
-    private Article SelectedArticle;
-    protected override void OnInitialized()
-    {
-        Articles = new List<Article> {
-            new Article("CRUD Using Blazor, Entity Framework Core And Dapper", "Faisal Pathan"),
-            new Article("Sorting Table In Blazor", "Faisal Pathan"),
-            new Article("Refresh Table In Blazor", "Mr. Pathan"),
-            new Article("Create Table In Blazor", "Alex Range"),
-            new Article("Pagination In Blazor", "The Code Hubs") };
-    }
-    private async Task<IEnumerable<Article>> SearchArticles(string searchText)
-    {
-        return await Task.FromResult(Articles.Where(x => x.Title.ToLower().Contains(searchText.ToLower()) ||
-        x.Author.ToLower().Contains(searchText.ToLower())).ToList());
-    }
-    public class Article
-    {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public Article(string title, string author)
-        {
-            Title = title;
-            Author = author;
-        }
-    }
+    navManager.NavigateTo($"/Listing/Index/{SelectedListing.value}");
 }

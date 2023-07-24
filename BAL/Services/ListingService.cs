@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using BOL.LISTING;
 using BOL.ComponentModels.Pages;
 using System.Linq;
+using BOL.VIEWMODELS;
+using System;
 
 namespace BAL.Services
 {
@@ -34,9 +36,9 @@ namespace BAL.Services
             return await _listingRepository.GetListingBannerBySecondCategoryId(listingCat.SecondCategoryID);
         }
 
-        public async Task<IEnumerable<BOL.LISTING.Listing>> GetUsersListingAsync(string currentUserGuid)
+        public async Task<IEnumerable<BOL.LISTING.Listing>> GetListingsByOwnerId(string ownerId)
         {
-            return await _listingRepository.GetUsersListingAsync(currentUserGuid);
+            return await _listingRepository.GetListingsByOwnerId(ownerId);
         }
 
         public async Task<Listing> GetListingByListingId(int listingId)
@@ -93,6 +95,16 @@ namespace BAL.Services
         public async Task UpdateAsync(object data)
         {
             await _listingRepository.UpdateAsync(data);
+        }
+
+        public async Task<IList<SearchResultViewModel>> GetSearchListings()
+        {
+            var listings = await _listingRepository.GetListings();
+            return listings.Select((x) => new SearchResultViewModel
+            {
+                label = x.CompanyName,
+                value = Convert.ToString(x.ListingID)
+            }).ToList();
         }
 
         #region Banner

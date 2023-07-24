@@ -1,6 +1,7 @@
 ﻿using BOL.BANNERADS;
 using BOL.ComponentModels.Pages;
 using BOL.LISTING;
+using BOL.VIEWMODELS;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace BAL.Services.Contracts
 
         Task<int> CountRatingAsync(int ListingID, int rating);
 
-        public Task<IEnumerable<Listing>> GetUsersListingAsync(string currentUserGuid);
+        public Task<IEnumerable<Listing>> GetListingsByOwnerId(string currentUserGuid);
 
         Task<Categories> GetCategoryByListingId(int listingId);
 
@@ -39,6 +40,8 @@ namespace BAL.Services.Contracts
         Task AddAsync(object data);
 
         Task UpdateAsync(object data);
+
+        Task<IList<SearchResultViewModel>> GetSearchListings();
 
         #region Banner
         Task<IndexVM> GetHomeBannerList();
