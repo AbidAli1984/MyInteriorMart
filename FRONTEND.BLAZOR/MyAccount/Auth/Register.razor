@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div id="sign-in-dialog" class="dialog-mfp zoom-anim-dialog">
+            <div id="register-form" class="dialog-mfp zoom-anim-dialog">
                 <div class="step first">
                     <h2 class="text-center pt-3">@(isOtpGenerated ? "Mobile No. Verification" : "Register")</h2>
                     <div class="tab-content checkout">
@@ -21,17 +21,17 @@
                             {
                                 <div class="d-flex justify-content-around">
                                     <div class="form-check user_type">
-                                        <input class="form-check-input" checked="@UserRegisterVM.IsVendor" type="radio" name="user-type"
-                                               @onchange="@(() => UserRegisterVM.IsVendor = true)">
-                                        <label class="form-check-label">
-                                            vendor
+                                        <label class="container_check">
+                                            Vendor
+                                            <input type="checkbox" checked="@UserRegisterVM.IsVendor" @onchange="SetVendor" />
+                                            <span class="checkmark"></span>
                                         </label>
                                     </div>
                                     <div class="form-check user_type">
-                                        <input class="form-check-input" checked="!@UserRegisterVM.IsVendor" type="radio" name="user-type"
-                                               @onchange="@(() => UserRegisterVM.IsVendor = false)">
-                                        <label class="form-check-label">
-                                            user
+                                        <label class="container_check">
+                                            User
+                                            <input type="checkbox" checked="@isUser" @onchange="SetVendor" />
+                                            <span class="checkmark"></span>
                                         </label>
                                     </div>
                                 </div>

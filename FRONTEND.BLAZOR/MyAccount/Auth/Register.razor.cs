@@ -26,6 +26,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
         public string message;
         public bool isError { get; set; }
         public bool isOtpGenerated;
+        public bool isUser = true;
         public bool isTCAccepted { get; set; }
 
         public async Task VerifyOTP()
@@ -76,6 +77,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             }
 
             StateHasChanged();
+        }
+
+        public void SetVendor()
+        {
+            UserRegisterVM.IsVendor = isUser;
+            isUser = !isUser;
         }
     }
 }

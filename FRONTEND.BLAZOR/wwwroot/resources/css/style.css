@@ -5832,6 +5832,19 @@ a.social_bt {
         display: block;
     }
 
+
+#register-form .container_check {
+    font-size: inherit !important;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+    #register-form .container_check .checkmark {
+        border-radius: 50%;
+        width: 21px;
+        height: 21px;
+    }
+
 /* Radio buttons */
 .container_radio {
     display: block;
