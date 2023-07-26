@@ -1,18 +1,18 @@
-﻿@page "/MyAccount/AddListing"
+﻿@page "/MyAccount/ManageListing"
 <AuthorizeView>
     <Authorized>
         <main>
             <div class="container margin_60_35">
                 <div class="row">
                     <div class="col-lg-3">
-                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.AddListing" />
+                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.ManageListing" />
                     </div>
 
                     <div class="col-lg-9">
                         <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                 <div class="add-review">
-                                    <h5>Add Listing</h5>
+                                    <h5>Manage Listing</h5>
                                     <div class="row">
                                         <div class="col-md-4 col-6 mb-3">
                                             <a href="/MyAccount/Listing/Company">
@@ -82,7 +82,7 @@
                                             <a href="MyAccount/Listing/Images">
                                                 <div class="add_listing_card d-flex align-items-center justify-content-start">
                                                     <img src="/resources/img/AddListing/payment.png" class="listing_img" alt="Images">
-                                                    <div class="add_listing_card_title">Images</div>
+                                                    <div class="add_listing_card_title">Upload Images</div>
                                                 </div>
                                             </a>
                                         </div>

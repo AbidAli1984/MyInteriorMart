@@ -11,7 +11,7 @@ namespace BOL
         #region Side Navigations
         public static int EditProfile = 1;
         public static int PersonalInfo = 2;
-        public static int AddListing = 3;
+        public static int ManageListing = 3;
         public static int MyListings = 4;
         public static int Offers = 5;
         public static int Review = 6;
