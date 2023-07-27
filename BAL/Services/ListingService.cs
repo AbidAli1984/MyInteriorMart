@@ -8,15 +8,137 @@ using BOL.ComponentModels.Pages;
 using System.Linq;
 using BOL.VIEWMODELS;
 using System;
+using BOL.ComponentModels.Listings;
 
 namespace BAL.Services
 {
     public class ListingService : IListingService
     {
         private readonly IListingRepository _listingRepository;
-        public ListingService(IListingRepository listingRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ISharedRepository _sharedRepository;
+        private readonly HelperFunctions _helperFunctions;
+        public ListingService(IListingRepository listingRepository, ICategoryRepository categoryRepository,
+            ISharedRepository sharedRepository, HelperFunctions helperFunctions)
         {
             _listingRepository = listingRepository;
+            _categoryRepository = categoryRepository;
+            _sharedRepository = sharedRepository;
+            _helperFunctions = helperFunctions;
+        }
+
+        public async Task<IList<ListingResultVM>> GetListings(string url, string level)
+        {
+            IEnumerable<Categories> listCat = null;
+            IList<ListingResultVM> listLrvm = new List<ListingResultVM>();
+
+            if (level == Constants.LevelFirstCategory)
+            {
+                var id = await _categoryRepository.GetFirstCategoryByURL(url);
+                listCat = await _listingRepository.GetCategoriesByFirstCategoryId(id.FirstCategoryID);
+            }
+            else if (level == Constants.LevelSecondCategory)
+            {
+                var id = await _categoryRepository.GetSecondCategoryByURL(url); ;
+                listCat = await _listingRepository.GetCategoriesBySecondCategoryId(id.SecondCategoryID);
+            }
+            else if (level == Constants.LevelThirdCategory)
+            {
+                var id = await _categoryRepository.GetThirdCategoryByURL(url); ;
+                listCat = await _listingRepository.GetCategoriesByThirdCategoryId(id.ThirdCategoryID);
+            }
+            else if (level == Constants.LevelFourthCategory)
+            {
+                var id = await _categoryRepository.GetFourthCategoryByURL(url); ;
+                listCat = await _listingRepository.GetCategoriesByFourthCategoryId(id.FourthCategoryID);
+            }
+            else if (level == Constants.LevelFifthCategory)
+            {
+                var id = await _categoryRepository.GetFifthCategoryByURL(url);
+                listCat = await _listingRepository.GetCategoriesByFifthCategoryId(id.FifthCategoryID);
+            }
+            else if (level == Constants.LevelSixthCategory)
+            {
+                var id = await _categoryRepository.GetSixthCategoryByURL(url); ;
+                listCat = await _listingRepository.GetCategoriesBySixthCategoryId(id.SixthCategoryID);
+            }
+
+            if (listCat.Count() > 0)
+            {
+                int[] listingIds = listCat.Select(x => x.ListingID).ToArray();
+                var approvedlistings = await _listingRepository.GetListingsByListingIds(listingIds);
+                int[] approvedListingIds = approvedlistings.Select(x => x.ListingID).ToArray();
+                var addresses = await _listingRepository.GetAddressesByListingIds(approvedListingIds);
+                var communications = await _listingRepository.GetCommunicationsByListingIds(approvedListingIds);
+
+                // Begin: Add result to listLrvm
+                foreach (var item in approvedlistings)
+                {
+                    int listingId = item.ListingID;
+
+                    var address = addresses.Where(x => x.ListingID == listingId).FirstOrDefault();
+                    var assembly = await _sharedRepository.GetAreaByAreaId(address.AssemblyID);
+                    var area = await _sharedRepository.GetLocalityByLocalityId(address.LocalityID);
+
+                    var communication = communications.Where(x => x.ListingID == listingId).FirstOrDefault();
+
+                    var secondCatId = listCat.First().SecondCategoryID;
+                    var secondCat = await _categoryRepository.GetSecondCategoryById(secondCatId);
+
+                    var businessWorking = await _helperFunctions.IsBusinessOpen(listingId);
+
+                    var rating = await GetRatingAsync(listingId);
+                    var ratingCount = rating.Count();
+                    var ratingAverage = await RatingAverageAsync(listingId);
+
+                    ListingResultVM lrvm = new ListingResultVM
+                    {
+                        ListingId = listingId,
+                        CompanyName = item.CompanyName,
+                        Url = item.ListingURL,
+                        //SubCategoryId = item.Categories.SecondCategoryID,
+                        SubCategory = secondCat != null ? secondCat.Name : string.Empty,
+                        Assembly = assembly != null ? assembly.Name : string.Empty,
+                        Area = area != null ? area.LocalityName : string.Empty,
+                        Mobile = communication.Mobile,
+                        Email = communication.Email,
+                        BusinessYear = DateTime.Now.Year - item.YearOfEstablishment.Year,
+                        BusinessWorking = businessWorking,
+                        RatingAverage = ratingAverage,
+                        RatingCount = ratingCount
+                    };
+
+                    listLrvm.Add(lrvm);
+                    // End: Add result to listLrvm
+                }
+            }
+            return listLrvm;
+        }
+
+        public async Task<decimal> RatingAverageAsync(int ListingID)
+        {
+            // Shafi: Get rating average
+            var ratings = await _listingRepository.GetRatingsByListingId(ListingID);
+
+            if (ratings.Count() > 0)
+            {
+                var R1 = await CountRatingAsync(ListingID, 1);
+                var R2 = await CountRatingAsync(ListingID, 2);
+                var R3 = await CountRatingAsync(ListingID, 3);
+                var R4 = await CountRatingAsync(ListingID, 4);
+                var R5 = await CountRatingAsync(ListingID, 5);
+
+                decimal averageCount = 5 * R5 + 4 * R4 + 3 * R3 + 2 * R2 + 1 * R1;
+                decimal weightedCount = R5 + R4 + R3 + R2 + R1;
+                decimal ratingAverage = averageCount / weightedCount;
+
+                return ratingAverage;
+            }
+            else
+            {
+                return 0;
+            }
+            // End:
         }
 
         public async Task<int> CountRatingAsync(int ListingID, int rating)

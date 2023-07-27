@@ -122,6 +122,7 @@ namespace FRONTEND.BLAZOR
             services.AddTransient<IAuditRepository, AuditRepository>();
             services.AddTransient<IMessageMailService, MessageMailService>();
             services.AddTransient<Helper>();
+            services.AddTransient<HelperFunctions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

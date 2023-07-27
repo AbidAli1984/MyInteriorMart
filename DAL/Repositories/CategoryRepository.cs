@@ -64,388 +64,51 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<SecondCategory>> GetSecondCategoriesAsync()
+        public async Task<SecondCategory> GetSecondCategoryById(int id)
         {
-            return await categoryContext.SecondCategory
-                .OrderByDescending(i => i.SortOrder)
-                .ToListAsync();
+            return await categoryContext.SecondCategory.FindAsync(id);
         }
 
-        public async Task<IEnumerable<ThirdCategory>> GetThirdCategoryAsync()
-        {
-            return await categoryContext.ThirdCategory
-                .OrderByDescending(i => i.SortOrder)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<FourthCategory>> GetFourthCategoryAsync()
-        {
-            return await categoryContext.FourthCategory
-                .OrderByDescending(i => i.SortOrder)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<FifthCategory>> GetFifthCategoryAsync()
-        {
-            return await categoryContext.FifthCategory
-                .OrderByDescending(i => i.SortOrder)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<SixthCategory>> GetSixthCategoryAsync()
-        {
-            return await categoryContext.SixthCategory
-                .OrderByDescending(i => i.SortOrder)
-                .ToListAsync();
-        }
-        // End:
-
-        // Shafi:
-        public async Task<FirstCategory> FirstCategoryDetailsAsync(int id)
+        public async Task<FirstCategory> GetFirstCategoryByURL(string url)
         {
             return await categoryContext.FirstCategory
-                .Where(i => i.FirstCategoryID == id)
+                .Where(c => c.URL == url)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<SecondCategory> SecondCategoryDetailsAsync(int id)
+        public async Task<SecondCategory> GetSecondCategoryByURL(string url)
         {
             return await categoryContext.SecondCategory
-                .Where(i => i.SecondCategoryID == id)
-                .Include(i => i.FirstCategory)
+                .Where(c => c.URL == url)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ThirdCategory> ThirdCategoryDetailsAsync(int id)
+        public async Task<ThirdCategory> GetThirdCategoryByURL(string url)
         {
             return await categoryContext.ThirdCategory
-                .Where(i => i.ThirdCategoryID == id)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
+                .Where(c => c.URL == url)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<FourthCategory> FourthCategoriesDetailsAsync(int id)
+        public async Task<FourthCategory> GetFourthCategoryByURL(string url)
         {
             return await categoryContext.FourthCategory
-                .Where(i => i.FourthCategoryID == id)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .Include(i => i.ThirdCategory).FirstOrDefaultAsync();
-        }
-
-        public async Task<FifthCategory> FifthCategoriesDetailsAsync(int id)
-        {
-            return await categoryContext.FifthCategory
-                .Where(i => i.FifthCategoryID == id)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .Include(i => i.ThirdCategory)
-                .Include(i => i.FourthCategory)
+                .Where(c => c.URL == url)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<SixthCategory> SixthCategoriesDetailsAsync(int id)
+        public async Task<FifthCategory> GetFifthCategoryByURL(string url)
         {
-            return await categoryContext.SixthCategory
-                .Where(i => i.SixthCategoryID == id)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .Include(i => i.ThirdCategory)
-                .Include(i => i.FourthCategory)
-                .Include(i => i.FifthCategory)
+            return await categoryContext.FifthCategory
+                .Where(c => c.URL == url)
                 .FirstOrDefaultAsync();
         }
-        // End:
 
-        // Shafi: Check if current category contains more than 1 category and return true false
-        public async Task<bool> ThirdHaveFourthAsync(int thirdId)
-        {
-            var result = await categoryContext.FourthCategory
-                .Where(c => c.ThirdCategoryID == thirdId)
-                .CountAsync();
-
-            return result != 0;
-        }
-
-        public async Task<bool> FourthHaveFifthAsync(int fourthId)
-        {
-            var result = await categoryContext.FifthCategory
-                .Where(c => c.FourthCategoryID == fourthId)
-                .CountAsync();
-
-            return result != 0;
-        }
-
-        public async Task<bool> FifthHaveSixthAsync(int fifthId)
-        {
-            var result = await categoryContext.SixthCategory
-                .Where(c => c.FifthCategoryID == fifthId)
-                .CountAsync();
-
-            return result != 0;
-        }
-        // End:
-
-        // Shafi: Get Deep Categories
-        public async Task<IEnumerable<SecondCategory>> GetSecondCategoriesDeepAsync(int firstCatId)
-        {
-            return await categoryContext.SecondCategory
-                .Where(i => i.FirstCategoryID == firstCatId)
-                .OrderByDescending(i => i.SearchCount)
-                .Include(i => i.FirstCategory)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<ThirdCategory>> GetThirdCategoryDeepAsync(int secondCatId)
-        {
-            return await categoryContext.ThirdCategory
-                .Where(i => i.SecondCategoryID == secondCatId)
-                .OrderByDescending(i => i.SearchCount)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<FourthCategory>> GetFourthCategoryDeepAsync(int thirdCatId)
-        {
-            return await categoryContext.FourthCategory
-                .Where(i => i.ThirdCategoryID == thirdCatId)
-                .OrderByDescending(i => i.SearchCount)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .Include(i => i.ThirdCategory)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<FifthCategory>> GetFifthCategoryDeepAsync(int fourthCatId)
-        {
-            return await categoryContext.FifthCategory
-                .Where(i => i.FourthCategoryID == fourthCatId)
-                .OrderByDescending(i => i.SearchCount)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .Include(i => i.ThirdCategory)
-                .Include(i => i.FourthCategory)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<SixthCategory>> GetSixthCategoryDeepAsync(int fifthCatId)
+        public async Task<SixthCategory> GetSixthCategoryByURL(string url)
         {
             return await categoryContext.SixthCategory
-                .Where(i => i.FifthCategoryID == fifthCatId)
-                .OrderByDescending(i => i.SearchCount)
-                .Include(i => i.FirstCategory)
-                .Include(i => i.SecondCategory)
-                .Include(i => i.ThirdCategory)
-                .Include(i => i.FourthCategory)
-                .Include(i => i.FifthCategory)
-                .ToListAsync();
+                .Where(c => c.URL == url)
+                .FirstOrDefaultAsync();
         }
-
-        // Shafi: Count Deep Categories
-        public async Task<int> CountSecondCategoriesDeepAsync(int firstCatId)
-        {
-            return await categoryContext.SecondCategory
-                .Where(i => i.FirstCategoryID == firstCatId)
-                .CountAsync();
-
-        }
-
-        public async Task<int> CountThirdCategoryDeepAsync(int secondCatId)
-        {
-            return await categoryContext.ThirdCategory
-                .Where(i => i.SecondCategoryID == secondCatId)
-                .CountAsync();
-        }
-
-        public async Task<int> CountFourthCategoryDeepAsync(int thirdCatId)
-        {
-            return await categoryContext.FourthCategory
-                .Where(i => i.ThirdCategoryID == thirdCatId)
-                .CountAsync();
-        }
-
-        public async Task<int> CountFifthCategoryDeepAsync(int fourthCatId)
-        {
-            return await categoryContext.FifthCategory
-                .Where(i => i.FourthCategoryID == fourthCatId)
-                .CountAsync();
-        }
-
-        public async Task<int> CountSixthCategoryDeepAsync(int fifthCatId)
-        {
-            return await categoryContext.SixthCategory
-                .Where(i => i.FirstCategoryID == fifthCatId)
-                .CountAsync();
-        }
-
-        public string FirstCategoryName(int firstCatId)
-        {
-            return categoryContext.FirstCategory
-                .Where(i => i.FirstCategoryID == firstCatId)
-                .Select(i => i.Name)
-                .FirstOrDefault();
-        }
-
-        public string SecondCategoryName(int secondCatId)
-        {
-            return categoryContext.SecondCategory
-                .Where(i => i.SecondCategoryID == secondCatId)
-                .Select(i => i.Name)
-                .FirstOrDefault();
-        }
-
-        public async Task<bool> FirstCategoryDuplicate(string businessCategoryName)
-        {
-            return await categoryContext.FirstCategory
-                .AnyAsync(i => i.SearchKeywordName == businessCategoryName);
-        }
-
-        public async Task<bool> SecondCategoryDuplicate(string businessCategoryName)
-        {
-            return await categoryContext.SecondCategory
-                .AnyAsync(i => i.SearchKeywordName == businessCategoryName);
-        }
-
-        public async Task<bool> ThirdCategoryDuplicate(string businessCategoryName)
-        {
-            return await categoryContext.ThirdCategory
-                .AnyAsync(i => i.SearchKeywordName == businessCategoryName);
-        }
-
-        public async Task<bool> FourthCategoryDuplicate(string businessCategoryName)
-        {
-            return await categoryContext.FourthCategory
-                .AnyAsync(i => i.SearchKeywordName == businessCategoryName);
-        }
-
-        public async Task<bool> FifthCategoryDuplicate(string businessCategoryName)
-        {
-            return await categoryContext.FifthCategory
-                .AnyAsync(i => i.SearchKeywordName == businessCategoryName);
-        }
-
-        public async Task<bool> SixthCategoryDuplicate(string businessCategoryName)
-        {
-            return await categoryContext.SixthCategory
-                .AnyAsync(i => i.SearchKeywordName == businessCategoryName);
-        }
-        // End:
-
-        // Shafi: Categories has childrens or not
-        public bool FirstCatHasSecondCat(int firstCatId)
-        {
-            return categoryContext.SecondCategory
-                .Any(i => i.FirstCategoryID == firstCatId);
-        }
-
-        public bool SecondCatHasThirdCat(int secondCatId)
-        {
-            return categoryContext.ThirdCategory
-                .Any(i => i.SecondCategoryID == secondCatId);
-        }
-
-        public bool ThirdCatHasFourthCat(int thirdCatId)
-        {
-            return categoryContext.FourthCategory
-                .Any(i => i.ThirdCategoryID == thirdCatId);
-        }
-
-        public bool FourthCatHasFifthCat(int fourthCatId)
-        {
-            return categoryContext.FifthCategory
-                .Any(i => i.FourthCategoryID == fourthCatId);
-        }
-
-        public bool FifthCatHasSixthCat(int fifthCatId)
-        {
-            return categoryContext.SixthCategory
-                .Any(i => i.FifthCategoryID == fifthCatId);
-        }
-        // End:
-
-        // Shafi: Check if categories are empty or not
-        public bool FirstCategoryIsNotEmpty(int firstCatId)
-        {
-            var secondCategoryExist = categoryContext.SecondCategory.Any(i => i.FirstCategoryID == firstCatId);
-            var keywordExists = categoryContext.KeywordFirstCategory.Any(i => i.FirstCategoryID == firstCatId);
-            var featuredKeywordExists = categoryContext.ListingTitle.Any(i => i.FirstCategoryID == firstCatId);
-
-            return secondCategoryExist == true || keywordExists == true || featuredKeywordExists == true;
-        }
-
-        public bool SecondCategoryIsNotEmpty(int secondCatId)
-        {
-            var thirdCategoryExist = categoryContext.ThirdCategory.Any(i => i.SecondCategoryID == secondCatId);
-            var keywordExists = categoryContext.KeywordSecondCategory.Any(i => i.SecondCategoryID == secondCatId);
-            var featuredKeywordExists = categoryContext.ListingTitle.Any(i => i.SecondCategoryID == secondCatId);
-
-            return thirdCategoryExist == true || keywordExists == true || featuredKeywordExists == true;
-        }
-
-        public bool ThirdCategoryIsNotEmpty(int thirdCatId)
-        {
-            var fourthCategoryExist = categoryContext.FourthCategory.Any(i => i.ThirdCategoryID == thirdCatId);
-            var keywordExists = categoryContext.KeywordThirdCategory.Any(i => i.ThirdCategoryID == thirdCatId);
-
-            return fourthCategoryExist == true || keywordExists == true;
-        }
-
-        public bool FourthCategoryIsNotEmpty(int fourthCatId)
-        {
-            var fifthCategoryExist = categoryContext.FifthCategory.Any(i => i.FourthCategoryID == fourthCatId);
-            var keywordExists = categoryContext.KeywordFourthCategory.Any(i => i.FourthCategoryID == fourthCatId);
-
-            return fifthCategoryExist == true || keywordExists == true;
-        }
-
-        public bool FifthCategoryIsNotEmpty(int fifthCatId)
-        {
-            var sixthCategoryExist = categoryContext.SixthCategory.Any(i => i.FifthCategoryID == fifthCatId);
-            var keywordExists = categoryContext.KeywordFifthCategory.Any(i => i.FifthCategoryID == fifthCatId);
-
-            return sixthCategoryExist == true || keywordExists == true;
-        }
-
-        public bool SixthCategoryIsNotEmpty(int sixthCatId)
-        {
-            var keywordExists = categoryContext.KeywordSixthCategory.Any(i => i.SixthCategoryID == sixthCatId);
-
-            return keywordExists == true;
-        }
-        // End:
-
-        // Shafi: Count syncronously child categories
-        public int CountChildOfFirstCategory(int firstCatId)
-        {
-            var count = categoryContext.SecondCategory.Where(i => i.FirstCategoryID == firstCatId).Count();
-            return count;
-        }
-
-        public int CountChildOfSecondCategory(int secondCatId)
-        {
-            var count = categoryContext.ThirdCategory.Where(i => i.SecondCategoryID == secondCatId).Count();
-            return count;
-        }
-
-        public int CountChildOfThirdCategory(int thirdCatId)
-        {
-            var count = categoryContext.FourthCategory.Where(i => i.ThirdCategoryID == thirdCatId).Count();
-            return count;
-        }
-
-        public int CountChildOfFourthCategory(int fourthCatId)
-        {
-            var count = categoryContext.FifthCategory.Where(i => i.FourthCategoryID == fourthCatId).Count();
-            return count;
-        }
-
-        public int CountChildOfFifthCategory(int fifthCatId)
-        {
-            var count = categoryContext.SixthCategory.Where(i => i.FifthCategoryID == fifthCatId).Count();
-            return count;
-        }
-        // End:
     }
 }

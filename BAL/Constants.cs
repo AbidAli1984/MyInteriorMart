@@ -22,6 +22,25 @@ namespace BAL
         public static int Unauthorized = 401;
         #endregion
 
+        #region Category Level
+        public static string LevelFirstCategory = "fc";
+        public static string LevelSecondCategory = "sc";
+        public static string LevelThirdCategory = "tc";
+        public static string LevelFourthCategory = "ivc";
+        public static string LevelFifthCategory = "vc";
+        public static string LevelSixthCategory = "vic";
+        #endregion
+
+        #region Weekdays Name
+        public static string Sunday = "Sunday";
+        public static string Monday = "Monday";
+        public static string Tuesday = "Tuesday";
+        public static string Wednesday = "Wednesday";
+        public static string Thursday = "Thursday";
+        public static string Friday = "Friday";
+        public static string Saturday = "Saturday";
+        #endregion
+
         public static IList<SearchResultViewModel> Listings;
     }
 }

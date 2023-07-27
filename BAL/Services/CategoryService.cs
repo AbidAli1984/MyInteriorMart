@@ -121,6 +121,7 @@ namespace BAL.Services
             }
         }
 
+        #region private methods
         private async Task GetThirdCategoriesBySeconCategoryId(CategoryVM categoryVM)
         {
             categoryVM.Category.ThirdCategories = categoryVM.Category.ThirdCategories ?? "";
@@ -188,5 +189,6 @@ namespace BAL.Services
                 }).ToList();
             }
         }
+        #endregion
     }
 }

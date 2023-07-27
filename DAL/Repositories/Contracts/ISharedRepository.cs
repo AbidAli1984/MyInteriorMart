@@ -15,5 +15,14 @@ namespace DAL.Repositories.Contracts
         Task<IList<Pincode>> GetPincodesByAreaId(int areaId);
         Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId);
         #endregion
+
+        #region Address Info
+        Task<Country> GetCountryByCountryId(int countryId);
+        Task<State> GetStateByStateId(int stateId);
+        Task<City> GetCityByCityId(int cityId);
+        Task<Station> GetAreaByAreaId(int areaId);
+        Task<Pincode> GetPincodeByPincodeId(int pincodeId);
+        Task<Locality> GetLocalityByLocalityId(int localityId);
+        #endregion
     }
 }

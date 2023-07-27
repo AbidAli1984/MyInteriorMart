@@ -70,5 +70,33 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
         #endregion
+
+        #region Address Info
+        public async Task<Country> GetCountryByCountryId(int countryId)
+        {
+            return await sharedDbContext.Country.FindAsync(countryId);
+        }
+
+        public async Task<State> GetStateByStateId(int stateId)
+        {
+            return await sharedDbContext.State.FindAsync(stateId);
+        }
+        public async Task<City> GetCityByCityId(int cityId)
+        {
+            return await sharedDbContext.City.FindAsync(cityId);
+        }
+        public async Task<Station> GetAreaByAreaId(int areaId)
+        {
+            return await sharedDbContext.Station.FindAsync(areaId);
+        }
+        public async Task<Pincode> GetPincodeByPincodeId(int pincodeId)
+        {
+            return await sharedDbContext.Pincode.FindAsync(pincodeId);
+        }
+        public async Task<Locality> GetLocalityByLocalityId(int localityId)
+        {
+            return await sharedDbContext.Locality.FindAsync(localityId);
+        }
+        #endregion
     }
 }

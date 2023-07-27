@@ -143,7 +143,7 @@
                             <div class="row no-gutters">
                                 <div class="col-4">
                                     <figure>
-                                        <a href="#"><img src="./~/resources/img/hotel_2.jpg" class="img-fluid" alt=""></a>
+                                        <a href="#"><img src="/resources/img/hotel_2.jpg" class="img-fluid" alt=""></a>
                                     </figure>
                                 </div>
                                 <div class="col-8">
@@ -153,43 +153,41 @@
                                         <small style="color: #495057 !important;">@item.SubCategory</small>
                                         <p><a href="#0" onclick="onHtmlClick('Marker',1)" class="address">@item.Assembly, @item.Area</a></p>
                                         <p class="loc-time">
-                                            Hours :
-                                            @if (item.OpenClose == "Open Now")
+                                            <b class="@(item.BusinessWorking.IsBusinessOpen ? "" : "text-danger")">@item.BusinessWorking.IsBusinessOpenText</b>
+                                            @if (item.BusinessWorking.IsBusinessOpen)
                                             {
-                                                <b>Open Now</b>
+                                                <span> until @item.BusinessWorking.ToTime</span>
                                             }
-                                            @if (item.OpenClose == "Closed Now")
-                                            {
-                                                <b>Closed Now</b>
-                                            }
-                                            Closes 8pm
                                         </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 listing-bottom">
                                     <ul class="listing-bottom-list">
+                                        @if (item.BusinessYear > 0)
+                                        {
+                                            <li>
+                                                <h4 class="business-year">@item.BusinessYear @(item.BusinessYear == 1 ? "Year" : "Years") in Business</h4>
+                                            </li>
+                                        }
                                         <li>
-                                            <h4 class="business-year">3+ Year in business</h4>
-                                        </li>
-                                        <li>
-                                            <a href="tel:1234567890" class="loc_open call-now"> Call Now </a>
+                                            <a href="tel:@item.Mobile" class="loc_open call-now"> Call Now </a>
                                         </li>
                                         <li>
                                             <a href="#0" class="loc_open"> Get Quotation </a>
                                         </li>
                                         <li>
                                             <ul class="reating-list">
-                                                <li><h4 class="reating-number">@item.RatingAverage</h4></li>
+                                                <li><h4 class="reating-number">@item.RatingAverage.ToString("0.0")</h4></li>
                                                 <li class="reating-star">
                                                     <div class="cat_star">
-                                                        <i class="icon_star"></i>
-                                                        <i class="icon_star"></i>
-                                                        <i class="icon_star"></i>
-                                                        <i class="icon_star"></i>
-                                                        <i class="icon_star"></i>
+                                                        <i class="icon_star @(item.RatingAverage >= 1 ? "active" : "")"></i>
+                                                        <i class="icon_star @(item.RatingAverage >= 2 ? "active" : "")"></i>
+                                                        <i class="icon_star @(item.RatingAverage >= 3 ? "active" : "")"></i>
+                                                        <i class="icon_star @(item.RatingAverage >= 4 ? "active" : "")"></i>
+                                                        <i class="icon_star @(item.RatingAverage >= 5 ? "active" : "")"></i>
                                                     </div>
                                                 </li>
-                                                <li class="reating-people"><p>@item.RatingCount</p></li>
+                                                <li class="reating-people"><p>@item.RatingCount Ratings</p></li>
                                             </ul>
                                         </li>
                                     </ul>

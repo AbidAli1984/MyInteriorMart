@@ -28,5 +28,10 @@ namespace BOL
         public static int ChangePassword = 17;
         public static int MyActivity = 18;
         #endregion
+
+        #region Business
+        public static string Open = "Open";
+        public static string Closed = "Closed Now";
+        #endregion
     }
 }

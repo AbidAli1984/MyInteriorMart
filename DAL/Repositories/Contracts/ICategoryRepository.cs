@@ -17,5 +17,19 @@ namespace DAL.Repositories.Contracts
         Task<IList<FifthCategory>> GetFifthCategoriesBySecondCategoryId(int secondCategoryId);
 
         Task<IList<SixthCategory>> GetSixthCategoriesBySecondCategoryId(int secondCategoryId);
+
+        Task<SecondCategory> GetSecondCategoryById(int id);
+
+        Task<FirstCategory> GetFirstCategoryByURL(string url);
+
+        Task<SecondCategory> GetSecondCategoryByURL(string url);
+
+        Task<ThirdCategory> GetThirdCategoryByURL(string url);
+
+        Task<FourthCategory> GetFourthCategoryByURL(string url);
+
+        Task<FifthCategory> GetFifthCategoryByURL(string url);
+
+        Task<SixthCategory> GetSixthCategoryByURL(string url);
     }
 }

@@ -18,6 +18,103 @@ namespace DAL.Repositories
         {
             this._listingDbContext = listingDbContext;
         }
+
+        #region Listings
+        public async Task<IEnumerable<Categories>> GetCategoriesByFirstCategoryId(int firstCategoryID)
+        {
+            return await _listingDbContext.Categories
+                    .Where(i => i.FirstCategoryID == firstCategoryID)
+                    .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Categories>> GetCategoriesBySecondCategoryId(int secondCategoryID)
+        {
+            return await _listingDbContext.Categories
+                    .Where(i => i.SecondCategoryID == secondCategoryID)
+                    .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Categories>> GetCategoriesByThirdCategoryId(int thirdCategoryID)
+        {
+            var listCat = await _listingDbContext.Categories
+                    .Where(i => !string.IsNullOrWhiteSpace(i.ThirdCategories))
+                    .ToListAsync();
+
+            if (listCat.Any())
+                return listCat
+                    .Where(x => x.ThirdCategories.Split(',').Any(x => x == thirdCategoryID.ToString()))
+                    .ToList();
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Categories>> GetCategoriesByFourthCategoryId(int fourthCategoryID)
+        {
+            var listCat = await _listingDbContext.Categories
+                    .Where(i => !string.IsNullOrWhiteSpace(i.FourthCategories))
+                    .ToListAsync();
+
+            if (listCat.Any())
+                return listCat
+                .Where(x => x.FourthCategories.Split(',').Any(x => x == fourthCategoryID.ToString()))
+                .ToList();
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Categories>> GetCategoriesByFifthCategoryId(int fifthCategoryID)
+        {
+            var listCat = await _listingDbContext.Categories
+                    .Where(i => !string.IsNullOrWhiteSpace(i.FifthCategories))
+                    .ToListAsync();
+
+            if (listCat.Any())
+                return listCat
+                    .Where(x => x.FifthCategories.Split(',').Any(x => x == fifthCategoryID.ToString()))
+                    .ToList();
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Categories>> GetCategoriesBySixthCategoryId(int sixthCategoryID)
+        {
+            var listCat = await _listingDbContext.Categories
+                    .Where(i => !string.IsNullOrWhiteSpace(i.SixthCategories))
+                    .ToListAsync();
+
+            if (listCat.Any())
+                return listCat
+                    .Where(x => x.SixthCategories.Split(',').Any(x => x == sixthCategoryID.ToString()))
+                    .ToList();
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Listing>> GetListingsByListingIds(int[] listingIds)
+        {
+            return await _listingDbContext.Listing
+                .Where(x => x.Approved && listingIds.Contains(x.ListingID))
+                .OrderByDescending(i => i.ListingID)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Address>> GetAddressesByListingIds(int[] listingIds)
+        {
+            return await _listingDbContext.Address
+                .Where(x => listingIds.Contains(x.ListingID))
+                .OrderByDescending(i => i.ListingID)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Communication>> GetCommunicationsByListingIds(int[] listingIds)
+        {
+            return await _listingDbContext.Communication
+                .Where(x => listingIds.Contains(x.ListingID))
+                .OrderByDescending(i => i.ListingID)
+                .ToListAsync();
+        }
+        #endregion
+
         public async Task<Categories> GetCategoryByListingId(int listingId)
         {
             return await _listingDbContext.Categories
@@ -39,33 +136,19 @@ namespace DAL.Repositories
             return count;
         }
 
-        public async Task<int> CountViewsAsync(int days, int ListingId)
-        {
-            DateTime date = DateTime.Now.AddDays(-days);
-            var result = await _listingDbContext.ListingViews.Where(x => x.Date.Day == date.Day && x.Date.Month == date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
-            return result;
-        }
-
-        public async Task<int> CountReviewAsync(int days, int ListingId)
-        {
-            DateTime date = DateTime.Now.AddDays(-days);
-            var result = await _listingDbContext.Rating.Where(x => x.Date.Day == date.Day && x.Date.Month == x.Date.Month && x.Date.Year == date.Year && x.ListingID == ListingId).CountAsync();
-            return result;
-        }
-
         public async Task<IEnumerable<Listing>> GetListings()
         {
-            return await _listingDbContext.Listing.OrderByDescending(i => i.ListingID).ToListAsync();
+            return await _listingDbContext.Listing.Where(x => x.Approved).OrderByDescending(i => i.ListingID).ToListAsync();
         }
 
         public async Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId)
         {
-            return await _listingDbContext.Listing.Where(i => i.OwnerGuid == ownerId).OrderByDescending(i => i.ListingID).ToListAsync();
+            return await _listingDbContext.Listing.Where(i => i.OwnerGuid == ownerId && i.Approved).OrderByDescending(i => i.ListingID).ToListAsync();
         }
 
         public async Task<Listing> GetListingByListingId(int listingId)
         {
-            return await _listingDbContext.Listing.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();
+            return await _listingDbContext.Listing.Where(l => l.ListingID == listingId && l.Approved).FirstOrDefaultAsync();
         }
 
         public async Task<Communication> GetCommunicationByListingId(int listingId)

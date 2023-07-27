@@ -1,4 +1,5 @@
 ﻿using BOL.BANNERADS;
+using BOL.ComponentModels.Listings;
 using BOL.ComponentModels.Pages;
 using BOL.LISTING;
 using BOL.VIEWMODELS;
@@ -11,6 +12,8 @@ namespace BAL.Services.Contracts
 {
     public interface IListingService
     {
+        Task<IList<ListingResultVM>> GetListings(string url, string level);
+
         Task<IEnumerable<ListingBanner>> GetSecCatListingByListingId(int listingId);
 
         Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);
