@@ -48,15 +48,11 @@ namespace FRONTEND.BLAZOR.Listings
             }
         }
 
-
-
         public async Task PopulateListFLVM()
         {
             listLrvm = await listingService.GetListings(url, level);
             await Task.Delay(50);
         }
-
-
 
 
         public IEnumerable<CategoryBanner> CategoryBannerList { get; set; }
@@ -77,80 +73,5 @@ namespace FRONTEND.BLAZOR.Listings
 
             Banner3Count = CategoryBannerList.Where(i => i.Placement == "banner-3").Count();
         }
-        // End: Get All Category Banner
-
-        // Begin: Method for Rating
-        public async Task<bool> ReviewExistsAsync(int ListingID, string OwnerGuid)
-        {
-            var result = await listingContext.Rating.Where(r => r.ListingID == ListingID && r.OwnerGuid == OwnerGuid).FirstOrDefaultAsync();
-
-            if (result != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<IEnumerable<Rating>> GetRatingAsync(int ListingID)
-        {
-            var ratings = await listingContext.Rating.Where(r => r.ListingID == ListingID).ToListAsync();
-            return ratings;
-        }
-
-        public async Task<Rating> RatingDetailsAsync(int ListingID)
-        {
-            var rating = await listingContext.Rating.Where(r => r.ListingID == ListingID).FirstOrDefaultAsync();
-            return rating;
-        }
-
-        public async Task<string> RatingAverageAsync(int ListingID)
-        {
-            // Shafi: Get rating average
-            var allRating = await listingContext.Rating.Where(r => r.ListingID == ListingID).ToListAsync();
-            var ratingCount = allRating.Count();
-
-            if (ratingCount > 0)
-            {
-                var R1 = await CountRatingAsync(ListingID, 1);
-                var R2 = await CountRatingAsync(ListingID, 2);
-                var R3 = await CountRatingAsync(ListingID, 3);
-                var R4 = await CountRatingAsync(ListingID, 4);
-                var R5 = await CountRatingAsync(ListingID, 5);
-
-                decimal averageCount = 5 * R5 + 4 * R4 + 3 * R3 + 2 * R2 + 1 * R1;
-                decimal weightedCount = R5 + R4 + R3 + R2 + R1;
-                decimal ratingAverage = averageCount / weightedCount;
-
-                return ratingAverage.ToString("0.0");
-            }
-            else
-            {
-                return "0";
-            }
-            // End:
-        }
-
-        public async Task<int> CountRatingAsync(int ListingID, int rating)
-        {
-            var count = await listingContext.Rating.Where(r => r.ListingID == ListingID && r.Ratings == rating).CountAsync();
-            return count;
-        }
-
-        public async Task<int> CountListingReviewsAsync(int ListingID)
-        {
-            var count = await listingContext.Rating.Where(r => r.ListingID == ListingID).CountAsync();
-            return count;
-        }
-        // End: Method for Rating
-      
-        public string GetDayName(int days)
-        {
-            DateTime date = DateTime.Now.AddDays(-days);
-            return date.ToString("d ddd");
-        }
-        // End: Business Open Now & Close
     }
 }

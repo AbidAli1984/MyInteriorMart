@@ -89,7 +89,7 @@ namespace BAL.Services
 
                     var rating = await GetRatingAsync(listingId);
                     var ratingCount = rating.Count();
-                    var ratingAverage = await RatingAverageAsync(listingId);
+                    var ratingAverage = await GetRatingAverage(listingId);
 
                     ListingResultVM lrvm = new ListingResultVM
                     {
@@ -115,30 +115,15 @@ namespace BAL.Services
             return listLrvm;
         }
 
-        public async Task<decimal> RatingAverageAsync(int ListingID)
+        public async Task<decimal> GetRatingAverage(int ListingID)
         {
-            // Shafi: Get rating average
             var ratings = await _listingRepository.GetRatingsByListingId(ListingID);
 
-            if (ratings.Count() > 0)
-            {
-                var R1 = await CountRatingAsync(ListingID, 1);
-                var R2 = await CountRatingAsync(ListingID, 2);
-                var R3 = await CountRatingAsync(ListingID, 3);
-                var R4 = await CountRatingAsync(ListingID, 4);
-                var R5 = await CountRatingAsync(ListingID, 5);
-
-                decimal averageCount = 5 * R5 + 4 * R4 + 3 * R3 + 2 * R2 + 1 * R1;
-                decimal weightedCount = R5 + R4 + R3 + R2 + R1;
-                decimal ratingAverage = averageCount / weightedCount;
-
-                return ratingAverage;
-            }
-            else
-            {
+            if (ratings.Count() <= 0)
                 return 0;
-            }
-            // End:
+
+            decimal totalRatings = ratings.Sum(x => x.Ratings);
+            return totalRatings / ratings.Count();
         }
 
         public async Task<int> CountRatingAsync(int ListingID, int rating)
