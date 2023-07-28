@@ -1,12 +1,9 @@
-﻿@page "/MyAccount/Listing/Company/{listingId:int?}"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject CategoriesDbContext categoriesContext
-@inject SharedDbContext sharedContext
+﻿@page "/MyAccount/Listing/Company"
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject NavigationManager navManager
 @using BOL.SHARED
+@using BOL.ComponentModels
 @inject IJSRuntime jsRuntime
 
 <AuthorizeView>
@@ -25,16 +22,15 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="name">Name <span class="text-danger">*</span></label>
-                                <Input Placeholder="Full Name" @bind-Value="@Name" />
+                                <Input Placeholder="Full Name" @bind-Value="@CompanyVM.Name" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Gander <span class="text-danger">*</span></label>
-                                <Select DataSource="@genderList"
-                                        @bind-Value="@Gender"
-                                        LabelName="@nameof(Genders.Name)"
-                                        ValueName="@nameof(Genders.Value)"
+                                <Select DataSource="@CompanyVM.GenderList"
+                                        @bind-Value="@CompanyVM.Gender"
+                                        LabelName="@nameof(SelectItem.Name)"
+                                        ValueName="@nameof(SelectItem.Name)"
                                         Placeholder="Select Gender"
-                                        DisabledName="@nameof(Genders.NotAvailable)"
                                         DefaultActiveFirstItem="false"
                                         EnableSearch>
                                 </Select>
@@ -43,24 +39,24 @@
                                 <label class="control-label">
                                     Year Of Establishment <span class="text-danger">*</span>
                                 </label>
-                                <DatePicker @bind-Value="@YearOfEstablishment" Picker="@DatePickerType.Year" />
+                                <DatePicker @bind-Value="@CompanyVM.YearOfEstablishment" Picker="@DatePickerType.Year" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Company Name <span class="text-danger">*</span></label>
-                                <Input Placeholder="Company Name" @bind-Value="@CompanyName" />
+                                <Input Placeholder="Company Name" @bind-Value="@CompanyVM.CompanyName" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label>GST Number <span class="text-danger">*</span></label>
-                                <Input Placeholder="GST Number" @bind-Value="@GSTNumber" />
+                                <Input Placeholder="GST Number" @bind-Value="@CompanyVM.GSTNumber" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label" for="Turnover">
                                     Turnover <span class="text-danger">*</span>
                                 </label>
-                                <Select DataSource="@turnoverList"
-                                        @bind-Value="@Turnover"
-                                        LabelName="@nameof(Turnovers.Name)"
-                                        ValueName="@nameof(Turnovers.Value)"
+                                <Select DataSource="@CompanyVM.TurnoverList"
+                                        @bind-Value="@CompanyVM.Turnover"
+                                        LabelName="@nameof(SelectItem.Name)"
+                                        ValueName="@nameof(SelectItem.Name)"
                                         Placeholder="Select Gender"
                                         DefaultActiveFirstItem="false"
                                         EnableSearch>
@@ -68,12 +64,12 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Number of Employees <span class="text-danger">*</span></label>
-                                <Input Placeholder="Company Name" type="number" @bind-Value="@NumberOfEmployees" />
+                                <Input Placeholder="Company Name" type="number" @bind-Value="@CompanyVM.NumberOfEmployees" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Nature of business <span class="text-danger">*</span></label>
-                                <Select DataSource="@natureOfBusinessList"
-                                        @bind-Value="@NOB"
+                                <Select DataSource="@CompanyVM.NatureOfBusinesses"
+                                        @bind-Value="@CompanyVM.NatureOfBusiness"
                                         LabelName="@nameof(NatureOfBusiness.Name)"
                                         ValueName="@nameof(NatureOfBusiness.Name)"
                                         Placeholder="Select Nature of Business"
@@ -83,8 +79,8 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Designation <span class="text-danger">*</span></label>
-                                <Select DataSource="@designationList"
-                                        @bind-Value="@DesignationV"
+                                <Select DataSource="@CompanyVM.Designations"
+                                        @bind-Value="@CompanyVM.Designation"
                                         LabelName="@nameof(Designation.Name)"
                                         ValueName="@nameof(Designation.Name)"
                                         Placeholder="Select Designations"
@@ -95,7 +91,7 @@
                             <div class="text-left col-12 mt-3">
                                 @if (buttonBusy == false)
                                 {
-                                    <button @onclick="@(async() => await CreateCompanyAsync())" class="btn btn-primary">Save & Continue</button>
+                                    <button @onclick="@(async() => await AddOrUpdateCompanyAsync())" class="btn btn-primary">Save & Continue</button>
                                 }
                                 else
                                 {

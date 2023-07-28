@@ -98,5 +98,16 @@ namespace DAL.Repositories
             return await sharedDbContext.Locality.FindAsync(localityId);
         }
         #endregion
+
+        #region Company Info
+        public async Task<IList<NatureOfBusiness>> GetNatureOfBusinesses()
+        {
+            return await sharedDbContext.NatureOfBusiness.ToListAsync();
+        }
+        public async Task<IList<Designation>> GetDesignations()
+        {
+            return await sharedDbContext.Designation.ToListAsync();
+        }
+        #endregion
     }
 }

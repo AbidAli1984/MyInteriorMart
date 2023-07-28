@@ -22,7 +22,7 @@ namespace BAL.Services.Contracts
 
         Task<int> CountRatingAsync(int ListingID, int rating);
 
-        public Task<IEnumerable<Listing>> GetListingsByOwnerId(string currentUserGuid);
+        Task<Listing> GetListingByOwnerId(string ownerId);
 
         Task<Categories> GetCategoryByListingId(int listingId);
 

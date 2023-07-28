@@ -49,5 +49,16 @@ namespace BAL.Services
         {
             return await sharedRepository.GetLocalitiesByPincode(pincodeId);
         }
+
+        #region Company Info
+        public async Task<IList<NatureOfBusiness>> GetNatureOfBusinesses()
+        {
+            return await sharedRepository.GetNatureOfBusinesses();
+        }
+        public async Task<IList<Designation>> GetDesignations()
+        {
+            return await sharedRepository.GetDesignations();
+        }
+        #endregion
     }
 }

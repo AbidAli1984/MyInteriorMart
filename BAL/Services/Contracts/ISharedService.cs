@@ -15,5 +15,10 @@ namespace BAL.Services.Contracts
         Task<IList<Pincode>> GetPincodesByAreaId(int areaId);
         Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId);
         #endregion
+
+        #region Company Info
+        Task<IList<NatureOfBusiness>> GetNatureOfBusinesses();
+        Task<IList<Designation>> GetDesignations();
+        #endregion
     }
 }

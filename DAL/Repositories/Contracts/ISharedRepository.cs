@@ -24,5 +24,10 @@ namespace DAL.Repositories.Contracts
         Task<Pincode> GetPincodeByPincodeId(int pincodeId);
         Task<Locality> GetLocalityByLocalityId(int localityId);
         #endregion
+
+        #region Company Info
+        Task<IList<NatureOfBusiness>> GetNatureOfBusinesses();
+        Task<IList<Designation>> GetDesignations();
+        #endregion
     }
 }

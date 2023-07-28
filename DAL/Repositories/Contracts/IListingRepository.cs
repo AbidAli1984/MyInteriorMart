@@ -29,7 +29,7 @@ namespace DAL.Repositories.Contracts
 
         Task<IEnumerable<Listing>> GetListings();
 
-        Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId);
+        Task<Listing> GetListingByOwnerId(string ownerId);
 
         Task<Listing> GetListingByListingId(int listingId);
 

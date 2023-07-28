@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BOL.ComponentModels
+﻿namespace BOL.ComponentModels
 {
     public class SelectItem
     {

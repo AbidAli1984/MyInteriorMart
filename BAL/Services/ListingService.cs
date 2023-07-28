@@ -257,9 +257,9 @@ namespace BAL.Services
             return await _listingRepository.GetListingBannersBySecondCategoryId(listingCat.SecondCategoryID);
         }
 
-        public async Task<IEnumerable<BOL.LISTING.Listing>> GetListingsByOwnerId(string ownerId)
+        public async Task<Listing> GetListingByOwnerId(string ownerId)
         {
-            return await _listingRepository.GetListingsByOwnerId(ownerId);
+            return await _listingRepository.GetListingByOwnerId(ownerId);
         }
 
         public async Task<Listing> GetListingByListingId(int listingId)

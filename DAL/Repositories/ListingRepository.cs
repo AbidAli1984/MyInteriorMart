@@ -141,14 +141,18 @@ namespace DAL.Repositories
             return await _listingDbContext.Listing.Where(x => x.Approved).OrderByDescending(i => i.ListingID).ToListAsync();
         }
 
-        public async Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId)
+        public async Task<Listing> GetListingByOwnerId(string ownerId)
         {
-            return await _listingDbContext.Listing.Where(i => i.OwnerGuid == ownerId && i.Approved).OrderByDescending(i => i.ListingID).ToListAsync();
+            return await _listingDbContext.Listing
+                .Where(i => i.OwnerGuid == ownerId && i.Approved)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Listing> GetListingByListingId(int listingId)
         {
-            return await _listingDbContext.Listing.Where(l => l.ListingID == listingId && l.Approved).FirstOrDefaultAsync();
+            return await _listingDbContext.Listing
+                .Where(l => l.ListingID == listingId && l.Approved)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Communication> GetCommunicationByListingId(int listingId)

@@ -14,7 +14,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
         [Inject]
         private IUserService userService { get; set; }
 
-        public IEnumerable<BOL.LISTING.Listing> userListings { get; set; }
+        public IList<BOL.LISTING.Listing> userListings { get; set; }
 
         public bool isVendor { get; set; }
 
@@ -29,7 +29,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                 {
                     ApplicationUser applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     isVendor = applicationUser.IsVendor;
-                    userListings = await listingService.GetListingsByOwnerId(applicationUser.Id);
+                    userListings.Add(await listingService.GetListingByOwnerId(applicationUser.Id));
                 }
             }
             catch (Exception exc)
