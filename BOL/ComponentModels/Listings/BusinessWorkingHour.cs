@@ -14,7 +14,8 @@ namespace BOL.ComponentModels.Listings
                 return IsBusinessOpen ? Constants.Open : Constants.Closed;
             }
         }
-        public string FromTime { get; set; }
-        public string ToTime { get; set; }
+        public string OpenTime { get; set; }
+        public string CloseTime { get; set; }
+        public string OpenOn { get; set; }
     }
 }

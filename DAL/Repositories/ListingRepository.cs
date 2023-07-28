@@ -122,7 +122,7 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ListingBanner>> GetListingBannerBySecondCategoryId(int secondCategoryId)
+        public async Task<IEnumerable<ListingBanner>> GetListingBannersBySecondCategoryId(int secondCategoryId)
         {
             return await _listingDbContext.ListingBanner
                 .Where(i => i.SecondCategoryID == secondCategoryId)

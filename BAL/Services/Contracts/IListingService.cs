@@ -14,6 +14,8 @@ namespace BAL.Services.Contracts
     {
         Task<IList<ListingResultVM>> GetListings(string url, string level);
 
+        Task<ListingDetailVM> GetListingDetailByListingId(int listingId, string currentUserId);
+
         Task<IEnumerable<ListingBanner>> GetSecCatListingByListingId(int listingId);
 
         Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);

@@ -18,6 +18,7 @@ using BOL.BANNERADS;
 using BAL.Services.Contracts;
 using BOL.IDENTITY;
 using DAL.Models;
+using BOL.ComponentModels.Listings;
 
 namespace FRONTEND.BLAZOR.Listings
 {
@@ -32,9 +33,6 @@ namespace FRONTEND.BLAZOR.Listings
         private IListingService listingService { get; set; }
 
         [Inject]
-        private IAuditService auditService { get; set; }
-
-        [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
 
         [Inject]
@@ -43,192 +41,60 @@ namespace FRONTEND.BLAZOR.Listings
         [Parameter]
         public string ListingID { get; set; }
 
-
+        public ListingDetailVM listingDetailVM { get; set; } = new ListingDetailVM();
+        public FreeListingViewModel listingViewModel { get; set; } = new FreeListingViewModel();
 
         public string CurrentUserGuid { get; set; }
-        public string ErrorMessage { get; set; }
         public bool userAuthenticated { get; set; } = false;
+
+        public string ErrorMessage { get; set; }
         public ApplicationUser iUser { get; set; }
 
-
-        // Begin: Get All Listing Banner
-        public int Banner1Count { get; set; }
-
-        public IEnumerable<ListingBanner> ListingBannerList { get; set; }
-        public async Task GetListingBannerListAsync()
+        protected async override Task OnInitializedAsync()
         {
-            ListingBannerList = await listingService.GetSecCatListingByListingId(Int32.Parse(ListingID));
+            try
+            {
+                int listingId = Int32.Parse(ListingID);
+                // Get User Name
+                var authstate = await authenticationState.GetAuthenticationStateAsync();
+                var user = authstate.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    iUser = await userService.GetUserByUserName(user.Identity.Name);
+                    CurrentUserGuid = iUser.Id;
 
-            Banner1Count = ListingBannerList.Where(i => i.Placement == "banner-1").Count();
+                    userAuthenticated = true;
+                }
+                listingDetailVM = await listingService.GetListingDetailByListingId(listingId, CurrentUserGuid);
+                //await CheckBookmarkAsync();
+                //await GetReviewsAsync();
+            }
+            catch (Exception exc)
+            {
+                ErrorMessage = exc.Message;
+            }
         }
-        // End: Get All Listing Banner
 
-        // Begin: Toggle Contact
+
+        protected override async Task OnAfterRenderAsync(bool render)
+        {
+            if (render)
+            {
+                await jsRuntime.InvokeVoidAsync("InitializeCarousel");
+            }
+        }
+
         public bool HideContact = true;
         public async Task ToggleContact()
         {
             HideContact = !HideContact;
             await Task.Delay(10);
         }
-        // End:
-
-        // Begin: Like, Bookmark and 
-        public bool userAlreadySubscribed = false;
-        public bool userAlreadyBookmarked = false;
-        public bool userAlreadyLiked = false;
 
         public int countBookmark { get; set; }
         public int countLike { get; set; }
         public int countSubscribe { get; set; }
-        // End:
-
-        // Begin: User Details
-        public string userAgent { get; set; }
-        public string ipAddress { get; set; }
-        // End:
-
-        public FreeListingViewModel listingViewModel { get; set; }
-
-        // Bein: Open Close Properties
-        public string OpenTime { get; set; }
-        public string CloseTime { get; set; }
-        public string OpenOn { get; set; }
-        public bool IsClosed { get; set; }
-        // End:
-
-        // Begin: Rating properties
-        public string RatingAverage { get; set; }
-        public decimal rating1 { get; set; }
-        public decimal rating2 { get; set; }
-        public decimal rating3 { get; set; }
-        public decimal rating4 { get; set; }
-        public decimal rating5 { get; set; }
-        // End:
-        public async Task GetListing()
-        {
-            // Parse ListingID
-            int listingId = Int32.Parse(ListingID);
-
-            // Get User Name
-            var authstate = await authenticationState.GetAuthenticationStateAsync();
-            var user = authstate.User;
-            var userName = user.Identity.Name;
-            string userGuid = (await userService.GetUserByUserName(userName)).Id;
-
-            // Check if logged in user already subscribed
-            userAlreadySubscribed = await auditService.CheckIfUserSubscribedToListing(listingId, userGuid);
-            userAlreadyBookmarked = await auditService.CheckIfUserBookmarkedListing(listingId, userGuid);
-            userAlreadyLiked = await auditService.CheckIfUserLikedListing(listingId, userGuid);
-
-            // Shafi: Get Listing Owner Guid
-            Listing listing = await listingService.GetListingByListingId(listingId);
-            string listingOwnerGuid = listing.OwnerGuid;
-            string Designation = listing.Designation;
-            // End:
-
-            UserProfile userProfile = await userProfileService.GetProfileByOwnerGuid(listingOwnerGuid);
-            string Name = userProfile.Name;
-            int ProfileID = userProfile.ProfileID;
-
-            listingViewModel = new FreeListingViewModel();
-
-            // Begin: Address View Model
-            var country = await GetCountry(listingId);
-            var state = await GetState(listingId);
-            var city = await GetCity(listingId);
-            var assembly = await GetAssembly(listingId);
-            var pincode = await GetPincode(listingId);
-            var locality = await GetLocality(listingId);
-            var localAddress = await GetLocalAddress(listingId);
-            var specialisation = await GetSpecialisation(listingId);
-
-            // Begin: Get Open Close
-            await BusinessOpenClose(listingId);
-            // End:
-
-            ListingAddressVM lavm = new ListingAddressVM
-            {
-                Country = country,
-                State = state,
-                City = city,
-                Assembly = assembly,
-                Pincode = pincode,
-                Locality = locality,
-                LocalAddress = localAddress
-            };
-            // End:
-
-            // Begin: Category View Model
-            var firstCat = await GetFirstCat(listingId);
-            var secondCat = await GetSecondCat(listingId);
-
-            ListingCategoryVM lcvm = new ListingCategoryVM
-            {
-                FirstCategory = firstCat,
-                SecondCategory = secondCat
-            };
-            // End:
-
-            listingViewModel.Listing = listing;
-            listingViewModel.Communication = await listingService.GetCommunicationByListingId(listingId);
-            listingViewModel.Address = lavm;
-            listingViewModel.Category = lcvm;
-            listingViewModel.Specialisation = specialisation;
-            listingViewModel.PaymentMode = await listingService.GetPaymentModeByListingId(listingId);
-            listingViewModel.WorkingHour = await listingService.GetWorkingHoursByListingId(listingId); ;
-            listingViewModel.FromTime = OpenTime;
-            listingViewModel.ToTime = CloseTime;
-            listingViewModel.OpenOn = OpenOn;
-            listingViewModel.Closed = IsClosed;
-
-            // Shafi: Get Time Zone
-            DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-            string day = timeZoneDate.ToString("dddd");
-            string time = timeZoneDate.ToString("hh:mm tt");
-            DateTime currentTime = DateTime.Parse(time, System.Globalization.CultureInfo.CurrentCulture);
-            // End:
-
-            // Rating Average
-            await GetRatingAverage(listingId);
-
-            // Count Bookmark, Like and Subscribe
-            countBookmark = await auditContext.Bookmarks
-                .Where(i => i.ListingID == listingId)
-                .Where(i => i.Bookmark == true)
-                .CountAsync();
-
-            countLike = await auditContext.ListingLikeDislike
-                .Where(i => i.ListingID == listingId)
-                .Where(i => i.Like == true)
-                .CountAsync();
-
-            countSubscribe = await auditContext.Subscribes
-                .Where(i => i.ListingID == listingId)
-                .Where(i => i.Subscribe == true)
-                .CountAsync();
-        }
-
-        // Begin: Get Local Address
-        public async Task<string> GetLocalAddress(int listingId)
-        {
-            var localAddress = await listingService.GetAddressByListingId(listingId);
-
-            return localAddress.LocalAddress;
-
-        }
-        // End:
-
-        // Begin: Get Specialisation
-        public async Task<Specialisation> GetSpecialisation(int listingId)
-        {
-            var specialisation = await listingService.GetSpecialisationByListingId(listingId);
-
-            return specialisation;
-
-        }
-        // End:
-
-        // Begin: Toggle Complete Address
+        public string userAgent { get; set; }        
         public bool ToggleCompleteAddress { get; set; }
 
         public async Task ToggleCompleteAddressAsync()
@@ -236,9 +102,6 @@ namespace FRONTEND.BLAZOR.Listings
             ToggleCompleteAddress = !ToggleCompleteAddress;
             await Task.Delay(1);
         }
-        // End: Toggle Complete Address
-
-        // Begin: Bookmark
 
         public bool bookarmk { get; set; }
 
@@ -262,7 +125,7 @@ namespace FRONTEND.BLAZOR.Listings
 
         public async Task CountBookmarkAsync(int listingId)
         {
-            countBookmark = await auditContext.Bookmarks
+                countBookmark = await auditContext.Bookmarks
                 .Where(i => i.ListingID == listingId)
                 .Where(i => i.Bookmark == true)
                 .CountAsync();
@@ -333,9 +196,6 @@ namespace FRONTEND.BLAZOR.Listings
                 }
             }
         }
-        // End: Bookmark
-
-        // Begin: Like
 
         public bool like { get; set; }
 
@@ -455,9 +315,6 @@ namespace FRONTEND.BLAZOR.Listings
                 }
             }
         }
-        // End: Like
-
-        // Begin: Subscribe
 
         public bool subscribe { get; set; }
 
@@ -571,9 +428,7 @@ namespace FRONTEND.BLAZOR.Listings
                 }
             }
         }
-        // End: Subscribe
 
-        // Begin: Review
         public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
         public async Task GetReviewsAsync()
         {
@@ -596,242 +451,7 @@ namespace FRONTEND.BLAZOR.Listings
                 listReviews.Add(rlvm);
             }
         }
-        // End: Write Review
 
-        // Begin: Country
-        public async Task<Country> GetCountry(int listingId)
-        {
-            var add = await listingService.GetAddressByListingId(listingId);
-
-            var country = await sharedContext.Country.Where(i => i.CountryID == add.CountryID).FirstOrDefaultAsync();
-
-            return country;
-
-        }
-        // End:
-
-        // Begin: Get State
-        public async Task<State> GetState(int listingId)
-        {
-            var add = await listingService.GetAddressByListingId(listingId);
-
-            var state = await sharedContext.State.Where(i => i.StateID == add.StateID).FirstOrDefaultAsync();
-
-            return state;
-
-        }
-        // End:
-
-        // Begin: Get State
-        public async Task<City> GetCity(int listingId)
-        {
-            var add = await listingService.GetAddressByListingId(listingId);
-
-            var city = await sharedContext.City.Where(i => i.CityID == add.City).FirstOrDefaultAsync();
-
-            return city;
-
-        }
-        // End:
-
-        // Begin: Get State
-        public async Task<Station> GetAssembly(int listingId)
-        {
-            var add = await listingService.GetAddressByListingId(listingId);
-
-            var assembly = await sharedContext.Station.Where(i => i.StationID == add.AssemblyID).FirstOrDefaultAsync();
-
-            return assembly;
-
-        }
-        // End:
-
-        // Begin: Get Pincode
-        public async Task<Pincode> GetPincode(int listingId)
-        {
-            var add = await listingService.GetAddressByListingId(listingId);
-
-            var pincode = await sharedContext.Pincode.Where(i => i.PincodeID == add.PincodeID).FirstOrDefaultAsync();
-
-            return pincode;
-
-        }
-        // End:
-
-        // Begin: Get Pincode
-        public async Task<Locality> GetLocality(int listingId)
-        {
-            var add = await listingService.GetAddressByListingId(listingId);
-
-            var locality = await sharedContext.Locality.Where(i => i.LocalityID == add.LocalityID).FirstOrDefaultAsync();
-
-            return locality;
-
-        }
-        // End:
-
-        // Begin: Get First Category
-        public async Task<FirstCategory> GetFirstCat(int listingId)
-        {
-            var firstCat = await listingService.GetCategoryByListingId(listingId);
-
-            var category = await categoriesContext.FirstCategory.Where(i => i.FirstCategoryID == firstCat.FirstCategoryID).FirstOrDefaultAsync();
-
-            return category;
-        }
-        // End:
-
-        // Begin: Get Second Category
-        public async Task<SecondCategory> GetSecondCat(int listingId)
-        {
-            var firstCat = await listingService.GetCategoryByListingId(listingId);
-
-            var category = await categoriesContext.SecondCategory.Where(i => i.SecondCategoryID == firstCat.SecondCategoryID).FirstOrDefaultAsync();
-
-            return category;
-        }
-        // End:
-
-        // Begin: Business Open Or Close
-        public async Task BusinessOpenClose(int listingId)
-        {
-            // Get Listing
-            var listingWh = await listingService.GetWorkingHoursByListingId(listingId);
-            // End:
-
-            // Get Time Zone
-            DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-            string day = timeZoneDate.ToString("dddd");
-            string time = timeZoneDate.ToString("hh:mm tt");
-            DateTime currentTime = DateTime.Parse(time, System.Globalization.CultureInfo.CurrentCulture);
-            // End:
-
-            if (listingViewModel != null)
-            {
-                try
-                {
-                    if (day == "Monday")
-                    {
-                        OpenTime = listingWh.MondayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.MondayTo.ToString("hh:mm tt");
-                        OpenOn = "Tuesday";
-                    }
-                    else if (day == "Tuesday")
-                    {
-                        OpenTime = listingWh.TuesdayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.TuesdayTo.ToString("hh:mm tt");
-                        OpenOn = "Wednesday";
-                    }
-                    else if (day == "Wednesday")
-                    {
-                        OpenTime = listingWh.WednesdayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.WednesdayTo.ToString("hh:mm tt");
-                        OpenOn = "Thursday";
-                    }
-                    else if (day == "Thursday")
-                    {
-                        OpenTime = listingWh.ThursdayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.ThursdayTo.ToString("hh:mm tt");
-                        OpenOn = "Friday";
-                    }
-                    else if (day == "Friday")
-                    {
-                        OpenTime = listingWh.FridayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.FridayTo.ToString("hh:mm tt");
-                        OpenOn = "Saturday";
-                    }
-                    else if (day == "Saturday")
-                    {
-                        OpenTime = listingWh.SaturdayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.SaturdayTo.ToString("hh:mm tt");
-                        if (listingWh.SundayHoliday != true)
-                        {
-                            OpenOn = "Sunday";
-                        }
-                    }
-                    else if (day == "Sunday")
-                    {
-                        OpenTime = listingWh.SundayFrom.ToString("hh:mm tt");
-                        CloseTime = listingWh.SundayTo.ToString("hh:mm tt");
-                        OpenOn = "Monday";
-                    }
-
-                    if (!String.IsNullOrEmpty(CloseTime))
-                    {
-                        DateTime cToTime = DateTime.Parse(CloseTime, System.Globalization.CultureInfo.CurrentCulture);
-                        IsClosed = currentTime > cToTime;
-                    }
-
-                    if ((listingWh.SaturdayHoliday == true && listingWh.SundayHoliday == true) 
-                        || listingWh.SaturdayHoliday == true || listingWh.SundayHoliday == true)
-                    {
-                        OpenTime = null;
-                        CloseTime = null;
-                        IsClosed = true;
-
-                        if ((listingWh.SaturdayHoliday == true && listingWh.SundayHoliday == true))
-                            OpenOn = "Monday";
-                        else if (listingWh.SaturdayHoliday == true)
-                            OpenOn = "Sunday";
-                        else
-                            OpenOn = "Monday";
-                    }
-                }
-                catch (Exception exc)
-                {
-                }
-            }
-        }
-        // End: Business Open Or Close
-
-
-        // Begin: Get Rating Average
-        public async Task GetRatingAverage(int listingId)
-        {
-            // Get rating
-            var ratingCount = await listingService.GetRatingAsync(listingId);
-
-            if (ratingCount.Count() > 0)
-            {
-                var R1 = await listingService.CountRatingAsync(listingId, 1);
-                var R2 = await listingService.CountRatingAsync(listingId, 2);
-                var R3 = await listingService.CountRatingAsync(listingId, 3);
-                var R4 = await listingService.CountRatingAsync(listingId, 4);
-                var R5 = await listingService.CountRatingAsync(listingId, 5);
-
-                decimal averageCount = 5 * R5 + 4 * R4 + 3 * R3 + 2 * R2 + 1 * R1;
-                decimal weightedCount = R5 + R4 + R3 + R2 + R1;
-                decimal ratingAverage = averageCount / weightedCount;
-                RatingAverage = ratingAverage.ToString("0.0");
-
-                decimal R1Total = R1 * 15;
-                decimal R2Total = R2 * 15;
-                decimal R3Total = R3 * 15;
-                decimal R4Total = R4 * 15;
-                decimal R5Total = R5 * 15;
-
-                decimal SubTotalOfAllR = R1Total + R2Total + R3Total + R4Total + R5Total;
-
-                decimal R1Percent = (R1Total * 100) / SubTotalOfAllR;
-                decimal R2Percent = (R2Total * 100) / SubTotalOfAllR;
-                decimal R3Percent = (R3Total * 100) / SubTotalOfAllR;
-                decimal R4Percent = (R4Total * 100) / SubTotalOfAllR;
-                decimal R5Percent = (R5Total * 100) / SubTotalOfAllR;
-
-                rating1 = R1Percent;
-                rating2 = R2Percent;
-                rating3 = R3Percent;
-                rating4 = R4Percent;
-                rating5 = R5Percent;
-            }
-            else
-            {
-                RatingAverage = "0";
-            }
-        }
-        // End: Get rating average
-
-        // Begin: Write Review
         public decimal Rating { get; set; }
         public string Comment { get; set; }
         public Rating CurrentUserRating { get; set; }
@@ -989,18 +609,6 @@ namespace FRONTEND.BLAZOR.Listings
 
         }
 
-        public async Task CheckUserRatingExist()
-        {
-            CurrentUserRating = await listingService.GetRatingsByListingIdAndOwnerId(Int32.Parse(ListingID), CurrentUserGuid);
-            if(CurrentUserRating != null)
-            {
-                Rating = CurrentUserRating.Ratings;
-                Comment = CurrentUserRating.Comment;
-            }
-        }
-        // End: Write Review
-
-        // Begin: Antdesign Blazor Notification
         private async Task NoticeWithIcon(NotificationType type, string message, string description)
         {
             await _notice.Open(new NotificationConfig()
@@ -1009,59 +617,6 @@ namespace FRONTEND.BLAZOR.Listings
                 Description = description,
                 NotificationType = type
             });
-        }
-        // End: Antdesign Blazor Notification
-
-        // Begin: Check if logo exists
-        public bool LogoExist { get; set; }
-        public string LogoUrl { get; set; }
-
-        public async Task CheckIfLogoExist()
-        {
-            var file = hostEnv.WebRootPath + "\\FileManager\\ListingLogo\\" + ListingID + ".jpg";
-            LogoExist = File.Exists(file);
-            if (LogoExist)
-            {
-                LogoUrl = "/FileManager/ListingLogo/" + ListingID + ".jpg";
-            }
-            await Task.Delay(10);
-        }
-        // End: Check if logo exists
-
-        protected async override Task OnInitializedAsync()
-        {
-            try
-            {
-                // Get User Name
-                var authstate = await authenticationState.GetAuthenticationStateAsync();
-                var user = authstate.User;
-                if(user.Identity.IsAuthenticated)
-                {
-                    iUser = await userService.GetUserByUserName(user.Identity.Name);
-                    CurrentUserGuid = iUser.Id;
-
-                    userAuthenticated = true;
-                }               
-
-                await GetListing();
-                await GetListingBannerListAsync();
-                await CheckBookmarkAsync();
-                await GetReviewsAsync();
-                await CheckUserRatingExist();
-                await CheckIfLogoExist();
-            }
-            catch (Exception exc)
-            {
-                ErrorMessage = exc.Message;
-            }
-        }
-
-        protected override async Task OnAfterRenderAsync(bool render)
-        {
-            if (render)
-            {
-                await jsRuntime.InvokeVoidAsync("InitializeCarousel");
-            }
         }
     }
 }

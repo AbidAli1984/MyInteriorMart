@@ -1,4 +1,5 @@
-﻿using DAL.AUDIT;
+﻿using BOL.AUDITTRAIL;
+using DAL.AUDIT;
 using DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,23 +20,41 @@ namespace DAL.Repositories
 
         public async Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid)
         {
-            var subscribed = await _auditDbContext.Subscribes.Where(i => i.ListingID == listingId && i.UserGuid == userGuid).AnyAsync();
-
-            return subscribed;
+            return await _auditDbContext.Subscribes
+                .AnyAsync(i => i.ListingID == listingId && i.UserGuid == userGuid && i.Subscribe);
         }
 
         public async Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid)
         {
-            var bookmarked = await _auditDbContext.Bookmarks.Where(i => i.ListingID == listingId && i.UserGuid == userGuid).AnyAsync();
-
-            return bookmarked;
+            return await _auditDbContext.Bookmarks
+                .AnyAsync(i => i.ListingID == listingId && i.UserGuid == userGuid && i.Bookmark);
         }
 
         public async Task<bool> CheckIfUserLikedListing(int listingId, string userGuid)
         {
-            var liked = await _auditDbContext.ListingLikeDislike.Where(i => i.ListingID == listingId && i.UserGuid == userGuid).AnyAsync();
+            return await _auditDbContext.ListingLikeDislike
+                .AnyAsync(i => i.ListingID == listingId && i.UserGuid == userGuid && i.Like);
+        }
 
-            return liked;
+        public async Task<IEnumerable<Subscribes>> GetSubscriberByListingId(int listingId)
+        {
+            return await _auditDbContext.Subscribes
+                .Where(i => i.ListingID == listingId && i.Subscribe)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Bookmarks>> GetBookmarksByListingId(int listingId)
+        {
+            return await _auditDbContext.Bookmarks
+                .Where(i => i.ListingID == listingId && i.Bookmark)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ListingLikeDislike>> GetLikesByListingId(int listingId)
+        {
+            return await _auditDbContext.ListingLikeDislike
+                .Where(i => i.ListingID == listingId && i.Like)
+                .ToListAsync();
         }
     }
 }

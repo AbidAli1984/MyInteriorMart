@@ -60,7 +60,6 @@
                         <div class="carousel-inner">
                             @if (CategoryBannerList != null && Banner2Count != 0)
                             {
-
                                 // First Slide
                                 var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-2").FirstOrDefault();
 
@@ -71,7 +70,6 @@
                                         <img class="d-block w-100" src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
                                     </a>
                                 </div>
-
 
                                 // All Slides After First
                                 foreach (var ban in CategoryBannerList.Where(i => i.Placement == "banner-2").Skip(1))
@@ -156,7 +154,7 @@
                                             <b class="@(item.BusinessWorking.IsBusinessOpen ? "" : "text-danger")">@item.BusinessWorking.IsBusinessOpenText</b>
                                             @if (item.BusinessWorking.IsBusinessOpen)
                                             {
-                                                <span> until @item.BusinessWorking.ToTime</span>
+                                                <span> until @item.BusinessWorking.CloseTime</span>
                                             }
                                         </p>
                                     </div>

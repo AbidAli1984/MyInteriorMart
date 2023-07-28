@@ -1,13 +1,9 @@
 ﻿using BAL.Services.Contracts;
 using BOL.BANNERADS;
 using BOL.ComponentModels.Listings;
-using BOL.LISTING;
-using BOL.VIEWMODELS;
-using FRONTEND.BLAZOR.Models.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

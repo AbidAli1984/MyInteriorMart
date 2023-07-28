@@ -18,6 +18,8 @@ namespace DAL.Repositories.Contracts
 
         Task<IList<SixthCategory>> GetSixthCategoriesBySecondCategoryId(int secondCategoryId);
 
+        Task<FirstCategory> GetFirstCategoryById(int id);
+
         Task<SecondCategory> GetSecondCategoryById(int id);
 
         Task<FirstCategory> GetFirstCategoryByURL(string url);

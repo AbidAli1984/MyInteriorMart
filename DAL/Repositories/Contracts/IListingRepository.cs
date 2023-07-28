@@ -23,7 +23,7 @@ namespace DAL.Repositories.Contracts
 
         Task<Categories> GetCategoryByListingId(int listingId);
 
-        Task<IEnumerable<ListingBanner>> GetListingBannerBySecondCategoryId(int secondCategoryId);
+        Task<IEnumerable<ListingBanner>> GetListingBannersBySecondCategoryId(int secondCategoryId);
 
         Task<int> CountRatingAsync(int ListingID, int rating);
 

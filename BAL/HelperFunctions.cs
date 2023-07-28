@@ -36,50 +36,60 @@ namespace BAL
 
             string time = timeZoneDate.ToString("hh:mm tt");
             DateTime currentTime = DateTime.Parse(time, System.Globalization.CultureInfo.CurrentCulture);
-            DateTime FromTime;
-            DateTime ToTime;
+            DateTime OpenTime;
+            DateTime CloseTime;
 
             if (day == Constants.Monday)
             {
-                FromTime = workingTime.MondayFrom;
-                ToTime = workingTime.MondayTo;
+                OpenTime = workingTime.MondayFrom;
+                CloseTime = workingTime.MondayTo;
+                businessWorking.OpenOn = Constants.Tuesday;
             }
             else if (day == Constants.Tuesday)
             {
-                FromTime = workingTime.TuesdayFrom;
-                ToTime = workingTime.TuesdayTo;
+                OpenTime = workingTime.TuesdayFrom;
+                CloseTime = workingTime.TuesdayTo;
+                businessWorking.OpenOn = Constants.Wednesday;
             }
             else if (day == Constants.Wednesday)
             {
-                FromTime = workingTime.WednesdayFrom;
-                ToTime = workingTime.WednesdayTo;
+                OpenTime = workingTime.WednesdayFrom;
+                CloseTime = workingTime.WednesdayTo;
+                businessWorking.OpenOn = Constants.Thursday;
             }
             else if (day == Constants.Thursday)
             {
-                FromTime = workingTime.ThursdayFrom;
-                ToTime = workingTime.ThursdayTo;
+                OpenTime = workingTime.ThursdayFrom;
+                CloseTime = workingTime.ThursdayTo;
+                businessWorking.OpenOn = Constants.Friday;
             }
             else if (day == Constants.Friday)
             {
-                FromTime = workingTime.FridayFrom;
-                ToTime = workingTime.FridayTo;
+                OpenTime = workingTime.FridayFrom;
+                CloseTime = workingTime.FridayTo;
+                if (workingTime.SaturdayHoliday)
+                    businessWorking.OpenOn = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
+                else
+                    businessWorking.OpenOn = Constants.Saturday;
             }
             else if (day == Constants.Saturday)
             {
-                FromTime = workingTime.SaturdayFrom;
-                ToTime = workingTime.SaturdayTo;
+                OpenTime = workingTime.SaturdayFrom;
+                CloseTime = workingTime.SaturdayTo;
+                businessWorking.OpenOn = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
             }
             else
             {
-                FromTime = workingTime.SundayFrom;
-                ToTime = workingTime.SundayTo;
+                OpenTime = workingTime.SundayFrom;
+                CloseTime = workingTime.SundayTo;
+                businessWorking.OpenOn = Constants.Monday;
             }
 
-            businessWorking.FromTime = FromTime.ToString("hh:mm tt");
-            businessWorking.ToTime = ToTime.ToString("hh:mm tt");
+            businessWorking.OpenTime = OpenTime.ToString("hh:mm tt");
+            businessWorking.CloseTime = CloseTime.ToString("hh:mm tt");
 
-            DateTime openTime = DateTime.Parse(businessWorking.FromTime, System.Globalization.CultureInfo.CurrentCulture);
-            DateTime closeTime = DateTime.Parse(businessWorking.ToTime, System.Globalization.CultureInfo.CurrentCulture);
+            DateTime openTime = DateTime.Parse(businessWorking.OpenTime, System.Globalization.CultureInfo.CurrentCulture);
+            DateTime closeTime = DateTime.Parse(businessWorking.CloseTime, System.Globalization.CultureInfo.CurrentCulture);
             businessWorking.IsBusinessOpen = currentTime > openTime && currentTime < closeTime;
             return businessWorking;
         }

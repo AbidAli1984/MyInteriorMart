@@ -64,6 +64,11 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
 
+        public async Task<FirstCategory> GetFirstCategoryById(int id)
+        {
+            return await categoryContext.FirstCategory.FindAsync(id);
+        }
+
         public async Task<SecondCategory> GetSecondCategoryById(int id)
         {
             return await categoryContext.SecondCategory.FindAsync(id);

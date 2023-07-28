@@ -5,7 +5,7 @@ namespace BAL
 {
     public class Constants
     {
-        public static string WebRoot;
+        public static string WebRoot { get; set; }
 
         #region Category Id
         public static int Cat_Repairs = 40;
