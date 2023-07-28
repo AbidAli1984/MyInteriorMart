@@ -91,5 +91,6 @@ namespace BOL.LISTING
         [Display(Name = "GST Number")]
         [Required(ErrorMessage = "GST Number required.")]
         public string GSTNumber { get; set; }
+        public int Steps { get; set; }
     }
 }
