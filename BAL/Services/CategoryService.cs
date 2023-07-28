@@ -130,7 +130,7 @@ namespace BAL.Services
 
             if (thirdCategories.Any())
             {
-                categoryVM.ThirdCategories = thirdCategories.Select((x) => new OtherCategories
+                categoryVM.ThirdCategories = thirdCategories.Select((x) => new SelectItem
                 {
                     Id = x.ThirdCategoryID,
                     Name = x.Name,
@@ -147,7 +147,7 @@ namespace BAL.Services
 
             if (fourthCategories.Any())
             {
-                categoryVM.FourthCategories = fourthCategories.Select((x) => new OtherCategories
+                categoryVM.FourthCategories = fourthCategories.Select((x) => new SelectItem
                 {
                     Id = x.FourthCategoryID,
                     Name = x.Name,
@@ -164,7 +164,7 @@ namespace BAL.Services
 
             if (fifthCategories.Any())
             {
-                categoryVM.FifthCategories = fifthCategories.Select((x) => new OtherCategories
+                categoryVM.FifthCategories = fifthCategories.Select((x) => new SelectItem
                 {
                     Id = x.FifthCategoryID,
                     Name = x.Name,
@@ -181,7 +181,7 @@ namespace BAL.Services
 
             if (sixthCategories.Any())
             {
-                categoryVM.SixthCategories = sixthCategories.Select((x) => new OtherCategories
+                categoryVM.SixthCategories = sixthCategories.Select((x) => new SelectItem
                 {
                     Id = x.SixthCategoryID,
                     Name = x.Name,

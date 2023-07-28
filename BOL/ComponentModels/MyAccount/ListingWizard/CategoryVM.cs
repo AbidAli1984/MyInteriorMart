@@ -11,27 +11,20 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         public Categories Category { get; set; }
         public IList<FirstCategory> FirstCategories { get; set; }
         public IList<SecondCategory> SecondCategories { get; set; }
-        public IList<OtherCategories> ThirdCategories { get; set; }
-        public IList<OtherCategories> FourthCategories { get; set; }
-        public IList<OtherCategories> FifthCategories { get; set; }
-        public IList<OtherCategories> SixthCategories { get; set; }
+        public IList<SelectItem> ThirdCategories { get; set; }
+        public IList<SelectItem> FourthCategories { get; set; }
+        public IList<SelectItem> FifthCategories { get; set; }
+        public IList<SelectItem> SixthCategories { get; set; }
 
         public CategoryVM()
         {
             Category = new Categories();
             FirstCategories = new List<FirstCategory>();
             SecondCategories = new List<SecondCategory>();
-            ThirdCategories = new List<OtherCategories>();
-            FourthCategories = new List<OtherCategories>();
-            FifthCategories = new List<OtherCategories>();
-            SixthCategories = new List<OtherCategories>();
+            ThirdCategories = new List<SelectItem>();
+            FourthCategories = new List<SelectItem>();
+            FifthCategories = new List<SelectItem>();
+            SixthCategories = new List<SelectItem>();
         }
-    }
-
-    public class OtherCategories
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool IsSelected { get; set; }
     }
 }
