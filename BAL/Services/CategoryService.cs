@@ -1,5 +1,6 @@
 ﻿using BAL.Services.Contracts;
 using BOL.CATEGORIES;
+using BOL.ComponentModels;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.Pages;
 using DAL.Repositories.Contracts;
