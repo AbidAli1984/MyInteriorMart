@@ -42,8 +42,6 @@ namespace FRONTEND.BLAZOR.Listings
         public string ListingID { get; set; }
 
         public ListingDetailVM listingDetailVM { get; set; } = new ListingDetailVM();
-        public FreeListingViewModel listingViewModel { get; set; } = new FreeListingViewModel();
-
         public string CurrentUserGuid { get; set; }
         public bool userAuthenticated { get; set; } = false;
 

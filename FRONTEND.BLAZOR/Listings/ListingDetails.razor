@@ -672,7 +672,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @foreach (var review in listReviews)
+                                        @foreach (var review in listingDetailVM.listReviews)
                                         {
                                             <div class="col-12  col-lg-12 review-user">
                                                 <h6>Latest review by @review.Name on @review.Date</h6>
@@ -684,10 +684,11 @@
                                                             </div>
                                                             <div class="col-lg-10 pl-lg-0">
                                                                 <div class="cat_star">
-                                                                    <i class="icon_star active"></i>
-                                                                    <i class="icon_star active"></i>
-                                                                    <i class="icon_star active"></i>
-                                                                    <i class="icon_star active"></i>
+                                                                    <i class="icon_star @(review.Ratings >= 1 ? "active" : "")"></i>
+                                                                    <i class="icon_star @(review.Ratings >= 2 ? "active" : "")"></i>
+                                                                    <i class="icon_star @(review.Ratings >= 3 ? "active" : "")"></i>
+                                                                    <i class="icon_star @(review.Ratings >= 4 ? "active" : "")"></i>
+                                                                    <i class="icon_star @(review.Ratings >= 5 ? "active" : "")"></i>
                                                                     <span><strong>@review.Name – @review.Date</strong> </span>
                                                                 </div>
                                                                 <p>@review.Comment<a href="#0"> view more...</a></p>
