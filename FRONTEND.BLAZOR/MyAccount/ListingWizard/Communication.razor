@@ -1,13 +1,7 @@
-﻿@page "/MyAccount/Listing/Communication/{listingId:int?}"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject CategoriesDbContext categoriesContext
-@inject SharedDbContext sharedContext
+﻿@page "/MyAccount/Listing/Communication"
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using BOL.SHARED
 
 <AuthorizeView>
     <Authorized>
@@ -25,57 +19,53 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="name">Email <span class="text-danger">*</span></label>
-                                <Input Type="email" Placeholder="Email" @bind-Value="@email" />
+                                <Input Type="email" Placeholder="Email" @bind-Value="@CommunicationVM.Email" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Mobile <span class="text-danger">*</span></label>
-                                <Input Type="number" Placeholder="Mobile" @bind-Value="@mobile" />
+                                <Input Type="number" Placeholder="Mobile" @bind-Value="@CommunicationVM.Mobile" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Whatsapp <span class="text-danger">*</span></label>
-                                <Input Type="number" Placeholder="Whatsapp" @bind-Value="@whatsapp" />
+                                <Input Type="number" Placeholder="Whatsapp" @bind-Value="@CommunicationVM.Whatsapp" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Telephone</label>
-                                <Input Type="number" Placeholder="Telephone" @bind-Value="@telephone1st" />
+                                <Input Type="number" Placeholder="Telephone" @bind-Value="@CommunicationVM.Telephone" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Telephone</label>
-                                <Input Type="number" Placeholder="Telephone" @bind-Value="@telephone2nd" />
+                                <Input Type="number" Placeholder="Telephone" @bind-Value="@CommunicationVM.TelephoneSecond" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Website</label>
-                                <Input Type="url" Placeholder="Website" @bind-Value="@website" />
+                                <Input Type="url" Placeholder="Website" @bind-Value="@CommunicationVM.Website" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Toll Free</label>
-                                <Input Placeholder="Toll Free" @bind-Value="@tollFree" />
+                                <Input Placeholder="Toll Free" @bind-Value="@CommunicationVM.TollFree" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Fax</label>
-                                <Input Type="number" Placeholder="Fax" @bind-Value="@fax" />
+                                <Input Type="number" Placeholder="Fax" @bind-Value="@CommunicationVM.Fax" />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name">Skype ID <span class="text-danger">*</span></label>
-                                <Input Placeholder="Skype ID" @bind-Value="@skypeId" />
+                                <Input Placeholder="Skype ID" @bind-Value="@CommunicationVM.SkypeID" />
                             </div>
                             <div class="text-left col-12 mt-3">
                                 @if (buttonBusy == false)
                                 {
-                                    <button class="btn btn-primary" @onclick="@(async() => await CreateCommunicationAsync())">Save & Continue</button>
+                                    <button class="btn btn-primary" @onclick="@(async() => await AddOrUpdateCommunication())">Save & Continue</button>
                                 }
                                 else
                                 {
                                     <button class="btn btn-secondary">Saving...</button>
                                 }
-
-                                @if (companyExist == true)
+                                <a class="btn pull-right ml-2" href="/MyAccount/Listing/Company">Previous</a>
+                                @if (AddressExist == true)
                                 {
-                                    <a class="btn_1 pull-right ml-2" href="/MyAccount/ListingWizard/CompanyEdit/@listingId">Previous</a>
-                                }
-                                @if (addressExist == true)
-                                {
-                                    <a class="btn_1 pull-right" href="/MyAccount/ListingWizard/AddressEdit/@listingId">Next</a>
+                                    <a class="btn pull-right" href="/MyAccount/ListingWizard/AddressEdit/@ListingId">Next</a>
                                 }
                             </div>
                         </div>

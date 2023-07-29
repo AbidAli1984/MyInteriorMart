@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Utils
 {
@@ -19,7 +21,7 @@ namespace Utils
         {
             if (String.IsNullOrEmpty(email))
                 return $"{requiredMessage} email address.";
-            else if (email.IndexOf("@") < 0 || email.IndexOf(".") < 0)
+            else if (email.IndexOf("@") < 0 || email.IndexOf(".") < 0 || !(new EmailAddressAttribute().IsValid(email)) || email.Contains(" "))
                 return $"{validMessage} email address.";
             return string.Empty;
         }
@@ -28,7 +30,7 @@ namespace Utils
         {
             if (String.IsNullOrEmpty(mobileNo))
                 return $"{requiredMessage} Mobile number.";
-            else if(mobileNo.Length < 10 || !double.TryParse(mobileNo, out double mobile))
+            else if(mobileNo.Length < 10 || !double.TryParse(mobileNo, out double mobile) || !Regex.IsMatch(mobileNo, @"^\d+$"))
                 return $"{validMessage} Mobile number";
             return string.Empty;
         }
@@ -82,6 +84,15 @@ namespace Utils
                 return $"{requiredMessage} confirm password";
             if (!password.Equals(confirmPassword))
                 return "The password and confirmation password do not match.";
+            return string.Empty;
+        }
+
+        public static string websiteErrMessage(string website)
+        {
+            if (string.IsNullOrEmpty(website))
+                return string.Empty;
+            if(!website.Contains("www."))
+                return $"{validMessage} Website must start with 'wwww.'";
             return string.Empty;
         }
     }

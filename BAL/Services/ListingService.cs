@@ -262,6 +262,11 @@ namespace BAL.Services
             return await _listingRepository.GetListingByOwnerId(ownerId);
         }
 
+        public async Task<Communication> GetCommunicationByOwnerId(string ownerId)
+        {
+            return await _listingRepository.GetCommunicationByOwnerId(ownerId);
+        }
+
         public async Task<Listing> GetListingByListingId(int listingId)
         {
             return await _listingRepository.GetListingByListingId(listingId);

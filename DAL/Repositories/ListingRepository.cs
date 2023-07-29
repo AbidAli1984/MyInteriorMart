@@ -148,6 +148,13 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Communication> GetCommunicationByOwnerId(string ownerId)
+        {
+            return await _listingDbContext.Communication
+                .Where(i => i.OwnerGuid == ownerId)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Listing> GetListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing

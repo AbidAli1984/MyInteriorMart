@@ -31,6 +31,8 @@ namespace DAL.Repositories.Contracts
 
         Task<Listing> GetListingByOwnerId(string ownerId);
 
+        Task<Communication> GetCommunicationByOwnerId(string ownerId);
+
         Task<Listing> GetListingByListingId(int listingId);
 
         Task<Communication> GetCommunicationByListingId(int listingId);

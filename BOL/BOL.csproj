@@ -12,4 +12,8 @@
     <Compile Remove="VIEWMODELS\Dashboards\DashboardListingLatitutdeLongitudeViewModel.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FRONTEND\Utils\Utils.csproj" />
+  </ItemGroup>
+
 </Project>
