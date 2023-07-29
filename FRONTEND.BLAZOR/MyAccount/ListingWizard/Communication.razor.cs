@@ -43,6 +43,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     if (listing == null)
                         navManager.NavigateTo("/MyAccount/Listing/Company");
 
+                    if (listing.Steps < Constants.CompanyComplete)
+                        helper.NavigateToPageByStep(listing.Steps, navManager);
+
                     IsCommunicationExist = listing.Steps >= Constants.CommunicationComplete;
                     ListingId = listing.ListingID;
                     var communication = await listingService.GetCommunicationByOwnerId(CurrentUserGuid);
