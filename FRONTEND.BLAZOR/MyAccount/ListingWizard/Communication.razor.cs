@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using AntDesign;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
+using BAL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -42,7 +43,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     if (listing == null)
                         navManager.NavigateTo("/MyAccount/Listing/Company");
 
-                    IsCommunicationExist = listing.Steps >= 2;
+                    IsCommunicationExist = listing.Steps >= Constants.CommunicationComplete;
                     ListingId = listing.ListingID;
                     var communication = await listingService.GetCommunicationByOwnerId(CurrentUserGuid);
                     if (communication != null)
@@ -123,7 +124,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 }
 
                 var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                listing.Steps = listing.Steps == 1 ? 2 : listing.Steps;
+                listing.Steps = listing.Steps <= Constants.CommunicationComplete ? Constants.CommunicationComplete : listing.Steps;
                 await listingService.UpdateAsync(listing);
 
                 navManager.NavigateTo($"/MyAccount/Listing/Address");

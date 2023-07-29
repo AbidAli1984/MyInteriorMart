@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
+using BAL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -45,7 +46,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
                     if (listing != null)
                     {
-                        IsCompanyExists = listing.Steps >= 1;
+                        IsCompanyExists = listing.Steps >= Constants.CompanyComplete;
                         CompanyVM.Name = listing.Name;
                         CompanyVM.Gender = listing.Gender;
                         CompanyVM.YearOfEstablishment = listing.YearOfEstablishment;
@@ -91,6 +92,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 listing.NatureOfBusiness = CompanyVM.NatureOfBusiness;
                 listing.Designation = CompanyVM.Designation;
                 listing.ListingURL = CompanyVM.CompanyName.Replace(" ", "-"); ;
+                listing.Steps = listing.Steps <= Constants.CompanyComplete ? Constants.CompanyComplete : listing.Steps;
 
                 if (recordNotFound)
                 {
@@ -101,13 +103,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     listing.CreatedTime = timeZoneDate;
                     listing.IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
                     listing.Approved = false;
-                    listing.Steps = 1;
 
                     await listingService.AddAsync(listing);
                 }
                 else
                 {
-                    listing.Steps = listing.Steps == 0 ? 1 : listing.Steps;
                     await listingService.UpdateAsync(listing);
                 }
 

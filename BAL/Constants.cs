@@ -8,37 +8,47 @@ namespace BAL
         public static string WebRoot { get; set; }
 
         #region Category Id
-        public static int Cat_Repairs = 40;
-        public static int Cat_Services = 41;
-        public static int Cat_Contractors = 43;
-        public static int Cat_Dealers = 45;
-        public static int Cat_Manufacturers = 45;
+        public const int Cat_Repairs = 40;
+        public const int Cat_Services = 41;
+        public const int Cat_Contractors = 43;
+        public const int Cat_Dealers = 45;
+        public const int Cat_Manufacturers = 45;
         #endregion
 
         #region HTTP Status Codes
-        public static int Success = 200;
-        public static int Created = 201;
-        public static int BadRequest = 400;
-        public static int Unauthorized = 401;
+        public const int Success = 200;
+        public const int Created = 201;
+        public const int BadRequest = 400;
+        public const int Unauthorized = 401;
         #endregion
 
         #region Category Level
-        public static string LevelFirstCategory = "fc";
-        public static string LevelSecondCategory = "sc";
-        public static string LevelThirdCategory = "tc";
-        public static string LevelFourthCategory = "ivc";
-        public static string LevelFifthCategory = "vc";
-        public static string LevelSixthCategory = "vic";
+        public const string LevelFirstCategory = "fc";
+        public const string LevelSecondCategory = "sc";
+        public const string LevelThirdCategory = "tc";
+        public const string LevelFourthCategory = "ivc";
+        public const string LevelFifthCategory = "vc";
+        public const string LevelSixthCategory = "vic";
         #endregion
 
         #region Weekdays Name
-        public static string Sunday = "Sunday";
-        public static string Monday = "Monday";
-        public static string Tuesday = "Tuesday";
-        public static string Wednesday = "Wednesday";
-        public static string Thursday = "Thursday";
-        public static string Friday = "Friday";
-        public static string Saturday = "Saturday";
+        public const string Sunday = "Sunday";
+        public const string Monday = "Monday";
+        public const string Tuesday = "Tuesday";
+        public const string Wednesday = "Wednesday";
+        public const string Thursday = "Thursday";
+        public const string Friday = "Friday";
+        public const string Saturday = "Saturday";
+        #endregion
+
+        #region ListingWizard Steps
+        public const int CompanyComplete = 1;
+        public const int CommunicationComplete = 2;
+        public const int AddressComplete = 3;
+        public const int CategoryComplete = 4;
+        public const int SpecialisationComplete = 5;
+        public const int WorkingHourComplete = 6;
+        public const int PaymentModeComplete = 7;
         #endregion
 
         public static IList<SearchResultViewModel> Listings;
