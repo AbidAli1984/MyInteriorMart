@@ -73,50 +73,40 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             try
             {
                 buttonBusy = true;
-                string listingUrl = CompanyVM.CompanyName.Replace(" ", "-");
-
                 var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
+                bool recordNotFound = listing == null;
 
-                if (listing != null)
+                if(recordNotFound)
+                    listing = new Listing();
+
+                listing.Name = CompanyVM.Name;
+                listing.Gender = CompanyVM.Gender;
+                listing.YearOfEstablishment = CompanyVM.YearOfEstablishment.Value;
+                listing.CompanyName = CompanyVM.CompanyName;
+                listing.GSTNumber = CompanyVM.GSTNumber;
+                listing.Turnover = CompanyVM.Turnover;
+                listing.NumberOfEmployees = CompanyVM.NumberOfEmployees;
+                listing.NatureOfBusiness = CompanyVM.NatureOfBusiness;
+                listing.Designation = CompanyVM.Designation;
+                listing.ListingURL = CompanyVM.CompanyName.Replace(" ", "-"); ;
+
+                if (recordNotFound)
                 {
-                    listing.Name = CompanyVM.Name;
-                    listing.Gender = CompanyVM.Gender;
-                    listing.YearOfEstablishment = CompanyVM.YearOfEstablishment.Value;
-                    listing.CompanyName = CompanyVM.CompanyName;
-                    listing.GSTNumber = CompanyVM.GSTNumber;
-                    listing.Turnover = CompanyVM.Turnover;
-                    listing.NumberOfEmployees = CompanyVM.NumberOfEmployees;
-                    listing.NatureOfBusiness = CompanyVM.NatureOfBusiness;
-                    listing.Designation = CompanyVM.Designation;
-                    listing.Steps = listing.Steps == 0 ? 1 : listing.Steps;
-                    await listingService.UpdateAsync(listing);
+                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
+                    listing.OwnerGuid = CurrentUserGuid;
+                    listing.CreatedDate = timeZoneDate;
+                    listing.CreatedTime = timeZoneDate;
+                    listing.IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
+                    listing.Approved = false;
+                    listing.Steps = 1;
+
+                    await listingService.AddAsync(listing);
                 }
                 else
                 {
-
-                    DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-
-                    Listing list = new Listing
-                    {
-                        OwnerGuid = CurrentUserGuid,
-                        CreatedDate = timeZoneDate,
-                        CreatedTime = timeZoneDate,
-                        IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString(),
-                        Name = CompanyVM.Name,
-                        Gender = CompanyVM.Gender,
-                        CompanyName = CompanyVM.CompanyName,
-                        GSTNumber = CompanyVM.GSTNumber,
-                        YearOfEstablishment = CompanyVM.YearOfEstablishment.Value,
-                        NumberOfEmployees = CompanyVM.NumberOfEmployees,
-                        Designation = CompanyVM.Designation,
-                        NatureOfBusiness = CompanyVM.NatureOfBusiness,
-                        Turnover = CompanyVM.Turnover,
-                        ListingURL = listingUrl,
-                        Approved = false,
-                        Steps = 1
-                    };
-
-                    await listingService.AddAsync(list);
+                    listing.Steps = listing.Steps == 0 ? 1 : listing.Steps;
+                    await listingService.UpdateAsync(listing);
                 }
 
                 navManager.NavigateTo($"/MyAccount/Listing/Communication");
