@@ -28,7 +28,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
 
         public string CurrentUserGuid { get; set; }
-        public bool CompanyExists { get; set; }
+        public bool IsCompanyExists { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -45,7 +45,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
                     if (listing != null)
                     {
-                        CompanyExists = listing.Steps >= 1;
+                        IsCompanyExists = listing.Steps >= 1;
                         CompanyVM.Name = listing.Name;
                         CompanyVM.Gender = listing.Gender;
                         CompanyVM.YearOfEstablishment = listing.YearOfEstablishment;
