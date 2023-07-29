@@ -25,7 +25,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
-        public bool AddressExist { get; set; }
+        public bool CommunicationExist { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -42,7 +42,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     if (listing == null)
                         navManager.NavigateTo("/MyAccount/Listing/Company");
 
-                    AddressExist = listing.Steps >= 3;
+                    CommunicationExist = listing.Steps >= 2;
                     ListingId = listing.ListingID;
                     var communication = await listingService.GetCommunicationByOwnerId(CurrentUserGuid);
                     if (communication != null)

@@ -62,11 +62,11 @@
                                 {
                                     <button class="btn btn-secondary">Saving...</button>
                                 }
-                                <a class="btn pull-right ml-2" href="/MyAccount/Listing/Company">Previous</a>
-                                @if (AddressExist == true)
+                                @if (CommunicationExist)
                                 {
-                                    <a class="btn pull-right" href="/MyAccount/ListingWizard/AddressEdit/@ListingId">Next</a>
+                                    <a href="/MyAccount/Listing/Address" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
                                 }
+                                <a href="/MyAccount/Listing/Company" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
                             </div>
                         </div>
                     </div>
