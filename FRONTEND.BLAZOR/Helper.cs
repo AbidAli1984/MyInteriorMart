@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using BAL;
 using BAL.FileManager;
 using BOL.ComponentModels.MyAccount.Profile;
 using Microsoft.AspNetCore.Components;
@@ -43,6 +44,24 @@ namespace FRONTEND.BLAZOR
             string sourceFile = userProfileVM.ImgUrl.Split("?")[0];
             string destFile = profileImagesPath + fileName + ".jpg";
             return await FileManagerService.MoveFile(sourceFile, destFile);
+        }
+
+        public void NavigateToPageByStep(int steps, NavigationManager navManager)
+        {
+            if (steps < Constants.CompanyComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Company");
+            else if (steps < Constants.CommunicationComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Communication");
+            else if (steps < Constants.AddressComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Address");
+            else if (steps < Constants.CompanyComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Communication");
+            else if (steps < Constants.CompanyComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Communication");
+            else if (steps < Constants.CompanyComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Communication");
+            else if (steps < Constants.CompanyComplete)
+                navManager.NavigateTo("/MyAccount/Listing/Communication");
         }
     }
 }
