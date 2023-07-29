@@ -18,8 +18,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         [Inject]
         IListingService listingService { get; set; }
         [Inject]
-        ISharedService sharedService { get; set; }
-        [Inject]
         Helper helper { get; set; }
 
         public CommunicationVM CommunicationVM { get; set; } = new CommunicationVM();
