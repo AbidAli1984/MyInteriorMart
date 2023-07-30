@@ -58,7 +58,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     IsAddressExist = listing.Steps >= 3;
                     ListingId = listing.ListingID;
                     AddressVM.Countries = await sharedService.GetCountries();
-                    var address = await listingService.GetAddressByOwnerId(CurrentUserGuid);
+                    var address = await listingService.GetAddressByListingId(ListingId);
                     if (address != null)
                     {
                         AddressVM.CountryId = address.CountryID;
@@ -129,7 +129,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             try
             {
                 buttonBusy = true;
-                var address = await listingService.GetAddressByOwnerId(CurrentUserGuid);
+                var address = await listingService.GetAddressByListingId(ListingId);
                 bool recordNotFound = address == null;
 
                 if (recordNotFound)

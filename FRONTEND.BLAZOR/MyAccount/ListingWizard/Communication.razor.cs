@@ -46,7 +46,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                     IsCommunicationExist = listing.Steps >= Constants.CommunicationComplete;
                     ListingId = listing.ListingID;
-                    var communication = await listingService.GetCommunicationByOwnerId(CurrentUserGuid);
+                    var communication = await listingService.GetCommunicationByListingId(ListingId);
                     if (communication != null)
                     {
                         CommunicationVM.Email = communication.Email;
@@ -93,7 +93,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             try
             {
                 buttonBusy = true;
-                var communication = await listingService.GetCommunicationByOwnerId(CurrentUserGuid);
+                var communication = await listingService.GetCommunicationByListingId(ListingId);
                 bool recordNotFound = communication == null;
 
                 if (recordNotFound)
