@@ -44,11 +44,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     else if (listing.Steps < Constants.CompanyComplete) //Checking if prev steps compeleted
                         helper.NavigateToPageByStep(listing.Steps, navManager);
 
-                    IsCommunicationExist = listing.Steps >= Constants.CommunicationComplete;
                     ListingId = listing.ListingID;
                     var communication = await listingService.GetCommunicationByListingId(ListingId);
                     if (communication != null)
                     {
+                        IsCommunicationExist = true;
                         CommunicationVM.Email = communication.Email;
                         CommunicationVM.Mobile = communication.Mobile;
                         CommunicationVM.Whatsapp = communication.Whatsapp;

@@ -45,12 +45,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     else if (listing.Steps < Constants.AddressComplete) //Checkig if prev steps compeleted
                         helper.NavigateToPageByStep(listing.Steps, navManager);
 
-                    IsCategoryExist = listing.Steps >= Constants.CategoryComplete;
                     ListingId = listing.ListingID;
                     CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
                     var category = await listingService.GetCategoryByListingId(ListingId);
                     if (category != null)
                     {
+                        IsCategoryExist = true;
                         CategoryVM.FirstCategoryID = category.FirstCategoryID;
                         CategoryVM.SecondCategoryID = category.SecondCategoryID;
                         CategoryVM.ThirdCategory = category.ThirdCategories;

@@ -55,12 +55,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     else if (listing.Steps < Constants.CommunicationComplete) //Checking if prev steps compeleted
                         helper.NavigateToPageByStep(listing.Steps, navManager);
 
-                    IsAddressExist = listing.Steps >= Constants.AddressComplete;
                     ListingId = listing.ListingID;
                     AddressVM.Countries = await sharedService.GetCountries();
                     var address = await listingService.GetAddressByListingId(ListingId);
                     if (address != null)
                     {
+                        IsAddressExist = true;
                         AddressVM.CountryId = address.CountryID;
                         AddressVM.StateId = address.StateID;
                         AddressVM.CityId = address.City;

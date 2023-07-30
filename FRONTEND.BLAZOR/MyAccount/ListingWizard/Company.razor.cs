@@ -46,7 +46,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
                     if (listing != null)
                     {
-                        IsCompanyExists = listing.Steps >= Constants.CompanyComplete;
+                        IsCompanyExists = true;
                         CompanyVM.Name = listing.Name;
                         CompanyVM.Gender = listing.Gender;
                         CompanyVM.YearOfEstablishment = listing.YearOfEstablishment;
