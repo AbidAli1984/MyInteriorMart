@@ -1,14 +1,7 @@
-﻿@page "/MyAccount/Listing/Specialisation/{listingId:int?}"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
-@inject CategoriesDbContext categoriesContext
+﻿@page "/MyAccount/Listing/Specialisation"
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using AntDesign
-@using BOL.SHARED
 
 <AuthorizeView>
     <Authorized>
@@ -38,7 +31,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Accept Tender Work
-                                            <input type="checkbox" @bind="acceptTenderWork" />
+                                            <input type="checkbox" @bind="SpecialisationVM.AcceptTenderWork" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -49,7 +42,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Banks
-                                            <input type="checkbox" @bind="bank" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Bank" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -60,7 +53,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Beauty Parlors
-                                            <input type="checkbox" @bind="beautyParlors" />
+                                            <input type="checkbox" @bind="SpecialisationVM.BeautyParlors" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -71,7 +64,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Bungalow
-                                            <input type="checkbox" @bind="bungalow" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Bungalow" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -82,7 +75,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Call Center
-                                            <input type="checkbox" @bind="callCenter" />
+                                            <input type="checkbox" @bind="SpecialisationVM.CallCenter" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -93,7 +86,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Church
-                                            <input type="checkbox" @bind="church" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Church" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -104,7 +97,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Company
-                                            <input type="checkbox" @bind="company" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Company" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -115,7 +108,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Computer Institute
-                                            <input type="checkbox" @bind="computerInstitute" />
+                                            <input type="checkbox" @bind="SpecialisationVM.ComputerInstitute" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -126,7 +119,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Dispensary
-                                            <input type="checkbox" @bind="dispensary" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Dispensary" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -137,7 +130,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Exhibition Stall
-                                            <input type="checkbox" @bind="exhibitionStall" />
+                                            <input type="checkbox" @bind="SpecialisationVM.ExhibitionStall" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -148,7 +141,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Factory
-                                            <input type="checkbox" @bind="factory" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Factory" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -159,7 +152,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Farmhouse
-                                            <input type="checkbox" @bind="farmhouse" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Farmhouse" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -170,7 +163,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Gurudwara
-                                            <input type="checkbox" @bind="gurudwara" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Gurudwara" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -181,7 +174,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Gym
-                                            <input type="checkbox" @bind="gym" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Gym" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -192,7 +185,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Health Club
-                                            <input type="checkbox" @bind="healthClub" />
+                                            <input type="checkbox" @bind="SpecialisationVM.HealthClub" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -203,7 +196,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Home
-                                            <input type="checkbox" @bind="home" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Home" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -214,7 +207,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Hospital
-                                            <input type="checkbox" @bind="hospital" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Hospital" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -225,7 +218,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Hotel
-                                            <input type="checkbox" @bind="hotel" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Hotel" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -236,7 +229,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Laboratory
-                                            <input type="checkbox" @bind="laboratory" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Laboratory" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -247,7 +240,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Mandir
-                                            <input type="checkbox" @bind="mandir" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Mandir" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -258,7 +251,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Mosque
-                                            <input type="checkbox" @bind="mosque" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Mosque" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -269,7 +262,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Office
-                                            <input type="checkbox" @bind="office" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Office" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -280,7 +273,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Plazas
-                                            <input type="checkbox" @bind="plazas" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Plazas" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -291,7 +284,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Residential Society
-                                            <input type="checkbox" @bind="residentialSociety" />
+                                            <input type="checkbox" @bind="SpecialisationVM.ResidentialSociety" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -302,7 +295,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Resorts
-                                            <input type="checkbox" @bind="resorts" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Resorts" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -313,7 +306,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Restaurants
-                                            <input type="checkbox" @bind="restaurants" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Restaurants" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -324,7 +317,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Salons
-                                            <input type="checkbox" @bind="salons" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Saloons" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -335,7 +328,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Shop
-                                            <input type="checkbox" @bind="shop" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Shop" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -346,7 +339,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Shopping Mall
-                                            <input type="checkbox" @bind="shoppingMall" />
+                                            <input type="checkbox" @bind="SpecialisationVM.ShoppingMall" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -357,7 +350,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Showroom
-                                            <input type="checkbox" @bind="showroom" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Showroom" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -368,7 +361,7 @@
                                     <div class="checkboxes float-left">
                                         <label class="container_check">
                                             Warehouse
-                                            <input type="checkbox" @bind="warehouse" />
+                                            <input type="checkbox" @bind="SpecialisationVM.Warehouse" />
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -385,6 +378,11 @@
                                 {
                                     <button class="btn btn-secondary">Saving...</button>
                                 }
+                                @if (IsSpecialisationExist)
+                                {
+                                    <a href="/MyAccount/Listing/WorkingHours" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+                                }
+                                <a href="/MyAccount/Listing/Category" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
                             </div>
                         </div>
                     </div>
