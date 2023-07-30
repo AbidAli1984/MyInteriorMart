@@ -1,13 +1,7 @@
 ﻿@page "/MyAccount/Listing/Address"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
-@inject CategoriesDbContext categoriesContext
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
-@using AntDesign
 
 <AuthorizeView>
     <Authorized>

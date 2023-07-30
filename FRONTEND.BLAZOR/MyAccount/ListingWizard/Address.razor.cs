@@ -303,7 +303,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 await GetLocalitiesByPincodeId(null);
                 await ShowHideLocalityModal();
 
-                var pincode = await sharedContext.Pincode.FindAsync(AddressVM.PincodeId);
+                var pincode = await sharedService.GetPincodeByPincodeId(AddressVM.PincodeId);
                 await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Locality {LocalityName} created inside pincode {pincode.PincodeNumber}.");
                 LocalityName = string.Empty;
             }
