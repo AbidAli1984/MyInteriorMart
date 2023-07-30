@@ -15,6 +15,16 @@ namespace BAL.Services
             this.sharedRepository = sharedRepository;
         }
 
+        public async Task AddAsync(object data)
+        {
+            await sharedRepository.AddAsync(data);
+        }
+
+        public async Task UpdateAsync(object data)
+        {
+            await sharedRepository.UpdateAsync(data);
+        }
+
         public async Task<IList<Qualification>> GetQualifications()
         {
             return await sharedRepository.GetQualifications();
@@ -49,6 +59,46 @@ namespace BAL.Services
         {
             return await sharedRepository.GetLocalitiesByPincode(pincodeId);
         }
+
+        #region Address Info
+        public async Task<Country> GetCountryByCountryId(int countryId)
+        {
+            return await sharedRepository.GetCountryByCountryId(countryId);
+        }
+
+        public async Task<State> GetStateByStateId(int stateId)
+        {
+            return await sharedRepository.GetStateByStateId(stateId);
+        }
+        public async Task<City> GetCityByCityId(int cityId)
+        {
+            return await sharedRepository.GetCityByCityId(cityId);
+        }
+        public async Task<Station> GetAreaByAreaId(int areaId)
+        {
+            return await sharedRepository.GetAreaByAreaId(areaId);
+        }
+        public async Task<Pincode> GetPincodeByPincodeId(int pincodeId)
+        {
+            return await sharedRepository.GetPincodeByPincodeId(pincodeId);
+        }
+        public async Task<Locality> GetLocalityByLocalityId(int localityId)
+        {
+            return await sharedRepository.GetLocalityByLocalityId(localityId);
+        }
+        public async Task<Station> GetAreaByAreaName(string area)
+        {
+            return await sharedRepository.GetAreaByAreaName(area);
+        }
+        public async Task<Pincode> GetPincodeByPinNumber(int pinNumber)
+        {
+            return await sharedRepository.GetPincodeByPinNumber(pinNumber);
+        }
+        public async Task<Locality> GetLocalityByLocalityName(string localityName)
+        {
+            return await sharedRepository.GetLocalityByLocalityName(localityName);
+        }
+        #endregion
 
         #region Company Info
         public async Task<IList<NatureOfBusiness>> GetNatureOfBusinesses()

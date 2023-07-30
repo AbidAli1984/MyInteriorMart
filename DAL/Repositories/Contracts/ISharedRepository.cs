@@ -6,6 +6,9 @@ namespace DAL.Repositories.Contracts
 {
     public interface ISharedRepository
     {
+        Task AddAsync(object data);
+        Task UpdateAsync(object data);
+
         #region Profile Info
         Task<IList<Qualification>> GetQualifications();
         Task<IList<Country>> GetCountries();
@@ -23,6 +26,9 @@ namespace DAL.Repositories.Contracts
         Task<Station> GetAreaByAreaId(int areaId);
         Task<Pincode> GetPincodeByPincodeId(int pincodeId);
         Task<Locality> GetLocalityByLocalityId(int localityId);
+        Task<Station> GetAreaByAreaName(string area);
+        Task<Pincode> GetPincodeByPinNumber(int pinNumber);
+        Task<Locality> GetLocalityByLocalityName(string localityName);
         #endregion
 
         #region Company Info

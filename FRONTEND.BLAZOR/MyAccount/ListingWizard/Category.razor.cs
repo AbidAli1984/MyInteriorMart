@@ -6,6 +6,7 @@ using AntDesign;
 using DAL.Models;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
+using BAL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -55,6 +56,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 {
                     iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
+                    var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
+                    if (listing == null)
+                        navManager.NavigateTo("/MyAccount/Listing/Company");
+                    else if (listing.Steps < Constants.AddressComplete)
+                        helper.NavigateToPageByStep(listing.Steps, navManager);
 
                     if (listingId != null)
                     {

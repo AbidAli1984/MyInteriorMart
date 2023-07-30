@@ -16,6 +16,18 @@ namespace DAL.Repositories
             this.sharedDbContext = sharedDbContext;
         }
 
+        public async Task AddAsync(object data)
+        {
+            await sharedDbContext.AddAsync(data);
+            await sharedDbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(object data)
+        {
+            sharedDbContext.Update(data);
+            await sharedDbContext.SaveChangesAsync();
+        }
+
         #region States
         public async Task<IList<Qualification>> GetQualifications()
         {
@@ -96,6 +108,21 @@ namespace DAL.Repositories
         public async Task<Locality> GetLocalityByLocalityId(int localityId)
         {
             return await sharedDbContext.Locality.FindAsync(localityId);
+        }
+        public async Task<Station> GetAreaByAreaName(string area)
+        {
+            return await sharedDbContext.Station
+                .FirstOrDefaultAsync(x => x.Name == area);
+        }
+        public async Task<Pincode> GetPincodeByPinNumber(int pinNumber)
+        {
+            return await sharedDbContext.Pincode
+                .FirstOrDefaultAsync(x => x.PincodeNumber == pinNumber);
+        }
+        public async Task<Locality> GetLocalityByLocalityName(string localityName)
+        {
+            return await sharedDbContext.Locality
+                .FirstOrDefaultAsync(x => x.LocalityName == localityName);
         }
         #endregion
 

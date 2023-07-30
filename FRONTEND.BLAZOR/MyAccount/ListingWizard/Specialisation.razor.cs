@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AntDesign;
 using DAL.Models;
 using BAL.Services.Contracts;
+using BAL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -14,6 +15,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
     {
         [Inject]
         public IUserService userService { get; set; }
+        [Inject]
+        public IListingService listingService { get; set; }
+        [Inject]
+        public Helper helper { get; set; }
 
         // Begin: Check if record exisit with listingId
         [Parameter]
@@ -503,6 +508,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                     iUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = iUser.Id;
+
+                    var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
+                    if (listing == null)
+                        navManager.NavigateTo("/MyAccount/Listing/Company");
+                    else if (listing.Steps < Constants.CategoryComplete)
+                        helper.NavigateToPageByStep(listing.Steps, navManager);
 
                     userAuthenticated = true;
 

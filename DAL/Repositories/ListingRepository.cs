@@ -155,6 +155,13 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Address> GetAddressByOwnerId(string ownerId)
+        {
+            return await _listingDbContext.Address
+                .Where(i => i.OwnerGuid == ownerId)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Listing> GetListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing

@@ -1,4 +1,4 @@
-﻿@page "/MyAccount/Listing/Address/{listingId:int?}"
+﻿@page "/MyAccount/Listing/Address"
 @inject ListingDbContext listingContext
 @inject AuditDbContext auditContext
 @inject SharedDbContext sharedContext
@@ -8,7 +8,6 @@
 @inject NavigationManager navManager
 @inject IJSRuntime jsRuntime
 @using AntDesign
-@using BOL.SHARED
 
 <AuthorizeView>
     <Authorized>
@@ -26,122 +25,115 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label>Country <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="ListStateAsync">
-                                    @if (listCountry != null)
+                                <select class="form-control" @onchange="GetStateByCountryId">
+                                    <option value="0" selected>Choose...</option>
+                                    @foreach (var p in AddressVM.Countries)
                                     {
-                                        <option disabled selected>Choose...</option>
-                                        foreach (var i in listCountry)
+                                        @if (AddressVM.CountryId == p.CountryID)
                                         {
-                                            <option value="@i.CountryID">@i.Name</option>
+                                            <option selected value="@p.CountryID">@p.Name</option>
+                                            continue;
                                         }
-                                    }
-                                    else
-                                    {
-                                        <option selected disabled>Loading...</option>
+                                        <option value="@p.CountryID">@p.Name</option>
                                     }
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>State <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="ListCityAsync">
-                                    @if (listState != null)
+                                <select class="form-control" @onchange="GetCityByStateId">
+                                    <option value="0" selected>Choose...</option>
+                                    @foreach (var p in AddressVM.States)
                                     {
-                                        <option disabled selected>Choose...</option>
-                                        foreach (var i in listState)
+                                        @if (AddressVM.StateId == p.StateID)
                                         {
-                                            <option value="@i.StateID">@i.Name</option>
+                                            <option selected value="@p.StateID">@p.Name</option>
+                                            continue;
                                         }
-                                    }
-                                    else
-                                    {
-                                        <option selected disabled>Loading...</option>
+                                        <option value="@p.StateID">@p.Name</option>
                                     }
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>City <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="ListAreaAsync">
-                                    @if (listCity != null)
+                                <select class="form-control" @onchange="GetAreaByCityId">
+                                    <option value="0" selected>Choose...</option>
+                                    @foreach (var p in AddressVM.Cities)
                                     {
-                                        <option disabled selected>Choose...</option>
-                                        foreach (var i in listCity)
+                                        @if (AddressVM.CityId == p.CityID)
                                         {
-                                            <option value="@i.CityID">@i.Name</option>
+                                            <option selected value="@p.CityID">@p.Name</option>
+                                            continue;
                                         }
-                                    }
-                                    else
-                                    {
-                                        <option selected disabled>Loading...</option>
+                                        <option value="@p.CityID">@p.Name</option>
                                     }
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Locality <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="ListPincodeAsync">
-                                    @if (listArea != null)
+                                <select class="form-control wide add_bottom_10" @onchange="GetPincodesByAreaId">
+                                    <option value="0" selected>Choose...</option>
+                                    @foreach (var p in AddressVM.Areas)
                                     {
-                                        <option disabled selected>Choose...</option>
-                                        foreach (var i in listArea)
+                                        @if (AddressVM.StationId == p.StationID)
                                         {
-                                            <option value="@i.StationID">@i.Name</option>
+                                            <option selected value="@p.StationID">@p.Name</option>
+                                            continue;
                                         }
-                                    }
-                                    else
-                                    {
-                                        <option selected disabled>Loading...</option>
+                                        <option value="@p.StationID">@p.Name</option>
                                     }
                                 </select>
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ToggleShowAreaModal())">+ Add locality</button>
+                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideAreaModal())">+ Add locality</button>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Pincode <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="ListLocalityAsync">
-                                    @if (listPincode != null)
+                                <select class="form-control wide add_bottom_10" @onchange="GetLocalitiesByPincodeId">
+                                    <option value="0" selected>Choose...</option>
+                                    @foreach (var p in AddressVM.Pincodes)
                                     {
-                                        <option disabled selected>Choose...</option>
-                                        foreach (var i in listPincode)
+                                        @if (AddressVM.PincodeId == p.PincodeID)
                                         {
-                                            <option value="@i.PincodeID">@i.PincodeNumber</option>
+                                            <option selected value="@p.PincodeID">@p.PincodeNumber</option>
+                                            continue;
                                         }
-                                    }
-                                    else
-                                    {
-                                        <option selected disabled>Loading...</option>
+                                        <option value="@p.PincodeID">@p.PincodeNumber</option>
                                     }
                                 </select>
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ToggleShowPincodeModal())">+ Add pincode</button>
+                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHidePincodeModal())">+ Add pincode</button>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Area <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="GetLocalityIdAsync">
-                                    @if (listLocality != null)
+                                <select class="form-control wide add_bottom_10" @onchange="SetLocalityId">
+                                    <option value="0" selected>Choose...</option>
+                                    @foreach (var p in AddressVM.Localities)
                                     {
-                                        <option disabled selected>Choose...</option>
-                                        foreach (var i in listLocality)
+                                        @if (AddressVM.LocalityId == p.LocalityID)
                                         {
-                                            <option value="@i.LocalityID">@i.LocalityName</option>
+                                            <option selected value="@p.LocalityID">@p.LocalityName</option>
+                                            continue;
                                         }
-                                    }
-                                    else
-                                    {
-                                        <option selected disabled>Loading...</option>
+                                        <option value="@p.LocalityID">@p.LocalityName</option>
                                     }
                                 </select>
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ToggleShowLocalityModal())">+ Add area</button>
+                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideLocalityModal())">+ Add area</button>
                             </div>
                             <div class="form-group col-md-12">
                                 <label>Address <span class="text-danger">*</span></label>
-                                <textarea @bind="address" class="form-control" rows="4"></textarea>
+                                <textarea @bind="AddressVM.Address" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="text-left col-12 mt-3">
                                 @if (buttonBusy == false)
                                 {
-                                    <button class="btn btn-primary" @onclick="@(async() => await CreateAddressAsync())">Save & Continue</button>
+                                    <button class="btn btn-primary" @onclick="@(async() => await AddOrUpdateAddress())">Save & Continue</button>
                                 }
                                 else
                                 {
                                     <button class="btn btn-secondary">Saving...</button>
                                 }
+                                @if (IsAddressExist)
+                                {
+                                    <a href="/MyAccount/Listing/Category" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+                                }
+                                <a href="/MyAccount/Listing/Communication" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
                             </div>
                         </div>
                     </div>
@@ -151,38 +143,38 @@
 
         <!-- Begin: Station Popup -->
         <Modal Title="Add Area"
-               OnCancel="@(async() => await ToggleShowAreaModal())"
+               OnCancel="@(async() => await ShowHideAreaModal())"
                Centered="true"
                Visible="@showAreaModal"
                Footer="null">
             <input type="text" placeholder="Area" @bind="AreaName" class="form-control" />
             <br />
             <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateAreaAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ToggleShowAreaModal())">Cancel</buttton>
+            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHideAreaModal())">Cancel</buttton>
         </Modal>
         <!-- Begin: Station Popup -->
         <!-- Begin: Pincode Pincode -->
         <Modal Title="Add Pincode"
-               OnCancel="@(async() => await ToggleShowPincodeModal())"
+               OnCancel="@(async() => await ShowHidePincodeModal())"
                Centered="true"
                Visible="@showPincodeModal"
                Footer="null">
-            <input type="number" placeholder="Pincode" @bind="PincodeNumber" class="form-control" />
+            <input type="number" placeholder="Pincode" @bind="PinNumber" class="form-control" />
             <br />
             <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreatePincodeAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ToggleShowPincodeModal())">Cancel</buttton>
+            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHidePincodeModal())">Cancel</buttton>
         </Modal>
         <!-- Begin: Pincode Popup -->
         <!-- Begin: Locality Pincode -->
         <Modal Title="Add Locality"
-               OnCancel="@(async() => await ToggleShowLocalityModal())"
+               OnCancel="@(async() => await ShowHideLocalityModal())"
                Centered="true"
                Visible="@showLocalityModal"
                Footer="null">
             <input type="text" placeholder="Locality" @bind="LocalityName" class="form-control" />
             <br />
             <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateLocalityAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ToggleShowLocalityModal())">Cancel</buttton>
+            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHideLocalityModal())">Cancel</buttton>
         </Modal>
         <!-- Begin: Locality Popup -->
     </Authorized>

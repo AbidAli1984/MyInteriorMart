@@ -1,6 +1,8 @@
 ﻿using AntDesign;
 using BAL;
 using BAL.FileManager;
+using BAL.Services.Contracts;
+using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.MyAccount.Profile;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +18,13 @@ namespace FRONTEND.BLAZOR
         public static string dbDateFormat = "yyyy-MM-dd";
         public static string tempImagePath = @"\FileManager\tempImages\";
         public static string profileImagesPath = @"\FileManager\ProfileImages\";
+
+        private ISharedService _sharedService;
+
+        public Helper(ISharedService sharedService)
+        {
+            _sharedService = sharedService;
+        }
 
         public async Task ShowNotification(NotificationService _notice, NotificationType type, NotificationPlacement placement, string message, string description)
         {
@@ -63,5 +72,92 @@ namespace FRONTEND.BLAZOR
             else if (steps < Constants.CompanyComplete)
                 navManager.NavigateTo("/MyAccount/Listing/Communication");
         }
+
+        #region Address Information
+        public async Task GetStateByCountryId(AddressVM addressVM, ChangeEventArgs events = null)
+        {
+            if (events != null)
+            {
+                addressVM.CountryId = Convert.ToInt32(events.Value.ToString());
+                addressVM.StateId = 0;
+                addressVM.CityId = 0;
+                addressVM.StationId = 0;
+                addressVM.PincodeId = 0;
+                addressVM.LocalityId = 0;
+            }
+            addressVM.States.Clear();
+            addressVM.Cities.Clear();
+            addressVM.Areas.Clear();
+            addressVM.Pincodes.Clear();
+            addressVM.Localities.Clear();
+
+            if (addressVM.CountryId > 0)
+                addressVM.States = await _sharedService.GetStatesByCountryId(addressVM.CountryId);
+        }
+
+        public async Task GetCityByStateId(AddressVM addressVM, ChangeEventArgs events = null)
+        {
+            if (events != null)
+            {
+                addressVM.StateId = Convert.ToInt32(events.Value.ToString());
+                addressVM.CityId = 0;
+                addressVM.StationId = 0;
+                addressVM.PincodeId = 0;
+                addressVM.LocalityId = 0;
+            }
+            addressVM.Cities.Clear();
+            addressVM.Areas.Clear();
+            addressVM.Pincodes.Clear();
+            addressVM.Localities.Clear();
+
+            if (addressVM.StateId > 0)
+                addressVM.Cities = await _sharedService.GetCitiesByStateId(addressVM.StateId);
+        }
+
+        public async Task GetAreaByCityId(AddressVM addressVM, ChangeEventArgs events = null)
+        {
+            if (events != null)
+            {
+                addressVM.CityId = Convert.ToInt32(events.Value.ToString());
+                addressVM.StationId = 0;
+                addressVM.PincodeId = 0;
+                addressVM.LocalityId = 0;
+            }
+            addressVM.Areas.Clear();
+            addressVM.Pincodes.Clear();
+            addressVM.Localities.Clear();
+
+            if (addressVM.CityId > 0)
+                addressVM.Areas = await _sharedService.GetAreasByCityId(addressVM.CityId);
+        }
+
+        public async Task GetPincodesByAreaId(AddressVM addressVM, ChangeEventArgs events = null)
+        {
+            if (events != null)
+            {
+                addressVM.StationId = Convert.ToInt32(events.Value.ToString());
+                addressVM.PincodeId = 0;
+                addressVM.LocalityId = 0;
+            }
+            addressVM.Pincodes.Clear();
+            addressVM.Localities.Clear();
+
+            if (addressVM.StationId > 0)
+                addressVM.Pincodes = await _sharedService.GetPincodesByAreaId(addressVM.StationId);
+        }
+
+        public async Task GetLocalitiesByPincodeId(AddressVM addressVM, ChangeEventArgs events = null)
+        {
+            if (events != null)
+            {
+                addressVM.PincodeId = Convert.ToInt32(events.Value.ToString());
+                addressVM.LocalityId = 0;
+            }
+            addressVM.Localities.Clear();
+
+            if (addressVM.PincodeId > 0)
+                addressVM.Localities = await _sharedService.GetLocalitiesByPincode(addressVM.PincodeId);
+        }
+        #endregion
     }
 }
