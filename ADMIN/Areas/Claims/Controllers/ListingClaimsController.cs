@@ -153,12 +153,12 @@ namespace ADMIN.Areas.Claims.Controllers
                 }
                 else
                 {
-                    return NotFound(); ;
+                    return NotFound();
                 }
             }
             else
             {
-                return NotFound(); ;
+                return NotFound();
             }
         }
 

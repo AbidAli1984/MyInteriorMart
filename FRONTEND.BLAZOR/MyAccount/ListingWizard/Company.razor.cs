@@ -91,7 +91,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 listing.NumberOfEmployees = CompanyVM.NumberOfEmployees;
                 listing.NatureOfBusiness = CompanyVM.NatureOfBusiness;
                 listing.Designation = CompanyVM.Designation;
-                listing.ListingURL = CompanyVM.CompanyName.Replace(" ", "-"); ;
+                listing.ListingURL = CompanyVM.CompanyName.Replace(" ", "-");
                 
                 if (listing.Steps < Constants.CompanyComplete)
                     listing.Steps = Constants.CompanyComplete;

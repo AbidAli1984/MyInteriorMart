@@ -134,7 +134,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
                         await listingContext.SaveChangesAsync();
                         // Shafi: Create last updated
                         string ipAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
-                        string userAgent = this.HttpContext.Request.Headers["User-Agent"]; ;
+                        string userAgent = this.HttpContext.Request.Headers["User-Agent"];
                         string referUrl = this.HttpContext.Request.Headers["Referer"];
                         string visitedURL = this.HttpContext.Request.Headers["Host"];
                         string email = user.Email;

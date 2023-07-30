@@ -127,7 +127,7 @@ namespace DAL.Repositories
             return await _listingDbContext.ListingBanner
                 .Where(i => i.SecondCategoryID == secondCategoryId)
                 .OrderBy(i => i.Priority)
-                .ToListAsync(); ;
+                .ToListAsync();
         }
 
         public async Task<int> CountRatingAsync(int ListingID, int rating)

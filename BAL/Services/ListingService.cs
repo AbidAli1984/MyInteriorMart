@@ -45,17 +45,17 @@ namespace BAL.Services
             }
             else if (level == Constants.LevelSecondCategory)
             {
-                var id = await _categoryRepository.GetSecondCategoryByURL(url); ;
+                var id = await _categoryRepository.GetSecondCategoryByURL(url);
                 listCat = await _listingRepository.GetCategoriesBySecondCategoryId(id.SecondCategoryID);
             }
             else if (level == Constants.LevelThirdCategory)
             {
-                var id = await _categoryRepository.GetThirdCategoryByURL(url); ;
+                var id = await _categoryRepository.GetThirdCategoryByURL(url);
                 listCat = await _listingRepository.GetCategoriesByThirdCategoryId(id.ThirdCategoryID);
             }
             else if (level == Constants.LevelFourthCategory)
             {
-                var id = await _categoryRepository.GetFourthCategoryByURL(url); ;
+                var id = await _categoryRepository.GetFourthCategoryByURL(url);
                 listCat = await _listingRepository.GetCategoriesByFourthCategoryId(id.FourthCategoryID);
             }
             else if (level == Constants.LevelFifthCategory)
@@ -65,7 +65,7 @@ namespace BAL.Services
             }
             else if (level == Constants.LevelSixthCategory)
             {
-                var id = await _categoryRepository.GetSixthCategoryByURL(url); ;
+                var id = await _categoryRepository.GetSixthCategoryByURL(url);
                 listCat = await _listingRepository.GetCategoriesBySixthCategoryId(id.SixthCategoryID);
             }
 
@@ -168,7 +168,7 @@ namespace BAL.Services
 
             listingDetailVM.Specialisation = await _listingRepository.GetSpecialisationByListingId(listingId);
             listingDetailVM.PaymentMode = await _listingRepository.GetPaymentModeByListingId(listingId);
-            listingDetailVM.WorkingHour = await _listingRepository.GetWorkingHoursByListingId(listingId); ;
+            listingDetailVM.WorkingHour = await _listingRepository.GetWorkingHoursByListingId(listingId);
 
             var rating = await GetRatingAsync(listingId);
             listingDetailVM.RatingCount = rating.Count();

@@ -109,7 +109,7 @@ namespace BAL.Services
 
         public async Task<bool> DeleteRoleCategory(int id)
         {
-            return await _userRoleRepository.DeleteRoleCategory(id); ;
+            return await _userRoleRepository.DeleteRoleCategory(id);
         }
         #endregion
 
@@ -152,7 +152,7 @@ namespace BAL.Services
 
         public async Task<bool> DeleteRoleCategoryAndRole(int id)
         {
-            return await _userRoleRepository.DeleteRoleCategoryAndRole(id); ;
+            return await _userRoleRepository.DeleteRoleCategoryAndRole(id);
         }
         #endregion
     }

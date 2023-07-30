@@ -31,7 +31,7 @@ namespace BAL.Identity
 
         public async Task<string> GetRoleName(string roleId)
         {
-            var roleName = await roleManager.Roles.Where(i => i.Id == roleId).Select(i => i.Name).FirstOrDefaultAsync(); ;
+            var roleName = await roleManager.Roles.Where(i => i.Id == roleId).Select(i => i.Name).FirstOrDefaultAsync();
             return roleName;
         }
 

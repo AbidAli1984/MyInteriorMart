@@ -276,7 +276,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
 
             // Shafi: Browser header
             string ipAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
-            string userAgent = this.HttpContext.Request.Headers["User-Agent"]; ;
+            string userAgent = this.HttpContext.Request.Headers["User-Agent"];
             string referUrl = this.HttpContext.Request.Headers["Referer"];
             string visitedURL = this.HttpContext.Request.Headers["Host"];
             // End: 
@@ -345,7 +345,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
 
                         // Shafi: Create last updated
                         string ipAddress = this.HttpContext.Connection.RemoteIpAddress.ToString();
-                        string userAgent = this.HttpContext.Request.Headers["User-Agent"]; ;
+                        string userAgent = this.HttpContext.Request.Headers["User-Agent"];
                         string referUrl = this.HttpContext.Request.Headers["Referer"];
                         string visitedURL = this.HttpContext.Request.Headers["Host"];
                         string userGuid = user.Id;

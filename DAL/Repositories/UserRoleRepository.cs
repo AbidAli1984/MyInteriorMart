@@ -102,7 +102,7 @@ namespace DAL.Repositories
         {
             return await userDbContext.RoleCategoryAndRole
                 .Include(r => r.RoleCategory)
-                .FirstOrDefaultAsync(m => m.RoleCategoryAndRoleID == id); ;
+                .FirstOrDefaultAsync(m => m.RoleCategoryAndRoleID == id);
         }
 
         public async Task<RoleCategoryAndRole> AddRoleCategoryAndRole(RoleCategoryAndRole roleCategoryAndRole)
