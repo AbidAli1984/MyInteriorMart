@@ -79,7 +79,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
                 bool recordNotFound = listing == null;
 
-                if(recordNotFound)
+                if (recordNotFound)
                     listing = new Listing();
 
                 listing.Name = CompanyVM.Name;
@@ -92,7 +92,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 listing.NatureOfBusiness = CompanyVM.NatureOfBusiness;
                 listing.Designation = CompanyVM.Designation;
                 listing.ListingURL = CompanyVM.CompanyName.Replace(" ", "-"); ;
-                listing.Steps = listing.Steps <= Constants.CompanyComplete ? Constants.CompanyComplete : listing.Steps;
+                
+                if (listing.Steps < Constants.CompanyComplete)
+                    listing.Steps = Constants.CompanyComplete;
 
                 if (recordNotFound)
                 {
@@ -115,7 +117,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                await helper.ShowNotification(_notice,NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
             finally
             {

@@ -52,7 +52,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
                     if (listing == null)
                         navManager.NavigateTo("/MyAccount/Listing/Company");
-                    else if (listing.Steps < Constants.CommunicationComplete)
+                    else if (listing.Steps < Constants.CommunicationComplete) //Checking if prev steps compeleted
                         helper.NavigateToPageByStep(listing.Steps, navManager);
 
                     IsAddressExist = listing.Steps >= 3;
@@ -159,8 +159,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 }
 
                 var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                listing.Steps = listing.Steps <= Constants.AddressComplete ? Constants.AddressComplete : listing.Steps;
-                await listingService.UpdateAsync(listing);
+                if (listing.Steps < Constants.AddressComplete)
+                {
+                    listing.Steps = Constants.AddressComplete;
+                    await listingService.UpdateAsync(listing);
+                }
 
                 navManager.NavigateTo($"/MyAccount/Listing/Category");
             }

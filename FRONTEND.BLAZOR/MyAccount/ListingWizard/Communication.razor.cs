@@ -11,7 +11,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class Communication
     {
-
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
         [Inject]
@@ -42,8 +41,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
                     if (listing == null)
                         navManager.NavigateTo("/MyAccount/Listing/Company");
-
-                    if (listing.Steps < Constants.CompanyComplete)
+                    else if (listing.Steps < Constants.CompanyComplete) //Checking if prev steps compeleted
                         helper.NavigateToPageByStep(listing.Steps, navManager);
 
                     IsCommunicationExist = listing.Steps >= Constants.CommunicationComplete;
@@ -127,8 +125,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 }
 
                 var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                listing.Steps = listing.Steps <= Constants.CommunicationComplete ? Constants.CommunicationComplete : listing.Steps;
-                await listingService.UpdateAsync(listing);
+                if (listing.Steps < Constants.CommunicationComplete)
+                {
+                    listing.Steps = Constants.CommunicationComplete;
+                    await listingService.UpdateAsync(listing);
+                }
 
                 navManager.NavigateTo($"/MyAccount/Listing/Address");
             }
