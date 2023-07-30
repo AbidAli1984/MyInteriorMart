@@ -59,11 +59,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     }
 
                     CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
-                    if (categoryExist && CategoryVM.Category.FirstCategoryID > 0)
+                    if (categoryExist && CategoryVM.FirstCategoryID > 0)
                     {
                         await GetSecondCategoryIdByFirstCategoryId(null);
 
-                        if (CategoryVM.Category.SecondCategoryID > 0)
+                        if (CategoryVM.SecondCategoryID > 0)
                             await GetOtherCategoriesBySecondCategoryId(null);
                     }
                 }
@@ -101,8 +101,17 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task CategoryExistAsync()
         {
-            CategoryVM.Category = await listingService.GetCategoryByListingId(listingID);
-            categoryExist = CategoryVM.Category != null;
+            var category = await listingService.GetCategoryByListingId(listingID);
+            categoryExist = category != null;
+            if (categoryExist)
+            {
+                CategoryVM.FirstCategoryID = category.FirstCategoryID;
+                CategoryVM.SecondCategoryID = category.SecondCategoryID;
+                CategoryVM.ThirdCategory = category.ThirdCategories;
+                CategoryVM.FourthCategory = category.FourthCategories;
+                CategoryVM.FifthCategory = category.FifthCategories;
+                CategoryVM.SixthCategory = category.SixthCategories;
+            }
         }
 
         public async Task SpecialisationExistAsync()
@@ -126,13 +135,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         // Properties
 
-        public async Task GetSecondCategoryIdByFirstCategoryId(ChangeEventArgs e)
+        public async Task GetSecondCategoryIdByFirstCategoryId(ChangeEventArgs events)
         {
             try
             {
-                if (e != null)
-                    CategoryVM.Category.FirstCategoryID = Convert.ToInt32(e.Value.ToString());
-                await categoryService.GetSecCategoriesByFirstCategoryId(CategoryVM);
+                await categoryService.GetSecCategoriesByFirstCategoryId(CategoryVM, events);
             }
             catch (Exception exc)
             {
@@ -145,7 +152,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             try
             {
                 if (e != null)
-                    CategoryVM.Category.SecondCategoryID = Convert.ToInt32(e.Value.ToString());
+                    CategoryVM.SecondCategoryID = Convert.ToInt32(e.Value.ToString());
                 await categoryService.GetOtherCategoriesBySeconCategoryId(CategoryVM);
                 await Task.Delay(500);
             }
@@ -167,14 +174,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
             try
             {
-                var category = CategoryVM.Category;
+                var category = CategoryVM;
                 if (category != null)
                 {
 
                     if (listingId != null && category.FirstCategoryID > 0 && category.SecondCategoryID > 0)
                     {
                         categoryService.GetOtherCategoriesToUpdate(CategoryVM);
-                        await listingService.UpdateAsync(CategoryVM.Category);
+                        await listingService.UpdateAsync(CategoryVM);
 
                         // Navigate To
                         navManager.NavigateTo($"/MyAccount/ListingWizard/Specialisation/{listingId}");

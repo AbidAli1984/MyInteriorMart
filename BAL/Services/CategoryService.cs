@@ -4,6 +4,7 @@ using BOL.ComponentModels;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.Pages;
 using DAL.Repositories.Contracts;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,17 +32,22 @@ namespace BAL.Services
             return await _categoryRepository.GetFirstCategoriesAsync();
         }
 
-        public async Task GetSecCategoriesByFirstCategoryId(CategoryVM categoryVM)
+        public async Task GetSecCategoriesByFirstCategoryId(CategoryVM categoryVM, ChangeEventArgs events)
         {
-            categoryVM.Category.SecondCategoryID = 0;
+            if (events != null)
+            {
+                int.TryParse(events.Value.ToString(), out int firstCatId);
+                categoryVM.FirstCategoryID = firstCatId;
+                categoryVM.SecondCategoryID = 0;
+            }
             categoryVM.SecondCategories.Clear();
             categoryVM.ThirdCategories.Clear();
             categoryVM.FourthCategories.Clear();
             categoryVM.FifthCategories.Clear();
             categoryVM.SixthCategories.Clear();
-            if (categoryVM.Category.FirstCategoryID > 0)
+            if (categoryVM.FirstCategoryID > 0)
                 categoryVM.SecondCategories = await _categoryRepository
-                    .GetSecCategoriesByFirstCategoryId(categoryVM.Category.FirstCategoryID);
+                    .GetSecCategoriesByFirstCategoryId(categoryVM.FirstCategoryID);
         }
 
         public async Task GetOtherCategoriesBySeconCategoryId(CategoryVM categoryVM)
@@ -50,7 +56,7 @@ namespace BAL.Services
             categoryVM.FourthCategories.Clear();
             categoryVM.FifthCategories.Clear();
             categoryVM.SixthCategories.Clear();
-            if (categoryVM.Category.SecondCategoryID > 0)
+            if (categoryVM.SecondCategoryID > 0)
             {
                 await GetThirdCategoriesBySeconCategoryId(categoryVM);
                 await GetForthCategoriesBySecondCategoryId(categoryVM);
@@ -61,37 +67,37 @@ namespace BAL.Services
 
         public void GetOtherCategoriesToUpdate(CategoryVM categoryVM)
         {
-            categoryVM.Category.ThirdCategories = null;
-            categoryVM.Category.FourthCategories = null;
-            categoryVM.Category.FifthCategories = null;
-            categoryVM.Category.SixthCategories = null;
+            categoryVM.ThirdCategory = null;
+            categoryVM.FourthCategory = null;
+            categoryVM.FifthCategory = null;
+            categoryVM.SixthCategory = null;
 
             if (categoryVM.ThirdCategories != null)
             {
                 var cat = categoryVM.ThirdCategories.Where(x => x.IsSelected).Select(x => x.Id).ToArray();
                 if (cat.Any())
-                    categoryVM.Category.ThirdCategories = String.Join(',', cat);
+                    categoryVM.ThirdCategory = String.Join(',', cat);
             }
 
             if (categoryVM.FourthCategories != null)
             {
                 var cat = categoryVM.FourthCategories.Where(x => x.IsSelected).Select(x => x.Id).ToArray();
                 if (cat.Any())
-                    categoryVM.Category.FourthCategories = String.Join(',', cat);
+                    categoryVM.FourthCategory = String.Join(',', cat);
             }
 
             if (categoryVM.FifthCategories != null)
             {
                 var cat = categoryVM.FifthCategories.Where(x => x.IsSelected).Select(x => x.Id).ToArray();
                 if (cat.Any())
-                    categoryVM.Category.FifthCategories = String.Join(',', cat);
+                    categoryVM.FifthCategory = String.Join(',', cat);
             }
 
             if (categoryVM.SixthCategories != null)
             {
                 var cat = categoryVM.SixthCategories.Where(x => x.IsSelected).Select(x => x.Id).ToArray();
                 if (cat.Any())
-                    categoryVM.Category.SixthCategories = String.Join(',', cat);
+                    categoryVM.SixthCategory = String.Join(',', cat);
             }
         }
 
@@ -125,9 +131,9 @@ namespace BAL.Services
         #region private methods
         private async Task GetThirdCategoriesBySeconCategoryId(CategoryVM categoryVM)
         {
-            categoryVM.Category.ThirdCategories = categoryVM.Category.ThirdCategories ?? "";
-            string[] catIds = categoryVM.Category.ThirdCategories.Split(",");
-            var thirdCategories = await _categoryRepository.GetThirdCategoriesBySeconCategoryId(categoryVM.Category.SecondCategoryID);
+            categoryVM.ThirdCategory = categoryVM.ThirdCategory ?? "";
+            string[] catIds = categoryVM.ThirdCategory.Split(",");
+            var thirdCategories = await _categoryRepository.GetThirdCategoriesBySeconCategoryId(categoryVM.SecondCategoryID);
 
             if (thirdCategories.Any())
             {
@@ -142,9 +148,9 @@ namespace BAL.Services
 
         private async Task GetForthCategoriesBySecondCategoryId(CategoryVM categoryVM)
         {
-            categoryVM.Category.FourthCategories = categoryVM.Category.FourthCategories ?? "";
-            string[] catIds = categoryVM.Category.FourthCategories.Split(",");
-            var fourthCategories = await _categoryRepository.GetForthCategoriesBySecondCategoryId(categoryVM.Category.SecondCategoryID);
+            categoryVM.FourthCategory = categoryVM.FourthCategory ?? "";
+            string[] catIds = categoryVM.FourthCategory.Split(",");
+            var fourthCategories = await _categoryRepository.GetForthCategoriesBySecondCategoryId(categoryVM.SecondCategoryID);
 
             if (fourthCategories.Any())
             {
@@ -159,9 +165,9 @@ namespace BAL.Services
 
         private async Task GetFifthCategoriesBySecondCategoryId(CategoryVM categoryVM)
         {
-            categoryVM.Category.FifthCategories = categoryVM.Category.FifthCategories ?? "";
-            string[] catIds = categoryVM.Category.FifthCategories.Split(",");
-            var fifthCategories = await _categoryRepository.GetFifthCategoriesBySecondCategoryId(categoryVM.Category.SecondCategoryID);
+            categoryVM.FifthCategory = categoryVM.FifthCategory ?? "";
+            string[] catIds = categoryVM.FifthCategory.Split(",");
+            var fifthCategories = await _categoryRepository.GetFifthCategoriesBySecondCategoryId(categoryVM.SecondCategoryID);
 
             if (fifthCategories.Any())
             {
@@ -176,9 +182,9 @@ namespace BAL.Services
 
         private async Task GetSixthCategoriesBySecondCategoryId(CategoryVM categoryVM)
         {
-            categoryVM.Category.SixthCategories = categoryVM.Category.SixthCategories ?? "";
-            string[] catIds = Convert.ToString(categoryVM.Category.SixthCategories).Split(",");
-            var sixthCategories = await _categoryRepository.GetSixthCategoriesBySecondCategoryId(categoryVM.Category.SecondCategoryID);
+            categoryVM.SixthCategory = categoryVM.SixthCategory ?? "";
+            string[] catIds = Convert.ToString(categoryVM.SixthCategory).Split(",");
+            var sixthCategories = await _categoryRepository.GetSixthCategoriesBySecondCategoryId(categoryVM.SecondCategoryID);
 
             if (sixthCategories.Any())
             {

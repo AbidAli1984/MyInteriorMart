@@ -103,7 +103,7 @@
                                                 {
                                                     foreach (var cat in CategoryVM.FirstCategories)
                                                     {
-                                                        if (CategoryVM.Category.FirstCategoryID == cat.FirstCategoryID)
+                                                        if (CategoryVM.FirstCategoryID == cat.FirstCategoryID)
                                                         {
                                                             <option selected value="@cat.FirstCategoryID">@cat.Name</option>
                                                         }
@@ -127,7 +127,7 @@
                                                 {
                                                     foreach (var cat in CategoryVM.SecondCategories)
                                                     {
-                                                        if (CategoryVM.Category.SecondCategoryID == cat.SecondCategoryID)
+                                                        if (CategoryVM.SecondCategoryID == cat.SecondCategoryID)
                                                         {
                                                             <option selected value="@cat.SecondCategoryID">@cat.Name</option>
                                                         }
