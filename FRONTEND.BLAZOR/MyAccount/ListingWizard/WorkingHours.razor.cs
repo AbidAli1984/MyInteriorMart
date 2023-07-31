@@ -14,8 +14,6 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
         [Inject]
-        private ISharedService sharedService { get; set; }
-        [Inject]
         IUserService userService { get; set; }
         [Inject]
         IListingService listingService { get; set; }

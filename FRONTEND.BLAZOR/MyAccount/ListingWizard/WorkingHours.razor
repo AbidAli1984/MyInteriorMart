@@ -1,12 +1,7 @@
 ﻿@page "/MyAccount/Listing/WorkingHours"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject SharedDbContext sharedContext
-@inject CategoriesDbContext categoriesContext
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject NavigationManager navManager
-@inject IJSRuntime jsRuntime
 
 <AuthorizeView>
     <Authorized>
