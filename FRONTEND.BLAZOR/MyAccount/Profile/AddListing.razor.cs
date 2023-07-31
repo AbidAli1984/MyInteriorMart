@@ -13,9 +13,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         [Inject]
         public IUserService userService { get; set; }
         [Inject]
+        IListingService listingService { get; set; }
+        [Inject]
         AuthenticationStateProvider authenticationState { get; set; }
 
         public bool isVendor { get; set; } = false;
+        public int stepsCompleted { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -28,6 +31,9 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     string CurrentUserGuid = applicationUser.Id;
                     isVendor = applicationUser.IsVendor;
+                    var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
+                    if (listing != null)
+                        stepsCompleted = listing.Steps;
                 }
             }
             catch (Exception exc)
