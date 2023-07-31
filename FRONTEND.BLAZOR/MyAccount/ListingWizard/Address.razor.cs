@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using AntDesign;
 using BOL.SHARED;
 using BAL.Services.Contracts;
