@@ -18,6 +18,7 @@ namespace FRONTEND.BLAZOR
         public static string dbDateFormat = "yyyy-MM-dd";
         public static string tempImagePath = @"\FileManager\tempImages\";
         public static string profileImagesPath = @"\FileManager\ProfileImages\";
+        public static string ListingImagesPath = @"\FileManager\ListingImages\";
 
         private ISharedService _sharedService;
 
@@ -41,7 +42,8 @@ namespace FRONTEND.BLAZOR
         {
             return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneOfCountry));
         }
-
+        
+        #region Upload or Move Images
         public async Task<string> UploadProfileImage(Stream file, string fileName)
         {
             string filePath = tempImagePath + fileName + ".jpg";
@@ -54,6 +56,25 @@ namespace FRONTEND.BLAZOR
             string destFile = profileImagesPath + fileName + ".jpg";
             return await FileManagerService.MoveFile(sourceFile, destFile);
         }
+
+        public async Task<string> UploadLogoImage(Stream file, string ownerId)
+        {
+            string filePath = $"{ListingImagesPath}\\{ownerId}\\LOGO.jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
+        }
+
+        public async Task<string> UploadOwnerOrImage(Stream file, string ownerId, string fileName)
+        {
+            string filePath = $"{ListingImagesPath}\\{ownerId}\\Owners\\{fileName}.jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
+        }
+
+        public async Task<string> UploadGalleryImage(Stream file, string ownerId, string fileName)
+        {
+            string filePath = $"{ListingImagesPath}\\{ownerId}\\Gallery\\{fileName}.jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
+        }
+        #endregion  
 
         public void NavigateToPageByStep(int steps, NavigationManager navManager)
         {

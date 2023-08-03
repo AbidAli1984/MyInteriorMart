@@ -27,9 +27,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Select Logo Image <span class="text-danger">*</span></label>
-                                    <input class="form-control file-upload" type="file" name="logo_img" id="logo_img">
+                                    <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="logo_img" OnChange="SetLogoImage" />
                                 </div>
-                                <input type="submit" value="submit" class="btn_add mt-3">
+                                <input type="submit" value="submit" @onclick="@(async() => await UploadLogoImage())" class="btn_add mt-3">
                             </div>
                         </div>
                         <div class="row mt-5 justify-content-center hide" id="owner_upload_sec">
@@ -45,7 +45,7 @@
                                         <option value="Owner">Owner</option>
                                         <option value="Proprietor">Proprietor</option>
                                         <option value="Director">Director</option>
-                                        <option value="Maneger">Maneger</option>
+                                        <option value="Manager">Manager</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -78,7 +78,7 @@
                             <div class="col-md-3 col-lg-2 col-6">
                                 <div class="upload_img_sec">
                                     <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/furniture-design1.jpg" alt="Logo">
+                                    <img class="upload_images" src="@UploadImages.LogoImageUrl" alt="Logo">
                                 </div>
                             </div>
                         </div>
