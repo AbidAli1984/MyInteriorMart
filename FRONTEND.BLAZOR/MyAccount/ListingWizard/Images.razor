@@ -13,8 +13,131 @@
                             </span>
                         </p>
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <h1>Upload Images</h1>
+                            <div class="text-center col-md-4 mt-3 ">
+                                <button type="button" class="btn btn-primary" id="logo_img_btn">Upload Logo Image</button>
+                            </div>
+                            <div class="text-center col-md-4 mt-3">
+                                <button type="button" class="btn btn-primary" id="owner_img_btn">Upload Owner Images</button>
+                            </div>
+                            <div class="text-center col-md-4 mt-3">
+                                <button type="button" class="btn btn-primary" id="gallery_img_btn">Upload Gallery Images</button>
+                            </div>
+                        </div>
+                        <div class="row mt-5 justify-content-center hide" id="logo_upload_sec">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Select Logo Image <span class="text-danger">*</span></label>
+                                    <input class="form-control file-upload" type="file" name="logo_img" id="logo_img">
+                                </div>
+                                <input type="submit" value="submit" class="btn_add mt-3">
+                            </div>
+                        </div>
+                        <div class="row mt-5 justify-content-center hide" id="owner_upload_sec">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Select Owner Image <span class="text-danger">*</span></label>
+                                    <input class="form-control file-upload" type="file" name="owner_img" id="owner_img">
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Designation <span class="text-danger">*</span></label>
+                                    <select class="form-control wide add_bottom_10 designation" name="designation">
+                                        <option></option>
+                                        <option value="Owner">Owner</option>
+                                        <option value="Proprietor">Proprietor</option>
+                                        <option value="Director">Director</option>
+                                        <option value="Maneger">Maneger</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Name<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="name" id="name" placeholder="Name">
+                                </div>
+                                <input type="submit" value="submit" class="btn_add mt-3">
+                            </div>
+                        </div>
+                        <div class="row mt-5 justify-content-center hide" id="gallery_upload_sec">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Select Gallery Image <span class="text-danger">*</span></label>
+                                    <input class="form-control file-upload" type="file" name="gallery_img" id="gallery_img">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Select Image Title<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="title" id="title" placeholder="Image Title">
+                                </div>
+                                <input type="submit" value="submit" class="btn_add mt-3">
+                            </div>
+                        </div>
+                        <hr style="margin-top: 32px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="text-center">Logo</h2>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-md-3 col-lg-2 col-6">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/furniture-design1.jpg" alt="Logo">
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin-top: 32px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="text-center">Owner Images</h2>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
+                                    <div class="img_title text-center">Owner Name</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
+                                    <div class="img_title text-center">Owner Name</div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin-top: 32px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="text-center">Gallery Images</h2>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
+                                    <div class="img_title text-center">Image Title</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
+                                    <div class="img_title text-center">Image Title</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/home_section_1.jpg" alt="Logo">
+                                    <div class="img_title text-center">Image Title</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="upload_img_sec">
+                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                    <img class="upload_images" src="/resources/img/listing-img.jpeg" alt="Logo">
+                                    <div class="img_title text-center">Image Title</div>
+                                </div>
                             </div>
                         </div>
                     </div>
