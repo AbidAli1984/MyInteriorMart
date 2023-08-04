@@ -4,14 +4,16 @@ using DAL.LISTING;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DAL.LISTING.Migrations
+namespace DAL.DBContexts.LISTING.Migrations
 {
     [DbContext(typeof(ListingDbContext))]
-    partial class ListingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230804113922_AddedOwnerImageInListingDB")]
+    partial class AddedOwnerImageInListingDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1122,39 +1124,6 @@ namespace DAL.LISTING.Migrations
                     b.HasKey("SpecialisationID");
 
                     b.ToTable("Specialisation","listing");
-                });
-
-            modelBuilder.Entity("BOL.LISTING.UploadImage.GalleryImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ListingID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OwnerGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GalleryImage");
                 });
 
             modelBuilder.Entity("BOL.LISTING.UploadImage.LogoImage", b =>

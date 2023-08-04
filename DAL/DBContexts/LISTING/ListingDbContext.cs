@@ -6,6 +6,7 @@ using BOL.LISTING;
 using BOL.PLAN;
 using BOL.LABOURNAKA;
 using BOL.BANNERADS;
+using BOL.LISTING.UploadImage;
 
 namespace DAL.LISTING
 {
@@ -52,7 +53,12 @@ namespace DAL.LISTING
         public DbSet<HomeBanner> HomeBanner { get; set; }
         public DbSet<CategoryBanner> CategoryBanner { get; set; }
         public DbSet<ListingBanner> ListingBanner { get; set; }
-
         // End: Banners
+
+        #region Upload Images
+        public DbSet<LogoImage> LogoImage { get; set; }
+        public DbSet<OwnerImage> OwnerImage { get; set; }
+        public DbSet<GalleryImage> GalleryImage { get; set; }
+        #endregion
     }
 }
