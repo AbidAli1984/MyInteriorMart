@@ -70,19 +70,13 @@ namespace FRONTEND.BLAZOR
 
         public string GetGalleryImageFilePath(string ownerId)
         {
-            return $"{ListingImagesPath}\\{ownerId}\\Gallery".Replace("\\", "/");
+            return $"{ListingImagesPath.Replace("\\", "/")}/{ownerId}/Gallery/";
         }
 
-        public async Task UploadOwnerImage(Stream file, string filePath)
+        public async Task UploadOwnerOrGalleryImage(Stream file, string filePath)
         {
             filePath = filePath.Replace("/", "\\");
             await FileManagerService.UploadFile(file, filePath, true);
-        }
-
-        public async Task<string> UploadGalleryImage(Stream file, string ownerId, string fileName)
-        {
-            string filePath = $"{ListingImagesPath}\\{ownerId}\\Gallery\\{fileName}.jpg";
-            return await FileManagerService.UploadFile(file, filePath, true);
         }
         #endregion  
 

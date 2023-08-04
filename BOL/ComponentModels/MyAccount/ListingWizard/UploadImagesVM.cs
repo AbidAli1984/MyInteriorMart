@@ -39,6 +39,11 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         public Stream GalleryImage { get; set; }
         public ImageDetails GalleryImageDetail { get; set; } = new ImageDetails();
         public IList<ImageDetails> GalleryImages { get; set; } = new List<ImageDetails>();
+
+        public bool isGalleryValid()
+        {
+            return GalleryImage != null && !string.IsNullOrWhiteSpace(GalleryImageDetail.TitleOrName);
+        }
     }
 
     public class ImageDetails

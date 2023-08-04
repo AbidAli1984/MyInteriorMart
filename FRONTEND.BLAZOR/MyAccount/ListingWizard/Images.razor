@@ -65,7 +65,7 @@
                                     <label for="name">Select Image Title<span class="text-danger">*</span></label>
                                     <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
                                 </div>
-                                <input type="submit" value="submit" class="btn_add mt-3">
+                                <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
                             </div>
                         </div>
                         <hr style="margin-top: 32px;">
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div class="row justify-content-center mt-4">
-                            @if (UploadImagesVM.OwnerImages != null)
+                            @if (UploadImagesVM.OwnerImages != null && UploadImagesVM.OwnerImages.Count > 0)
                             {
                                 foreach (var ownerImage in UploadImagesVM.OwnerImages)
                                 {
@@ -119,34 +119,27 @@
                             </div>
                         </div>
                         <div class="row justify-content-center">
-                            <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                <div class="upload_img_sec">
-                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
-                                    <div class="img_title text-center">Image Title</div>
+                            @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
+                            {
+                                foreach (var galleryImage in UploadImagesVM.GalleryImages)
+                                {
+                                    <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                        <div class="upload_img_sec">
+                                            <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteOwnerImage(galleryImage.Id))" alt="delete">
+                                            <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
+                                            <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                    <div class="upload_img_sec">
+                                        <div class="img_title text-center">NO GALLERY IMAGE</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                <div class="upload_img_sec">
-                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
-                                    <div class="img_title text-center">Image Title</div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                <div class="upload_img_sec">
-                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/home_section_1.jpg" alt="Logo">
-                                    <div class="img_title text-center">Image Title</div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                <div class="upload_img_sec">
-                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/listing-img.jpeg" alt="Logo">
-                                    <div class="img_title text-center">Image Title</div>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>

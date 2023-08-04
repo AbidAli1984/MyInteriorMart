@@ -383,13 +383,15 @@ namespace BAL.Services
         {
             try
             {
-                var ownerImage = new OwnerImage();
-                ownerImage.ListingID = uploadImagesVM.ListingId;
-                ownerImage.OwnerGuid = uploadImagesVM.OwnerId;
-                ownerImage.CreatedDate = DateTime.Now;
-                ownerImage.ImagePath = uploadImagesVM.OwnerImageDetail.ImageUrl;
-                ownerImage.Designation = uploadImagesVM.OwnerImageDetail.Designation;
-                ownerImage.OwnerName = uploadImagesVM.OwnerImageDetail.TitleOrName;
+                var ownerImage = new OwnerImage
+                {
+                    ListingID = uploadImagesVM.ListingId,
+                    OwnerGuid = uploadImagesVM.OwnerId,
+                    CreatedDate = DateTime.Now,
+                    ImagePath = uploadImagesVM.OwnerImageDetail.ImageUrl,
+                    Designation = uploadImagesVM.OwnerImageDetail.Designation,
+                    OwnerName = uploadImagesVM.OwnerImageDetail.TitleOrName,
+                };
                 await _listingRepository.AddAsync(ownerImage);
 
                 ownerImage.ImagePath += $"{ownerImage.Id}.jpg";
@@ -423,27 +425,35 @@ namespace BAL.Services
         {
             try
             {
-                var logoImage = await _listingRepository.GetLogoImageByListingId(uploadImagesVM.ListingId);
-                bool recordNotFound = logoImage == null;
-
-                if (recordNotFound)
-                    logoImage = new LogoImage();
-
-                logoImage.ImagePath = uploadImagesVM.LogoImageUrl;
-
-                if (recordNotFound)
+                var galleryImage = new GalleryImage
                 {
-                    logoImage.ListingID = uploadImagesVM.ListingId;
-                    logoImage.OwnerGuid = uploadImagesVM.OwnerId;
-                    logoImage.CreatedDate = DateTime.Now;
+                    ListingID = uploadImagesVM.ListingId,
+                    OwnerGuid = uploadImagesVM.OwnerId,
+                    CreatedDate = DateTime.Now,
+                    ImagePath = uploadImagesVM.GalleryImageDetail.ImageUrl,
+                    ImageTitle = uploadImagesVM.GalleryImageDetail.TitleOrName,
+                };
+                await _listingRepository.AddAsync(galleryImage);
 
-                    await _listingRepository.AddAsync(logoImage);
-                }
-                else
-                {
-                    logoImage.UpdateDate = DateTime.Now;
-                    await _listingRepository.UpdateAsync(logoImage);
-                }
+                galleryImage.ImagePath += $"{galleryImage.Id}.jpg";
+                await _listingRepository.UpdateAsync(galleryImage);
+
+                uploadImagesVM.GalleryImageDetail.ImageUrl = galleryImage.ImagePath;
+                uploadImagesVM.GalleryImageDetail.Id = galleryImage.Id;
+                uploadImagesVM.GalleryImages.Add(uploadImagesVM.GalleryImageDetail);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteGalleryImage(int id)
+        {
+            try
+            {
+                await _listingRepository.DeleteOwnerImage(id);
                 return true;
             }
             catch

@@ -92,7 +92,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             UploadImagesVM.OwnerImageDetail.ImageUrl = helper.GetOwnerImageFilePath(UploadImagesVM.OwnerId);
             bool isUpdated = await listingService.AddOwnerImage(UploadImagesVM);
-            await helper.UploadOwnerImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
+            await helper.UploadOwnerOrGalleryImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
             resetOwnerImageDetail();
 
             if (isUpdated)
@@ -130,17 +130,20 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task UploadGalleryImage()
         {
-            if (UploadImagesVM.isLogoValid())
+            if (!UploadImagesVM.isGalleryValid())
             {
-                //await helper.UploadLogoImage(UploadImagesVM);
-                bool isUpdated = await listingService.AddOrUpdateLogoImage(UploadImagesVM);
-                //StateHasChanged();
-
-                if (isUpdated)
-                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Logo Image uploaded successfully!");
-                else
-                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                return;
             }
+            UploadImagesVM.GalleryImageDetail.ImageUrl = helper.GetGalleryImageFilePath(UploadImagesVM.OwnerId);
+            bool isUpdated = await listingService.AddGalleryImage(UploadImagesVM);
+            await helper.UploadOwnerOrGalleryImage(UploadImagesVM.GalleryImage, UploadImagesVM.GalleryImageDetail.ImageUrl);
+            UploadImagesVM.GalleryImageDetail = new ImageDetails();
+
+            if (isUpdated)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
         #endregion
     }
