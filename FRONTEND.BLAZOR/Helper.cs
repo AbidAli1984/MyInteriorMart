@@ -27,9 +27,9 @@ namespace FRONTEND.BLAZOR
             _sharedService = sharedService;
         }
 
-        public async Task ShowNotification(NotificationService _notice, NotificationType type, NotificationPlacement placement, string message, string description)
+        public void ShowNotification(NotificationService _notice, NotificationType type, NotificationPlacement placement, string message, string description)
         {
-            await _notice.Open(new NotificationConfig()
+            _notice.Open(new NotificationConfig()
             {
                 Message = message,
                 Description = description,
