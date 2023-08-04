@@ -36,11 +36,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Select Owner Image <span class="text-danger">*</span></label>
-                                    <input class="form-control file-upload" type="file" name="owner_img" id="owner_img">
+                                    <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="owner_img" OnChange="SetOwnerImage" />
                                 </div>
                                 <div class="form-group">
                                     <label>Select Designation <span class="text-danger">*</span></label>
-                                    <select class="form-control wide add_bottom_10 designation" name="designation">
+                                    <select class="form-control wide add_bottom_10 designation" name="designation" @onchange="SetOwnerDesignation">
                                         <option></option>
                                         <option value="Owner">Owner</option>
                                         <option value="Proprietor">Proprietor</option>
@@ -50,20 +50,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Name<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" name="name" id="name" placeholder="Name">
+                                    <Input Type="text" Placeholder="Name" @bind-Value="UploadImagesVM.OwnerImageDetail.TitleOrName" />
                                 </div>
-                                <input type="submit" value="submit" class="btn_add mt-3">
+                                <input type="submit" value="submit" @onclick="@(async() => await UploadOwnerImage())" class="btn_add mt-3">
                             </div>
                         </div>
                         <div class="row mt-5 justify-content-center hide" id="gallery_upload_sec">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Select Gallery Image <span class="text-danger">*</span></label>
-                                    <input class="form-control file-upload" type="file" name="gallery_img" id="gallery_img">
+                                    <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Select Image Title<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" name="title" id="title" placeholder="Image Title">
+                                    <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
                                 </div>
                                 <input type="submit" value="submit" class="btn_add mt-3">
                             </div>
@@ -89,20 +89,28 @@
                             </div>
                         </div>
                         <div class="row justify-content-center mt-4">
-                            <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                <div class="upload_img_sec">
-                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
-                                    <div class="img_title text-center">Owner Name</div>
+                            @if (UploadImagesVM.OwnerImages != null)
+                            {
+                                foreach (var ownerImage in UploadImagesVM.OwnerImages)
+                                {
+                                    <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                        <div class="upload_img_sec">
+                                            <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                            <img class="upload_images" src="@ownerImage.ImageUrl" alt="Owner Image">
+                                            <div class="img_title text-center">@ownerImage.TitleOrName</div>
+                                            <div class="img_title text-center">(@ownerImage.Designation)</div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                    <div class="upload_img_sec">
+                                        <div class="img_title text-center">NO OWNER IMAGE</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                <div class="upload_img_sec">
-                                    <img class="delete_img" src="/resources/img/delete.png" alt="delete">
-                                    <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
-                                    <div class="img_title text-center">Owner Name</div>
-                                </div>
-                            </div>
+                            }
                         </div>
                         <hr style="margin-top: 32px;">
                         <div class="row">

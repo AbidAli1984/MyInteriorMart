@@ -45,6 +45,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
+        #region Logo Image
         public void SetLogoImage(InputFileChangeEventArgs e)
         {
             UploadImagesVM.LogoImage = e.File.OpenReadStream();
@@ -52,17 +53,80 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task UploadLogoImage()
         {
+            if (!UploadImagesVM.isLogoValid())
+            {
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Please select the image to upload!");
+                return;
+            }
+
+            UploadImagesVM.LogoImageUrl = await helper.UploadLogoImage(UploadImagesVM.LogoImage, UploadImagesVM.OwnerId);
+            UploadImagesVM.LogoImage = null;
+            bool isUpdated = await listingService.AddOrUpdateLogoImage(UploadImagesVM);
+
+            if (isUpdated)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Logo Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+        #endregion
+
+        #region Owner Image
+        public void SetOwnerImage(InputFileChangeEventArgs e)
+        {
+            UploadImagesVM.OwnerImage = e.File.OpenReadStream();
+        }
+
+        public void SetOwnerDesignation(ChangeEventArgs events)
+        {
+            UploadImagesVM.OwnerImageDetail.Designation = events.Value.ToString();
+        }
+
+        public async Task UploadOwnerImage()
+        {
+            if (!UploadImagesVM.isOwnerValid())
+            {
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                return;
+            }
+            UploadImagesVM.OwnerImageDetail.ImageUrl = helper.GetOwnerImageFilePath(UploadImagesVM.OwnerId);
+            bool isUpdated = await listingService.AddOwnerImage(UploadImagesVM);
+            await helper.UploadOwnerImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
+            resetOwnerImageDetail();
+
+            if (isUpdated)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+
+        private void resetOwnerImageDetail()
+        {
+            string designation = UploadImagesVM.OwnerImageDetail.Designation;
+            UploadImagesVM.OwnerImageDetail = new ImageDetails();
+            UploadImagesVM.OwnerImageDetail.Designation = designation;
+        }
+        #endregion
+
+        #region Gallery Image
+        public void SetGalleryImage(InputFileChangeEventArgs e)
+        {
+            UploadImagesVM.GalleryImage = e.File.OpenReadStream();
+        }
+
+        public async Task UploadGalleryImage()
+        {
             if (UploadImagesVM.isLogoValid())
             {
-                await helper.UploadLogoImage(UploadImagesVM);
+                //await helper.UploadLogoImage(UploadImagesVM);
                 bool isUpdated = await listingService.AddOrUpdateLogoImage(UploadImagesVM);
                 //StateHasChanged();
 
                 if (isUpdated)
-                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success","Logo Image uploaded successfully!");
+                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Logo Image uploaded successfully!");
                 else
                     helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
             }
         }
+        #endregion
     }
 }

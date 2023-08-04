@@ -57,17 +57,26 @@ namespace FRONTEND.BLAZOR
             return await FileManagerService.MoveFile(sourceFile, destFile);
         }
 
-        public async Task UploadLogoImage(UploadImagesVM UploadImagesVM)
+        public async Task<string> UploadLogoImage(Stream file, string ownerId)
         {
-            string filePath = $"{ListingImagesPath}\\{UploadImagesVM.OwnerId}\\LOGO.jpg";
-            UploadImagesVM.LogoImageUrl = await FileManagerService.UploadFile(UploadImagesVM.LogoImage, filePath, true);
-            UploadImagesVM.LogoImage = null;
+            string filePath = $"{ListingImagesPath}\\{ownerId}\\LOGO.jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
         }
 
-        public async Task<string> UploadOwnerOrImage(Stream file, string ownerId, string fileName)
+        public string GetOwnerImageFilePath(string ownerId)
         {
-            string filePath = $"{ListingImagesPath}\\{ownerId}\\Owners\\{fileName}.jpg";
-            return await FileManagerService.UploadFile(file, filePath, true);
+            return $"{ListingImagesPath.Replace("\\", "/")}/{ownerId}/Owners/";
+        }
+
+        public string GetGalleryImageFilePath(string ownerId)
+        {
+            return $"{ListingImagesPath}\\{ownerId}\\Gallery".Replace("\\", "/");
+        }
+
+        public async Task UploadOwnerImage(Stream file, string filePath)
+        {
+            filePath = filePath.Replace("/", "\\");
+            await FileManagerService.UploadFile(file, filePath, true);
         }
 
         public async Task<string> UploadGalleryImage(Stream file, string ownerId, string fileName)

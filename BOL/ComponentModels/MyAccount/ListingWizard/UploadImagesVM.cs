@@ -26,6 +26,27 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         }
 
         public Stream OwnerImage { get; set; }
+        public ImageDetails OwnerImageDetail { get; set; } = new ImageDetails();
+        public IList<ImageDetails> OwnerImages { get; set; } = new List<ImageDetails>();
+
+        public bool isOwnerValid()
+        {
+            return OwnerImage != null && !string.IsNullOrWhiteSpace(OwnerImageDetail.Designation) && 
+                !string.IsNullOrWhiteSpace(OwnerImageDetail.TitleOrName);
+        }
+
+
         public Stream GalleryImage { get; set; }
+        public ImageDetails GalleryImageDetail { get; set; } = new ImageDetails();
+        public IList<ImageDetails> GalleryImages { get; set; } = new List<ImageDetails>();
+    }
+
+    public class ImageDetails
+    {
+        private string imgUrl;
+        public int Id { get; set; }
+        public string ImageUrl { get; set; }
+        public string Designation { get; set; }
+        public string TitleOrName { get; set; }
     }
 }

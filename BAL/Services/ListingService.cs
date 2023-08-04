@@ -378,6 +378,65 @@ namespace BAL.Services
                 return false;
             }
         }
+
+        public async Task<bool> AddOwnerImage(UploadImagesVM uploadImagesVM)
+        {
+            try
+            {
+                var ownerImage = new OwnerImage();
+                ownerImage.ListingID = uploadImagesVM.ListingId;
+                ownerImage.OwnerGuid = uploadImagesVM.OwnerId;
+                ownerImage.CreatedDate = DateTime.Now;
+                ownerImage.ImagePath = uploadImagesVM.OwnerImageDetail.ImageUrl;
+                ownerImage.Designation = uploadImagesVM.OwnerImageDetail.Designation;
+                ownerImage.OwnerName = uploadImagesVM.OwnerImageDetail.TitleOrName;
+                await _listingRepository.AddAsync(ownerImage);
+
+                ownerImage.ImagePath += $"{ownerImage.Id}.jpg";
+                await _listingRepository.UpdateAsync(ownerImage);
+
+                uploadImagesVM.OwnerImageDetail.ImageUrl = ownerImage.ImagePath;
+                uploadImagesVM.OwnerImageDetail.Id = ownerImage.Id;
+                uploadImagesVM.OwnerImages.Add(uploadImagesVM.OwnerImageDetail);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM)
+        {
+            try
+            {
+                var logoImage = await _listingRepository.GetLogoImageByListingId(uploadImagesVM.ListingId);
+                bool recordNotFound = logoImage == null;
+
+                if (recordNotFound)
+                    logoImage = new LogoImage();
+
+                logoImage.ImagePath = uploadImagesVM.LogoImageUrl;
+
+                if (recordNotFound)
+                {
+                    logoImage.ListingID = uploadImagesVM.ListingId;
+                    logoImage.OwnerGuid = uploadImagesVM.OwnerId;
+                    logoImage.CreatedDate = DateTime.Now;
+
+                    await _listingRepository.AddAsync(logoImage);
+                }
+                else
+                {
+                    logoImage.UpdateDate = DateTime.Now;
+                    await _listingRepository.UpdateAsync(logoImage);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
     }
 }
