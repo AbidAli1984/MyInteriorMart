@@ -71,22 +71,22 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!CommunicationVM.isValid())
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "Email, Mobile, Whatsapp and Skype ID is compulsory..");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "Email, Mobile, Whatsapp and Skype ID is compulsory..");
                 return;
             }
             if (!string.IsNullOrEmpty(CommunicationVM.WebsiteErrorMessage))
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", CommunicationVM.WebsiteErrorMessage);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", CommunicationVM.WebsiteErrorMessage);
                 return;
             }
             if (!string.IsNullOrEmpty(CommunicationVM.MobileErrMessage) || !string.IsNullOrEmpty(CommunicationVM.WhatsappErrMessage))
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", CommunicationVM.MobileErrMessage + " or Whatsapp");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", CommunicationVM.MobileErrMessage + " or Whatsapp");
                 return;
             }
             if (!string.IsNullOrEmpty(CommunicationVM.EmailErrMessage))
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", CommunicationVM.EmailErrMessage);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", CommunicationVM.EmailErrMessage);
                 return;
             }
 
@@ -135,8 +135,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.InnerException.ToString());
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.InnerException.ToString());
             }
             finally
             {

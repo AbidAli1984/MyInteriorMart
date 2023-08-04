@@ -18,7 +18,7 @@ namespace FRONTEND.BLAZOR
         public static string dbDateFormat = "yyyy-MM-dd";
         public static string tempImagePath = @"\FileManager\tempImages\";
         public static string profileImagesPath = @"\FileManager\ProfileImages\";
-        public static string ListingImagesPath = @"\FileManager\ListingImages\";
+        public static string ListingImagesPath = @"\FileManager\ListingImages";
 
         private ISharedService _sharedService;
 
@@ -57,10 +57,11 @@ namespace FRONTEND.BLAZOR
             return await FileManagerService.MoveFile(sourceFile, destFile);
         }
 
-        public async Task<string> UploadLogoImage(Stream file, string ownerId)
+        public async Task UploadLogoImage(UploadImagesVM UploadImagesVM)
         {
-            string filePath = $"{ListingImagesPath}\\{ownerId}\\LOGO.jpg";
-            return await FileManagerService.UploadFile(file, filePath, true);
+            string filePath = $"{ListingImagesPath}\\{UploadImagesVM.OwnerId}\\LOGO.jpg";
+            UploadImagesVM.LogoImageUrl = await FileManagerService.UploadFile(UploadImagesVM.LogoImage, filePath, true);
+            UploadImagesVM.LogoImage = null;
         }
 
         public async Task<string> UploadOwnerOrImage(Stream file, string ownerId, string fileName)

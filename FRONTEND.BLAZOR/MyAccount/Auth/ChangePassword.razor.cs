@@ -59,7 +59,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             if (await userService.IsVerifiedAndPasswordChanged(UserRegisterVM, true))
             {
                 navManager.NavigateTo("/");
-                await helper.ShowNotification(_notice, AntDesign.NotificationType.Success, AntDesign.NotificationPlacement.BottomRight,
+                helper.ShowNotification(_notice, AntDesign.NotificationType.Success, AntDesign.NotificationPlacement.BottomRight,
                     "Confirmation", "Password Change Successfully!");
             }
             else

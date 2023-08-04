@@ -119,7 +119,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!AddressVM.isValid())
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area, Pincode, Locality and Address is Compulsory.");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area, Pincode, Locality and Address is Compulsory.");
                 return;
             }
 
@@ -166,7 +166,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
             finally
             {
@@ -178,7 +178,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (AddressVM.CityId <= 0)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Please select Country, State and City first");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Please select Country, State and City first");
                 return;
             }
             showAreaModal = !showAreaModal;
@@ -188,7 +188,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (string.IsNullOrEmpty(AreaName) || AddressVM.CityId <= 0)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State and City must be selected and area name must not be blank.");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State and City must be selected and area name must not be blank.");
                 return;
             }
             try
@@ -196,7 +196,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 var areaExist = await sharedService.GetAreaByAreaName(AreaName);
                 if(areaExist != null)
                 {
-                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Area {AreaName} already exists.");
+                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Area {AreaName} already exists.");
                     return;
                 }
 
@@ -211,12 +211,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 await ShowHideAreaModal();
                 var city = await sharedService.GetCityByCityId(AddressVM.CityId);
 
-                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Area {AreaName} created inside city {city.Name}.");
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Area {AreaName} created inside city {city.Name}.");
                 AreaName = string.Empty;
             }
             catch (Exception exc)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
         }
 
@@ -224,7 +224,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (AddressVM.StationId <= 0)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City and Locality first.");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City and Locality first.");
                 return;
             }
             showPincodeModal = !showPincodeModal;
@@ -234,7 +234,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (PinNumber <= 0 || AddressVM.StationId <= 0)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City and Area must be selected and pincode number must not be blank.");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City and Area must be selected and pincode number must not be blank.");
                 return;
             }
             try
@@ -242,7 +242,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 var pincodeExist = await sharedService.GetPincodeByPinNumber(PinNumber);
                 if (pincodeExist != null)
                 {
-                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pincode {PinNumber} already exists.");
+                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pincode {PinNumber} already exists.");
                     return;
                 }
 
@@ -257,12 +257,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 await ShowHidePincodeModal();
                 var station = await sharedService.GetAreaByAreaId(AddressVM.StationId);
 
-                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Pincode {PinNumber} created inside {station.Name}.");
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Pincode {PinNumber} created inside {station.Name}.");
                 PinNumber = 0;
             }
             catch (Exception exc)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
         }
 
@@ -270,7 +270,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (AddressVM.PincodeId <= 0)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City, Locality and Pincode first.");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City, Locality and Pincode first.");
                 return;
             }
             showLocalityModal = !showLocalityModal;
@@ -280,7 +280,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (string.IsNullOrEmpty(LocalityName) || AddressVM.PincodeId <= 0)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area and Pincode must be selected and Area Name must not be blank.");
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area and Pincode must be selected and Area Name must not be blank.");
                 return;
             }
             try
@@ -288,7 +288,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 var localityExist = await sharedService.GetLocalityByLocalityName(LocalityName);
                 if (localityExist != null)
                 {
-                    await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Locality {LocalityName} already exists.");
+                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Locality {LocalityName} already exists.");
                     return;
                 }
 
@@ -304,12 +304,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 await ShowHideLocalityModal();
 
                 var pincode = await sharedService.GetPincodeByPincodeId(AddressVM.PincodeId);
-                await helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Locality {LocalityName} created inside pincode {pincode.PincodeNumber}.");
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Locality {LocalityName} created inside pincode {pincode.PincodeNumber}.");
                 LocalityName = string.Empty;
             }
             catch (Exception exc)
             {
-                await helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
             }
         }
     }

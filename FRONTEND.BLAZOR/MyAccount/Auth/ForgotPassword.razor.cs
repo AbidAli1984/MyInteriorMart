@@ -42,7 +42,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             if (await userService.IsVerifiedAndPasswordChanged(UserRegisterVM))
             {
                 navManager.NavigateTo("/Auth/Login");
-                await helper.ShowNotification(_notice, AntDesign.NotificationType.Success, AntDesign.NotificationPlacement.BottomRight,
+                helper.ShowNotification(_notice, AntDesign.NotificationType.Success, AntDesign.NotificationPlacement.BottomRight,
                     "Confirmation", "Password Change Successfully!");
             }
             else
@@ -59,7 +59,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             if (isOtpGenerated)
             {
                 StateHasChanged();
-                await helper.ShowNotification(_notice, AntDesign.NotificationType.Info, AntDesign.NotificationPlacement.BottomRight,
+                helper.ShowNotification(_notice, AntDesign.NotificationType.Info, AntDesign.NotificationPlacement.BottomRight,
                     "Confirmation", "Otp Sent Successfully to registered Mobile");
             }
             else
