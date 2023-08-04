@@ -39,6 +39,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                         navManager.NavigateTo("/MyAccount/Listing/Company");
 
                     UploadImagesVM.ListingId = listing.ListingID;
+                    var logoImage = await listingService.GetLogoImageByListingId(UploadImagesVM.ListingId);
+                    if (logoImage != null)
+                        UploadImagesVM.LogoImageUrl = logoImage.ImagePath;
+                    UploadImagesVM.OwnerImages = await listingService.GetOwnerImagesByListingId(UploadImagesVM.ListingId);
+                    UploadImagesVM.GalleryImages = await listingService.GetGalleryImagesByListingId(UploadImagesVM.ListingId);
                 }
             }
             catch (Exception exc)
@@ -119,6 +124,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         private void resetOwnerImageDetail()
         {
+            UploadImagesVM.OwnerImage = null;
             string designation = UploadImagesVM.OwnerImageDetail.Designation;
             UploadImagesVM.OwnerImageDetail = new ImageDetails();
             UploadImagesVM.OwnerImageDetail.Designation = designation;
@@ -142,6 +148,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             bool isUpdated = await listingService.AddGalleryImage(UploadImagesVM);
             await helper.UploadOwnerOrGalleryImage(UploadImagesVM.GalleryImage, UploadImagesVM.GalleryImageDetail.ImageUrl);
             UploadImagesVM.GalleryImageDetail = new ImageDetails();
+            UploadImagesVM.GalleryImage = null;
 
             if (isUpdated)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image uploaded successfully!");

@@ -48,7 +48,6 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
 
     public class ImageDetails
     {
-        private string imgUrl;
         public int Id { get; set; }
         public string ImageUrl { get; set; }
         public string Designation { get; set; }

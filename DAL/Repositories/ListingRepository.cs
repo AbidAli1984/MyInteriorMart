@@ -219,11 +219,23 @@ namespace DAL.Repositories
             return await _listingDbContext.LogoImage
                 .FirstOrDefaultAsync(l => l.ListingID == listingId);
         }
+        public async Task<IList<OwnerImage>> GetOwnerImagesByListingId(int listingId)
+        {
+            return await _listingDbContext.OwnerImage
+                .Where(x => x.ListingID == listingId)
+                .ToListAsync();
+        }
         public async Task DeleteOwnerImage(int id)
         {
             var ownerImage = await _listingDbContext.OwnerImage.FindAsync(id);
             _listingDbContext.OwnerImage.Remove(ownerImage);
             await _listingDbContext.SaveChangesAsync();
+        }
+        public async Task<IList<GalleryImage>> GetGalleryImagesByListingId(int listingId)
+        {
+            return await _listingDbContext.GalleryImage
+                .Where(x => x.ListingID == listingId)
+                .ToListAsync();
         }
         public async Task DeleteGalleryImage(int id)
         {

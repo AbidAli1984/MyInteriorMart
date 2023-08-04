@@ -346,6 +346,10 @@ namespace BAL.Services
         #endregion
 
         #region Upload Images
+        public async Task<LogoImage> GetLogoImageByListingId(int listingId)
+        {
+            return await _listingRepository.GetLogoImageByListingId(listingId);
+        }
         public async Task<bool> AddOrUpdateLogoImage(UploadImagesVM uploadImagesVM)
         {
             try
@@ -377,6 +381,19 @@ namespace BAL.Services
             {
                 return false;
             }
+        }
+
+        public async Task<IList<ImageDetails>> GetOwnerImagesByListingId(int listingId)
+        {
+            var ownerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
+
+            return ownerImages.Select(x => new ImageDetails
+            {
+                Id = x.Id,
+                Designation = x.Designation,
+                ImageUrl = x.ImagePath,
+                TitleOrName = x.OwnerName
+            }).ToList();
         }
 
         public async Task<bool> AddOwnerImage(UploadImagesVM uploadImagesVM)
@@ -419,6 +436,18 @@ namespace BAL.Services
             {
                 return false;
             }
+        }
+
+        public async Task<IList<ImageDetails>> GetGalleryImagesByListingId(int listingId)
+        {
+            var ownerImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
+
+            return ownerImages.Select(x => new ImageDetails
+            {
+                Id = x.Id,
+                ImageUrl = x.ImagePath,
+                TitleOrName = x.ImageTitle
+            }).ToList();
         }
 
         public async Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM)

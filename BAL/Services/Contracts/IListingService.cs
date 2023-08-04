@@ -3,6 +3,7 @@ using BOL.ComponentModels.Listings;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.Pages;
 using BOL.LISTING;
+using BOL.LISTING.UploadImage;
 using BOL.VIEWMODELS;
 using System;
 using System.Collections.Generic;
@@ -54,9 +55,12 @@ namespace BAL.Services.Contracts
         #endregion
 
         #region Upload Images
+        Task<LogoImage> GetLogoImageByListingId(int listingId);
         Task<bool> AddOrUpdateLogoImage(UploadImagesVM uploadImagesVM);
+        Task<IList<ImageDetails>> GetOwnerImagesByListingId(int listingId);
         Task<bool> AddOwnerImage(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteOwnerImage(int id);
+        Task<IList<ImageDetails>> GetGalleryImagesByListingId(int listingId);
         Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteGalleryImage(int id);
         #endregion
