@@ -1,5 +1,6 @@
 ﻿using BOL.BANNERADS;
 using BOL.LISTING;
+using BOL.LISTING.UploadImage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,12 +47,16 @@ namespace DAL.Repositories.Contracts
         Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId);
         Task<Rating> GetRatingsByListingIdAndOwnerId(int listingId, string ownerId);
 
-        Task AddAsync(object data);
+        Task<object> AddAsync(object data);
 
         Task UpdateAsync(object data);
 
         #region Banner
         Task<IList<HomeBanner>> GetHomeBannerList();
+        #endregion
+
+        #region Upload Images
+        Task<LogoImage> GetLogoImageByListingId(int listingId);
         #endregion
     }
 }

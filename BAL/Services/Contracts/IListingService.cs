@@ -1,5 +1,6 @@
 ﻿using BOL.BANNERADS;
 using BOL.ComponentModels.Listings;
+using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.Pages;
 using BOL.LISTING;
 using BOL.VIEWMODELS;
@@ -50,6 +51,10 @@ namespace BAL.Services.Contracts
 
         #region Banner
         Task<IndexVM> GetHomeBannerList();
+        #endregion
+
+        #region Upload Images
+        Task<bool> AddOrUpdateLogoImage(UploadImagesVM uploadImagesVM);
         #endregion
     }
 }

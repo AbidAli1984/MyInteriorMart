@@ -10,6 +10,8 @@ using BOL.VIEWMODELS;
 using System;
 using BOL.ComponentModels.Listings;
 using System.IO;
+using BOL.LISTING.UploadImage;
+using BOL.ComponentModels.MyAccount.ListingWizard;
 
 namespace BAL.Services
 {
@@ -129,7 +131,7 @@ namespace BAL.Services
                 LogoUrl = GetListingLogoUrlByListingId(listingId)
             };
             listingDetailVM.Listing = await _listingRepository.GetListingByListingId(listingId);
-            if(listingDetailVM.Listing == null)
+            if (listingDetailVM.Listing == null)
             {
                 listingDetailVM.Listing = new Listing();
                 return null;
@@ -340,6 +342,41 @@ namespace BAL.Services
                 HomeBannerBottom = HomeBannerList.Where(i => i.Placement == "HomeBottom").ToList()
             };
             return indexVM;
+        }
+        #endregion
+
+        #region Upload Images
+        public async Task<bool> AddOrUpdateLogoImage(UploadImagesVM uploadImagesVM)
+        {
+            try
+            {
+                var logoImage = await _listingRepository.GetLogoImageByListingId(uploadImagesVM.ListingId);
+                bool recordNotFound = logoImage == null;
+
+                if (recordNotFound)
+                    logoImage = new LogoImage();
+
+                logoImage.ImagePath = uploadImagesVM.LogoImageUrl;
+
+                if (recordNotFound)
+                {
+                    logoImage.ListingID = uploadImagesVM.ListingId;
+                    logoImage.OwnerGuid = uploadImagesVM.OwnerId;
+                    logoImage.CreatedDate = DateTime.Now;
+
+                    await _listingRepository.AddAsync(logoImage);
+                }
+                else
+                {
+                    logoImage.UpdateDate = DateTime.Now;
+                    await _listingRepository.UpdateAsync(logoImage);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }

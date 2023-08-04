@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using BOL.BANNERADS;
+using BOL.LISTING.UploadImage;
 
 namespace DAL.Repositories
 {
@@ -190,10 +191,11 @@ namespace DAL.Repositories
             return await _listingDbContext.Rating.Where(l => l.ListingID == listingId && l.OwnerGuid == ownerId).FirstOrDefaultAsync();
         }
 
-        public async Task AddAsync(object data)
+        public async Task<object> AddAsync(object data)
         {
             await _listingDbContext.AddAsync(data);
             await _listingDbContext.SaveChangesAsync();
+            return data;
         }
 
         public async Task UpdateAsync(object data)
@@ -208,6 +210,14 @@ namespace DAL.Repositories
             return await _listingDbContext.HomeBanner
                 .OrderBy(i => i.Priority)
                 .ToListAsync();
+        }
+        #endregion
+
+        #region Upload Images
+        public async Task<LogoImage> GetLogoImageByListingId(int listingId)
+        {
+            return await _listingDbContext.LogoImage
+                .FirstOrDefaultAsync(l => l.ListingID == listingId);
         }
         #endregion
     }
