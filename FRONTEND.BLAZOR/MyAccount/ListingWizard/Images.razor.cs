@@ -105,8 +105,11 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             bool isDeleted = await listingService.DeleteOwnerImage(id);
             var imageDetail = UploadImagesVM.OwnerImages.Where(x => x.Id == id).FirstOrDefault();
-            UploadImagesVM.OwnerImages.Remove(imageDetail);
-            FileManagerService.DeletFile(imageDetail.ImageUrl);
+            if (imageDetail != null)
+            {
+                UploadImagesVM.OwnerImages.Remove(imageDetail);
+                FileManagerService.DeletFile(imageDetail.ImageUrl);
+            }
 
             if (isDeleted)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image deleted successfully!");
@@ -142,6 +145,22 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
             if (isUpdated)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+
+        public async Task DeleteGalleryImage(int id)
+        {
+            bool isDeleted = await listingService.DeleteGalleryImage(id);
+            var imageDetail = UploadImagesVM.GalleryImages.FirstOrDefault(x => x.Id == id);
+            if (imageDetail != null)
+            {
+                UploadImagesVM.GalleryImages.Remove(imageDetail);
+                FileManagerService.DeletFile(imageDetail.ImageUrl);
+            }
+
+            if (isDeleted)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image deleted successfully!");
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }

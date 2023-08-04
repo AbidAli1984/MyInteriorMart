@@ -58,6 +58,7 @@ namespace DAL.Repositories.Contracts
         #region Upload Images
         Task<LogoImage> GetLogoImageByListingId(int listingId);
         Task DeleteOwnerImage(int id);
+        Task DeleteGalleryImage(int id);
         #endregion
     }
 }

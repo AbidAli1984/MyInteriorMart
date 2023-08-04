@@ -225,6 +225,12 @@ namespace DAL.Repositories
             _listingDbContext.OwnerImage.Remove(ownerImage);
             await _listingDbContext.SaveChangesAsync();
         }
+        public async Task DeleteGalleryImage(int id)
+        {
+            var galleryImage = await _listingDbContext.GalleryImage.FindAsync(id);
+            _listingDbContext.GalleryImage.Remove(galleryImage);
+            await _listingDbContext.SaveChangesAsync();
+        }
         #endregion
     }
 }

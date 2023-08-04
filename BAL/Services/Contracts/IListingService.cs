@@ -58,6 +58,7 @@ namespace BAL.Services.Contracts
         Task<bool> AddOwnerImage(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteOwnerImage(int id);
         Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM);
+        Task<bool> DeleteGalleryImage(int id);
         #endregion
     }
 }

@@ -453,7 +453,7 @@ namespace BAL.Services
         {
             try
             {
-                await _listingRepository.DeleteOwnerImage(id);
+                await _listingRepository.DeleteGalleryImage(id);
                 return true;
             }
             catch
