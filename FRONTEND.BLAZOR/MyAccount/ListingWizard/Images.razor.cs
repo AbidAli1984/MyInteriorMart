@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using Microsoft.AspNetCore.Components;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
@@ -95,6 +97,19 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
             if (isUpdated)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+
+        public async Task DeleteOwnerImage(int id)
+        {
+            bool isDeleted = await listingService.DeleteOwnerImage(id);
+            var imageDetail = UploadImagesVM.OwnerImages.Where(x => x.Id == id).FirstOrDefault();
+            UploadImagesVM.OwnerImages.Remove(imageDetail);
+            FileManagerService.DeletFile(imageDetail.ImageUrl);
+
+            if (isDeleted)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image deleted successfully!");
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }

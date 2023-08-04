@@ -219,6 +219,12 @@ namespace DAL.Repositories
             return await _listingDbContext.LogoImage
                 .FirstOrDefaultAsync(l => l.ListingID == listingId);
         }
+        public async Task DeleteOwnerImage(int id)
+        {
+            var ownerImage = await _listingDbContext.OwnerImage.FindAsync(id);
+            _listingDbContext.OwnerImage.Remove(ownerImage);
+            await _listingDbContext.SaveChangesAsync();
+        }
         #endregion
     }
 }

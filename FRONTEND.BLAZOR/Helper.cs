@@ -42,7 +42,7 @@ namespace FRONTEND.BLAZOR
         {
             return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneOfCountry));
         }
-        
+
         #region Upload or Move Images
         public async Task<string> UploadProfileImage(Stream file, string fileName)
         {

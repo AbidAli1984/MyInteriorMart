@@ -405,6 +405,20 @@ namespace BAL.Services
                 return false;
             }
         }
+
+        public async Task<bool> DeleteOwnerImage(int id)
+        {
+            try
+            {
+                await _listingRepository.DeleteOwnerImage(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM)
         {
             try
