@@ -16,6 +16,6 @@ namespace BOL.ComponentModels.Listings
         }
         public string OpenTime { get; set; }
         public string CloseTime { get; set; }
-        public string OpenOn { get; set; }
+        public string OpenDay { get; set; }
     }
 }

@@ -29,8 +29,16 @@ namespace BAL
             DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
             string day = timeZoneDate.ToString("dddd");
 
-            if ((day == Constants.Saturday && workingTime.SaturdayHoliday) || (day == Constants.Sunday && workingTime.SundayHoliday))
+            if ((day == Constants.Saturday && workingTime.SaturdayHoliday))
             {
+                businessWorking.OpenDay = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
+                businessWorking.OpenTime = (workingTime.SundayHoliday ? workingTime.MondayFrom : workingTime.SundayFrom).ToString("hh:mm tt");
+                return businessWorking;
+            }
+            else if((day == Constants.Sunday && workingTime.SundayHoliday))
+            {
+                businessWorking.OpenDay = Constants.Monday;
+                businessWorking.OpenTime = workingTime.MondayFrom.ToString("hh:mm tt");
                 return businessWorking;
             }
 
@@ -43,46 +51,46 @@ namespace BAL
             {
                 OpenTime = workingTime.MondayFrom;
                 CloseTime = workingTime.MondayTo;
-                businessWorking.OpenOn = Constants.Tuesday;
+                businessWorking.OpenDay = Constants.Tuesday;
             }
             else if (day == Constants.Tuesday)
             {
                 OpenTime = workingTime.TuesdayFrom;
                 CloseTime = workingTime.TuesdayTo;
-                businessWorking.OpenOn = Constants.Wednesday;
+                businessWorking.OpenDay = Constants.Wednesday;
             }
             else if (day == Constants.Wednesday)
             {
                 OpenTime = workingTime.WednesdayFrom;
                 CloseTime = workingTime.WednesdayTo;
-                businessWorking.OpenOn = Constants.Thursday;
+                businessWorking.OpenDay = Constants.Thursday;
             }
             else if (day == Constants.Thursday)
             {
                 OpenTime = workingTime.ThursdayFrom;
                 CloseTime = workingTime.ThursdayTo;
-                businessWorking.OpenOn = Constants.Friday;
+                businessWorking.OpenDay = Constants.Friday;
             }
             else if (day == Constants.Friday)
             {
                 OpenTime = workingTime.FridayFrom;
                 CloseTime = workingTime.FridayTo;
                 if (workingTime.SaturdayHoliday)
-                    businessWorking.OpenOn = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
+                    businessWorking.OpenDay = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
                 else
-                    businessWorking.OpenOn = Constants.Saturday;
+                    businessWorking.OpenDay = Constants.Saturday;
             }
             else if (day == Constants.Saturday)
             {
                 OpenTime = workingTime.SaturdayFrom;
                 CloseTime = workingTime.SaturdayTo;
-                businessWorking.OpenOn = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
+                businessWorking.OpenDay = workingTime.SundayHoliday ? Constants.Monday : Constants.Sunday;
             }
             else
             {
                 OpenTime = workingTime.SundayFrom;
                 CloseTime = workingTime.SundayTo;
-                businessWorking.OpenOn = Constants.Monday;
+                businessWorking.OpenDay = Constants.Monday;
             }
 
             businessWorking.OpenTime = OpenTime.ToString("hh:mm tt");

@@ -725,7 +725,7 @@ footer ul {
 }
 
 .mim-Address p {
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
 .company-time {
@@ -786,12 +786,12 @@ footer ul {
     width: 10px;
 }
 
-.social-details a {
+.social-details a, .social-details button {
 	font-size: 14px;
-    line-height: 16px;
-    padding: 4px 6px;
+	line-height: 16px;
+	padding: 4px 6px;
 	margin-right: 5px;
-    border: 1px solid #f7f7f7cc;
+	border: 1px solid #f7f7f7cc;
 }
 
 .listing-details .social-share {
