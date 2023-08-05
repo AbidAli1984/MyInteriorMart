@@ -257,60 +257,28 @@
                                 </div>
                             </div>*@
                         <div class="col-lg-4 col-md-12 company-map padding-all-5">
-                            <div class="product-large-slider">
-                                <div class="pro-large-img img-zoom gallery1">
-                                    <a href="/resources/img/access_bg.jpg" class="big">
-                                        <img src="/resources/img/access_bg.jpg" alt="product-details"
-                                             style="width: 100%;" />
-                                    </a>
-                                    <p class="gallery_img_title">Image 1 Title</p>
+                            @if (listingDetailVM.GalleryImages != null && listingDetailVM.GalleryImages.Count > 0)
+                            {
+                                <div class="product-large-slider">
+                                    @foreach (var image in listingDetailVM.GalleryImages)
+                                    {
+                                        <div class="pro-large-img img-zoom gallery1">
+                                            <a href="@image.ImagePath" class="big">
+                                                <img src="@image.ImagePath" alt="Gallery Image" style="width: 100%;" />
+                                            </a>
+                                            <p class="gallery_img_title">@image.ImageTitle</p>
+                                        </div>
+                                    }
                                 </div>
-                                <div class="pro-large-img img-zoom gallery1">
-                                    <a href="/resources/img/furniture-design.jpg" class="big">
-                                        <img src="/resources/img/furniture-design.jpg" alt="product-details"
-                                             style="width: 100%;" />
-                                    </a>
-                                    <p class="gallery_img_title">Image 2 Title</p>
+                                <div class="pro-nav slick-row-10 slick-arrow-style">
+                                    @foreach (var image in listingDetailVM.GalleryImages)
+                                    {
+                                        <div class="pro-nav-thumb">
+                                            <img src="@image.ImagePath" alt="Gallery Image" />
+                                        </div>
+                                    }
                                 </div>
-                                <div class="pro-large-img img-zoom gallery1">
-                                    <a href="/resources/img/furniture-design1.jpg" class="big">
-                                        <img src="/resources/img/furniture-design1.jpg" alt="product-details"
-                                             style="width: 100%;" />
-                                    </a>
-                                    <p class="gallery_img_title">Image 3 Title</p>
-                                </div>
-                                <div class="pro-large-img img-zoom gallery1">
-                                    <a href="/resources/img/home_section_1.jpg" class="big">
-                                        <img src="/resources/img/home_section_1.jpg" alt="product-details"
-                                             style="width: 100%;" />
-                                    </a>
-                                    <p class="gallery_img_title">Image 4 Title</p>
-                                </div>
-                                <div class="pro-large-img img-zoom gallery1">
-                                    <a href="/resources/img/listing-img.jpeg" class="big">
-                                        <img src="/resources/img/listing-img.jpeg" alt="product-details"
-                                             style="width: 100%;" />
-                                    </a>
-                                    <p class="gallery_img_title">Image 5 Title</p>
-                                </div>
-                            </div>
-                            <div class="pro-nav slick-row-10 slick-arrow-style">
-                                <div class="pro-nav-thumb">
-                                    <img src="/resources/img/access_bg.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="/resources/img/furniture-design.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="/resources/img/furniture-design1.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="/resources/img/home_section_1.jpg" alt="product-details" />
-                                </div>
-                                <div class="pro-nav-thumb">
-                                    <img src="/resources/img/listing-img.jpeg" alt="product-details" />
-                                </div>
-                            </div>
+                            }
                         </div>
                         <div class="col-lg-8 col-md-12 company-details-list padding-all-5">
                             <div class="company-addes">

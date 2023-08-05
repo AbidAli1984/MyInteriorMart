@@ -1,6 +1,4 @@
-﻿using BOL.CATEGORIES;
-using BOL.LISTING;
-using BOL.SHARED;
+﻿using BOL.LISTING;
 using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +10,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Http;
 using BOL.AUDITTRAIL;
 using AntDesign;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using BOL.BANNERADS;
 using BAL.Services.Contracts;
-using BOL.IDENTITY;
 using DAL.Models;
 using BOL.ComponentModels.Listings;
 
