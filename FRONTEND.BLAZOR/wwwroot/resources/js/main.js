@@ -152,4 +152,7 @@ $(document).ready(function () {
         $('#owner_upload_sec').removeClass('show').addClass('hide');
         $('#gallery_upload_sec').toggleClass('show hide');
     });
+
+
+    //$('.img-zoom').zoom();
 });

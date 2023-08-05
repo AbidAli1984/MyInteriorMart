@@ -128,7 +128,7 @@ namespace BAL.Services
             ListingDetailVM listingDetailVM = new ListingDetailVM()
             {
                 CurrentUserId = currentUserId,
-                LogoUrl = GetListingLogoUrlByListingId(listingId)
+                LogoUrl = GetListingLogoUrlByListingId(listingId),
             };
             listingDetailVM.Listing = await _listingRepository.GetApprovedListingByListingId(listingId);
             if (listingDetailVM.Listing == null)
@@ -137,6 +137,8 @@ namespace BAL.Services
                 return null;
             }
 
+            listingDetailVM.OwnerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
+            listingDetailVM.GalleryImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
             listingDetailVM.Communication = await _listingRepository.GetCommunicationByListingId(listingId);
 
 

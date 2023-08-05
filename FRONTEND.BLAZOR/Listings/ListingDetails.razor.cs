@@ -35,8 +35,7 @@ namespace FRONTEND.BLAZOR.Listings
         [Inject]
         private IHttpContextAccessor httpConAccess { get; set; }
 
-        [Inject]
-        public IWebHostEnvironment hostEnv { get; set; }
+        public int count { get; set; }
 
         [Parameter]
         public string ListingID { get; set; }
@@ -78,7 +77,7 @@ namespace FRONTEND.BLAZOR.Listings
         {
             if (render)
             {
-                await jsRuntime.InvokeVoidAsync("InitializeCarousel");
+                await jsRuntime.InvokeVoidAsync("initializeListingGallerySlick");
             }
         }
 

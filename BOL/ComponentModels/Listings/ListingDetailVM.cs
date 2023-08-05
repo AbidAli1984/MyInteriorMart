@@ -1,6 +1,7 @@
 ﻿using BOL.BANNERADS;
 using BOL.CATEGORIES;
 using BOL.LISTING;
+using BOL.LISTING.UploadImage;
 using BOL.VIEWMODELS;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace BOL.ComponentModels.Listings
     public class ListingDetailVM
     {
         public string LogoUrl { get; set; }
+        public IList<OwnerImage> OwnerImages { get; set; } = new List<OwnerImage>();
+        public IList<GalleryImage> GalleryImages { get; set; } = new List<GalleryImage>();
         public string CurrentUserId { get; set; }
         public Listing Listing { get; set; } = new Listing();
         public Communication Communication { get; set; } = new Communication();

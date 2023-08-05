@@ -7,256 +7,309 @@
 @inject IJSRuntime jsRuntime
 
 <div class="container individual-listing">
+    <link href="/resources/css/ListingDetails.css" rel="stylesheet" />
     <div class="row">
-        <div class="col-lg-3 individual-listing-sidebar padding-5">
-            @if (listingDetailVM != null && !string.IsNullOrWhiteSpace(listingDetailVM.LogoUrl))
-            {
+        @if (listingDetailVM != null)
+        {
+            <div class="col-lg-3 individual-listing-sidebar padding-5">
                 <div class="box_detail_cus">
                     <div class="cust-profile">
-                        <img src="@listingDetailVM.LogoUrl" alt="profile">
+                        @if (listingDetailVM.OwnerImages == null || listingDetailVM.OwnerImages.Count <= 0)
+                        {
+                            <img src="resources/img/icon/profile.svg" alt="profile">
+                            <h6 class="cust-name">
+                                @listingDetailVM.Listing.Name
+                                @if (userAgent != null)
+                                {
+                                    <span>@userAgent</span>
+                                }
+                            </h6>
+                            <span class="cust-type">Owner</span>
+                        }
+                        else
+                        {
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    @foreach (var image in listingDetailVM.OwnerImages)
+                                    {
+                                        <div class="carousel-item @(count++ == 0 ? "active" : "")">
+                                            <img src="@image.ImagePath" alt="profile">
+                                            <h4 class="cust-name">@image.OwnerName</h4>
+                                            <span class="cust-type">@image.Designation</span>
+                                        </div>
+                                    }
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                   data-slide="prev">
+                                    <i class="fa fa-chevron-left" aria-hidden="true" style="color: gray;"></i>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                   data-slide="next">
+                                    <i class="fa fa-chevron-right" aria-hidden="true" style="color: gray;"></i>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
-            }
-            <div class="box_detail_cus">
-                <div class="cust-profile">
-                    <img src="resources/img/icon/profile.svg" alt="profile">
-                    @if (listingDetailVM != null)
-                    {
-                        <h6 class="cust-name">
-                            @listingDetailVM.Listing.Name
-                            @if (userAgent != null)
-                            {
-                                <span>@userAgent</span>
-                            }
-                        </h6>
-                    }
-                    <span class="cust-type">Owner</span>
+                <div class="listing-specialisat box_detail_cus">
+                    <h6>Categories</h6>
+                    <ul class="listing-specialisat-list">
+                        <li><i class="icon-check-1"></i> Category 1</li>
+                        <li><i class="icon-check-1"></i> Category 2</li>
+                        <li><i class="icon-check-1"></i> Category 3</li>
+                        <li><i class="icon-check-1"></i> Category 4</li>
+                    </ul>
                 </div>
-            </div>
-            <div class="listing-specialisat box_detail_cus">
-                <h6>Specialisation</h6>
-                <ul class="listing-specialisat-list">
-                    @if (listingDetailVM != null)
-                    {
-                        @if (listingDetailVM.Specialisation.AcceptTenderWork == true)
+                <div class="listing-specialisat box_detail_cus">
+                    <h6>Specialisation</h6>
+                    <ul class="listing-specialisat-list">
+                        @if (listingDetailVM.Specialisation.AcceptTenderWork)
                         {
                             <li><i class="icon-check-1"></i> Accept Tender Work</li>
                         }
-                        @if (listingDetailVM.Specialisation.Banks == true)
+                        @if (listingDetailVM.Specialisation.Banks)
                         {
                             <li><i class="icon-check-1"></i> Bank</li>
                         }
-                        @if (listingDetailVM.Specialisation.ExhibitionStall == true)
+                        @if (listingDetailVM.Specialisation.ExhibitionStall)
                         {
                             <li><i class="icon-check-1"></i> Exhibition Stall</li>
                         }
-                        @if (listingDetailVM.Specialisation.Hotel == true)
+                        @if (listingDetailVM.Specialisation.Hotel)
                         {
                             <li><i class="icon-check-1"></i> Hotel</li>
                         }
-                        @if (listingDetailVM.Specialisation.Restaurants == true)
+                        @if (listingDetailVM.Specialisation.Restaurants)
                         {
                             <li><i class="icon-check-1"></i> Restaurants</li>
                         }
-                        @if (listingDetailVM.Specialisation.BeautyParlors == true)
+                        @if (listingDetailVM.Specialisation.BeautyParlors)
                         {
                             <li><i class="icon-check-1"></i> Beauty Parlors</li>
                         }
-                        @if (listingDetailVM.Specialisation.Factory == true)
+                        @if (listingDetailVM.Specialisation.Factory)
                         {
                             <li><i class="icon-check-1"></i> Factory</li>
                         }
-                        @if (listingDetailVM.Specialisation.Laboratory == true)
+                        @if (listingDetailVM.Specialisation.Laboratory)
                         {
                             <li><i class="icon-check-1"></i> Laboratory</li>
                         }
-                        @if (listingDetailVM.Specialisation.Salons == true)
+                        @if (listingDetailVM.Specialisation.Salons)
                         {
                             <li><i class="icon-check-1"></i> Salons</li>
                         }
-                        @if (listingDetailVM.Specialisation.Bungalow == true)
+                        @if (listingDetailVM.Specialisation.Bungalow)
                         {
                             <li><i class="icon-check-1"></i> Bungalow</li>
                         }
-                        @if (listingDetailVM.Specialisation.Farmhouse == true)
+                        @if (listingDetailVM.Specialisation.Farmhouse)
                         {
                             <li><i class="icon-check-1"></i> Farmhouse</li>
                         }
-                        @if (listingDetailVM.Specialisation.Mandir == true)
+                        @if (listingDetailVM.Specialisation.Mandir)
                         {
                             <li><i class="icon-check-1"></i> Mandir</li>
                         }
-                        @if (listingDetailVM.Specialisation.Shop == true)
+                        @if (listingDetailVM.Specialisation.Shop)
                         {
                             <li><i class="icon-check-1"></i> Shop</li>
                         }
-                        @if (listingDetailVM.Specialisation.CallCenter == true)
+                        @if (listingDetailVM.Specialisation.CallCenter)
                         {
                             <li><i class="icon-check-1"></i> Call Center</li>
                         }
-                        @if (listingDetailVM.Specialisation.Gurudwara == true)
+                        @if (listingDetailVM.Specialisation.Gurudwara)
                         {
                             <li><i class="icon-check-1"></i> Gurudwara</li>
                         }
-                        @if (listingDetailVM.Specialisation.Mosque == true)
+                        @if (listingDetailVM.Specialisation.Mosque)
                         {
                             <li><i class="icon-check-1"></i> Mosque</li>
                         }
-                        @if (listingDetailVM.Specialisation.ShoppingMall == true)
+                        @if (listingDetailVM.Specialisation.ShoppingMall)
                         {
                             <li><i class="icon-check-1"></i> Shopping Mall</li>
                         }
-                        @if (listingDetailVM.Specialisation.Church == true)
+                        @if (listingDetailVM.Specialisation.Church)
                         {
                             <li><i class="icon-check-1"></i> Church</li>
                         }
-                        @if (listingDetailVM.Specialisation.Gym == true)
+                        @if (listingDetailVM.Specialisation.Gym)
                         {
                             <li><i class="icon-check-1"></i> Gym</li>
                         }
-                        @if (listingDetailVM.Specialisation.Office == true)
+                        @if (listingDetailVM.Specialisation.Office)
                         {
                             <li><i class="icon-check-1"></i> Office</li>
                         }
-                        @if (listingDetailVM.Specialisation.Showroom == true)
+                        @if (listingDetailVM.Specialisation.Showroom)
                         {
                             <li><i class="icon-check-1"></i> Showroom</li>
                         }
-                        @if (listingDetailVM.Specialisation.Company == true)
+                        @if (listingDetailVM.Specialisation.Company)
                         {
                             <li><i class="icon-check-1"></i> Company</li>
                         }
-                        @if (listingDetailVM.Specialisation.HealthClub == true)
+                        @if (listingDetailVM.Specialisation.HealthClub)
                         {
                             <li><i class="icon-check-1"></i> Health Club</li>
                         }
-                        @if (listingDetailVM.Specialisation.Plazas == true)
+                        @if (listingDetailVM.Specialisation.Plazas)
                         {
                             <li><i class="icon-check-1"></i> Plazas</li>
                         }
-                        @if (listingDetailVM.Specialisation.Warehouse == true)
+                        @if (listingDetailVM.Specialisation.Warehouse)
                         {
                             <li><i class="icon-check-1"></i> Warehouse</li>
                         }
-                        @if (listingDetailVM.Specialisation.ComputerInstitute == true)
+                        @if (listingDetailVM.Specialisation.ComputerInstitute)
                         {
                             <li><i class="icon-check-1"></i> Computer Institute</li>
                         }
-                        @if (listingDetailVM.Specialisation.Home == true)
+                        @if (listingDetailVM.Specialisation.Home)
                         {
                             <li><i class="icon-check-1"></i> Home</li>
                         }
-                        @if (listingDetailVM.Specialisation.ResidentialSociety == true)
+                        @if (listingDetailVM.Specialisation.ResidentialSociety)
                         {
                             <li><i class="icon-check-1"></i> Residential Society</li>
                         }
-                        @if (listingDetailVM.Specialisation.Dispensary == true)
+                        @if (listingDetailVM.Specialisation.Dispensary)
                         {
                             <li><i class="icon-check-1"></i> Dispensary</li>
                         }
-                        @if (listingDetailVM.Specialisation.Hospital == true)
+                        @if (listingDetailVM.Specialisation.Hospital)
                         {
                             <li><i class="icon-check-1"></i> Hospital</li>
                         }
-                        @if (listingDetailVM.Specialisation.Resorts == true)
+                        @if (listingDetailVM.Specialisation.Resorts)
                         {
                             <li><i class="icon-check-1"></i> Resorts</li>
                         }
-                    }
-                </ul>
-            </div>
-            <div class="listing-specialisat box_detail_cus">
-                <h6>PAYMENT DETAILS</h6>
-                <ul class="listing-specialisat-list">
-                    @if (listingDetailVM != null)
-                    {
-                        if (listingDetailVM.PaymentMode.Cash == true)
+                    </ul>
+                </div>
+                <div class="listing-specialisat box_detail_cus">
+                    <h6>PAYMENT DETAILS</h6>
+                    <ul class="listing-specialisat-list">
+                        @if (listingDetailVM.PaymentMode.Cash)
                         {
                             <li><i class="icon-check-1"></i> Cash</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.NetBanking == true)
+                        @if (listingDetailVM.PaymentMode.NetBanking)
                         {
                             <li><i class="icon-check-1"></i> Net Banking</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.Cheque == true)
+                        @if (listingDetailVM.PaymentMode.Cheque)
                         {
                             <li><i class="icon-check-1"></i> Cheque</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.RtgsNeft == true)
+                        @if (listingDetailVM.PaymentMode.RtgsNeft)
                         {
                             <li><i class="icon-check-1"></i> RTGS &amp; NEFT</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.DebitCard == true)
+                        @if (listingDetailVM.PaymentMode.DebitCard)
                         {
                             <li><i class="icon-check-1"></i> Debit Card</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.CreditCard == true)
+                        @if (listingDetailVM.PaymentMode.CreditCard)
                         {
                             <li><i class="icon-check-1"></i> Credit Card</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.PayTM == true)
+                        @if (listingDetailVM.PaymentMode.PayTM)
                         {
                             <li><i class="icon-check-1"></i> Pay TM</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.PhonePay == true)
+                        @if (listingDetailVM.PaymentMode.PhonePay)
                         {
                             <li><i class="icon-check-1"></i> Phone Pay</li>
                         }
 
-                        if (listingDetailVM.PaymentMode.Paypal == true)
+                        @if (listingDetailVM.PaymentMode.Paypal)
                         {
                             <li><i class="icon-check-1"></i> Paypal</li>
                         }
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-9 individual-listing-main padding-5">
-            <div class="listing-gallery">
-                <div class="gallery">
-                    <a href="FrontEnd/img/listing-img.jpeg" class="big">
-                        <img src="resources/img/listing-img.jpeg" alt="Image 1" title="Image 1">
-                    </a>
-                    <a href="FrontEnd/img/hero_in_restaurants_detail.jpg" class="big">
-                        <img src="resources/img/hero_in_restaurants_detail.jpg" alt="Image 2" title="Image 2">
-                    </a>
-                    <a href="FrontEnd/img/furniture-design1.jpg" class="big">
-                        <img src="resources/img/furniture-design1.jpg" alt="Image 3" title="Image 3">
-                    </a>
-                    <a href="FrontEnd/img/furniture-design.jpg" class="big">
-                        <img src="resources/img/furniture-design.jpg" alt="Image 4" title="Image 4">
-                    </a>
-                    <a href="FrontEnd/img/home_section_1.jpg" class="big">
-                        <img src="resources/img/home_section_1.jpg" alt="Image 5" title="Image 5">
-                    </a>
-                    <a href="FrontEnd/img/access_bg.jpg" class="big">
-                        <img src="resources/img/access_bg.jpg" alt="Image 6" title="Image 6">
-                    </a>
-                    <a href="FrontEnd/img/bg_call_section.jpg" class="big">
-                        <img src="resources/img/bg_call_section.jpg" alt="Image 7" title="Image 7">
-                    </a>
-                    <a href="FrontEnd/img/listing-img.jpeg" class="big">
-                        <img src="resources/img/listing-img.jpeg" alt="Image 8" title="Image 8">
-                    </a>
-                    <a href="FrontEnd/img/hero_in_hotels_detail.jpg" class="big">
-                        <img src="resources/img/hero_in_hotels_detail.jpg" alt="Image 9" title="Image 9">
-                    </a>
+                    </ul>
                 </div>
             </div>
-            @if (listingDetailVM != null)
-            {
+            <div class="col-lg-9 individual-listing-main padding-5">
+                <div class="listing-gallery">
+                    <div class="gallery">
+                        <a href="/resources/img/hero_in_restaurants_detail.jpg" class="big">
+                            <img src="/resources/img/hero_in_restaurants_detail.jpg" alt="Image 2" title="Image 2" style="width: 100%;">
+                        </a>
+                    </div>
+                </div>
                 <div class="company-listing-main">
                     <div class="listing-details">
+                        @*<div class="col-lg-4 col-md-12 company-map padding-all-5">
+                                <div class="gmap_canvas">
+                                    <iframe width="100%" height="315" id="gmap_canvas" src="https://maps.google.com/maps?q=Creative&#x2B;Concept&#x2B;Pvt.&#x2B;Ltd.&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                </div>
+                            </div>*@
                         <div class="col-lg-4 col-md-12 company-map padding-all-5">
-                            <div class="gmap_canvas">
-                                <iframe width="100%" height="315" id="gmap_canvas" src="https://maps.google.com/maps?q=Creative&#x2B;Concept&#x2B;Pvt.&#x2B;Ltd.&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            <div class="product-large-slider">
+                                <div class="pro-large-img img-zoom gallery1">
+                                    <a href="/resources/img/access_bg.jpg" class="big">
+                                        <img src="/resources/img/access_bg.jpg" alt="product-details"
+                                             style="width: 100%;" />
+                                    </a>
+                                    <p class="gallery_img_title">Image 1 Title</p>
+                                </div>
+                                <div class="pro-large-img img-zoom gallery1">
+                                    <a href="/resources/img/furniture-design.jpg" class="big">
+                                        <img src="/resources/img/furniture-design.jpg" alt="product-details"
+                                             style="width: 100%;" />
+                                    </a>
+                                    <p class="gallery_img_title">Image 2 Title</p>
+                                </div>
+                                <div class="pro-large-img img-zoom gallery1">
+                                    <a href="/resources/img/furniture-design1.jpg" class="big">
+                                        <img src="/resources/img/furniture-design1.jpg" alt="product-details"
+                                             style="width: 100%;" />
+                                    </a>
+                                    <p class="gallery_img_title">Image 3 Title</p>
+                                </div>
+                                <div class="pro-large-img img-zoom gallery1">
+                                    <a href="/resources/img/home_section_1.jpg" class="big">
+                                        <img src="/resources/img/home_section_1.jpg" alt="product-details"
+                                             style="width: 100%;" />
+                                    </a>
+                                    <p class="gallery_img_title">Image 4 Title</p>
+                                </div>
+                                <div class="pro-large-img img-zoom gallery1">
+                                    <a href="/resources/img/listing-img.jpeg" class="big">
+                                        <img src="/resources/img/listing-img.jpeg" alt="product-details"
+                                             style="width: 100%;" />
+                                    </a>
+                                    <p class="gallery_img_title">Image 5 Title</p>
+                                </div>
+                            </div>
+                            <div class="pro-nav slick-row-10 slick-arrow-style">
+                                <div class="pro-nav-thumb">
+                                    <img src="/resources/img/access_bg.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="/resources/img/furniture-design.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="/resources/img/furniture-design1.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="/resources/img/home_section_1.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="/resources/img/listing-img.jpeg" alt="product-details" />
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-12 company-details-list padding-all-5">
@@ -284,14 +337,14 @@
                                 {
                                     <p>
                                         <i class="icon-location-6"></i>
-                                        @listingDetailVM.Address.Locality, @listingDetailVM.Address.Pincode <a href="" @onclick:preventDefault @onclick="@(async() => await ToggleCompleteAddressAsync())">more...</a>
+                                        @listingDetailVM.Address.Locality, @listingDetailVM.Address.Pincode <a href="" @onclick:preventDefault @onclick="@(async () => await ToggleCompleteAddressAsync())">more...</a>
                                     </p>
                                 }
                                 else
                                 {
                                     <p>
                                         <i class="icon-location-6"></i>
-                                        @listingDetailVM.Address.LocalAddress, @listingDetailVM.Address.Locality, @listingDetailVM.Address.Assembly, @listingDetailVM.Address.Pincode, @listingDetailVM.Address.City, @listingDetailVM.Address.State, @listingDetailVM.Address.Country <a href="" @onclick:preventDefault @onclick="@(async() => await ToggleCompleteAddressAsync())">less...</a>
+                                        @listingDetailVM.Address.LocalAddress, @listingDetailVM.Address.Locality, @listingDetailVM.Address.Assembly, @listingDetailVM.Address.Pincode, @listingDetailVM.Address.City, @listingDetailVM.Address.State, @listingDetailVM.Address.Country <a href="" @onclick:preventDefault @onclick="@(async () => await ToggleCompleteAddressAsync())">less...</a>
                                     </p>
                                 }
                                 <p>
@@ -377,18 +430,18 @@
                                 </div>
                             </div>
                             <div class="social-details">
-                                @if (HideContact == true)
+                                @if (HideContact)
                                 {
-                                    <button @onclick="@(async() => await ToggleContact())" class="btn btn-success btn-sm" id="ViewNumber"><i class="icon-eye"></i> Show Contact</button>
+                                    <button @onclick="@(async () => await ToggleContact())" class="btn btn-success btn-sm" id="ViewNumber"><i class="icon-eye"></i> Show Contact</button>
                                 }
                                 else
                                 {
-                                    <button @onclick="@(async() => await ToggleContact())" class="btn btn-danger btn-sm" id="HideNumber"><i class="icon-eye-off"></i> Hide Contact</button>
+                                    <button @onclick="@(async () => await ToggleContact())" class="btn btn-danger btn-sm" id="HideNumber"><i class="icon-eye-off"></i> Hide Contact</button>
                                 }
                                 <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
-                                @if (userAuthenticated == true)
+                                @if (userAuthenticated)
                                 {
-                                    <button @onclick="@(async() => await ToggleBookmark(listingDetailVM.Listing.ListingID))"
+                                    <button @onclick="@(async () => await ToggleBookmark(listingDetailVM.Listing.ListingID))"
                                             id="BookmarkMe" class="pushRight btn btn-light btn-sm ml-1">
                                         <i class="icon-bookmark-empty"></i> Bookmark
                                         <span id="BookmarkCount">
@@ -409,7 +462,7 @@
                                 <!-- Begin: Like -->
                                 @{
                                     string likeThumbIcon;
-                                    if (like == true)
+                                    if (like)
                                     {
                                         likeThumbIcon = "icon-thumbs-down";
                                     }
@@ -419,9 +472,9 @@
                                     }
                                 }
 
-                                @if (userAuthenticated == true)
+                                @if (userAuthenticated)
                                 {
-                                    <button @onclick="@(async() => await ToggleLikeAsync(Int32.Parse(ListingID)))" class="pushRight btn btn-light btn-sm ml-1">
+                                    <button @onclick="@(async () => await ToggleLikeAsync(Int32.Parse(ListingID)))" class="pushRight btn btn-light btn-sm ml-1">
                                         <i class="@likeThumbIcon"></i>
                                         <span id="LikeCount">
                                             @(countLike != 0 ? countLike : "0")
@@ -430,7 +483,7 @@
                                 }
                                 else
                                 {
-                                    <button @onclick="@(async() => await ToggleLikeAsync(Int32.Parse(ListingID)))" class="pushRight btn btn-light btn-sm ml-1">
+                                    <button @onclick="@(async () => await ToggleLikeAsync(Int32.Parse(ListingID)))" class="pushRight btn btn-light btn-sm ml-1">
                                         <i class="@likeThumbIcon"></i>
                                         <span id="LikeCount">
                                             @(countLike != 0 ? countLike : "0")
@@ -440,9 +493,9 @@
 
                                 <!-- Begin: Subscribe -->
 
-                                @if (userAuthenticated == true)
+                                @if (userAuthenticated)
                                 {
-                                    <button @onclick="@(async() => await ToggleSubscribeAsync(Int32.Parse(ListingID)))" id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
+                                    <button @onclick="@(async () => await ToggleSubscribeAsync(Int32.Parse(ListingID)))" id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
                                         <i class="icon-bell"></i> Unsubscribe
                                         <span id="SubscribeCount">
                                             @(countSubscribe != 0 ? countSubscribe : "0")
@@ -451,7 +504,7 @@
                                 }
                                 else
                                 {
-                                    <button @onclick="@(async() => await ToggleSubscribeAsync(Int32.Parse(ListingID)))" id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
+                                    <button @onclick="@(async () => await ToggleSubscribeAsync(Int32.Parse(ListingID)))" id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
                                         <i class="icon-bell"></i> Subscribe
                                         <span id="SubscribeCount">
                                             @(countSubscribe != 0 ? countSubscribe : "0")
@@ -573,14 +626,14 @@
                                             </a>
                                         }
 
-                                        @if (CurrentUserRating == null && userAuthenticated == true)
+                                        @if (CurrentUserRating == null && userAuthenticated)
                                         {
                                             <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button" aria-expanded="false" aria-controls="WriteReview">
                                                 <i class="icon-pencil"></i> Write Review
                                             </a>
                                         }
 
-                                        @if (userAuthenticated == true && CurrentUserRating != null)
+                                        @if (userAuthenticated && CurrentUserRating != null)
                                         {
                                             <a class="btn btn-link" data-toggle="collapse" href="#EditReview" role="button" aria-expanded="false" aria-controls="WriteReview">
                                                 <i class="icon-pencil"></i> Edit Review
@@ -597,7 +650,7 @@
                                                             <textarea @bind="@Comment" name="review_text" id="review_text" class="form-control" style="height:130px;"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12 add_top_20 add_bottom_30">
-                                                            <button @onclick="@(async() => await EditSaveRatingAsync())">Save Rating</button>
+                                                            <button @onclick="@(async () => await EditSaveRatingAsync())">Save Rating</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -616,7 +669,7 @@
                                                         <textarea @bind="@Comment" name="review_text" id="review_text" class="form-control" style="height:130px;"></textarea>
                                                     </div>
                                                     <div class="form-group col-md-12 add_top_20 add_bottom_30">
-                                                        <button @onclick="@(async() => await CreateRatingAsync())">Submit</button>
+                                                        <button @onclick="@(async () => await CreateRatingAsync())">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -704,21 +757,21 @@
                         </div>
                     </div>
                 </div>
-            }
-            else
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
+                @if (String.IsNullOrEmpty(ErrorMessage) == false)
+                {
+                    <div class="d-flex justify-content-center">
+                        <p>@ErrorMessage</p>
                     </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
-            }
-            @if (String.IsNullOrEmpty(ErrorMessage) == false)
-            {
-                <div class="d-flex justify-content-center">
-                    <p>@ErrorMessage</p>
-                </div>
-            }
-        </div>
+            </div>
+        }
     </div>
 </div>

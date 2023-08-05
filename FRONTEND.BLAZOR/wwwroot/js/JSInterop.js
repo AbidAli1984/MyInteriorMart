@@ -81,4 +81,37 @@ function initializeHomePageCarousel() {
     }, 200)
 
 }
+
+function initializeListingGallerySlick() {
+    setTimeout(() => {
+        $('.product-large-slider').slick({
+            fade: true,
+            arrows: false,
+            speed: 1000,
+            asNavFor: '.pro-nav'
+        });
+
+
+        // product details slider nav active
+        $('.pro-nav').slick({
+            slidesToShow: 3,
+            asNavFor: '.product-large-slider',
+            centerMode: true,
+            speed: 1000,
+            centerPadding: 0,
+            focusOnSelect: true,
+            prevArrow: '<button type="button" class="slick-prev"><i class="lnr lnr-chevron-left"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="lnr lnr-chevron-right"></i></button>',
+            responsive: [{
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 3,
+                }
+            }]
+        });
+
+        $('.gallery a').simpleLightbox();
+        $('.gallery1 a').simpleLightbox();
+    }, 200)
+}
 /* End: Initialize Bootstrap Carousel */
