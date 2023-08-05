@@ -6,7 +6,7 @@ using AntDesign;
 using DAL.Models;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
-using BAL;
+using BOL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -40,10 +40,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    if (listing == null)
-                        navManager.NavigateTo("/MyAccount/Listing/Company");
-                    else if (listing.Steps < Constants.AddressComplete) //Checkig if prev steps compeleted
-                        helper.NavigateToPageByStep(listing.Steps, navManager);
+                    helper.NavigateToPageByStep(listing, Constants.AddressComplete, navManager);
 
                     ListingId = listing.ListingID;
                     CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
@@ -51,12 +48,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     if (category != null)
                     {
                         IsCategoryExist = true;
-                        CategoryVM.FirstCategoryID = category.FirstCategoryID;
-                        CategoryVM.SecondCategoryID = category.SecondCategoryID;
-                        CategoryVM.ThirdCategory = category.ThirdCategories;
-                        CategoryVM.FourthCategory = category.FourthCategories;
-                        CategoryVM.FifthCategory = category.FifthCategories;
-                        CategoryVM.SixthCategory = category.SixthCategories;
+                        CategoryVM.SetViewModel(category);
 
                         await GetSecondCategoryIdByFirstCategoryId(null);
                         await GetOtherCategoriesBySecondCategoryId(null);
@@ -124,12 +116,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     category = new BOL.LISTING.Categories();
 
                 categoryService.GetOtherCategoriesToUpdate(CategoryVM);
-                category.FirstCategoryID = CategoryVM.FirstCategoryID;
-                category.SecondCategoryID = CategoryVM.SecondCategoryID;
-                category.ThirdCategories = CategoryVM.ThirdCategory;
-                category.FourthCategories = CategoryVM.FourthCategory;
-                category.FifthCategories = CategoryVM.FifthCategory;
-                category.SixthCategories = CategoryVM.SixthCategory;
+                CategoryVM.SetContextModel(category);
 
                 if (recordNotFound)
                 {
@@ -144,13 +131,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(category);
                 }
 
-                var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                if (listing.Steps < Constants.CategoryComplete)
-                {
-                    listing.Steps = Constants.CategoryComplete;
-                    await listingService.UpdateAsync(listing);
-                }
-
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.CategoryComplete);
                 navManager.NavigateTo($"/MyAccount/Listing/Specialisation");
             }
             catch (Exception exc)

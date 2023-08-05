@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using AntDesign;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
-using BAL;
+using BOL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -39,25 +39,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    if (listing == null)
-                        navManager.NavigateTo("/MyAccount/Listing/Company");
-                    else if (listing.Steps < Constants.CompanyComplete) //Checking if prev steps compeleted
-                        helper.NavigateToPageByStep(listing.Steps, navManager);
+                    helper.NavigateToPageByStep(listing, Constants.CompanyComplete, navManager);
 
                     ListingId = listing.ListingID;
                     var communication = await listingService.GetCommunicationByListingId(ListingId);
                     if (communication != null)
                     {
                         IsCommunicationExist = true;
-                        CommunicationVM.Email = communication.Email;
-                        CommunicationVM.Mobile = communication.Mobile;
-                        CommunicationVM.Whatsapp = communication.Whatsapp;
-                        CommunicationVM.Telephone = communication.Telephone;
-                        CommunicationVM.TelephoneSecond = communication.TelephoneSecond;
-                        CommunicationVM.Website = communication.Website;
-                        CommunicationVM.TollFree = communication.TollFree;
-                        CommunicationVM.Fax = communication.Fax;
-                        CommunicationVM.SkypeID = communication.SkypeID;
+                        CommunicationVM.SetViewModel(communication);
                     }
                 }
             }
@@ -99,15 +88,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 if (recordNotFound)
                     communication = new BOL.LISTING.Communication();
 
-                communication.Email = CommunicationVM.Email;
-                communication.Mobile = CommunicationVM.Mobile;
-                communication.Whatsapp = CommunicationVM.Whatsapp;
-                communication.Telephone = CommunicationVM.Telephone;
-                communication.TelephoneSecond = CommunicationVM.TelephoneSecond;
-                communication.Website = CommunicationVM.Website;
-                communication.TollFree = CommunicationVM.TollFree;
-                communication.Fax = CommunicationVM.Fax;
-                communication.SkypeID = CommunicationVM.SkypeID;
+                CommunicationVM.SetContextModel(communication);
 
                 if (recordNotFound)
                 {
@@ -124,13 +105,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(communication);
                 }
 
-                var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                if (listing.Steps < Constants.CommunicationComplete)
-                {
-                    listing.Steps = Constants.CommunicationComplete;
-                    await listingService.UpdateAsync(listing);
-                }
-
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.CommunicationComplete);
                 navManager.NavigateTo($"/MyAccount/Listing/Address");
             }
             catch (Exception exc)

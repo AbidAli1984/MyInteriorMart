@@ -17,7 +17,7 @@ namespace DAL.Repositories.Contracts
         Task<IEnumerable<Categories>> GetCategoriesByFourthCategoryId(int fourthCategoryID);
         Task<IEnumerable<Categories>> GetCategoriesByFifthCategoryId(int fifthCategoryID);
         Task<IEnumerable<Categories>> GetCategoriesBySixthCategoryId(int sixthCategoryID);
-        Task<IEnumerable<Listing>> GetListingsByListingIds(int[] listingIds);
+        Task<IEnumerable<Listing>> GetApprovedListingsByListingIds(int[] listingIds);
         Task<IEnumerable<Address>> GetAddressesByListingIds(int[] listingIds);
         Task<IEnumerable<Communication>> GetCommunicationsByListingIds(int[] listingIds);
         #endregion
@@ -28,11 +28,11 @@ namespace DAL.Repositories.Contracts
 
         Task<int> CountRatingAsync(int ListingID, int rating);
 
-        Task<IEnumerable<Listing>> GetListings();
+        Task<IEnumerable<Listing>> GetApprovedListings();
 
         Task<Listing> GetListingByOwnerId(string ownerId);
 
-        Task<Listing> GetListingByListingId(int listingId);
+        Task<Listing> GetApprovedListingByListingId(int listingId);
 
         Task<Communication> GetCommunicationByListingId(int listingId);
 

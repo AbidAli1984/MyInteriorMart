@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using AntDesign;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
-using BAL;
+using BOL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -40,10 +40,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    if (listing == null)
-                        navManager.NavigateTo("/MyAccount/Listing/Company");
-                    else if (listing.Steps < Constants.WorkingHourComplete) //Checking if prev steps compeleted
-                        helper.NavigateToPageByStep(listing.Steps, navManager);
+                    helper.NavigateToPageByStep(listing, Constants.WorkingHourComplete, navManager);
 
                     ListingId = listing.ListingID;
                     var paymentMode = await listingService.GetPaymentModeByListingId(ListingId);
@@ -83,7 +80,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 if (recordNotFound)
                     paymentMode = new BOL.LISTING.PaymentMode();
 
-                PaymentModeVM.SetPaymentMode(paymentMode);
+                PaymentModeVM.SetContextModel(paymentMode);
 
                 if (recordNotFound)
                 {
@@ -98,13 +95,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(paymentMode);
                 }
 
-                var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                if (listing.Steps < Constants.PaymentModeComplete)
-                {
-                    listing.Steps = Constants.PaymentModeComplete;
-                    await listingService.UpdateAsync(listing);
-                }
-
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.PaymentModeComplete);
                 //navManager.NavigateTo("/MyAccount/Listing/PaymentMode");
             }
             catch (Exception exc)

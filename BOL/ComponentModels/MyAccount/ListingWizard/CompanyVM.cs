@@ -1,4 +1,5 @@
-﻿using BOL.SHARED;
+﻿using BOL.LISTING;
+using BOL.SHARED;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -42,6 +43,36 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
                 new SelectItem { Name = "Upto 1 Crore" },
                 new SelectItem { Name = "Upto 10 Crore & Above" }
             };
+        }
+
+        public void SetViewModel(Listing listing)
+        {
+            Name = listing.Name;
+            Gender = listing.Gender;
+            YearOfEstablishment = listing.YearOfEstablishment;
+            CompanyName = listing.CompanyName;
+            GSTNumber = listing.GSTNumber;
+            Turnover = listing.Turnover;
+            NumberOfEmployees = listing.NumberOfEmployees;
+            NatureOfBusiness = listing.NatureOfBusiness;
+            Designation = listing.Designation;
+        }
+
+        public void SetContextModel(Listing listing)
+        {
+            listing.Name = Name;
+            listing.Gender = Gender;
+            listing.YearOfEstablishment = YearOfEstablishment.Value;
+            listing.CompanyName = CompanyName;
+            listing.GSTNumber = GSTNumber;
+            listing.Turnover = Turnover;
+            listing.NumberOfEmployees = NumberOfEmployees;
+            listing.NatureOfBusiness = NatureOfBusiness;
+            listing.Designation = Designation;
+            listing.ListingURL = CompanyName.Replace(" ", "-");
+
+            if (listing.Steps < Constants.CompanyComplete)
+                listing.Steps = Constants.CompanyComplete;
         }
 
         public bool isValid()

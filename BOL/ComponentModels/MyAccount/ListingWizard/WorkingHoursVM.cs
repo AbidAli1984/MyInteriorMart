@@ -42,7 +42,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             SundayTo = workingHour.SundayTo;
         }
 
-        public void SetWorkingHours(WorkingHours workingHours)
+        public void SetContextModel(WorkingHours workingHours)
         {
             workingHours.MondayFrom = MondayFrom.Value;
             workingHours.MondayTo = MondayTo.Value;

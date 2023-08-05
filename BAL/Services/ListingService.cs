@@ -74,7 +74,7 @@ namespace BAL.Services
             if (listCat.Count() > 0)
             {
                 int[] listingIds = listCat.Select(x => x.ListingID).ToArray();
-                var approvedlistings = await _listingRepository.GetListingsByListingIds(listingIds);
+                var approvedlistings = await _listingRepository.GetApprovedListingsByListingIds(listingIds);
                 int[] approvedListingIds = approvedlistings.Select(x => x.ListingID).ToArray();
                 var addresses = await _listingRepository.GetAddressesByListingIds(approvedListingIds);
                 var communications = await _listingRepository.GetCommunicationsByListingIds(approvedListingIds);
@@ -130,7 +130,7 @@ namespace BAL.Services
                 CurrentUserId = currentUserId,
                 LogoUrl = GetListingLogoUrlByListingId(listingId)
             };
-            listingDetailVM.Listing = await _listingRepository.GetListingByListingId(listingId);
+            listingDetailVM.Listing = await _listingRepository.GetApprovedListingByListingId(listingId);
             if (listingDetailVM.Listing == null)
             {
                 listingDetailVM.Listing = new Listing();
@@ -264,9 +264,14 @@ namespace BAL.Services
             return await _listingRepository.GetListingByOwnerId(ownerId);
         }
 
-        public async Task<Listing> GetListingByListingId(int listingId)
+        public async Task UpdateListingStepByOwnerId(string ownerId, int currentPageStep)
         {
-            return await _listingRepository.GetListingByListingId(listingId);
+            var listing = await GetListingByOwnerId(ownerId);
+            if (listing.Steps < currentPageStep)
+            {
+                listing.Steps = currentPageStep;
+                await UpdateAsync(listing);
+            }
         }
 
         public async Task<Categories> GetCategoryByListingId(int listingId)
@@ -322,7 +327,7 @@ namespace BAL.Services
 
         public async Task<IList<SearchResultViewModel>> GetSearchListings()
         {
-            var listings = await _listingRepository.GetListings();
+            var listings = await _listingRepository.GetApprovedListings();
             return listings.Select((x) => new SearchResultViewModel
             {
                 label = x.CompanyName,

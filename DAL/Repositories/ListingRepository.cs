@@ -91,7 +91,7 @@ namespace DAL.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<Listing>> GetListingsByListingIds(int[] listingIds)
+        public async Task<IEnumerable<Listing>> GetApprovedListingsByListingIds(int[] listingIds)
         {
             return await _listingDbContext.Listing
                 .Where(x => x.Approved && listingIds.Contains(x.ListingID))
@@ -137,19 +137,21 @@ namespace DAL.Repositories
             return count;
         }
 
-        public async Task<IEnumerable<Listing>> GetListings()
+        public async Task<IEnumerable<Listing>> GetApprovedListings()
         {
-            return await _listingDbContext.Listing.Where(x => x.Approved).OrderByDescending(i => i.ListingID).ToListAsync();
+            return await _listingDbContext.Listing.Where(x => x.Approved)
+                .OrderByDescending(i => i.ListingID)
+                .ToListAsync();
         }
 
         public async Task<Listing> GetListingByOwnerId(string ownerId)
         {
             return await _listingDbContext.Listing
-                .Where(i => i.OwnerGuid == ownerId && i.Approved)
+                .Where(i => i.OwnerGuid == ownerId)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Listing> GetListingByListingId(int listingId)
+        public async Task<Listing> GetApprovedListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing
                 .Where(l => l.ListingID == listingId && l.Approved)

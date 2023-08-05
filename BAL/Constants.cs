@@ -41,16 +41,6 @@ namespace BAL
         public const string Saturday = "Saturday";
         #endregion
 
-        #region ListingWizard Steps
-        public const int CompanyComplete = 1;
-        public const int CommunicationComplete = 2;
-        public const int AddressComplete = 3;
-        public const int CategoryComplete = 4;
-        public const int SpecialisationComplete = 5;
-        public const int WorkingHourComplete = 6;
-        public const int PaymentModeComplete = 7;
-        #endregion
-
         public static IList<SearchResultViewModel> Listings;
     }
 }

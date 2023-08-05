@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BOL.LISTING;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -36,6 +37,32 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         public string WebsiteErrorMessage
         {
             get { return FieldValidator.websiteErrMessage(Website); }
+        }
+
+        public void SetViewModel(Communication communication)
+        {
+            Email = communication.Email;
+            Mobile = communication.Mobile;
+            Whatsapp = communication.Whatsapp;
+            Telephone = communication.Telephone;
+            TelephoneSecond = communication.TelephoneSecond;
+            Website = communication.Website;
+            TollFree = communication.TollFree;
+            Fax = communication.Fax;
+            SkypeID = communication.SkypeID;
+        }
+
+        public void SetContextModel(Communication communication)
+        {
+            communication.Email = Email;
+            communication.Mobile = Mobile;
+            communication.Whatsapp = Whatsapp;
+            communication.Telephone = Telephone;
+            communication.TelephoneSecond = TelephoneSecond;
+            communication.Website = Website;
+            communication.TollFree = TollFree;
+            communication.Fax = Fax;
+            communication.SkypeID = SkypeID;
         }
 
         public bool isValid()

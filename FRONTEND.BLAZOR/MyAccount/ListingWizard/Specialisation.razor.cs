@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using AntDesign;
-using DAL.Models;
 using BAL.Services.Contracts;
-using BAL;
+using BOL;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
@@ -44,12 +41,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 {
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
-
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    if (listing == null)
-                        navManager.NavigateTo("/MyAccount/Listing/Company");
-                    else if (listing.Steps < Constants.CategoryComplete)
-                        helper.NavigateToPageByStep(listing.Steps, navManager);
+                    helper.NavigateToPageByStep(listing, Constants.CategoryComplete, navManager);
 
                     ListingId = listing.ListingID;
                     var specialisation = await listingService.GetSpecialisationByListingId(ListingId);
@@ -89,7 +82,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 if (recordNotFound)
                     specialisation = new BOL.LISTING.Specialisation();
 
-                SpecialisationVM.SetSpecialisation(specialisation);
+                SpecialisationVM.SetContextModel(specialisation);
 
                 if (recordNotFound)
                 {
@@ -104,13 +97,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(specialisation);
                 }
 
-                var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                if (listing.Steps < Constants.SpecialisationComplete)
-                {
-                    listing.Steps = Constants.SpecialisationComplete;
-                    await listingService.UpdateAsync(listing);
-                }
-
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SpecialisationComplete);
                 navManager.NavigateTo($"/MyAccount/Listing/WorkingHours");
             }
             catch (Exception exc)

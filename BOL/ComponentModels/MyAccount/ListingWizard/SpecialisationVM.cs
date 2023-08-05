@@ -74,7 +74,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             Warehouse = specialisation.Warehouse;
         }
 
-        public void SetSpecialisation(Specialisation specialisation)
+        public void SetContextModel(Specialisation specialisation)
         {
             specialisation.AcceptTenderWork = AcceptTenderWork;
             specialisation.Banks = Bank;

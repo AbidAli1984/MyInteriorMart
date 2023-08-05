@@ -1,9 +1,10 @@
 ﻿using AntDesign;
-using BAL;
 using BAL.FileManager;
 using BAL.Services.Contracts;
+using BOL;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.MyAccount.Profile;
+using BOL.LISTING;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -80,22 +81,27 @@ namespace FRONTEND.BLAZOR
         }
         #endregion  
 
-        public void NavigateToPageByStep(int steps, NavigationManager navManager)
+        public void NavigateToPageByStep(Listing listing, int previousStep, NavigationManager navManager)
         {
-            if (steps < Constants.CompanyComplete)
+            if (listing == null)
                 navManager.NavigateTo("/MyAccount/Listing/Company");
-            else if (steps < Constants.CommunicationComplete)
-                navManager.NavigateTo("/MyAccount/Listing/Communication");
-            else if (steps < Constants.AddressComplete)
-                navManager.NavigateTo("/MyAccount/Listing/Address");
-            else if (steps < Constants.CompanyComplete)
-                navManager.NavigateTo("/MyAccount/Listing/Communication");
-            else if (steps < Constants.CompanyComplete)
-                navManager.NavigateTo("/MyAccount/Listing/Communication");
-            else if (steps < Constants.CompanyComplete)
-                navManager.NavigateTo("/MyAccount/Listing/Communication");
-            else if (steps < Constants.CompanyComplete)
-                navManager.NavigateTo("/MyAccount/Listing/Communication");
+            else if (listing.Steps < previousStep)
+            {
+                if (listing.Steps < Constants.CompanyComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Company");
+                else if (listing.Steps < Constants.CommunicationComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Communication");
+                else if (listing.Steps < Constants.AddressComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Address");
+                else if (listing.Steps < Constants.CompanyComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Communication");
+                else if (listing.Steps < Constants.CompanyComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Communication");
+                else if (listing.Steps < Constants.CompanyComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Communication");
+                else if (listing.Steps < Constants.CompanyComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Communication");
+            }
         }
 
         #region Address Information

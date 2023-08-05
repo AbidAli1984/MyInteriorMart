@@ -6,7 +6,7 @@ using AntDesign;
 using BOL.SHARED;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
-using BAL;
+using BOL;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
@@ -47,25 +47,15 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    if (listing == null)
-                        navManager.NavigateTo("/MyAccount/Listing/Company");
-                    else if (listing.Steps < Constants.CommunicationComplete) //Checking if prev steps compeleted
-                        helper.NavigateToPageByStep(listing.Steps, navManager);
-
+                    helper.NavigateToPageByStep(listing, Constants.CommunicationComplete, navManager);
+                    
                     ListingId = listing.ListingID;
                     AddressVM.Countries = await sharedService.GetCountries();
                     var address = await listingService.GetAddressByListingId(ListingId);
                     if (address != null)
                     {
                         IsAddressExist = true;
-                        AddressVM.CountryId = address.CountryID;
-                        AddressVM.StateId = address.StateID;
-                        AddressVM.CityId = address.City;
-                        AddressVM.StationId = address.AssemblyID;
-                        AddressVM.PincodeId = address.PincodeID;
-                        AddressVM.LocalityId = address.LocalityID;
-                        AddressVM.Address = address.LocalAddress;
-
+                        AddressVM.SetViewModel(address);
                         await GetStateByCountryId(null);
                         await GetCityByStateId(null);
                         await GetAreaByCityId(null);
@@ -132,13 +122,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 if (recordNotFound)
                     address = new BOL.LISTING.Address();
 
-                address.CountryID = AddressVM.CountryId;
-                address.StateID = AddressVM.StateId;
-                address.City = AddressVM.CityId;
-                address.AssemblyID = AddressVM.StationId;
-                address.PincodeID = AddressVM.PincodeId;
-                address.LocalityID = AddressVM.LocalityId;
-                address.LocalAddress = AddressVM.Address;
+                AddressVM.SetContextModel(address);
 
                 if (recordNotFound)
                 {
@@ -155,13 +139,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(address);
                 }
 
-                var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                if (listing.Steps < Constants.AddressComplete)
-                {
-                    listing.Steps = Constants.AddressComplete;
-                    await listingService.UpdateAsync(listing);
-                }
-
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.AddressComplete);
                 navManager.NavigateTo($"/MyAccount/Listing/Category");
             }
             catch (Exception exc)

@@ -30,7 +30,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             Paypal = paymentMode.Paypal;
         }
 
-        public void SetPaymentMode(PaymentMode paymentMode)
+        public void SetContextModel(PaymentMode paymentMode)
         {
             paymentMode.Cash = Cash;
             paymentMode.NetBanking = NetBanking;

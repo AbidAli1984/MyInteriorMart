@@ -47,15 +47,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     if (listing != null)
                     {
                         IsCompanyExists = true;
-                        CompanyVM.Name = listing.Name;
-                        CompanyVM.Gender = listing.Gender;
-                        CompanyVM.YearOfEstablishment = listing.YearOfEstablishment;
-                        CompanyVM.CompanyName = listing.CompanyName;
-                        CompanyVM.GSTNumber = listing.GSTNumber;
-                        CompanyVM.Turnover = listing.Turnover;
-                        CompanyVM.NumberOfEmployees = listing.NumberOfEmployees;
-                        CompanyVM.NatureOfBusiness = listing.NatureOfBusiness;
-                        CompanyVM.Designation = listing.Designation;
+                        CompanyVM.SetViewModel(listing);
                     }
                 }
             }
@@ -82,20 +74,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 if (recordNotFound)
                     listing = new Listing();
 
-                listing.Name = CompanyVM.Name;
-                listing.Gender = CompanyVM.Gender;
-                listing.YearOfEstablishment = CompanyVM.YearOfEstablishment.Value;
-                listing.CompanyName = CompanyVM.CompanyName;
-                listing.GSTNumber = CompanyVM.GSTNumber;
-                listing.Turnover = CompanyVM.Turnover;
-                listing.NumberOfEmployees = CompanyVM.NumberOfEmployees;
-                listing.NatureOfBusiness = CompanyVM.NatureOfBusiness;
-                listing.Designation = CompanyVM.Designation;
-                listing.ListingURL = CompanyVM.CompanyName.Replace(" ", "-");
+                CompanyVM.SetContextModel(listing);
                 
-                if (listing.Steps < Constants.CompanyComplete)
-                    listing.Steps = Constants.CompanyComplete;
-
                 if (recordNotFound)
                 {
                     DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));

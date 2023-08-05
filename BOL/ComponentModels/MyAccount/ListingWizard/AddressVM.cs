@@ -1,7 +1,6 @@
-﻿using BOL.SHARED;
-using System;
+﻿using BOL.LISTING;
+using BOL.SHARED;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BOL.ComponentModels.MyAccount.ListingWizard
 {
@@ -30,6 +29,28 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             Areas = new List<Station>();
             Pincodes = new List<Pincode>();
             Localities = new List<Locality>();
+        }
+
+        public void SetViewModel(Address address)
+        {
+            CountryId = address.CountryID;
+            StateId = address.StateID;
+            CityId = address.City;
+            StationId = address.AssemblyID;
+            PincodeId = address.PincodeID;
+            LocalityId = address.LocalityID;
+            Address = address.LocalAddress;
+        }
+
+        public void SetContextModel(Address address)
+        {
+            address.CountryID = CountryId;
+            address.StateID = StateId;
+            address.City = CityId;
+            address.AssemblyID = StationId;
+            address.PincodeID = PincodeId;
+            address.LocalityID = LocalityId;
+            address.LocalAddress = Address;
         }
 
         public bool isValid()
