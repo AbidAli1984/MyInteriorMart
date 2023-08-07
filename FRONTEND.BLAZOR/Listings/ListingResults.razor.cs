@@ -22,7 +22,7 @@ namespace FRONTEND.BLAZOR.Listings
         [Parameter]
         public string level { get; set; }
 
-        public IList<ListingResultVM> listLrvm = new List<ListingResultVM>();
+        public IList<ListingResultVM> ListingResultVM = new List<ListingResultVM>();
 
         // Begin: Get All Category Banner
         public int Banner1Count { get; set; }
@@ -46,7 +46,7 @@ namespace FRONTEND.BLAZOR.Listings
 
         public async Task PopulateListFLVM()
         {
-            listLrvm = await listingService.GetListings(url, level);
+            ListingResultVM = await listingService.GetListings(url, level);
             await Task.Delay(50);
         }
 

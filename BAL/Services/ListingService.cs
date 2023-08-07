@@ -38,7 +38,7 @@ namespace BAL.Services
         public async Task<IList<ListingResultVM>> GetListings(string url, string level)
         {
             IEnumerable<Categories> listCat = null;
-            IList<ListingResultVM> listLrvm = new List<ListingResultVM>();
+            IList<ListingResultVM> ListingResultVMs = new List<ListingResultVM>();
 
             if (level == Constants.LevelFirstCategory)
             {
@@ -87,6 +87,7 @@ namespace BAL.Services
                     var address = addresses.Where(x => x.ListingID == listingId).FirstOrDefault();
                     var assembly = await _sharedRepository.GetAreaByAreaId(address.AssemblyID);
                     var area = await _sharedRepository.GetLocalityByLocalityId(address.LocalityID);
+                    var logoImage = await _listingRepository.GetLogoImageByListingId(listingId);
 
                     var communication = communications.Where(x => x.ListingID == listingId).FirstOrDefault();
 
@@ -99,7 +100,7 @@ namespace BAL.Services
                     var ratingCount = rating.Count();
                     var ratingAverage = await GetRatingAverage(listingId);
 
-                    ListingResultVM lrvm = new ListingResultVM
+                    ListingResultVM ListingResultVM = new ListingResultVM
                     {
                         ListingId = listingId,
                         CompanyName = item.CompanyName,
@@ -113,14 +114,15 @@ namespace BAL.Services
                         BusinessYear = DateTime.Now.Year - item.YearOfEstablishment.Year,
                         BusinessWorking = businessWorking,
                         RatingAverage = ratingAverage,
-                        RatingCount = ratingCount
+                        RatingCount = ratingCount,
+                        LogoImage = logoImage,
                     };
 
-                    listLrvm.Add(lrvm);
+                    ListingResultVMs.Add(ListingResultVM);
                     // End: Add result to listLrvm
                 }
             }
-            return listLrvm;
+            return ListingResultVMs;
         }
 
         public async Task<ListingDetailVM> GetListingDetailByListingId(int listingId, string currentUserId)

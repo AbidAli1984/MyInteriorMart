@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BOL.LISTING.UploadImage;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,11 +17,15 @@ namespace BOL.ComponentModels.Listings
         public int RatingCount { get; set; }
         public int BusinessYear { get; set; }
         public BusinessWorkingHour BusinessWorking { get; set; } = new BusinessWorkingHour();
-
+        public LogoImage LogoImage { get; set; } = new LogoImage();
+        public string LogoImageUrl { 
+            get
+            {
+                return LogoImage == null || string.IsNullOrWhiteSpace(LogoImage.ImagePath) ? "/resources/img/hotel_2.jpg" : LogoImage.ImagePath;
+            }
+        }
 
         public string Url { get; set; }
-        public int SubCategoryId { get; set; }
         public string Email { get; set; }
-        public bool Claimed { get; set; }
     }
 }

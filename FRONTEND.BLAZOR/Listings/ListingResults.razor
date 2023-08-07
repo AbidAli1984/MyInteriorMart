@@ -133,15 +133,17 @@
                 </div>
             </div>
             <div class="col-lg-9 mb-space-remove">
-                @if (listLrvm != null)
+                @if (ListingResultVM != null)
                 {
-                    @foreach (var item in listLrvm)
+                    @foreach (var item in ListingResultVM)
                     {
                         <div class="strip map_view">
                             <div class="row no-gutters">
                                 <div class="col-4">
                                     <figure>
-                                        <a href="#"><img src="/resources/img/hotel_2.jpg" class="img-fluid" alt=""></a>
+                                        <a href="/Listing/Index/@item.ListingId">
+                                            <img src="@item.LogoImageUrl" class="img-fluid" alt="">
+                                        </a>
                                     </figure>
                                 </div>
                                 <div class="col-8">
