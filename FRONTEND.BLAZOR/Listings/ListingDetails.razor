@@ -353,16 +353,16 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="row">
-                                    @if (listingDetailVM.Communication.Website != null)
-                                    {
-                                        <div class="col-12 col-md-6 p-0 company-website">
+                                    <div class="col-12 col-md-6 p-0 company-website">
+                                        @if (listingDetailVM.Communication.Website != null)
+                                        {
                                             <i class="fa fa-globe"></i>
                                             <a href="@listingDetailVM.Communication.Website" target="_blank"
                                                title="@listingDetailVM.Communication.Website">
                                                 @listingDetailVM.Communication.Website
                                             </a>
-                                        </div>
-                                    }
+                                        }
+                                    </div>
                                     <div class="col-12 col-md-6 p-0 d-flex justify-content-end  company-establishment">
                                         <p class="mb-2"><i class="fa fa-calendar"></i> Year of Establishment @listingDetailVM.Listing.YearOfEstablishment.ToString("yyyy") </p>
                                     </div>
@@ -439,15 +439,15 @@
                             <div class="social-details">
                                 <a href="#enquiry-in-dialog1" title="Send Enquiry" id="enquiry-in" class="btn btn-success btn-sm">Enquire Now</a>
                                 @*@if (HideContact)
-        {
-            <button @onclick="@(async () => await ToggleContact())" class="btn btn-success btn-sm" id="ViewNumber"><i class="icon-eye"></i> Show Contact</button>
-        }
-        else
-        {
-            <button @onclick="@(async () => await ToggleContact())" class="btn btn-danger btn-sm" id="HideNumber">
-                <i class="icon-eye-off"></i> Hide Contact
-            </button>
-        }*@
+                                    {
+                                        <button @onclick="@(async () => await ToggleContact())" class="btn btn-success btn-sm" id="ViewNumber"><i class="icon-eye"></i> Show Contact</button>
+                                    }
+                                    else
+                                    {
+                                        <button @onclick="@(async () => await ToggleContact())" class="btn btn-danger btn-sm" id="HideNumber">
+                                            <i class="icon-eye-off"></i> Hide Contact
+                                        </button>
+                                    }*@
                                 <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
 
                                 @{
