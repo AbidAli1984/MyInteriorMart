@@ -518,6 +518,7 @@ footer ul {
 	font-size: 18px;
 	line-height: 20px;
 	font-family: "PoppinsSemiBold";
+	color: #444 !important;
 }
 
 .categories-list .item {
@@ -677,7 +678,7 @@ footer ul {
 }
 
 .padding-all-5 {
-	padding: 5px;
+	padding: 5px 10px;
 }
 
 .listing-details .company-details {
@@ -688,10 +689,10 @@ footer ul {
 	padding-right: 10px;
 	font-weight: 600;
 	font-family: 'PoppinsSemiBold';
-	width: 80%;
+	width: 100%;
 }
 .company-addes .company-rating {
-    float: right;
+	margin: 0 10px;	
 }
 .company-rating .cat_star {
 	display: inline-block;
@@ -719,7 +720,7 @@ footer ul {
 }
 
 .mim-Address p {
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 }
 
 .company-time {
@@ -728,7 +729,7 @@ footer ul {
 }
 
 .company-time .company-time-title {
-    margin: 12px 0px 10px 0px;
+    /* margin: 12px 0px 10px 0px; */
     color: #555555;
     font-weight: 400;
     font-family: 'Poppins';
@@ -810,7 +811,7 @@ footer ul {
 
 .company-website,
 .company-establishment {
-	font-size: 13px;
+	font-size: 0.875rem;
     line-height: 14px;
 }
 
@@ -844,7 +845,7 @@ footer ul {
 .review-form .btn-link {
 	color: #2f73b9;
 	padding: 0px;
-	font-size: 14px;
+	font-size: 15px;
     line-height: 16px;
 }
 
@@ -1050,17 +1051,17 @@ option[value=""][disabled] {
 		padding: 0px;
 	}
 	.listing-bottom-list .loc_open {
-		font-size: 12px;
+		font-size: 12.9px;
 		line-height: 14px;
 	}
 	.mb-space-remove {
 		padding: 0px;
 	}
 	.strip.map_view figure a img {
-		height: 125px;
+		height: 95px;
 	}
 	.strip.map_view figure {
-		height: 120px;
+		height: 92px;
 	}
 	.strip.map_view .listing-bottom-list li {
 		padding: 0px;
@@ -1068,21 +1069,23 @@ option[value=""][disabled] {
 	}
 	.strip.map_view .listing-bottom-list {
 		position: absolute;
-		top: -34px;
-		padding: 10px 10px;
+		top: 3px;
+		/* padding: 10px 10px; */
 		border-top: 0px;
-		left: calc(100% - 69%);
+		/* left: calc(100% - 69%); */
+		left: 10px;
 	}
 	.categories-list .item {
 		text-align: center;
-		display: inline-block;
+		display: block;
 		padding: 0px;
 	}
 	.categories-list .item .icon img {
 		text-align: center;
 	}
 	.categories-list .item .icon {
-		display: inline-block;
+		display: block;
+		margin: auto;
 		float: inherit;
 		margin-bottom: 10px;
 	}
