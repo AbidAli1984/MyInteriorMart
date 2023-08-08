@@ -24,6 +24,8 @@ namespace FRONTEND.BLAZOR.Listings
 
         public IList<ListingResultVM> ListingResultVM = new List<ListingResultVM>();
 
+        public int TotalPages { get; set; }
+
         // Begin: Get All Category Banner
         public int Banner1Count { get; set; }
         public int Banner2Count { get; set; }
@@ -34,6 +36,13 @@ namespace FRONTEND.BLAZOR.Listings
         {
             await PopulateListFLVM();
             await GetCategoryBannerListAsync();
+            if(ListingResultVM.Count > 0)
+            {
+                TotalPages = ListingResultVM.Count / 10;
+
+                if (ListingResultVM.Count % 10 > 0)
+                    TotalPages++;
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool render)

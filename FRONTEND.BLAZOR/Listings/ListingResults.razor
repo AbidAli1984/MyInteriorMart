@@ -4,49 +4,27 @@
 @inject SharedDbContext sharedContext
 @inject IJSRuntime jsRuntime
 
-
 <div class="container">
     <!--Category Banner Start-->
     <div class="banner-block one-block">
         <div class="row">
             <div class="col-12">
-                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (CategoryBannerList != null && Banner1Count != 0)
-                        {
+                @if (CategoryBannerList != null && Banner1Count != 0)
+                {
+                    // First Slide
+                    var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-1").FirstOrDefault();
+                    var img1st = firstSlide.BannerId + ".jpeg";
 
-                            // First Slide
-                            var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-1").FirstOrDefault();
-
-                            var img1st = firstSlide.BannerId + ".jpeg";
-
-                            <div class="carousel-item active">
-                                <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                    <img class="d-block w-100" src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
-                                </a>
-                            </div>
-
-
-                            // All Slides After First
-                            foreach (var ban in CategoryBannerList.Where(i => i.Placement == "banner-1").Skip(1))
-                            {
-                                var img = ban.BannerId + ".jpeg";
-                                <div class="carousel-item">
-                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/category/@img" alt="@ban.Name">
-                                    </a>
-
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="/banners/nayan-enterprises.jpg" alt="First slide">
-                            </div>
-                        }
+                    <a href="@firstSlide.LinkUrl" class="grid_item">
+                        <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
+                    </a>
+                }
+                else
+                {
+                    <div class="grid_item">
+                        <img src="/resources/img/listing-img.jpeg" alt="Banner">
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -56,80 +34,28 @@
         <div class="row">
             <div class="col-lg-3 listing-sidebar">
                 <div class="sider-card">
-                    <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                        <div class="carousel-inner">
-                            @if (CategoryBannerList != null && Banner2Count != 0)
-                            {
-                                // First Slide
-                                var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-2").FirstOrDefault();
-
-                                var img1st = firstSlide.BannerId + ".jpeg";
-
-                                <div class="carousel-item active">
-                                    <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
-                                    </a>
-                                </div>
-
-                                // All Slides After First
-                                foreach (var ban in CategoryBannerList.Where(i => i.Placement == "banner-2").Skip(1))
-                                {
-                                    var img = ban.BannerId + ".jpeg";
-                                    <div class="carousel-item">
-                                        <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                            <img class="d-block w-100" src="/CloudBox/category/@img" alt="@ban.Name">
-                                        </a>
-
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="carousel-item active">
-                                    <img class="d-block w-100" src="/banners/square banner 1.jpg" alt="First slide">
-                                </div>
-                            }
-                        </div>
-                    </div>
+                    @if (CategoryBannerList != null && Banner2Count != 0)
+                    {
+                        var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-2").FirstOrDefault();
+                        var img1st = firstSlide.BannerId + ".jpeg";
+                        <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
+                    }
+                    else
+                    {
+                        <img src="/banners/square banner 1.jpg" alt="">
+                    }
                 </div>
                 <div class="sider-card">
-                    <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                        <div class="carousel-inner">
-                            @if (CategoryBannerList != null && Banner3Count != 0)
-                            {
-
-                                // First Slide
-                                var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-3").FirstOrDefault();
-
-                                var img1st = firstSlide.BannerId + ".jpeg";
-
-                                <div class="carousel-item active">
-                                    <a href="@firstSlide.LinkUrl" target="@firstSlide.TargetWindow">
-                                        <img class="d-block w-100" src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
-                                    </a>
-                                </div>
-
-
-                                // All Slides After First
-                                foreach (var ban in CategoryBannerList.Where(i => i.Placement == "banner-3").Skip(1))
-                                {
-                                    var img = ban.BannerId + ".jpeg";
-                                    <div class="carousel-item">
-                                        <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                            <img class="d-block w-100" src="/CloudBox/category/@img" alt="@ban.Name">
-                                        </a>
-
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="carousel-item active">
-                                    <img class="d-block w-100" src="/banners/square banner 2.jpg" alt="First slide">
-                                </div>
-                            }
-                        </div>
-                    </div>
+                    @if (CategoryBannerList != null && Banner3Count != 0)
+                    {
+                        var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-3").FirstOrDefault();
+                        var img1st = firstSlide.BannerId + ".jpeg";
+                        <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
+                    }
+                    else
+                    {
+                        <img src="/banners/square banner 2.jpg" alt="">
+                    }
                 </div>
             </div>
             <div class="col-lg-9 mb-space-remove">
@@ -139,20 +65,21 @@
                     {
                         <div class="strip map_view">
                             <div class="row no-gutters">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <figure>
                                         <a href="/Listing/Index/@item.ListingId">
                                             <img src="@item.LogoImageUrl" class="img-fluid" alt="">
                                         </a>
                                     </figure>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-9">
                                     <div class="wrapper">
                                         <a href="#0" class="loc_open">Claim Listing</a>
                                         <h3><a href="/Listing/Index/@item.ListingId">@item.CompanyName</a></h3>
-                                        <small style="color: #495057 !important;">@item.SubCategory</small>
+                                        <small>@item.SubCategory <span class="mob_reating">@item.RatingAverage.ToString("0.0")<i class="icon_star active"></i></span></small>
                                         <p><a href="#0" onclick="onHtmlClick('Marker',1)" class="address">@item.Assembly, @item.Area</a></p>
                                         <p class="loc-time">
+                                            <i class="fa fa-clock-o"></i> :
                                             <b class="@(item.BusinessWorking.IsBusinessOpen ? "" : "text-danger")">@item.BusinessWorking.IsBusinessOpenText</b>
                                             @if (item.BusinessWorking.IsBusinessOpen)
                                             {
@@ -166,7 +93,7 @@
                                         @if (item.BusinessYear > 0)
                                         {
                                             <li>
-                                                <h4 class="business-year">@item.BusinessYear @(item.BusinessYear == 1 ? "Year" : "Years") in Business</h4>
+                                                <h4 class="business-year">+@item.BusinessYear @(item.BusinessYear == 1 ? "Year" : "Years") in Business</h4>
                                             </li>
                                         }
                                         <li>
@@ -195,6 +122,22 @@
                             </div>
                         </div>
                     }
+                    <div class="col-12 d-flex justify-content-end">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                @for (var pageno = 1; pageno <= TotalPages; pageno++)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#">@pageno</a></li>
+                                }
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 }
                 else
                 {
