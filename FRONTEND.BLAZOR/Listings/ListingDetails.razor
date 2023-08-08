@@ -354,10 +354,10 @@
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-12 col-md-6 p-0 company-website">
-                                        @if (listingDetailVM.Communication.Website != null)
+                                        @if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Website))
                                         {
                                             <i class="fa fa-globe"></i>
-                                            <a href="@listingDetailVM.Communication.Website" target="_blank"
+                                            <a href="http://@listingDetailVM.Communication.Website" target="_blank"
                                                title="@listingDetailVM.Communication.Website">
                                                 @listingDetailVM.Communication.Website
                                             </a>
@@ -497,32 +497,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="banner-block one-block">
-                        <div class="row">
+                    <div class="banner-block one-block my-5">
+                        <div class="row px-3">
                             <div class="col-12">
-                                <div class="mim-banner-carousel carousel slide carousel-fade" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @if (listingDetailVM.ListingBanners != null && listingDetailVM.ListingBanners.Count() > 0)
-                                        {
-                                            foreach (var ban in listingDetailVM.ListingBanners)
-                                            {
-                                                var img = ban.BannerId + ".jpeg";
-                                                <div class="carousel-item">
-                                                    <a href="@ban.LinkUrl" target="@ban.TargetWindow">
-                                                        <img class="d-block w-100" src="/CloudBox/listing/@img" alt="@ban.Name">
-                                                    </a>
-
-                                                </div>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <div class="carousel-item active">
-                                                <img class="d-block w-100" src="https://via.placeholder.com/900x250/09f.png/fff" alt="First slide">
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
+                                <h3>About Us </h3>
+                                <p>
+                                    @listingDetailVM.Listing.CompanyName
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -530,160 +511,50 @@
                         <div class="step">
                             <ul class="nav nav-tabs" id="tab_checkout" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="true">Services</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="enquire-tab" data-toggle="tab" href="#enquire" role="tab" aria-controls="enquire" aria-selected="true">Enquire Now</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="true">Reviews</a>
                                 </li>
                             </ul>
                             <div class="tab-content checkout">
-                                <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about">
-                                    <p>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        when an unknown printer took a galley of type and scrambled it to make a type
-                                        specimen book. It has survived not only five centuries, but also the leap into
-                                        electronic typesetting, remaining essentially unchanged. It was popularised in
-                                        the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                                        and more recently with desktop publishing software like Aldus PageMaker including
-                                        versions of Lorem Ipsum.
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen book. It has survived not only five centuries, but also the leap into
-                                    electronic typesetting, remaining essentially unchanged. It was popularised in
-                                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                                    and more recently with desktop publishing software like Aldus PageMaker including
-                                    versions of Lorem Ipsum.
-                                </div>
-                                <div class="tab-pane fade" id="enquire" role="tabpanel" aria-labelledby="enquire">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen book. It has survived not only five centuries, but also the leap into
-                                    electronic typesetting, remaining essentially unchanged. It was popularised in
-                                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                                    and more recently with desktop publishing software like Aldus PageMaker including
-                                    versions of Lorem Ipsum.mapDiv
-
-                                </div>
                                 <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews">
                                     <div class="review-form mb-3">
-                                        @if (userAuthenticated == false)
-                                        {
-                                            <a class="btn btn-link" href="/Identity/Account/Login" role="button">
-                                                <i class="icon-pencil"></i> Login to Write Review
-                                            </a>
-                                        }
-
-                                        @if (CurrentUserRating == null && userAuthenticated)
+                                        @if (userAuthenticated)
                                         {
                                             <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button" aria-expanded="false" aria-controls="WriteReview">
-                                                <i class="icon-pencil"></i> Write Review
+                                                <i class="icon-pencil"></i> @(CurrentUserRating == null ? "Write Review" : "Edit Review")
                                             </a>
-                                        }
-
-                                        @if (userAuthenticated && CurrentUserRating != null)
-                                        {
-                                            <a class="btn btn-link" data-toggle="collapse" href="#EditReview" role="button" aria-expanded="false" aria-controls="WriteReview">
-                                                <i class="icon-pencil"></i> Edit Review
-                                            </a>
-                                            <div class="add-review collapse" id="EditReview">
+                                            <div class="add-review collapse" id="WriteReview">
                                                 <div class="card card-body">
-                                                    <h6>Edit Review</h6>
+                                                    <h6>@(CurrentUserRating == null ? "Leave a Review" : "Edit Review")</h6>
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
                                                             <Rate @bind-Value="Rating" />
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label>Your Review</label>
-                                                            <textarea @bind="@Comment" name="review_text" id="review_text" class="form-control" style="height:130px;"></textarea>
+                                                            <textarea @bind="@Comment" name="review_text" id="review_text" class="form-control" style="height:130px !important;"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12 add_top_20 add_bottom_30">
-                                                            <button @onclick="@(async () => await EditSaveRatingAsync())">Save Rating</button>
+                                                            @if (CurrentUserRating == null)
+                                                            {
+                                                                <button class="btn btn-primary" @onclick="@(async () => await CreateRatingAsync())">Save Rating</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button @onclick="@(async () => await EditSaveRatingAsync())">Save Rating</button>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         }
-
-                                        <div class="add-review collapse" id="WriteReview">
-                                            <div class="card card-body">
-                                                <h6>Write Review</h6>
-                                                <div class="row">
-                                                    <div class="form-group col-md-6">
-                                                        <Rate @bind-Value="Rating" />
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label>Your Review</label>
-                                                        <textarea @bind="@Comment" name="review_text" id="review_text" class="form-control" style="height:130px;"></textarea>
-                                                    </div>
-                                                    <div class="form-group col-md-12 add_top_20 add_bottom_30">
-                                                        <button @onclick="@(async () => await CreateRatingAsync())">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        else
+                                        {
+                                            <a class="btn btn-link" href="/Auth/Login" role="button">
+                                                <i class="icon-pencil"></i> Login to Write Review
+                                            </a>
+                                        }
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-5 " id="RatingBar">
-                                            <div>
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="company-rating d-flex">
-                                                            <h4>4.0</h4>
-                                                            <div class="cat_star pl-2 pt-1">
-                                                                <i class="icon_star active"></i>
-                                                                <i class="icon_star active"></i>
-                                                                <i class="icon_star active"></i>
-                                                                <i class="icon_star active"></i>
-                                                                <i class="icon_star"></i>
-                                                            </div>
-                                                            <span class="pl-2 pt-1">based on 4 rating</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <span class="company-progress-star">5 <i class="icon-star-1"></i></span>
-                                                        <div class="progress company-progress">
-                                                            <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <span class="company-progress-star">4 <i class="icon-star-1"></i></span>
-                                                        <div class="progress company-progress">
-                                                            <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <span class="company-progress-star">3 <i class="icon-star-1"></i></span>
-                                                        <div class="progress company-progress">
-                                                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <span class="company-progress-star">2 <i class="icon-star-1"></i></span>
-                                                        <div class="progress company-progress">
-                                                            <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <span class="company-progress-star">1 <i class="icon-star-1"></i></span>
-                                                        <div class="progress company-progress">
-                                                            <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         @foreach (var review in listingDetailVM.listReviews)
                                         {
                                             <div class="col-12  col-lg-12 review-user">
@@ -692,7 +563,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="row">
                                                             <div class="col col-lg-1 text-center">
-                                                                <img src="resources/img/icon/profile.svg" class="rounded-circle img-thumbnail">
+                                                                <img src="@review.UserImage" class="rounded-circle img-thumbnail">
                                                             </div>
                                                             <div class="col-lg-10 pl-lg-0">
                                                                 <div class="cat_star">

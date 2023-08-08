@@ -420,29 +420,6 @@ namespace FRONTEND.BLAZOR.Listings
             }
         }
 
-        public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
-        public async Task GetReviewsAsync()
-        {
-            var listingAllReviews = await listingService.GetRatingsByListingId(Int32.Parse(ListingID));
-
-            foreach(var i in listingAllReviews)
-            {
-                var profile = await userProfileService.GetProfileByOwnerGuid(i.OwnerGuid);
-                ReviewListingViewModel rlvm = new ReviewListingViewModel
-                {
-                    ReviewID = i.RatingID,
-                    OwnerGuid = i.OwnerGuid,
-                    Comment = i.Comment,
-                    Date = i.Date,
-                    VisitTime = i.Time.ToString(),
-                    Ratings = i.Ratings,
-                };
-
-                rlvm.Name = profile != null ? profile.Name : "";
-                listReviews.Add(rlvm);
-            }
-        }
-
         public decimal Rating { get; set; }
         public string Comment { get; set; }
         public Rating CurrentUserRating { get; set; }
@@ -496,7 +473,7 @@ namespace FRONTEND.BLAZOR.Listings
                             };
 
                             await listingService.AddAsync(objRating);
-                            await GetReviewsAsync();
+                            await listingService.GetReviewsAsync(objRating.ListingID);
 
                             await NoticeWithIcon(NotificationType.Success, "Success", "Thank you for submitting your review.");
                         }
@@ -573,7 +550,7 @@ namespace FRONTEND.BLAZOR.Listings
                             }
 
                             await listingService.UpdateAsync(cur);
-                            await GetReviewsAsync();
+                            await listingService.GetReviewsAsync(cur.ListingID);
 
                             await NoticeWithIcon(NotificationType.Success, "Success", "Thank you for editing your review.");
                         }

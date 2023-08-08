@@ -221,16 +221,23 @@ namespace BAL.Services
             foreach (var i in listingAllReviews)
             {
                 var profile = await _userProfileRepository.GetProfileByOwnerGuid(i.OwnerGuid);
-                listReviews.Add(new ReviewListingViewModel
+                var reviewListingViewModel = new ReviewListingViewModel
                 {
                     ReviewID = i.RatingID,
                     OwnerGuid = i.OwnerGuid,
                     Comment = i.Comment,
                     Date = i.Date,
                     VisitTime = i.Time.ToString(),
-                    Ratings = i.Ratings,
-                    Name = profile == null ? "" : profile.Name
-                });
+                    Ratings = i.Ratings
+                };
+
+                if (profile != null)
+                {
+                    reviewListingViewModel.Name = profile.Name;
+                    reviewListingViewModel.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
+                }
+
+                listReviews.Add(reviewListingViewModel);
             }
             return listReviews;
         }

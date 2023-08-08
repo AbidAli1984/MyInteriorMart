@@ -10,6 +10,7 @@ namespace BOL.VIEWMODELS
         public int ListingId { get; set; }
         public string OwnerGuid { get; set; }
         public string Name { get; set; }
+        public string UserImage { get; set; }
         public string NameFirstLetter { get; set; }
         public string ListingUrl { get; set; }
         public string FirstCat { get; set; }

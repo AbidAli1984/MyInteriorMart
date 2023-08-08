@@ -9633,3 +9633,8 @@ article.blog .post_info {
     color: orange !important;
     cursor: pointer;
 }
+
+/* Ant design override */
+.ant-rate-star {
+    color: #fe900d;
+}
