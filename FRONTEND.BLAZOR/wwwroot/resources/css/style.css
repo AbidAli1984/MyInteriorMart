@@ -7345,31 +7345,14 @@ a.btn_3, .btn_3 {
     z-index: -1;
 }
 
-.clear:after, .pagination:after, .clear:before, .pagination:before {
+.clear:after {
     content: "";
     display: table;
 }
 
-.clear:after, .pagination:after {
+.clear:after {
     clear: both;
 }
-
-.pagination__wrapper {
-    height: 50px;
-    padding-top: 10px;
-    margin-bottom: 0;
-    position: relative;
-    text-align: center;
-    width: 100%;
-}
-
-    .pagination__wrapper:before {
-        top: -1px;
-    }
-
-    .pagination__wrapper:after {
-        bottom: -1px;
-    }
 
 @keyframes hoverAnimation {
     from {
@@ -7381,75 +7364,7 @@ a.btn_3, .btn_3 {
     }
 }
 
-.pagination {
-    display: inline-block;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
 
-    .pagination li {
-        display: block;
-        float: left;
-        padding: 5px;
-    }
-
-        .pagination li:first-child {
-            border: none;
-        }
-
-    .pagination a, .pagination span {
-        color: #fe900d;
-        display: block;
-    }
-
-.page-item.active .page-link {
-    background-color: #fe900d;
-    color: #fff;
-    border: none;
-}
-
-.pagination a {
-    outline: none;
-    position: relative;
-    transition: all 170ms linear;
-}
-
-    .pagination a:before {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 50%;
-        content: "";
-        cursor: pointer;
-        height: 0;
-        left: 50%;
-        opacity: 0;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        transition: all 170ms linear;
-        top: 50%;
-        width: 0;
-    }
-
-    .pagination a:hover:not(.active) {
-        color: black;
-    }
-
-        .pagination a:hover:not(.active):before {
-            animation: hoverAnimation 510ms linear forwards;
-            height: 40px;
-            width: 40px;
-        }
-
-    .pagination a.active {
-        background: #004dda;
-        color: white;
-        cursor: default;
-    }
-
-.pagination .prev,
-.pagination .next {
-    font-size: 14px;
-}
 
 .box_faq {
     position: relative;
@@ -9745,4 +9660,75 @@ article.blog .post_info {
 /* Ant design override */
 .ant-rate-star {
     color: #fe900d;
+}
+
+.ant-pagination {
+    color: #fe900d;
+    margin-bottom: 10px
+}
+
+    .ant-pagination a, .ant-pagination button {
+        padding: 4px 0 !important;
+        outline: none;
+        position: relative;
+        transition: all 170ms linear;
+        color: #fe900d;
+    }
+
+.ant-pagination-item-active {
+    background-color: #fe900d;
+    color: #fff;
+    cursor: default;
+    border: none;
+}
+
+.ant-pagination a:hover, .ant-pagination button:hover {
+    z-index: 2;
+    color: #0056b3;
+    text-decoration: none;
+    border-color: #dee2e6;
+}
+
+.ant-pagination a:before, .ant-pagination button:before {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    content: "";
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition: all 170ms linear;
+    top: 50%;
+    left: 50%;
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+
+.ant-pagination a:hover:not(.active) {
+    color: black;
+}
+
+    .ant-pagination a:hover:not(.active):before, .ant-pagination button:hover:not(.active):before {
+        animation: hoverAnimation 510ms linear forwards;
+        height: 40px;
+        width: 40px;
+    }
+
+.ant-pagination button {
+    font-size: 14px;
+}
+
+.ant-pagination .ant-pagination-prev button {
+    border-radius: 5px 0 0 5px;
+}
+
+.ant-pagination .ant-pagination-next button {
+    border-radius: 0 5px 5px 0;
+}
+
+.ant-pagination li {
+    height: auto;
+}
+
+.anticon {
+    vertical-align: unset;
 }

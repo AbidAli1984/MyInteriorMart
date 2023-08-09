@@ -4,17 +4,16 @@ using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.Pages;
 using BOL.LISTING;
 using BOL.LISTING.UploadImage;
+using BOL.SHARED;
 using BOL.VIEWMODELS;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BAL.Services.Contracts
 {
     public interface IListingService
     {
-        Task<IList<ListingResultVM>> GetListings(string url, string level);
+        Task<IList<ListingResultVM>> GetListings(string url, string level, PageVM pageVM);
 
         Task<ListingDetailVM> GetListingDetailByListingId(int listingId, string currentUserId);
 

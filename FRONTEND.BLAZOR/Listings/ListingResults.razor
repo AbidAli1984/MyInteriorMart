@@ -123,20 +123,10 @@
                         </div>
                     }
                     <div class="col-12 d-flex justify-content-end">
-                        <nav aria-label="...">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                </li>
-                                @for (var pageno = 1; pageno <= TotalPages; pageno++)
-                                {
-                                    <li class="page-item"><a class="page-link" href="#">@pageno</a></li>
-                                }
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <Pagination PageSize="@PageVM.PageSize"
+                                    Total="@PageVM.TotalData"
+                                    Current="@PageVM.CurrentPage"
+                                    OnChange="@(async(page) => await GetListings(page))" />
                     </div>
                 }
                 else

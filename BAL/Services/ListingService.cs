@@ -12,6 +12,7 @@ using BOL.ComponentModels.Listings;
 using System.IO;
 using BOL.LISTING.UploadImage;
 using BOL.ComponentModels.MyAccount.ListingWizard;
+using BOL.SHARED;
 
 namespace BAL.Services
 {
@@ -35,7 +36,7 @@ namespace BAL.Services
             _helperFunctions = helperFunctions;
         }
 
-        public async Task<IList<ListingResultVM>> GetListings(string url, string level)
+        public async Task<IList<ListingResultVM>> GetListings(string url, string level, PageVM pageVM)
         {
             IEnumerable<Categories> listCat = null;
             IList<ListingResultVM> ListingResultVMs = new List<ListingResultVM>();
@@ -71,7 +72,7 @@ namespace BAL.Services
                 listCat = await _listingRepository.GetCategoriesBySixthCategoryId(id.SixthCategoryID);
             }
 
-            if (listCat.Count() > 0)
+            if (listCat.Count() >= pageVM.FromPageNo)
             {
                 int[] listingIds = listCat.Select(x => x.ListingID).ToArray();
                 var approvedlistings = await _listingRepository.GetApprovedListingsByListingIds(listingIds);
@@ -79,6 +80,8 @@ namespace BAL.Services
                 var addresses = await _listingRepository.GetAddressesByListingIds(approvedListingIds);
                 var communications = await _listingRepository.GetCommunicationsByListingIds(approvedListingIds);
 
+                pageVM.TotalData = approvedlistings.Count();
+                approvedlistings = approvedlistings.Skip(pageVM.FromPageNo).Take(pageVM.PageSize);
                 // Begin: Add result to listLrvm
                 foreach (var item in approvedlistings)
                 {

@@ -1,6 +1,8 @@
-﻿using BAL.Services.Contracts;
+﻿using AntDesign;
+using BAL.Services.Contracts;
 using BOL.BANNERADS;
 using BOL.ComponentModels.Listings;
+using BOL.SHARED;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
@@ -24,7 +26,7 @@ namespace FRONTEND.BLAZOR.Listings
 
         public IList<ListingResultVM> ListingResultVM = new List<ListingResultVM>();
 
-        public int TotalPages { get; set; }
+        public PageVM PageVM { get; set; } = new PageVM();
 
         // Begin: Get All Category Banner
         public int Banner1Count { get; set; }
@@ -34,15 +36,8 @@ namespace FRONTEND.BLAZOR.Listings
 
         protected async override Task OnInitializedAsync()
         {
-            await PopulateListFLVM();
+            await GetListings(null);
             await GetCategoryBannerListAsync();
-            if(ListingResultVM.Count > 0)
-            {
-                TotalPages = ListingResultVM.Count / 10;
-
-                if (ListingResultVM.Count % 10 > 0)
-                    TotalPages++;
-            }
         }
 
         protected override async Task OnAfterRenderAsync(bool render)
@@ -53,14 +48,23 @@ namespace FRONTEND.BLAZOR.Listings
             }
         }
 
-        public async Task PopulateListFLVM()
+        public string paginationrender()
         {
-            ListingResultVM = await listingService.GetListings(url, level);
+            //if (paginationOptions == PaginationItemType.Next)
+            //    return "<a>Next</a>";
+            return "";
+        }
+
+        public async Task GetListings(PaginationEventArgs e)
+        {
+            if (e != null)
+                PageVM.CurrentPage = e.Page;
+            ListingResultVM = await listingService.GetListings(url, level, PageVM);
             await Task.Delay(50);
         }
 
-
         public IEnumerable<CategoryBanner> CategoryBannerList { get; set; }
+
         public async Task GetCategoryBannerListAsync()
         {
             var thirdCat = await categoriesContext.ThirdCategory
