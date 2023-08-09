@@ -213,6 +213,14 @@ namespace DAL.Repositories
                 .OrderBy(i => i.Priority)
                 .ToListAsync();
         }
+
+        public async Task<IList<CategoryBanner>> GetCategoryBannersByThirtCategoryId(int thirdCategoryId)
+        {
+            return await _listingDbContext.CategoryBanner
+                .Where(i => i.ThirdCategoryID == thirdCategoryId)
+                .OrderBy(i => i.Priority)
+                .ToListAsync();
+        }
         #endregion
 
         #region Upload Images

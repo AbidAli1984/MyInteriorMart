@@ -53,6 +53,7 @@ namespace DAL.Repositories.Contracts
 
         #region Banner
         Task<IList<HomeBanner>> GetHomeBannerList();
+        Task<IList<CategoryBanner>> GetCategoryBannersByThirtCategoryId(int thirdCategoryId);
         #endregion
 
         #region Upload Images

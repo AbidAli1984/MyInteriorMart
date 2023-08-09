@@ -362,6 +362,20 @@ namespace BAL.Services
             };
             return indexVM;
         }
+
+        public async Task<ListingResultBannerVM> GetListingResultBannersByUrl(string url)
+        {
+            var thirdCategory = await _categoryRepository.GetThirdCategoryByURL(url);
+            var CategoryBanners = await _listingRepository.GetCategoryBannersByThirtCategoryId(thirdCategory.ThirdCategoryID);
+
+            ListingResultBannerVM indexVM = new ListingResultBannerVM()
+            {
+                CategoryBannersTop = CategoryBanners.Where(i => i.Placement == "banner-1").ToList(),
+                CategoryBannersLeftTop = CategoryBanners.Where(i => i.Placement == "banner-2").ToList(),
+                CategoryBannersLeftBottom = CategoryBanners.Where(i => i.Placement == "banner-3").ToList()
+            };
+            return indexVM;
+        }
         #endregion
 
         #region Upload Images

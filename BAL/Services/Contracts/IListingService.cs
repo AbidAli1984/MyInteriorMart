@@ -53,6 +53,7 @@ namespace BAL.Services.Contracts
 
         #region Banner
         Task<IndexVM> GetHomeBannerList();
+        Task<ListingResultBannerVM> GetListingResultBannersByUrl(string url);
         #endregion
 
         #region Upload Images

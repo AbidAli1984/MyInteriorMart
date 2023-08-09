@@ -1,4 +1,5 @@
-﻿using BOL.LISTING.UploadImage;
+﻿using BOL.BANNERADS;
+using BOL.LISTING.UploadImage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,5 +28,12 @@ namespace BOL.ComponentModels.Listings
 
         public string Url { get; set; }
         public string Email { get; set; }
+    }
+
+    public class ListingResultBannerVM
+    {
+        public IEnumerable<CategoryBanner> CategoryBannersTop { get; set; }
+        public IEnumerable<CategoryBanner> CategoryBannersLeftTop { get; set; }
+        public IEnumerable<CategoryBanner> CategoryBannersLeftBottom { get; set; }
     }
 }

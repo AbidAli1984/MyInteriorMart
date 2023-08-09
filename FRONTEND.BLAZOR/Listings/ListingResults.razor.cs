@@ -26,6 +26,8 @@ namespace FRONTEND.BLAZOR.Listings
 
         public IList<ListingResultVM> ListingResultVM = new List<ListingResultVM>();
 
+        public ListingResultBannerVM ListingResultBannerVM { get; set; } = new ListingResultBannerVM();
+
         public PageVM PageVM { get; set; } = new PageVM();
 
         // Begin: Get All Category Banner
@@ -37,7 +39,7 @@ namespace FRONTEND.BLAZOR.Listings
         protected async override Task OnInitializedAsync()
         {
             await GetListings(null);
-            await GetCategoryBannerListAsync();
+            ListingResultBannerVM = await listingService.GetListingResultBannersByUrl(url);
         }
 
         protected override async Task OnAfterRenderAsync(bool render)
@@ -46,13 +48,6 @@ namespace FRONTEND.BLAZOR.Listings
             {
                 await jsRuntime.InvokeVoidAsync("InitializeCarousel");
             }
-        }
-
-        public string paginationrender()
-        {
-            //if (paginationOptions == PaginationItemType.Next)
-            //    return "<a>Next</a>";
-            return "";
         }
 
         public async Task GetListings(PaginationEventArgs e)
@@ -64,23 +59,5 @@ namespace FRONTEND.BLAZOR.Listings
         }
 
         public IEnumerable<CategoryBanner> CategoryBannerList { get; set; }
-
-        public async Task GetCategoryBannerListAsync()
-        {
-            var thirdCat = await categoriesContext.ThirdCategory
-                .Where(i => i.URL == url)
-                .FirstOrDefaultAsync();
-
-            CategoryBannerList = await listingContext.CategoryBanner
-                .Where(i => i.ThirdCategoryID == thirdCat.ThirdCategoryID)
-                .OrderBy(i => i.Priority)
-                .ToListAsync();
-
-            Banner1Count = CategoryBannerList.Where(i => i.Placement == "banner-1").Count();
-
-            Banner2Count = CategoryBannerList.Where(i => i.Placement == "banner-2").Count();
-
-            Banner3Count = CategoryBannerList.Where(i => i.Placement == "banner-3").Count();
-        }
     }
 }

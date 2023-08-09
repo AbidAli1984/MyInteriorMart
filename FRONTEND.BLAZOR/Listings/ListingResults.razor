@@ -9,10 +9,10 @@
     <div class="banner-block one-block">
         <div class="row">
             <div class="col-12">
-                @if (CategoryBannerList != null && Banner1Count != 0)
+                @if (ListingResultBannerVM.CategoryBannersTop != null && ListingResultBannerVM.CategoryBannersTop.Count() > 0)
                 {
                     // First Slide
-                    var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-1").FirstOrDefault();
+                    var firstSlide = ListingResultBannerVM.CategoryBannersTop.FirstOrDefault();
                     var img1st = firstSlide.BannerId + ".jpeg";
 
                     <a href="@firstSlide.LinkUrl" class="grid_item">
@@ -34,9 +34,9 @@
         <div class="row">
             <div class="col-lg-3 listing-sidebar">
                 <div class="sider-card">
-                    @if (CategoryBannerList != null && Banner2Count != 0)
+                    @if (ListingResultBannerVM.CategoryBannersLeftTop != null && ListingResultBannerVM.CategoryBannersLeftTop.Count() > 0)
                     {
-                        var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-2").FirstOrDefault();
+                        var firstSlide = ListingResultBannerVM.CategoryBannersLeftTop.FirstOrDefault();
                         var img1st = firstSlide.BannerId + ".jpeg";
                         <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
                     }
@@ -46,9 +46,9 @@
                     }
                 </div>
                 <div class="sider-card">
-                    @if (CategoryBannerList != null && Banner3Count != 0)
+                    @if (ListingResultBannerVM.CategoryBannersLeftBottom != null && ListingResultBannerVM.CategoryBannersLeftBottom.Count() > 0)
                     {
-                        var firstSlide = CategoryBannerList.Where(i => i.Placement == "banner-3").FirstOrDefault();
+                        var firstSlide = ListingResultBannerVM.CategoryBannersLeftBottom.FirstOrDefault();
                         var img1st = firstSlide.BannerId + ".jpeg";
                         <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
                     }
