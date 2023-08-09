@@ -8,9 +8,12 @@ namespace DAL.Repositories.Contracts
 {
     public interface IAuditRepository
     {
-        Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid);
-        Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid);
-        Task<bool> CheckIfUserLikedListing(int listingId, string userGuid);
+        Task<object> AddAsync(object data);
+        Task UpdateAsync(object data);
+
+        Task<Subscribes> GetSubscribeByListingAndUserId(int listingId, string userGuid);
+        Task<Bookmarks> GetBookmarkByListingAndUserId(int listingId, string userGuid);
+        Task<ListingLikeDislike> GetLikeByListingAndUserId(int listingId, string userGuid);
 
         Task<IEnumerable<Subscribes>> GetSubscriberByListingId(int listingId);
         Task<IEnumerable<Bookmarks>> GetBookmarksByListingId(int listingId);

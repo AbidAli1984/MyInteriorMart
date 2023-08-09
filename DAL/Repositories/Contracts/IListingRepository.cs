@@ -45,7 +45,7 @@ namespace DAL.Repositories.Contracts
         Task<Specialisation> GetSpecialisationByListingId(int listingId);
 
         Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId);
-        Task<Rating> GetRatingsByListingIdAndOwnerId(int listingId, string ownerId);
+        Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId);
 
         Task<object> AddAsync(object data);
 

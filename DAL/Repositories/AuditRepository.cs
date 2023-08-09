@@ -18,22 +18,35 @@ namespace DAL.Repositories
             this._auditDbContext = auditDbContext;
         }
 
-        public async Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid)
+        public async Task<object> AddAsync(object data)
+        {
+            await _auditDbContext.AddAsync(data);
+            await _auditDbContext.SaveChangesAsync();
+            return data;
+        }
+
+        public async Task UpdateAsync(object data)
+        {
+            _auditDbContext.Update(data);
+            await _auditDbContext.SaveChangesAsync();
+        }
+
+        public async Task<Subscribes> GetSubscribeByListingAndUserId(int listingId, string userGuid)
         {
             return await _auditDbContext.Subscribes
-                .AnyAsync(i => i.ListingID == listingId && i.UserGuid == userGuid && i.Subscribe);
+                .FirstOrDefaultAsync(i => i.ListingID == listingId && i.UserGuid == userGuid);
         }
 
-        public async Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid)
+        public async Task<Bookmarks> GetBookmarkByListingAndUserId(int listingId, string userGuid)
         {
             return await _auditDbContext.Bookmarks
-                .AnyAsync(i => i.ListingID == listingId && i.UserGuid == userGuid && i.Bookmark);
+                .FirstOrDefaultAsync(i => i.ListingID == listingId && i.UserGuid == userGuid);
         }
 
-        public async Task<bool> CheckIfUserLikedListing(int listingId, string userGuid)
+        public async Task<ListingLikeDislike> GetLikeByListingAndUserId(int listingId, string userGuid)
         {
             return await _auditDbContext.ListingLikeDislike
-                .AnyAsync(i => i.ListingID == listingId && i.UserGuid == userGuid && i.Like);
+                .FirstOrDefaultAsync(i => i.ListingID == listingId && i.UserGuid == userGuid);
         }
 
         public async Task<IEnumerable<Subscribes>> GetSubscriberByListingId(int listingId)

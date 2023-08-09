@@ -132,6 +132,10 @@ i.fa {
     margin: 0 5px;
 }
 
+.social-share i.fa {
+    font-size: inherit;
+}
+
 @media only screen and (min-width: 1200px) and (max-width: 1499px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (max-width: 767.98px) {
     .slick-arrow-style:hover button.slick-arrow.slick-prev {
         left: -20px;

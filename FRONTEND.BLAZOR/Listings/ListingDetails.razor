@@ -13,6 +13,13 @@
         {
             <div class="col-lg-3 individual-listing-sidebar padding-5">
                 <div class="box_detail_cus">
+                    <div class="p-3">
+                        <div class="user_logo_sec">
+                            <img src="resources/img/furniture-design.jpg" alt="img" class="user_log_img">
+                        </div>
+                    </div>
+                </div>
+                <div class="box_detail_cus">
                     <div class="cust-profile">
                         @if (listingDetailVM.OwnerImages == null || listingDetailVM.OwnerImages.Count <= 0)
                         {
@@ -36,8 +43,13 @@
                                             <img src="@image.ImagePath" alt="profile">
                                             <h4 class="cust-name">@image.OwnerName</h4>
                                             <span class="cust-type">@image.Designation</span>
+                                            <div style="margin-top: 10px; color: #000;">
+                                                <span>[Cast]</span>, <span>[Religion]</span> <br>
+                                                <span>@listingDetailVM.Address.State</span>, <span>@listingDetailVM.Address.Country</span>
+                                            </div>
                                         </div>
                                     }
+                                    @{ count = 0; }
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
                                    data-slide="prev">
@@ -50,7 +62,7 @@
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-                        }
+                                        }
                     </div>
                 </div>
                 <div class="listing-specialisat box_detail_cus">
@@ -67,127 +79,127 @@
                     <ul class="listing-specialisat-list">
                         @if (listingDetailVM.Specialisation.AcceptTenderWork)
                         {
-                            <li><i class="icon-check-1"></i> Accept Tender Work</li>
+                            <li><i class="fa fa-check"></i> Accept Tender Work</li>
                         }
                         @if (listingDetailVM.Specialisation.Banks)
                         {
-                            <li><i class="icon-check-1"></i> Bank</li>
+                            <li><i class="fa fa-check"></i> Bank</li>
                         }
                         @if (listingDetailVM.Specialisation.ExhibitionStall)
                         {
-                            <li><i class="icon-check-1"></i> Exhibition Stall</li>
+                            <li><i class="fa fa-check"></i> Exhibition Stall</li>
                         }
                         @if (listingDetailVM.Specialisation.Hotel)
                         {
-                            <li><i class="icon-check-1"></i> Hotel</li>
+                            <li><i class="fa fa-check"></i> Hotel</li>
                         }
                         @if (listingDetailVM.Specialisation.Restaurants)
                         {
-                            <li><i class="icon-check-1"></i> Restaurants</li>
+                            <li><i class="fa fa-check"></i> Restaurants</li>
                         }
                         @if (listingDetailVM.Specialisation.BeautyParlors)
                         {
-                            <li><i class="icon-check-1"></i> Beauty Parlors</li>
+                            <li><i class="fa fa-check"></i> Beauty Parlors</li>
                         }
                         @if (listingDetailVM.Specialisation.Factory)
                         {
-                            <li><i class="icon-check-1"></i> Factory</li>
+                            <li><i class="fa fa-check"></i> Factory</li>
                         }
                         @if (listingDetailVM.Specialisation.Laboratory)
                         {
-                            <li><i class="icon-check-1"></i> Laboratory</li>
+                            <li><i class="fa fa-check"></i> Laboratory</li>
                         }
                         @if (listingDetailVM.Specialisation.Salons)
                         {
-                            <li><i class="icon-check-1"></i> Salons</li>
+                            <li><i class="fa fa-check"></i> Salons</li>
                         }
                         @if (listingDetailVM.Specialisation.Bungalow)
                         {
-                            <li><i class="icon-check-1"></i> Bungalow</li>
+                            <li><i class="fa fa-check"></i> Bungalow</li>
                         }
                         @if (listingDetailVM.Specialisation.Farmhouse)
                         {
-                            <li><i class="icon-check-1"></i> Farmhouse</li>
+                            <li><i class="fa fa-check"></i> Farmhouse</li>
                         }
                         @if (listingDetailVM.Specialisation.Mandir)
                         {
-                            <li><i class="icon-check-1"></i> Mandir</li>
+                            <li><i class="fa fa-check"></i> Mandir</li>
                         }
                         @if (listingDetailVM.Specialisation.Shop)
                         {
-                            <li><i class="icon-check-1"></i> Shop</li>
+                            <li><i class="fa fa-check"></i> Shop</li>
                         }
                         @if (listingDetailVM.Specialisation.CallCenter)
                         {
-                            <li><i class="icon-check-1"></i> Call Center</li>
+                            <li><i class="fa fa-check"></i> Call Center</li>
                         }
                         @if (listingDetailVM.Specialisation.Gurudwara)
                         {
-                            <li><i class="icon-check-1"></i> Gurudwara</li>
+                            <li><i class="fa fa-check"></i> Gurudwara</li>
                         }
                         @if (listingDetailVM.Specialisation.Mosque)
                         {
-                            <li><i class="icon-check-1"></i> Mosque</li>
+                            <li><i class="fa fa-check"></i> Mosque</li>
                         }
                         @if (listingDetailVM.Specialisation.ShoppingMall)
                         {
-                            <li><i class="icon-check-1"></i> Shopping Mall</li>
+                            <li><i class="fa fa-check"></i> Shopping Mall</li>
                         }
                         @if (listingDetailVM.Specialisation.Church)
                         {
-                            <li><i class="icon-check-1"></i> Church</li>
+                            <li><i class="fa fa-check"></i> Church</li>
                         }
                         @if (listingDetailVM.Specialisation.Gym)
                         {
-                            <li><i class="icon-check-1"></i> Gym</li>
+                            <li><i class="fa fa-check"></i> Gym</li>
                         }
                         @if (listingDetailVM.Specialisation.Office)
                         {
-                            <li><i class="icon-check-1"></i> Office</li>
+                            <li><i class="fa fa-check"></i> Office</li>
                         }
                         @if (listingDetailVM.Specialisation.Showroom)
                         {
-                            <li><i class="icon-check-1"></i> Showroom</li>
+                            <li><i class="fa fa-check"></i> Showroom</li>
                         }
                         @if (listingDetailVM.Specialisation.Company)
                         {
-                            <li><i class="icon-check-1"></i> Company</li>
+                            <li><i class="fa fa-check"></i> Company</li>
                         }
                         @if (listingDetailVM.Specialisation.HealthClub)
                         {
-                            <li><i class="icon-check-1"></i> Health Club</li>
+                            <li><i class="fa fa-check"></i> Health Club</li>
                         }
                         @if (listingDetailVM.Specialisation.Plazas)
                         {
-                            <li><i class="icon-check-1"></i> Plazas</li>
+                            <li><i class="fa fa-check"></i> Plazas</li>
                         }
                         @if (listingDetailVM.Specialisation.Warehouse)
                         {
-                            <li><i class="icon-check-1"></i> Warehouse</li>
+                            <li><i class="fa fa-check"></i> Warehouse</li>
                         }
                         @if (listingDetailVM.Specialisation.ComputerInstitute)
                         {
-                            <li><i class="icon-check-1"></i> Computer Institute</li>
+                            <li><i class="fa fa-check"></i> Computer Institute</li>
                         }
                         @if (listingDetailVM.Specialisation.Home)
                         {
-                            <li><i class="icon-check-1"></i> Home</li>
+                            <li><i class="fa fa-check"></i> Home</li>
                         }
                         @if (listingDetailVM.Specialisation.ResidentialSociety)
                         {
-                            <li><i class="icon-check-1"></i> Residential Society</li>
+                            <li><i class="fa fa-check"></i> Residential Society</li>
                         }
                         @if (listingDetailVM.Specialisation.Dispensary)
                         {
-                            <li><i class="icon-check-1"></i> Dispensary</li>
+                            <li><i class="fa fa-check"></i> Dispensary</li>
                         }
                         @if (listingDetailVM.Specialisation.Hospital)
                         {
-                            <li><i class="icon-check-1"></i> Hospital</li>
+                            <li><i class="fa fa-check"></i> Hospital</li>
                         }
                         @if (listingDetailVM.Specialisation.Resorts)
                         {
-                            <li><i class="icon-check-1"></i> Resorts</li>
+                            <li><i class="fa fa-check"></i> Resorts</li>
                         }
                     </ul>
                 </div>
@@ -196,47 +208,47 @@
                     <ul class="listing-specialisat-list">
                         @if (listingDetailVM.PaymentMode.Cash)
                         {
-                            <li><i class="icon-check-1"></i> Cash</li>
+                            <li><i class="fa fa-check"></i> Cash</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.NetBanking)
                         {
-                            <li><i class="icon-check-1"></i> Net Banking</li>
+                            <li><i class="fa fa-check"></i> Net Banking</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.Cheque)
                         {
-                            <li><i class="icon-check-1"></i> Cheque</li>
+                            <li><i class="fa fa-check"></i> Cheque</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.RtgsNeft)
                         {
-                            <li><i class="icon-check-1"></i> RTGS &amp; NEFT</li>
+                            <li><i class="fa fa-check"></i> RTGS &amp; NEFT</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.DebitCard)
                         {
-                            <li><i class="icon-check-1"></i> Debit Card</li>
+                            <li><i class="fa fa-check"></i> Debit Card</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.CreditCard)
                         {
-                            <li><i class="icon-check-1"></i> Credit Card</li>
+                            <li><i class="fa fa-check"></i> Credit Card</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.PayTM)
                         {
-                            <li><i class="icon-check-1"></i> Pay TM</li>
+                            <li><i class="fa fa-check"></i> Pay TM</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.PhonePay)
                         {
-                            <li><i class="icon-check-1"></i> Phone Pay</li>
+                            <li><i class="fa fa-check"></i> Phone Pay</li>
                         }
 
                         @if (listingDetailVM.PaymentMode.Paypal)
                         {
-                            <li><i class="icon-check-1"></i> Paypal</li>
+                            <li><i class="fa fa-check"></i> Paypal</li>
                         }
                     </ul>
                 </div>
@@ -251,11 +263,6 @@
                 </div>
                 <div class="company-listing-main">
                     <div class="listing-details">
-                        @*<div class="col-lg-4 col-md-12 company-map padding-all-5">
-                                <div class="gmap_canvas">
-                                    <iframe width="100%" height="315" id="gmap_canvas" src="https://maps.google.com/maps?q=Creative&#x2B;Concept&#x2B;Pvt.&#x2B;Ltd.&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                                </div>
-                            </div>*@
                         <div class="col-lg-4 col-md-12 company-map padding-all-5">
                             @if (listingDetailVM.GalleryImages != null && listingDetailVM.GalleryImages.Count > 0)
                             {
@@ -266,7 +273,6 @@
                                             <a href="@image.ImagePath" class="big">
                                                 <img src="@image.ImagePath" alt="Gallery Image" style="width: 100%;" />
                                             </a>
-                                            <p class="gallery_img_title">@image.ImageTitle</p>
                                         </div>
                                     }
                                 </div>
@@ -284,12 +290,9 @@
                             <div class="company-addes">
                                 <div class="company-details">
                                     <h5 class="company-name">@listingDetailVM.Listing.CompanyName</h5>
-                                    <small>
-                                        <a href="#0" class="claimbusiness"><i class="icon-pencil-1"></i>write a preview</a>
-                                    </small>
                                 </div>
                                 <span class="company-category-name">@listingDetailVM.FirstCategory > @listingDetailVM.SecondCategory</span>
-                                <div class="company-rating">
+                                <span class="company-rating">
                                     @listingDetailVM.RatingAverage.ToString("0.0")
                                     <div class="cat_star">
                                         <i class="icon_star @(listingDetailVM.RatingAverage >= 1 ? "active" : "")"></i>
@@ -299,7 +302,7 @@
                                         <i class="icon_star @(listingDetailVM.RatingAverage >= 5 ? "active" : "")"></i>
                                     </div>
                                     @listingDetailVM.RatingCount ratings
-                                </div>
+                                </span>
                             </div>
                             <div class="col-lg-12 mim-Address">
                                 <p>
@@ -311,62 +314,60 @@
                                     <span>@listingDetailVM.Address.Assembly, @listingDetailVM.Address.City - @listingDetailVM.Address.Pincode, @listingDetailVM.Address.State,  @listingDetailVM.Address.Country </span>
                                     <a href="" @onclick:preventDefault @onclick="@(async () => await ToggleCompleteAddressAsync())">@(ToggleCompleteAddress ? "less" : "more")...</a>
                                 </p>
-
                                 <p>
-                                    <i class="fa fa-map-signs"></i> @listingDetailVM.Address.Assembly
-                                    <span><i class="fa fa-map-o"></i> @listingDetailVM.Address.City</span>
+                                    <span><i class="fa fa-map-o"></i> @listingDetailVM.Address.Locality</span>
+                                    <span style="float: right;"><i class="fa fa-map-signs"></i> @listingDetailVM.Address.Assembly</span>
                                 </p>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-md-6 p-0">
-                                        @if (listingDetailVM.Communication != null)
-                                        {
-                                            <i class="fa fa-phone"></i>
-                                            if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Mobile))
-                                            {
-                                                <a href="tel:@listingDetailVM.Communication.Mobile" title="Call Now">@listingDetailVM.Communication.Mobile</a>
-                                            }
-                                            if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Whatsapp))
-                                            {
-                                                <a href="tel:@listingDetailVM.Communication.Whatsapp" title="Whatsapp"> | @listingDetailVM.Communication.Whatsapp</a>
-                                            }
-                                            if (listingDetailVM.Communication.Telephone != null)
-                                            {
-                                                <a href="tel:@listingDetailVM.Communication.Telephone" title="Telephone 1"> | @listingDetailVM.Communication.Telephone</a>
-                                            }
-                                            if (listingDetailVM.Communication.TelephoneSecond != null)
-                                            {
-                                                <a href="tel:@listingDetailVM.Communication.TelephoneSecond" title="Telephone 2"> | @listingDetailVM.Communication.TelephoneSecond</a>
-                                            }
-                                        }
-                                    </div>
+                            <div class="col-12 col-md-6 mb-1 p-0 company-website">
+                                @if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Website))
+                                {
+                                    <i class="fa fa-globe"></i>
+                                    <a href="http://@listingDetailVM.Communication.Website" target="_blank"
+                                       title="@listingDetailVM.Communication.Website">
+                                        @listingDetailVM.Communication.Website
+                                    </a>
+                                }
+                            </div>
+                            <div class="col-lg-12 mb-1 px-0 year_gst">
+                                <p class="m-0"><i class="icon-calendar-5"></i> Year of Establishment @listingDetailVM.Listing.YearOfEstablishment.ToString("yyyy") </p>
+                                <p class="m-0">
                                     @if (!string.IsNullOrWhiteSpace(@listingDetailVM.Listing.GSTNumber))
                                     {
-                                        <div class="col-md-6 p-0 d-flex justify-content-end">
-                                            <p class="mb-2">
-                                                <b>GST NO : </b>@listingDetailVM.Listing.GSTNumber
-                                            </p>
-                                        </div>
+                                        <b>GST NO : </b>@listingDetailVM.Listing.GSTNumber
                                     }
-                                </div>
+                                </p>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-12 col-md-6 p-0 company-website">
-                                        @if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Website))
-                                        {
-                                            <i class="fa fa-globe"></i>
-                                            <a href="http://@listingDetailVM.Communication.Website" target="_blank"
-                                               title="@listingDetailVM.Communication.Website">
-                                                @listingDetailVM.Communication.Website
-                                            </a>
-                                        }
-                                    </div>
-                                    <div class="col-12 col-md-6 p-0 d-flex justify-content-end  company-establishment">
-                                        <p class="mb-2"><i class="fa fa-calendar"></i> Year of Establishment @listingDetailVM.Listing.YearOfEstablishment.ToString("yyyy") </p>
-                                    </div>
-                                </div>
+                            <div class="col-lg-12 px-0 mb-1 year_gst mt-0">
+                                <p class="mb-0"><i class="icon-user-5"></i> [Number of Users] </p>
+                                <p class="mb-0">
+                                    <b>Turnover : </b>@listingDetailVM.Listing.Turnover.
+                                </p>
+                            </div>
+                            <div class="col-lg-12 mb-1 p-0">
+                                @if (listingDetailVM.Communication != null)
+                                {
+                                    if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Mobile))
+                                    {
+                                        <i class="fa fa-mobile"></i>
+                                        <a href="tel:@listingDetailVM.Communication.Mobile" title="Call Now">@listingDetailVM.Communication.Mobile &nbsp;</a>
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(listingDetailVM.Communication.Whatsapp))
+                                    {
+                                        <i class="fa fa-whatsapp"></i>
+                                        <a href="tel:@listingDetailVM.Communication.Whatsapp" title="Whatsapp"> @listingDetailVM.Communication.Whatsapp &nbsp;</a>
+                                    }
+                                    if (listingDetailVM.Communication.Telephone != null)
+                                    {
+                                        <i class="fa fa-headphones"></i>
+                                        <a href="tel:@listingDetailVM.Communication.Telephone" title="Telephone 1"> @listingDetailVM.Communication.Telephone &nbsp;</a>
+                                    }
+                                    if (listingDetailVM.Communication.TelephoneSecond != null)
+                                    {
+                                        <i class="fa fa-headphones"></i>
+                                        <a href="tel:@listingDetailVM.Communication.TelephoneSecond" title="Telephone 2"> @listingDetailVM.Communication.TelephoneSecond &nbsp;</a>
+                                    }
+                                }
                             </div>
                             <div class="company-time">
                                 <a class="company-time-title btn btn-link collapsed" data-toggle="collapse" href="#companytime" role="button" aria-expanded="false" aria-controls="companytime">
@@ -434,66 +435,44 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="social-details">
-                                <a href="#enquiry-in-dialog1" title="Send Enquiry" id="enquiry-in" class="btn btn-success btn-sm">Enquire Now</a>
-                                @*@if (HideContact)
-                                    {
-                                        <button @onclick="@(async () => await ToggleContact())" class="btn btn-success btn-sm" id="ViewNumber"><i class="icon-eye"></i> Show Contact</button>
-                                    }
-                                    else
-                                    {
-                                        <button @onclick="@(async () => await ToggleContact())" class="btn btn-danger btn-sm" id="HideNumber">
-                                            <i class="icon-eye-off"></i> Hide Contact
-                                        </button>
-                                    }*@
-                                <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
-
-                                @{
-                                    string likeThumbIcon;
-                                    if (like)
-                                    {
-                                        likeThumbIcon = "fa fa-thumbs-o-down";
-                                    }
-                                    else
-                                    {
-                                        likeThumbIcon = "fa fa-thumbs-o-up";
-                                    }
-                                }
+                                <a href="#enquiry-in-dialog1" title="Send Enquiry" id="enquiry-in" class="btn btn-guotes btn-sm">Get Quotes</a>
                                 @if (userAuthenticated)
                                 {
-                                    <button id="BookmarkMe" class="pushRight btn btn-light btn-sm" @onclick="@(async () => await ToggleBookmark(listingDetailVM.Listing.ListingID))">
-                                        <i class="fa fa-bookmark-o"></i> Bookmark <span id="BookmarkCount">@countBookmark</span>
+                                    string likeThumbIcon = listingDetailVM.IsLiked ? "fa fa-thumbs-o-down" : "fa fa-thumbs-o-up";
+                                    <button id="BookmarkMe" class="pushRight btn btn-sm @(listingDetailVM.IsBookmarked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleBookmark())">
+                                        <i class="fa fa-bookmark-o"></i> Bookmark
                                     </button>
-                                    <button id="LikeMe" class="pushRight btn btn-light btn-sm ml-1" @onclick="@(async () => await ToggleLikeAsync(Int32.Parse(ListingID)))">
-                                        <i class="@likeThumbIcon"></i><span id="LikeCount">@countLike</span>
+                                    <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i> Share</a>
+                                    <button id="LikeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsLiked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleLikeAsync())">
+                                        <i class="@likeThumbIcon"></i> Like
                                     </button>
-                                    <button id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1" @onclick="@(async () => await ToggleSubscribeAsync(Int32.Parse(ListingID)))">
-                                        <i class="fa fa-bell-o"></i> Unsubscribe <span id="SubscribeCount">@countSubscribe</span>
+                                    <button id="SubscribeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsSubscribe ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleSubscribeAsync())">
+                                        <i class="fa fa-bell-o"></i> Subscribe
                                     </button>
                                 }
                                 else
                                 {
                                     <button id="BookmarkMe" class="pushRight btn btn-light btn-sm">
-                                        <i class="fa fa-bookmark-o"></i> Bookmark <span id="BookmarkCount">@countBookmark</span>
+                                        <i class="fa fa-bookmark-o"></i> Bookmark
                                     </button>
+                                    <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
                                     <button id="LikeMe" class="pushRight btn btn-light btn-sm ml-1">
-                                        <i class="@likeThumbIcon"></i><span id="LikeCount">@countLike</span>
+                                        <i class="fa fa-thumbs-o-up"></i> Like
                                     </button>
                                     <button id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
-                                        <i class="fa fa-bell-o"></i> Subscribe <span id="SubscribeCount">@countSubscribe</span>
+                                        <i class="fa fa-bell-o"></i> Subscribe
                                     </button>
                                 }
                             </div>
                             <div class="col-lg-12 social-share p-0">
-                                <a href="#0"><i class="icon-facebook-squared-1"></i></a>
+                                <a href="#0"><i class="fa fa-facebook-official"></i></a>
                                 <a href="#0"><i class="fa fa-whatsapp"></i></a>
-                                <a href="#0"><i class="icon-linkedin-3"></i></a>
-                                <a href="#0"><i class="icon-twitter-rect"></i></a>
-                                <a href="#0"><i class="icon-youtube-play"></i></a>
-                                <a href="#0"><i class="icon-instagramm"></i></a>
-                                <a href="#0"><i class="icon-pinterest-squared"></i></a>
+                                <a href="#0"><i class="fa fa-linkedin-square"></i></a>
+                                <a href="#0"><i class="fa fa-twitter-square"></i></a>
+                                <a href="#0"><i class="fa fa-youtube-play"></i></a>
+                                <a href="#0"><i class="fa fa-instagram"></i></a>
+                                <a href="#0"><i class="fa fa-pinterest-square"></i></a>
                             </div>
                         </div>
                     </div>
@@ -519,29 +498,24 @@
                                     <div class="review-form mb-3">
                                         @if (userAuthenticated)
                                         {
-                                            <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button" aria-expanded="false" aria-controls="WriteReview">
-                                                <i class="icon-pencil"></i> @(CurrentUserRating == null ? "Write Review" : "Edit Review")
-                                            </a>
+                                            <div class="" style="text-align: right;">
+                                                <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button" aria-expanded="false" aria-controls="WriteReview">
+                                                    <i class="icon-pencil"></i> @(listingDetailVM.Rating <= 0 ? "Write Review" : "Edit Review")
+                                                </a>
+                                            </div>
                                             <div class="add-review collapse" id="WriteReview">
                                                 <div class="card card-body">
-                                                    <h6>@(CurrentUserRating == null ? "Leave a Review" : "Edit Review")</h6>
+                                                    <h6>@(listingDetailVM.Rating <= 0 ? "Leave a Review" : "Edit Review")</h6>
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
-                                                            <Rate @bind-Value="Rating" />
+                                                            <Rate @bind-Value="listingDetailVM.Rating" />
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label>Your Review</label>
-                                                            <textarea @bind="@Comment" name="review_text" id="review_text" class="form-control" style="height:130px !important;"></textarea>
+                                                            <textarea @bind="@listingDetailVM.CurrentUserRating.Comment" name="review_text" id="review_text" class="form-control" style="height:130px !important;"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12 add_top_20 add_bottom_30">
-                                                            @if (CurrentUserRating == null)
-                                                            {
-                                                                <button class="btn btn-primary" @onclick="@(async () => await CreateRatingAsync())">Save Rating</button>
-                                                            }
-                                                            else
-                                                            {
-                                                                <button @onclick="@(async () => await EditSaveRatingAsync())">Save Rating</button>
-                                                            }
+                                                            <button class="btn btn-primary" @onclick="@(async () => await CreateOrUpdateRating())">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -554,15 +528,15 @@
                                             </a>
                                         }
                                     </div>
-                                    <div class="row">
+                                    <div class="row review_row">
                                         @foreach (var review in listingDetailVM.listReviews)
                                         {
-                                            <div class="col-12  col-lg-12 review-user">
-                                                <h6>Latest review by @review.Name on @review.Date</h6>
+                                            <div class="col-md-12  col-lg-12 review-user">
+                                                <h6 style="text-align: right;">Latest review by @review.Name on @review.Date</h6>
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <div class="row">
-                                                            <div class="col col-lg-1 text-center">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-lg-2 text-center">
                                                                 <img src="@review.UserImage" class="rounded-circle img-thumbnail">
                                                             </div>
                                                             <div class="col-lg-10 pl-lg-0">
@@ -580,6 +554,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
                                         }
                                     </div>
                                 </div>
@@ -587,7 +562,7 @@
                         </div>
                     </div>
                 </div>
-                @if (String.IsNullOrEmpty(ErrorMessage) == false)
+                @if (!String.IsNullOrEmpty(ErrorMessage))
                 {
                     <div class="d-flex justify-content-center">
                         <p>@ErrorMessage</p>

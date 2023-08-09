@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BOL.AUDITTRAIL;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,13 @@ namespace BAL.Services.Contracts
 {
     public interface IAuditService
     {
+        Task AddAsync(object data);
+        Task UpdateAsync(object data);
+
+        Task<Bookmarks> GetBookmarkByListingAndUserId(int listingId, string userGuid);
+        Task<ListingLikeDislike> GetLikeByListingAndUserId(int listingId, string userGuid);
+        Task<Subscribes> GetSubscribeByListingAndUserId(int listingId, string userGuid);
+
         Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid);
         Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid);
         Task<bool> CheckIfUserLikedListing(int listingId, string userGuid);

@@ -1,4 +1,5 @@
 ﻿using BAL.Services.Contracts;
+using BOL.AUDITTRAIL;
 using DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -15,19 +16,47 @@ namespace BAL.Services
             this._auditRepository = auditRepository;
         }
 
-        public Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid)
+        public async Task AddAsync(object data)
         {
-            return _auditRepository.CheckIfUserBookmarkedListing(listingId, userGuid);
+            await _auditRepository.AddAsync(data);
         }
 
-        public Task<bool> CheckIfUserLikedListing(int listingId, string userGuid)
+        public async Task UpdateAsync(object data)
         {
-            return _auditRepository.CheckIfUserLikedListing(listingId, userGuid);
+            await _auditRepository.UpdateAsync(data);
         }
 
-        public Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid)
+        public async Task<Bookmarks> GetBookmarkByListingAndUserId(int listingId, string userGuid)
         {
-            return _auditRepository.CheckIfUserSubscribedToListing(listingId, userGuid);
+            return await _auditRepository.GetBookmarkByListingAndUserId(listingId, userGuid);
+        }
+
+        public async Task<ListingLikeDislike> GetLikeByListingAndUserId(int listingId, string userGuid)
+        {
+            return await _auditRepository.GetLikeByListingAndUserId(listingId, userGuid);
+        }
+
+        public async Task<Subscribes> GetSubscribeByListingAndUserId(int listingId, string userGuid)
+        {
+            return await _auditRepository.GetSubscribeByListingAndUserId(listingId, userGuid);
+        }
+
+        public async Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid)
+        {
+            var bookmark = await GetBookmarkByListingAndUserId(listingId, userGuid);
+            return bookmark != null && bookmark.Bookmark;
+        }
+
+        public async Task<bool> CheckIfUserLikedListing(int listingId, string userGuid)
+        {
+            var like = await GetLikeByListingAndUserId(listingId, userGuid);
+            return like != null && like.Like;
+        }
+
+        public async Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid)
+        {
+            var subscribe = await GetSubscribeByListingAndUserId(listingId, userGuid);
+            return subscribe != null && subscribe.Subscribe;
         }
     }
 }

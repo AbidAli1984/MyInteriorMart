@@ -21,17 +21,17 @@ namespace BAL.Services
         private readonly IListingRepository _listingRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ISharedRepository _sharedRepository;
-        private readonly IAuditRepository _auditRepository;
+        private readonly IAuditService _auditService;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly HelperFunctions _helperFunctions;
         public ListingService(IListingRepository listingRepository, ICategoryRepository categoryRepository,
-            ISharedRepository sharedRepository, IAuditRepository auditRepository, IUserProfileRepository userProfileRepository,
+            ISharedRepository sharedRepository, IAuditService auditService, IUserProfileRepository userProfileRepository,
             HelperFunctions helperFunctions)
         {
             _listingRepository = listingRepository;
             _categoryRepository = categoryRepository;
             _sharedRepository = sharedRepository;
-            _auditRepository = auditRepository;
+            _auditService = auditService;
             _userProfileRepository = userProfileRepository;
             _helperFunctions = helperFunctions;
         }
@@ -142,6 +142,7 @@ namespace BAL.Services
                 return null;
             }
 
+            listingDetailVM.ListingId = listingId;
             listingDetailVM.OwnerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
             listingDetailVM.GalleryImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
             listingDetailVM.Communication = await _listingRepository.GetCommunicationByListingId(listingId);
@@ -183,24 +184,16 @@ namespace BAL.Services
             listingDetailVM.RatingCount = rating.Count();
             listingDetailVM.RatingAverage = await GetRatingAverage(listingId);
 
-            var subsrcibe = await _auditRepository.GetSubscriberByListingId(listingId);
-            var bookmark = await _auditRepository.GetBookmarksByListingId(listingId);
-            var likes = await _auditRepository.GetLikesByListingId(listingId);
-            listingDetailVM.TotalSubscriber = subsrcibe.Count();
-            listingDetailVM.TotalLikes = likes.Count();
-            listingDetailVM.TotalBookmark = bookmark.Count();
-
             var listingBanners = await _listingRepository.GetListingBannersBySecondCategoryId(category.SecondCategoryID);
             if (listingBanners.Count() > 0)
                 listingDetailVM.ListingBanners = listingBanners.Where(x => x.Placement == "banner-1");
 
             if (!string.IsNullOrWhiteSpace(currentUserId))
             {
-                listingDetailVM.UserAlreadySubscribed = await _auditRepository.CheckIfUserSubscribedToListing(listingId, currentUserId);
-                listingDetailVM.UserAlreadyBookmarked = await _auditRepository.CheckIfUserBookmarkedListing(listingId, currentUserId);
-                listingDetailVM.UserAlreadyLiked = await _auditRepository.CheckIfUserLikedListing(listingId, currentUserId);
-
-                listingDetailVM.CurrentUserRating = await _listingRepository.GetRatingsByListingIdAndOwnerId(listingId, currentUserId);
+                listingDetailVM.IsBookmarked = await _auditService.CheckIfUserBookmarkedListing(listingId, currentUserId); ;
+                listingDetailVM.IsSubscribe = await _auditService.CheckIfUserSubscribedToListing(listingId, currentUserId);
+                listingDetailVM.IsLiked = await _auditService.CheckIfUserLikedListing(listingId, currentUserId); ;
+                listingDetailVM.CurrentUserRating = await _listingRepository.GetRatingByListingIdAndOwnerId(listingId, currentUserId);
             }
 
             listingDetailVM.listReviews = await GetReviewsAsync(listingId);
@@ -324,9 +317,9 @@ namespace BAL.Services
             return await _listingRepository.GetRatingsByListingId(listingId);
         }
 
-        public async Task<Rating> GetRatingsByListingIdAndOwnerId(int listingId, string ownerId)
+        public async Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId)
         {
-            return await _listingRepository.GetRatingsByListingIdAndOwnerId(listingId, ownerId);
+            return await _listingRepository.GetRatingByListingIdAndOwnerId(listingId, ownerId);
         }
 
         public async Task AddAsync(object data)

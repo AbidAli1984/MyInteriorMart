@@ -1,12 +1,9 @@
 ﻿using AntDesign;
-using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.Profile;
 using DAL.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;

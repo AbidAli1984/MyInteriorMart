@@ -11,6 +11,7 @@ namespace BOL.ComponentModels.Listings
 {
     public class ListingDetailVM
     {
+        public int ListingId { get; set; }
         public string LogoUrl { get; set; }
         public IList<OwnerImage> OwnerImages { get; set; } = new List<OwnerImage>();
         public IList<GalleryImage> GalleryImages { get; set; } = new List<GalleryImage>();
@@ -29,14 +30,27 @@ namespace BOL.ComponentModels.Listings
         public IEnumerable<ListingBanner> ListingBanners { get; set; } = new List<ListingBanner>();
         public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
         public Rating CurrentUserRating { get; set; } = new Rating();
+        public decimal Rating { 
+            get
+            {
+                if (CurrentUserRating == null)
+                {
+                    CurrentUserRating = new Rating();
+                    return 0;
+                }
+                return CurrentUserRating.Ratings;
+            }
+            set
+            {
+                int.TryParse(value.ToString(), out int rating);
+                CurrentUserRating.Ratings = rating;
+            }
+        }
 
-        public bool UserAlreadySubscribed { get; set; } = false;
-        public bool UserAlreadyBookmarked { get; set; } = false;
-        public bool UserAlreadyLiked { get; set; } = false;
+        public bool IsSubscribe { get; set; } = false;
+        public bool IsBookmarked { get; set; } = false;
+        public bool IsLiked { get; set; } = false;
         public int RatingCount { get; set; }
         public decimal RatingAverage { get; set; }
-        public int TotalBookmark { get; set; }
-        public int TotalSubscriber { get; set; }
-        public int TotalLikes { get; set; }
     }
 }

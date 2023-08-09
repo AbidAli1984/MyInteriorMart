@@ -43,7 +43,7 @@ namespace BAL.Services.Contracts
 
         Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId);
 
-        Task<Rating> GetRatingsByListingIdAndOwnerId(int listingId, string ownerId);
+        Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId);
 
         Task AddAsync(object data);
 
