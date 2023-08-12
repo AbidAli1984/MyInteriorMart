@@ -56,9 +56,12 @@ namespace DAL.LISTING
         // End: Banners
 
         #region Upload Images
-        public DbSet<LogoImage> LogoImage { get; set; }
-        public DbSet<OwnerImage> OwnerImage { get; set; }
-        public DbSet<GalleryImage> GalleryImage { get; set; }
+        public DbSet<LogoImage> LogoImages { get; set; }
+        public DbSet<OwnerImage> OwnerImages { get; set; }
+        public DbSet<GalleryImage> GalleryImages { get; set; }
+        public DbSet<BannerDetail> BannerDetails { get; set; }
+        public DbSet<CertificationDetail> CertificationDetails { get; set; }
+        public DbSet<ClientDetail> ClientDetails { get; set; }
         #endregion
     }
 }

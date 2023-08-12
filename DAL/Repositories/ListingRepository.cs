@@ -226,31 +226,31 @@ namespace DAL.Repositories
         #region Upload Images
         public async Task<LogoImage> GetLogoImageByListingId(int listingId)
         {
-            return await _listingDbContext.LogoImage
+            return await _listingDbContext.LogoImages
                 .FirstOrDefaultAsync(l => l.ListingID == listingId);
         }
         public async Task<IList<OwnerImage>> GetOwnerImagesByListingId(int listingId)
         {
-            return await _listingDbContext.OwnerImage
+            return await _listingDbContext.OwnerImages
                 .Where(x => x.ListingID == listingId)
                 .ToListAsync();
         }
         public async Task DeleteOwnerImage(int id)
         {
-            var ownerImage = await _listingDbContext.OwnerImage.FindAsync(id);
-            _listingDbContext.OwnerImage.Remove(ownerImage);
+            var ownerImage = await _listingDbContext.OwnerImages.FindAsync(id);
+            _listingDbContext.OwnerImages.Remove(ownerImage);
             await _listingDbContext.SaveChangesAsync();
         }
         public async Task<IList<GalleryImage>> GetGalleryImagesByListingId(int listingId)
         {
-            return await _listingDbContext.GalleryImage
+            return await _listingDbContext.GalleryImages
                 .Where(x => x.ListingID == listingId)
                 .ToListAsync();
         }
         public async Task DeleteGalleryImage(int id)
         {
-            var galleryImage = await _listingDbContext.GalleryImage.FindAsync(id);
-            _listingDbContext.GalleryImage.Remove(galleryImage);
+            var galleryImage = await _listingDbContext.GalleryImages.FindAsync(id);
+            _listingDbContext.GalleryImages.Remove(galleryImage);
             await _listingDbContext.SaveChangesAsync();
         }
         #endregion
