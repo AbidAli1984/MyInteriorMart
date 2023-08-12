@@ -18,57 +18,60 @@
                         </p>
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label>Country <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="GetStateByCountryId">
-                                    <option value="0" selected>Choose...</option>
-                                    @foreach (var p in AddressVM.Countries)
-                                    {
-                                        @if (AddressVM.CountryId == p.CountryID)
+                                <CountryDropDown LWAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
+                                @*<label>Country <span class="text-danger">*</span></label>
+                                    <select class="form-control" @onchange="GetStateByCountryId">
+                                        <option value="0" selected>Choose...</option>
+                                        @foreach (var p in AddressVM.Countries)
                                         {
-                                            <option selected value="@p.CountryID">@p.Name</option>
-                                            continue;
+                                            @if (AddressVM.CountryId == p.CountryID)
+                                            {
+                                                <option selected value="@p.CountryID">@p.Name</option>
+                                                continue;
+                                            }
+                                            <option value="@p.CountryID">@p.Name</option>
                                         }
-                                        <option value="@p.CountryID">@p.Name</option>
-                                    }
-                                </select>
+                                    </select>*@
                             </div>
                             <div class="form-group col-md-4">
-                                <label>State <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="GetCityByStateId">
-                                    <option value="0" selected>Choose...</option>
-                                    @foreach (var p in AddressVM.States)
-                                    {
-                                        @if (AddressVM.StateId == p.StateID)
+                                <StateDropDown LWAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
+                                @*<label>State <span class="text-danger">*</span></label>
+                                    <select class="form-control" @onchange="GetCityByStateId">
+                                        <option value="0" selected>Choose...</option>
+                                        @foreach (var p in LWAddressVM.States)
                                         {
-                                            <option selected value="@p.StateID">@p.Name</option>
-                                            continue;
+                                            @if (LWAddressVM.StateId == p.StateID)
+                                            {
+                                                <option selected value="@p.StateID">@p.Name</option>
+                                                continue;
+                                            }
+                                            <option value="@p.StateID">@p.Name</option>
                                         }
-                                        <option value="@p.StateID">@p.Name</option>
-                                    }
-                                </select>
+                                    </select>*@
                             </div>
                             <div class="form-group col-md-4">
-                                <label>City <span class="text-danger">*</span></label>
-                                <select class="form-control" @onchange="GetAreaByCityId">
-                                    <option value="0" selected>Choose...</option>
-                                    @foreach (var p in AddressVM.Cities)
-                                    {
-                                        @if (AddressVM.CityId == p.CityID)
+                                <CityDropDown LWAddressVM="@LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
+                                @*<label>City <span class="text-danger">*</span></label>
+                                    <select class="form-control" @onchange="GetAreaByCityId">
+                                        <option value="0" selected>Choose...</option>
+                                        @foreach (var p in LWAddressVM.Cities)
                                         {
-                                            <option selected value="@p.CityID">@p.Name</option>
-                                            continue;
+                                            @if (LWAddressVM.CityId == p.CityID)
+                                            {
+                                                <option selected value="@p.CityID">@p.Name</option>
+                                                continue;
+                                            }
+                                            <option value="@p.CityID">@p.Name</option>
                                         }
-                                        <option value="@p.CityID">@p.Name</option>
-                                    }
-                                </select>
+                                    </select>*@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Locality <span class="text-danger">*</span></label>
                                 <select class="form-control wide add_bottom_10" @onchange="GetPincodesByAreaId">
                                     <option value="0" selected>Choose...</option>
-                                    @foreach (var p in AddressVM.Areas)
+                                    @foreach (var p in LWAddressVM.Areas)
                                     {
-                                        @if (AddressVM.StationId == p.StationID)
+                                        @if (LWAddressVM.StationId == p.StationID)
                                         {
                                             <option selected value="@p.StationID">@p.Name</option>
                                             continue;
@@ -82,9 +85,9 @@
                                 <label>Pincode <span class="text-danger">*</span></label>
                                 <select class="form-control wide add_bottom_10" @onchange="GetLocalitiesByPincodeId">
                                     <option value="0" selected>Choose...</option>
-                                    @foreach (var p in AddressVM.Pincodes)
+                                    @foreach (var p in LWAddressVM.Pincodes)
                                     {
-                                        @if (AddressVM.PincodeId == p.PincodeID)
+                                        @if (LWAddressVM.PincodeId == p.PincodeID)
                                         {
                                             <option selected value="@p.PincodeID">@p.PincodeNumber</option>
                                             continue;
@@ -98,21 +101,21 @@
                                 <label>Area <span class="text-danger">*</span></label>
                                 <select class="form-control wide add_bottom_10" @onchange="SetLocalityId">
                                     <option value="0" selected>Choose...</option>
-                                    @foreach (var p in AddressVM.Localities)
+                                    @foreach (var p in LWAddressVM.Localities)
                                     {
-                                        @if (AddressVM.LocalityId == p.LocalityID)
+                                        @if (LWAddressVM.LocalityId == p.Id)
                                         {
-                                            <option selected value="@p.LocalityID">@p.LocalityName</option>
+                                            <option selected value="@p.Id">@p.Name</option>
                                             continue;
                                         }
-                                        <option value="@p.LocalityID">@p.LocalityName</option>
+                                        <option value="@p.Id">@p.Name</option>
                                     }
                                 </select>
                                 <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideLocalityModal())">+ Add area</button>
                             </div>
                             <div class="form-group col-md-12">
                                 <label>Address <span class="text-danger">*</span></label>
-                                <textarea @bind="AddressVM.Address" class="form-control" rows="4"></textarea>
+                                <textarea @bind="LWAddressVM.Address" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="text-left col-12 mt-3">
                                 @if (buttonBusy == false)

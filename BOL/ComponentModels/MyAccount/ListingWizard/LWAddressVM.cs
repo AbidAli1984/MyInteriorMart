@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BOL.ComponentModels.MyAccount.ListingWizard
 {
-    public class AddressVM
+    public class LWAddressVM
     {
         public int CountryId { get; set; }
         public int StateId { get; set; }
@@ -13,22 +13,25 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         public int PincodeId { get; set; }
         public int LocalityId { get; set; }
         public string Address { get; set; }
+        public bool IsFirstLoad { get; set; } = true;
+        public bool IsCountryChange { get; set; }
+        public bool IsStateChange { get; set; }
+        public bool IsCityChange { get; set; }
+        public bool IsStationChange { get; set; }
 
-        public IList<Country> Countries { get; set; }
         public IList<State> States { get; set; }
         public IList<City> Cities { get; set; }
         public IList<Station> Areas { get; set; }
         public IList<Pincode> Pincodes { get; set; }
-        public IList<Locality> Localities { get; set; }
+        public IList<Area> Localities { get; set; }
 
-        public AddressVM()
+        public LWAddressVM()
         {
-            Countries = new List<Country>();
             States = new List<State>();
             Cities = new List<City>();
             Areas = new List<Station>();
             Pincodes = new List<Pincode>();
-            Localities = new List<Locality>();
+            Localities = new List<Area>();
         }
 
         public void SetViewModel(Address address)

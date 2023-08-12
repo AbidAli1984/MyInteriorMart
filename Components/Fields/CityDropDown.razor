@@ -1,0 +1,16 @@
+﻿<label>City <span class="text-danger">*</span></label>
+<select class="form-control" @onchange="GetLocalityByCityId">
+    <option value="0" selected>Choose...</option>
+    @if (LWAddressVM.Cities != null)
+    {
+        @foreach (var p in LWAddressVM.Cities)
+        {
+            @if (LWAddressVM.CityId == p.CityID)
+            {
+                <option selected value="@p.CityID">@p.Name</option>
+                continue;
+            }
+            <option value="@p.CityID">@p.Name</option>
+        }
+    }
+</select>

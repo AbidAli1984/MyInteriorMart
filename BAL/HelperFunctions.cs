@@ -1,7 +1,13 @@
-﻿using BOL.ComponentModels.Listings;
+﻿using BAL.FileManager;
+using BAL.Services.Contracts;
+using BOL.ComponentModels.Listings;
+using BOL.ComponentModels.MyAccount.ListingWizard;
+using BOL.ComponentModels.MyAccount.Profile;
 using DAL.Repositories.Contracts;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +16,133 @@ namespace BAL
     public class HelperFunctions
     {
         private readonly IListingRepository _listingRepository;
-        public HelperFunctions(IListingRepository listingRepository)
+        private ISharedService _sharedService;
+
+        public HelperFunctions(IListingRepository listingRepository, ISharedService sharedService)
         {
             _listingRepository = listingRepository;
+            _sharedService = sharedService;
         }
+
+
+        #region Upload or Move Images
+        public async Task<string> UploadProfileImage(Stream file, string fileName)
+        {
+            string filePath = Constants.tempImagePath + fileName + ".jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
+        }
+
+        public async Task<string> MoveProfileImage(UserProfileVM userProfileVM, string fileName)
+        {
+            string sourceFile = userProfileVM.ImgUrl.Split("?")[0];
+            string destFile = Constants.profileImagesPath + fileName + ".jpg";
+            return await FileManagerService.MoveFile(sourceFile, destFile);
+        }
+
+        public async Task<string> UploadLogoImage(Stream file, string ownerId)
+        {
+            string filePath = $"{Constants.ListingImagesPath}\\{ownerId}\\LOGO.jpg";
+            return await FileManagerService.UploadFile(file, filePath, true);
+        }
+
+        public string GetOwnerImageFilePath(string ownerId)
+        {
+            return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Owners/";
+        }
+
+        public string GetGalleryImageFilePath(string ownerId)
+        {
+            return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Gallery/";
+        }
+
+        public async Task UploadOwnerOrGalleryImage(Stream file, string filePath)
+        {
+            filePath = filePath.Replace("/", "\\");
+            await FileManagerService.UploadFile(file, filePath, true);
+        }
+        #endregion  
+
+        #region Address Information
+        public async Task GetStateByCountryId(LWAddressVM lwAddressVM)
+        {
+            if (lwAddressVM.IsCountryChange)
+            {
+                lwAddressVM.StateId = 0;
+                lwAddressVM.CityId = 0;
+                lwAddressVM.StationId = 0;
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.LocalityId = 0;
+            }
+            lwAddressVM.States.Clear();
+            lwAddressVM.Cities.Clear();
+            lwAddressVM.Areas.Clear();
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Localities.Clear();
+
+            if (lwAddressVM.CountryId > 0)
+                lwAddressVM.States = await _sharedService.GetStatesByCountryId(lwAddressVM.CountryId);
+        }
+
+        public async Task GetCityByStateId(LWAddressVM lwAddressVM)
+        {
+            if (lwAddressVM.IsStateChange)
+            {
+                lwAddressVM.CityId = 0;
+                lwAddressVM.StationId = 0;
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.LocalityId = 0;
+            }
+            lwAddressVM.Cities.Clear();
+            lwAddressVM.Areas.Clear();
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Localities.Clear();
+
+            if (lwAddressVM.StateId > 0)
+                lwAddressVM.Cities = await _sharedService.GetCitiesByStateId(lwAddressVM.StateId);
+        }
+
+        public async Task GetAreaByCityId(LWAddressVM lwAddressVM)
+        {
+            if (lwAddressVM.IsCityChange)
+            {
+                lwAddressVM.StationId = 0;
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.LocalityId = 0;
+            }
+            lwAddressVM.Areas.Clear();
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Localities.Clear();
+
+            if (lwAddressVM.CityId > 0)
+                lwAddressVM.Areas = await _sharedService.GetAreasByCityId(lwAddressVM.CityId);
+        }
+
+        public async Task GetPincodesByAreaId(LWAddressVM lwAddressVM)
+        {
+            if (lwAddressVM.IsFirstLoad)
+            {
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.LocalityId = 0;
+            }
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Localities.Clear();
+
+            if (lwAddressVM.StationId > 0)
+                lwAddressVM.Pincodes = await _sharedService.GetPincodesByAreaId(lwAddressVM.StationId);
+        }
+
+        public async Task GetLocalitiesByPincodeId(LWAddressVM lwAddressVM)
+        {
+            if (lwAddressVM.IsFirstLoad)
+            {
+                lwAddressVM.LocalityId = 0;
+            }
+            lwAddressVM.Localities.Clear();
+
+            if (lwAddressVM.PincodeId > 0)
+                lwAddressVM.Localities = await _sharedService.GetLocalitiesByPincode(lwAddressVM.PincodeId);
+        }
+        #endregion
 
         public async Task<BusinessWorkingHour> IsBusinessOpen(int ListingID)
         {

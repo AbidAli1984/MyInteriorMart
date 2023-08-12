@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 using IDUserProfile = BOL.IDENTITY.UserProfile;
+using BAL;
 
 namespace FRONTEND.BLAZOR.MyAccount.Profile
 {
@@ -23,6 +24,8 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         AuthenticationStateProvider authenticationState { get; set; }
         [Inject]
         Helper helper { get; set; }
+        [Inject]
+        HelperFunctions helperFunction { get; set; }
         [Inject]
         NavigationManager navManager { get; set; }
 
@@ -147,7 +150,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
         public async Task UploadProfileImage()
         {
-            UserProfileVM.ImgUrl = await helper.UploadProfileImage(UserProfileVM.file, CurrentUserGuid);
+            UserProfileVM.ImgUrl = await helperFunction.UploadProfileImage(UserProfileVM.file, CurrentUserGuid);
             isImageChange = true;
         }
 
@@ -156,7 +159,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             if (isImageChange)
             {
                 isImageChange = false;
-                UserProfileVM.ImgUrl = await helper.MoveProfileImage(UserProfileVM, CurrentUserGuid);
+                UserProfileVM.ImgUrl = await helperFunction.MoveProfileImage(UserProfileVM, CurrentUserGuid);
                 navManager.NavigateTo("/MyAccount/UserProfile", true);
             }
             return UserProfileVM.ImgUrl;

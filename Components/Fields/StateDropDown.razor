@@ -1,0 +1,16 @@
+﻿<label>State <span class="text-danger">*</span></label>
+<select class="form-control" @onchange="GetCityByStateId">
+    <option value="0" selected>Choose...</option>
+    @if (LWAddressVM.States != null)
+    {
+        @foreach (var p in LWAddressVM.States)
+        {
+            @if (LWAddressVM.StateId == p.StateID)
+            {
+                <option selected value="@p.StateID">@p.Name</option>
+                continue;
+            }
+            <option value="@p.StateID">@p.Name</option>
+        }
+    }
+</select>

@@ -29,6 +29,22 @@ namespace BOL.LISTING.UploadImage
         [Required(ErrorMessage = "Designation required.")]
         public string Designation { get; set; }
 
+        [Display(Name = "Religion")]
+        [Required(ErrorMessage = "Religion required.")]
+        public string Religion { get; set; }
+
+        [Display(Name = "Cast")]
+        [Required(ErrorMessage = "Cast required.")]
+        public string Cast { get; set; }
+
+        [Display(Name = "Country")]
+        [Required(ErrorMessage = "Select Country")]
+        public int CountryID { get; set; }
+
+        [Display(Name = "State")]
+        [Required(ErrorMessage = "Select State")]
+        public int StateID { get; set; }
+
         [Display(Name = "Owner Name")]
         [Required(ErrorMessage = "Owner Name required.")]
         public string OwnerName { get; set; }

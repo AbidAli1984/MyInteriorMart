@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using BAL;
 using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
@@ -19,6 +20,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         [Inject] IListingService listingService { get; set; }
         [Inject] AuthenticationStateProvider authenticationState { get; set; }
         [Inject] Helper helper { get; set; }
+        [Inject] HelperFunctions helperFunction { get; set; }
         [Inject] NavigationManager navManager { get; set; }
         [Inject] NotificationService _notice { get; set; }
 
@@ -66,7 +68,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 return;
             }
 
-            UploadImagesVM.LogoImageUrl = await helper.UploadLogoImage(UploadImagesVM.LogoImage, UploadImagesVM.OwnerId);
+            UploadImagesVM.LogoImageUrl = await helperFunction.UploadLogoImage(UploadImagesVM.LogoImage, UploadImagesVM.OwnerId);
             UploadImagesVM.LogoImage = null;
             bool isUpdated = await listingService.AddOrUpdateLogoImage(UploadImagesVM);
 
@@ -95,9 +97,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
                 return;
             }
-            UploadImagesVM.OwnerImageDetail.ImageUrl = helper.GetOwnerImageFilePath(UploadImagesVM.OwnerId);
+            UploadImagesVM.OwnerImageDetail.ImageUrl = helperFunction.GetOwnerImageFilePath(UploadImagesVM.OwnerId);
             bool isUpdated = await listingService.AddOwnerImage(UploadImagesVM);
-            await helper.UploadOwnerOrGalleryImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
+            await helperFunction.UploadOwnerOrGalleryImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
             resetOwnerImageDetail();
 
             if (isUpdated)
@@ -144,9 +146,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
                 return;
             }
-            UploadImagesVM.GalleryImageDetail.ImageUrl = helper.GetGalleryImageFilePath(UploadImagesVM.OwnerId);
+            UploadImagesVM.GalleryImageDetail.ImageUrl = helperFunction.GetGalleryImageFilePath(UploadImagesVM.OwnerId);
             bool isUpdated = await listingService.AddGalleryImage(UploadImagesVM);
-            await helper.UploadOwnerOrGalleryImage(UploadImagesVM.GalleryImage, UploadImagesVM.GalleryImageDetail.ImageUrl);
+            await helperFunction.UploadOwnerOrGalleryImage(UploadImagesVM.GalleryImage, UploadImagesVM.GalleryImageDetail.ImageUrl);
             UploadImagesVM.GalleryImageDetail = new ImageDetails();
             UploadImagesVM.GalleryImage = null;
 

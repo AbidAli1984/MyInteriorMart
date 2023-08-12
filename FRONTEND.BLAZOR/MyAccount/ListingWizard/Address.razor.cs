@@ -12,18 +12,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class Address
     {
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
-        [Inject]
-        private ISharedService sharedService { get; set; }
-        [Inject]
-        IUserService userService { get; set; }
-        [Inject]
-        IListingService listingService { get; set; }
-        [Inject]
-        Helper helper { get; set; }
+        [Inject] private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject] private ISharedService sharedService { get; set; }
+        [Inject] IUserService userService { get; set; }
+        [Inject] IListingService listingService { get; set; }
+        [Inject] Helper helper { get; set; }
+        [Inject] BAL.HelperFunctions helperFunction { get; set; }
 
-        AddressVM AddressVM { get; set; } = new AddressVM();
+        LWAddressVM LWAddressVM { get; set; } = new LWAddressVM();
 
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
@@ -50,17 +46,18 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.CommunicationComplete, navManager);
                     
                     ListingId = listing.ListingID;
-                    AddressVM.Countries = await sharedService.GetCountries();
+                    //await helperFunction.GetCountries(LWAddressVM);
                     var address = await listingService.GetAddressByListingId(ListingId);
                     if (address != null)
                     {
+                        LWAddressVM.CountryId = address.CountryID;
                         IsAddressExist = true;
-                        AddressVM.SetViewModel(address);
-                        await GetStateByCountryId(null);
-                        await GetCityByStateId(null);
-                        await GetAreaByCityId(null);
-                        await GetPincodesByAreaId(null);
-                        await GetLocalitiesByPincodeId(null);
+                        LWAddressVM.SetViewModel(address);
+                        //GetStateByCountryId();
+                        //await GetCityByStateId();
+                        //await GetAreaByCityId(null);
+                        //await GetPincodesByAreaId(null);
+                        //await GetLocalitiesByPincodeId(null);
                     }
                 }
             }
@@ -70,44 +67,44 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
-        public async Task GetStateByCountryId(ChangeEventArgs events)
+        public async void ExecuteStateHasChanged()
         {
-            await helper.GetStateByCountryId(AddressVM, events);
+            //await helperFunction.GetStateByCountryId(LWAddressVM);
             StateHasChanged();
         }
 
-        public async Task GetCityByStateId(ChangeEventArgs events)
+        public async Task GetCityByStateId()
         {
-            await helper.GetCityByStateId(AddressVM, events);
+            await helperFunction.GetCityByStateId(LWAddressVM);
             StateHasChanged();
         }
 
         public async Task GetAreaByCityId(ChangeEventArgs events)
         {
-            await helper.GetAreaByCityId(AddressVM, events);
+            await helperFunction.GetAreaByCityId(LWAddressVM);
             StateHasChanged();
         }
 
         public async Task GetPincodesByAreaId(ChangeEventArgs events)
         {
-            await helper.GetPincodesByAreaId(AddressVM, events);
+            await helperFunction.GetPincodesByAreaId(LWAddressVM);
             StateHasChanged();
         }
 
         public async Task GetLocalitiesByPincodeId(ChangeEventArgs events)
         {
-            await helper.GetLocalitiesByPincodeId(AddressVM, events);
+            await helperFunction.GetLocalitiesByPincodeId(LWAddressVM);
             StateHasChanged();
         }
 
         public void SetLocalityId(ChangeEventArgs events)
         {
-            AddressVM.LocalityId = Convert.ToInt32(events.Value.ToString());
+            LWAddressVM.LocalityId = Convert.ToInt32(events.Value.ToString());
         }
 
         public async Task AddOrUpdateAddress()
         {
-            if (!AddressVM.isValid())
+            if (!LWAddressVM.isValid())
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area, Pincode, Locality and Address is Compulsory.");
                 return;
@@ -122,7 +119,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 if (recordNotFound)
                     address = new BOL.LISTING.Address();
 
-                AddressVM.SetContextModel(address);
+                LWAddressVM.SetContextModel(address);
 
                 if (recordNotFound)
                 {
@@ -154,7 +151,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task ShowHideAreaModal()
         {
-            if (AddressVM.CityId <= 0)
+            if (LWAddressVM.CityId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Please select Country, State and City first");
                 return;
@@ -164,7 +161,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         }
         public async Task CreateAreaAsync()
         {
-            if (string.IsNullOrEmpty(AreaName) || AddressVM.CityId <= 0)
+            if (string.IsNullOrEmpty(AreaName) || LWAddressVM.CityId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State and City must be selected and area name must not be blank.");
                 return;
@@ -180,14 +177,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                 Station station = new Station
                 {
-                    CityID = AddressVM.CityId,
+                    CityID = LWAddressVM.CityId,
                     Name = AreaName
                 };
 
                 await sharedService.AddAsync(station);
                 await GetAreaByCityId(null);
                 await ShowHideAreaModal();
-                var city = await sharedService.GetCityByCityId(AddressVM.CityId);
+                var city = await sharedService.GetCityByCityId(LWAddressVM.CityId);
 
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Area {AreaName} created inside city {city.Name}.");
                 AreaName = string.Empty;
@@ -200,7 +197,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task ShowHidePincodeModal()
         {
-            if (AddressVM.StationId <= 0)
+            if (LWAddressVM.StationId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City and Locality first.");
                 return;
@@ -210,7 +207,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         }
         public async Task CreatePincodeAsync()
         {
-            if (PinNumber <= 0 || AddressVM.StationId <= 0)
+            if (PinNumber <= 0 || LWAddressVM.StationId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City and Area must be selected and pincode number must not be blank.");
                 return;
@@ -226,14 +223,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                 Pincode pincode = new Pincode
                 {
-                    StationID = AddressVM.StationId,
+                    StationID = LWAddressVM.StationId,
                     PincodeNumber = PinNumber
                 };
 
                 await sharedService.AddAsync(pincode);
                 await GetPincodesByAreaId(null);
                 await ShowHidePincodeModal();
-                var station = await sharedService.GetAreaByAreaId(AddressVM.StationId);
+                var station = await sharedService.GetAreaByAreaId(LWAddressVM.StationId);
 
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Pincode {PinNumber} created inside {station.Name}.");
                 PinNumber = 0;
@@ -246,7 +243,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task ShowHideLocalityModal()
         {
-            if (AddressVM.PincodeId <= 0)
+            if (LWAddressVM.PincodeId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City, Locality and Pincode first.");
                 return;
@@ -256,7 +253,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         }
         public async Task CreateLocalityAsync()
         {
-            if (string.IsNullOrEmpty(LocalityName) || AddressVM.PincodeId <= 0)
+            if (string.IsNullOrEmpty(LocalityName) || LWAddressVM.PincodeId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area and Pincode must be selected and Area Name must not be blank.");
                 return;
@@ -270,18 +267,18 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     return;
                 }
 
-                Locality locality = new Locality
+                Area locality = new Area
                 {
-                    LocalityName = LocalityName,
-                    PincodeID = AddressVM.PincodeId,
-                    StationID = AddressVM.StationId
+                    Name = LocalityName,
+                    PincodeID = LWAddressVM.PincodeId,
+                    LocalityId = LWAddressVM.StationId
                 };
 
                 await sharedService.AddAsync(locality);
                 await GetLocalitiesByPincodeId(null);
                 await ShowHideLocalityModal();
 
-                var pincode = await sharedService.GetPincodeByPincodeId(AddressVM.PincodeId);
+                var pincode = await sharedService.GetPincodeByPincodeId(LWAddressVM.PincodeId);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Locality {LocalityName} created inside pincode {pincode.PincodeNumber}.");
                 LocalityName = string.Empty;
             }
