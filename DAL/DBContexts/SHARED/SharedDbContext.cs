@@ -17,10 +17,11 @@ namespace DAL.SHARED
         public DbSet<Country> Country { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<City> City { get; set; }
-        public DbSet<Station> Station { get; set; }
+        public DbSet<Location> Location { get; set; }
         public DbSet<Pincode> Pincode { get; set; }
+        public DbSet<Area> Area { get; set; }
         public DbSet<Locality> Locality { get; set; }
-
+        public DbSet<Station> Station { get; set; }
         public DbSet<Messages> Messages { get; set; }
     }
 }

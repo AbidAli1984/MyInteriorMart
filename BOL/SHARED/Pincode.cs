@@ -21,12 +21,11 @@ namespace BOL.SHARED
         [Required(ErrorMessage = "Select Station")]
         public Nullable<int> StationID { get; set; }
 
-        // Shafi: Navigation properties
-        public virtual Station Station { get; set; }
-        // End:
+        public virtual Location Location { get; set; }
+        public IList<Area> Area { get; set; }
 
-        // Shafi: Show pincode in
+        public virtual Station Station { get; set; }
         public IList<Locality> Locality { get; set; }
-        // End:
+
     }
 }

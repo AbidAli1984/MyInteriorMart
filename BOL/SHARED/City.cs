@@ -29,7 +29,7 @@ namespace BOL.SHARED
         // End:
 
         // Shafi: Show city in
-        public IList<Station> Station { get; set; }
+        public IList<Location> Station { get; set; }
         // End:
     }
 }
