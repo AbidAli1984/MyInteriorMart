@@ -23,9 +23,5 @@ namespace BOL.SHARED
 
         public virtual Location Location { get; set; }
         public IList<Area> Area { get; set; }
-
-        public virtual Station Station { get; set; }
-        public IList<Locality> Locality { get; set; }
-
     }
 }

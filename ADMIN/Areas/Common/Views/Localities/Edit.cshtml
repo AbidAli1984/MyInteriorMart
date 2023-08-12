@@ -1,4 +1,4 @@
-﻿@model BOL.SHARED.Locality
+﻿@model BOL.SHARED.Area
 
 @{
     ViewData["Title"] = "Edit Locality";
@@ -28,16 +28,16 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="LocalityID" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="LocalityName" class="control-label"></label>
-                <input asp-for="LocalityName" class="form-control" />
-                <span asp-validation-for="LocalityName" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StationID" class="control-label"></label>
-                <select asp-for="StationID" class="form-control" asp-items="ViewBag.StationID"></select>
-                <span asp-validation-for="StationID" class="text-danger"></span>
+                <label asp-for="LocationId" class="control-label"></label>
+                <select asp-for="LocationId" class="form-control" asp-items="ViewBag.StationID"></select>
+                <span asp-validation-for="LocationId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PincodeID" class="control-label"></label>
@@ -54,7 +54,7 @@
                         <div class="modal-body tx-center pd-y-20 pd-x-20">
                             <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-primary lh-1 mg-t-20 d-inline-block"></i>
                             <h4 class="tx-primary tx-semibold mg-b-20">Confirmation!</h4>
-                            <h6 class="mg-b-20 mg-x-20">Are you sure, you want to edit @Model.LocalityName pincode.</h6>
+                            <h6 class="mg-b-20 mg-x-20">Are you sure, you want to edit @Model.Name pincode.</h6>
                             <div class="modal-footer justify-content-center">
                                 <button class="btn ripple btn-primary" type="submit">Confirm</button>
                                 <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
