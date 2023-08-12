@@ -13,132 +13,322 @@
                             </span>
                         </p>
                         <div class="row">
-                            <div class="text-center col-md-4 mt-3 ">
-                                <button type="button" class="btn btn-primary" id="logo_img_btn">Upload Logo Image</button>
-                            </div>
-                            <div class="text-center col-md-4 mt-3">
-                                <button type="button" class="btn btn-primary" id="owner_img_btn">Upload Owner Images</button>
-                            </div>
-                            <div class="text-center col-md-4 mt-3">
-                                <button type="button" class="btn btn-primary" id="gallery_img_btn">Upload Gallery Images</button>
-                            </div>
-                        </div>
-                        <div class="row mt-5 justify-content-center hide" id="logo_upload_sec">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Select Logo Image <span class="text-danger">*</span></label>
-                                    <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="logo_img" OnChange="SetLogoImage" />
-                                </div>
-                                <input type="submit" value="submit" @onclick="@(async() => await UploadLogoImage())" class="btn_add mt-3">
+                            <div class="col-md-12 text-center" id="imageButtons">
+                                <button type="button" class="btn btn-primary select" data-toggle="logo"> Logo</button>
+                                <button type="button" class="btn btn-primary" data-toggle="owner"> Owner Image</button>
+                                <button type="button" class="btn btn-primary" data-toggle="gallery"> Gallery </button>
+                                <button type="button" class="btn btn-primary" data-toggle="banner"> Banner</button>
+                                <button type="button" class="btn btn-primary" data-toggle="certificate"> Certifications</button>
+                                <button type="button" class="btn btn-primary" data-toggle="client_logo"> Our Client</button>
                             </div>
                         </div>
-                        <div class="row mt-5 justify-content-center hide" id="owner_upload_sec">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Select Owner Image <span class="text-danger">*</span></label>
-                                    <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="owner_img" OnChange="SetOwnerImage" />
+                        <div class="row imageSection" id="logo_section">
+                            <div class="col-12">
+                                <div class="row mt-5 justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Select Logo Image <span class="text-danger">*</span></label>
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="logo_img" OnChange="SetLogoImage" />
+                                        </div>
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadLogoImage())" class="btn_add mt-3">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Select Designation <span class="text-danger">*</span></label>
-                                    <select class="form-control wide add_bottom_10 designation" name="designation" @onchange="SetOwnerDesignation">
-                                        <option></option>
-                                        <option value="Owner">Owner</option>
-                                        <option value="Proprietor">Proprietor</option>
-                                        <option value="Director">Director</option>
-                                        <option value="Manager">Manager</option>
-                                    </select>
+                                <hr style="margin-top: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="text-center">Logo</h2>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="name">Name<span class="text-danger">*</span></label>
-                                    <Input Type="text" Placeholder="Name" @bind-Value="UploadImagesVM.OwnerImageDetail.TitleOrName" />
-                                </div>
-                                <input type="submit" value="submit" @onclick="@(async() => await UploadOwnerImage())" class="btn_add mt-3">
-                            </div>
-                        </div>
-                        <div class="row mt-5 justify-content-center hide" id="gallery_upload_sec">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Select Gallery Image <span class="text-danger">*</span></label>
-                                    <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Select Image Title<span class="text-danger">*</span></label>
-                                    <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
-                                </div>
-                                <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
-                            </div>
-                        </div>
-                        <hr style="margin-top: 32px;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h2 class="text-center">Logo</h2>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center mt-4">
-                            <div class="col-md-3 col-lg-2 col-6">
-                                <div class="upload_img_sec">
-                                    <img class="upload_images" src="@UploadImagesVM.LogoImageUrl" alt="Logo">
-                                </div>
-                            </div>
-                        </div>
-                        <hr style="margin-top: 32px;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h2 class="text-center">Owner Images</h2>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center mt-4">
-                            @if (UploadImagesVM.OwnerImages != null && UploadImagesVM.OwnerImages.Count > 0)
-                            {
-                                foreach (var ownerImage in UploadImagesVM.OwnerImages)
-                                {
-                                    <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                <div class="row justify-content-center mt-4">
+                                    <div class="col-md-3 col-lg-2 col-6">
                                         <div class="upload_img_sec">
-                                            <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteOwnerImage(ownerImage.Id))" alt="delete">
-                                            <img class="upload_images" src="@ownerImage.ImageUrl" alt="Owner Image">
-                                            <div class="img_title text-center">@ownerImage.TitleOrName</div>
-                                            <div class="img_title text-center">(@ownerImage.Designation)</div>
+                                            <img class="upload_images" src="@UploadImagesVM.LogoImageUrl" alt="Logo">
                                         </div>
                                     </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                    <div class="upload_img_sec">
-                                        <div class="img_title text-center">Not Found</div>
-                                    </div>
                                 </div>
-                            }
-                        </div>
-                        <hr style="margin-top: 32px;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h2 class="text-center">Gallery Images</h2>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
-                            @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
-                            {
-                                foreach (var galleryImage in UploadImagesVM.GalleryImages)
-                                {
-                                    <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                        <div class="upload_img_sec">
-                                            <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteGalleryImage(galleryImage.Id))" alt="delete">
-                                            <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
-                                            <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                        <div class="row hide imageSection" id="owner_section">
+                            <div class="col-12">
+                                <div class="row mt-5">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="name">Select Owner Image <span class="text-danger">*</span></label>
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="owner_img" OnChange="SetOwnerImage" />
                                         </div>
                                     </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="col-md-3 col-lg-2 col-6 mb-5">
-                                    <div class="upload_img_sec">
-                                        <div class="img_title text-center">Not Found</div>
+                                    <div class="col-md-6 ">
+                                        <div class="form-group">
+                                            <label>Select Designation <span class="text-danger">*</span></label>
+                                            <select class="form-control wide add_bottom_10 designation" name="designation" @onchange="SetOwnerDesignation">
+                                                <option></option>
+                                                <option value="Owner">Owner</option>
+                                                <option value="Proprietor">Proprietor</option>
+                                                <option value="Director">Director</option>
+                                                <option value="Manager">Manager</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">Name<span class="text-danger">*</span></label>
+                                            <Input Type="text" Placeholder="Name" @bind-Value="UploadImagesVM.OwnerImageDetail.TitleOrName" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">Religion<span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" name="religion" id="religion"
+                                                   placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">Cast<span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" name="cast" id="cast"
+                                                   placeholder="Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">State<span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" name="state" id="state"
+                                                   placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">Country<span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" name="country" id="country"
+                                                   placeholder="Name">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadOwnerImage())" class="btn_add mt-3">
                                     </div>
                                 </div>
-                            }
+                                <hr style="margin-top: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="text-center">Owner Images</h2>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-4">
+                                    @if (UploadImagesVM.OwnerImages != null && UploadImagesVM.OwnerImages.Count > 0)
+                                    {
+                                        foreach (var ownerImage in UploadImagesVM.OwnerImages)
+                                        {
+                                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                                <div class="upload_img_sec">
+                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteOwnerImage(ownerImage.Id))" alt="delete">
+                                                    <img class="upload_images" src="@ownerImage.ImageUrl" alt="Owner Image">
+                                                    <div class="img_title text-center">@ownerImage.TitleOrName</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                            <div class="upload_img_sec">
+                                                <div class="img_title text-center">Not Found</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row hide imageSection" id="gallery_section">
+                            <div class="col-12">
+                                <div class="row mt-5 justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Select Gallery Image <span class="text-danger">*</span></label>
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Image Title<span class="text-danger">*</span></label>
+                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
+                                        </div>
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
+                                    </div>
+                                </div>
+                                <hr style="margin-top: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="text-center">Gallery Images</h2>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-4">
+                                    @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
+                                    {
+                                        foreach (var galleryImage in UploadImagesVM.GalleryImages)
+                                        {
+                                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                                <div class="upload_img_sec">
+                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteGalleryImage(galleryImage.Id))" alt="delete">
+                                                    <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
+                                                    <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                            <div class="upload_img_sec">
+                                                <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                                <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
+                                                <div class="img_title text-center">Image Title</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row hide imageSection" id="banner_section">
+                            <div class="col-12">
+                                <div class="row mt-5 justify-content-center">
+                                    <div class="col-md-6">
+                                        <form action="#">
+                                            <div class="form-group">
+                                                <label for="name">
+                                                    Select Banner Image <span class="text-danger">*</span>
+                                                </label>
+                                                <input class="form-control" type="file" name="gallery_img"
+                                                       id="gallery_img">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">
+                                                    Banner Title<span class="text-danger">*</span>
+                                                </label>
+                                                <input class="form-control" type="text" name="title" id="title"
+                                                       placeholder="Image Title">
+                                            </div>
+                                            <input type="submit" value="submit" class="btn_add mt-3">
+                                        </form>
+                                    </div>
+                                </div>
+                                <hr style="margin-top: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="text-center">Banner Images</h2>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-4">
+                                    <div class="col-md-12 col-lg-12 col-6 mb-5">
+                                        <div class="upload_banner_img_sec">
+                                            <img class="delete_img" src="/resources/img/delete.png" alt="delete" style="right: 15px;">
+                                            <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
+                                            <div class="img_title text-center">Banner Title</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row hide imageSection" id="certificate_section">
+                            <div class="col-12">
+                                <div class="row mt-5 justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Select Certificate Image <span class="text-danger">*</span></label>
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Certificate Title<span class="text-danger">*</span></label>
+                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
+                                        </div>
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
+                                    </div>
+                                </div>
+                                <hr style="margin-top: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="text-center">Certificate Images</h2>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-4">
+                                    @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
+                                    {
+                                        foreach (var galleryImage in UploadImagesVM.GalleryImages)
+                                        {
+                                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                                <div class="upload_img_sec">
+                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteGalleryImage(galleryImage.Id))" alt="delete">
+                                                    <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
+                                                    <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                            <div class="upload_img_sec">
+                                                <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                                <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
+                                                <div class="img_title text-center">Image Title</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row hide imageSection" id="client_logo_section">
+                            <div class="col-12">
+                                <div class="row mt-5 justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Select Client Logo Image <span class="text-danger">*</span></label>
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Client Logo Title<span class="text-danger">*</span></label>
+                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
+                                        </div>
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
+                                    </div>
+                                </div>
+                                <hr style="margin-top: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="text-center">Client Logo Images</h2>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-4">
+                                    @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
+                                    {
+                                        foreach (var galleryImage in UploadImagesVM.GalleryImages)
+                                        {
+                                            <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                                <div class="upload_img_sec">
+                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteGalleryImage(galleryImage.Id))" alt="delete">
+                                                    <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
+                                                    <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-3 col-lg-2 col-6 mb-5">
+                                            <div class="upload_img_sec">
+                                                <img class="delete_img" src="/resources/img/delete.png" alt="delete">
+                                                <img class="upload_images" src="/resources/img/access_bg.jpg" alt="Logo">
+                                                <div class="img_title text-center">Image Title</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

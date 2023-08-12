@@ -135,22 +135,13 @@ $(document).ready(function () {
     });
 
     // --------------------- Image Upload ---------------
-    $(document).on('click', '#logo_img_btn', function () {
-        $('#logo_upload_sec').toggleClass('show hide');
-        $('#owner_upload_sec').removeClass('show').addClass('hide');
-        $('#gallery_upload_sec').removeClass('show').addClass('hide');
-    });
-
-    $(document).on('click', '#owner_img_btn', function () {
-        $('#logo_upload_sec').removeClass('show').addClass('hide');
-        $('#owner_upload_sec').toggleClass('show hide');
-        $('#gallery_upload_sec').removeClass('show').addClass('hide');
-    });
-
-    $(document).on('click', '#gallery_img_btn', function () {
-        $('#logo_upload_sec').removeClass('show').addClass('hide');
-        $('#owner_upload_sec').removeClass('show').addClass('hide');
-        $('#gallery_upload_sec').toggleClass('show hide');
+    $(document).on('click', '#imageButtons button', function () {
+        var $this = $(this);
+        $('.imageSection').addClass('hide');
+        $('#imageButtons button').removeClass('select');
+        $this.addClass('select');
+        $('#' + this.dataset.toggle + '_section').removeClass('hide');
+        debugger;
     });
 
 

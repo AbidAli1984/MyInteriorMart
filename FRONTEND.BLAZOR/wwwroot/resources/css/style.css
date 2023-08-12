@@ -9517,35 +9517,17 @@ article.blog .post_info {
         background: #fff;
     }
 
-.upload_btn {
+#imageButtons button {
     margin: 5px 5px 0 5px;
-    border: none;
-    color: #222222;
-    background: #fb830d !important;
-    outline: none;
-    cursor: pointer;
-    display: inline-block;
-    text-decoration: none;
-    padding: 15px 30px;
-    font-weight: 600;
-    text-align: center;
-    line-height: 1;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    border-radius: 3px;
-    font-family: "PoppinsSemiBold";
-    font-size: 16px;
 }
 
+    #imageButtons button:focus {
+        box-shadow: none;
+    }
+
 .select {
-    color: #fff;
-    background: #fb830d;
+    color: #222222;
+    font-family: "PoppinsSemiBold";
 }
 
 .verify_email {
