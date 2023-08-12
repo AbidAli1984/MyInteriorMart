@@ -6677,6 +6677,29 @@ a.btn_3, .btn_3 {
   }
 }
 
+.clear:after, .pagination:after, .clear:before, .pagination:before {
+  content: "";
+  display: table;
+}
+.clear:after, .pagination:after {
+  clear: both;
+}
+
+.pagination__wrapper {
+  height: 50px;
+  padding-top: 10px;
+  margin-bottom: 0;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+.pagination__wrapper:before {
+  top: -1px;
+}
+.pagination__wrapper:after {
+  bottom: -1px;
+}
+
 .pagination {
   display: inline-block;
   list-style: none;
