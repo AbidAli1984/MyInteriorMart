@@ -26,14 +26,14 @@ namespace FRONTEND.Areas.AjaxRequests.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAssembly([Bind("StationID,Name,CityID")] Station station)
+        public async Task<IActionResult> CreateAssembly([Bind("StationID,Name,CityID")] Location station)
         {
             if (ModelState.IsValid)
             {
-                if (await _context.Station.AnyAsync(a => a.Name.Contains(station.Name) && a.CityID == station.CityID))
+                if (await _context.Location.AnyAsync((System.Linq.Expressions.Expression<Func<Location, bool>>)(a => (bool)(a.Name.Contains((string)station.Name) && a.CityID == station.CityID))))
                 {
                     TempData["CreateError"] = station.Name + " already exisits in assembly database.";
-                    return Redirect("/Subscriptions/Addresses/Create");
+                    return base.Redirect("/Subscriptions/Addresses/Create");
                 }
 
                 _context.Add(station);
@@ -72,20 +72,20 @@ namespace FRONTEND.Areas.AjaxRequests.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateLocality([Bind("LocalityID,LocalityName,StationID,PincodeID")] Locality locality)
+        public async Task<IActionResult> CreateLocality([Bind("LocalityID,LocalityName,StationID,PincodeID")] Area locality)
         {
             if (ModelState.IsValid)
             {
-                if (await _context.Locality.AnyAsync(p => p.LocalityName.Contains(locality.LocalityName) && p.PincodeID == locality.PincodeID && locality.StationID == locality.StationID))
+                if (await _context.Area.AnyAsync((System.Linq.Expressions.Expression<Func<Area, bool>>)(p => (bool)(p.Name.Contains((string)locality.Name) && p.PincodeID == locality.PincodeID && locality.LocationId == locality.LocationId))))
                 {
-                    TempData["CreateError"] = locality.LocalityName + " already exisits in locality database.";
-                    return Redirect("/Subscriptions/Addresses/Create");
+                    TempData["CreateError"] = locality.Name + " already exisits in locality database.";
+                    return base.Redirect("/Subscriptions/Addresses/Create");
                 }
 
                 _context.Add(locality);
                 await _context.SaveChangesAsync();
 
-                TempData["CreateMessage"] = "Locality " + locality.LocalityName + " created successfully.";
+                TempData["CreateMessage"] = "Locality " + locality.Name + " created successfully.";
                 return Redirect("/Subscriptions/Addresses/Create");
             }
 

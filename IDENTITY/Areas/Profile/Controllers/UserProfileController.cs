@@ -117,7 +117,7 @@ namespace IDENTITY.Areas.Profile.Controllers
                 ViewData["Countries"] = new SelectList(sharedContext.Country, "CountryID", "Name");
                 ViewData["States"] = new SelectList(sharedContext.State, "StateID", "Name");
                 ViewData["Cities"] = new SelectList(sharedContext.City, "CityID", "Name");
-                ViewData["Assemblies"] = new SelectList(sharedContext.Station, "StationID", "Name");
+                ViewData["Assemblies"] = new SelectList(sharedContext.Location, "StationID", "Name");
                 ViewData["Pincodes"] = new SelectList(sharedContext.Pincode, "PincodeID", "PincodeNumber");
                 ViewData["TimeZone"] = new SelectList(TimeZoneInfo.GetSystemTimeZones().OrderByDescending(t => t.Id == "India Standard Time").ThenBy(t => t.DisplayName), "Id", "DisplayName");
 

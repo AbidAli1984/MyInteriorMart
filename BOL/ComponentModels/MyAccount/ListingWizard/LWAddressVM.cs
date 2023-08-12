@@ -21,7 +21,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
 
         public IList<State> States { get; set; }
         public IList<City> Cities { get; set; }
-        public IList<Station> Areas { get; set; }
+        public IList<Location> Areas { get; set; }
         public IList<Pincode> Pincodes { get; set; }
         public IList<Area> Localities { get; set; }
 
@@ -29,7 +29,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         {
             States = new List<State>();
             Cities = new List<City>();
-            Areas = new List<Station>();
+            Areas = new List<Location>();
             Pincodes = new List<Pincode>();
             Localities = new List<Area>();
         }

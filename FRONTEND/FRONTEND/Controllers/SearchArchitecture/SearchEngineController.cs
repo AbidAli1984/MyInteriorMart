@@ -282,7 +282,7 @@ namespace FRONTEND.Controllers.SearchArchitecture
 
                     var name = new SearchResultViewModel()
                     {
-                        label = "<li><div id='elementSearchResult' style='margin-left:20px; text-decoration: none; color: #000000; font-family: Arial; font-size: 16px; font-weight: normal; cursor: pointer'>" + item.CompanyName + "</div><div style='font-family: Arial; margin-top:-3px; margin-left:20px; font-size: 11px;'>" + locality.LocalityName + " " + station.Name + " " + city.Name + " " + state.Name + " " + country.Name + "</div></li>",
+                        label = "<li><div id='elementSearchResult' style='margin-left:20px; text-decoration: none; color: #000000; font-family: Arial; font-size: 16px; font-weight: normal; cursor: pointer'>" + item.CompanyName + "</div><div style='font-family: Arial; margin-top:-3px; margin-left:20px; font-size: 11px;'>" + locality.Name + " " + station.Name + " " + city.Name + " " + state.Name + " " + country.Name + "</div></li>",
                         value = $"({item.CompanyName})-UrlStart-{item.ListingURL}-UrlEnd-TermStart-COM-TermEnd-IdStart-{item.ListingID}-IdEnd"
                     };
 
@@ -311,7 +311,7 @@ namespace FRONTEND.Controllers.SearchArchitecture
 
                     var contact = new SearchResultViewModel()
                     {
-                        label = $"<li><div id='elementSearchResult' style='margin-left:20px; text-decoration: none; color: #000000; font-family: Arial; font-size: 16px; font-weight: normal; cursor: pointer'>{item.CompanyName}</div><div style='font-family: Arial; margin-top:-3px; margin-left:20px; font-size: 11px;'>{item.Name} <strong>Location: </strong>{locality.LocalityName} {station.Name} {city.Name} {state.Name} {country.Name}</div></li>",
+                        label = $"<li><div id='elementSearchResult' style='margin-left:20px; text-decoration: none; color: #000000; font-family: Arial; font-size: 16px; font-weight: normal; cursor: pointer'>{item.CompanyName}</div><div style='font-family: Arial; margin-top:-3px; margin-left:20px; font-size: 11px;'>{item.Name} <strong>Location: </strong>{locality.Name} {station.Name} {city.Name} {state.Name} {country.Name}</div></li>",
                         value = $"({item.Name})-UrlStart-{item.ListingURL}-UrlEnd-TermStart-PER-TermEnd-IdStart-{item.ListingID}-IdEnd"
                     };
 
@@ -544,7 +544,7 @@ namespace FRONTEND.Controllers.SearchArchitecture
 
             // Shafi: Assembly
             IList<SearchResultViewModel> assemblyResult = new List<SearchResultViewModel>();
-            var assemblyList = await sharedContext.Station.Where(i => i.Name.Contains(term)).Take(10).ToListAsync();
+            var assemblyList = await sharedContext.Location.Where(i => i.Name.Contains(term)).Take(10).ToListAsync();
             foreach (var item in assemblyList)
             {
                 var assembly = new SearchResultViewModel()
@@ -562,13 +562,13 @@ namespace FRONTEND.Controllers.SearchArchitecture
 
             // Shafi: Area
             IList<SearchResultViewModel> areaResult = new List<SearchResultViewModel>();
-            var areaList = await sharedContext.Locality.Where(i => i.LocalityName.Contains(term)).Take(10).ToListAsync();
+            var areaList = await sharedContext.Area.Where(i => i.Name.Contains(term)).Take(10).ToListAsync();
             foreach (var item in areaList)
             {
                 var area = new SearchResultViewModel()
                 {
-                    label = $"<li><div id='elementSearchResult' style='margin-left:20px; text-decoration: none; color: #000000; font-family: Arial; font-size: 16px; font-weight: normal; cursor: pointer'>{item.LocalityName}</div></li>",
-                    value = $"UrlStart-({item.LocalityName})-UrlEnd-TermStart-ARE-TermEnd-IdStart-{item.LocalityID}-IdEnd"
+                    label = $"<li><div id='elementSearchResult' style='margin-left:20px; text-decoration: none; color: #000000; font-family: Arial; font-size: 16px; font-weight: normal; cursor: pointer'>{item.Name}</div></li>",
+                    value = $"UrlStart-({item.Name})-UrlEnd-TermStart-ARE-TermEnd-IdStart-{item.Id}-IdEnd"
                 };
 
                 areaResult.Add(area);

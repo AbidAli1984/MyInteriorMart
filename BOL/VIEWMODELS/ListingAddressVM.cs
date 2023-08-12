@@ -10,9 +10,9 @@ namespace BOL.VIEWMODELS
         public Country Country { get; set; }
         public State State { get; set; }
         public City City { get; set; }
-        public Station Assembly { get; set; }
+        public Location Assembly { get; set; }
         public Pincode Pincode { get; set; }
-        public Locality Locality { get; set; }
+        public Area Locality { get; set; }
         public string LocalAddress { get; set; }
     }
 }

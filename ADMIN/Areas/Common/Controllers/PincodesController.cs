@@ -26,15 +26,15 @@ namespace ADMIN.Areas.Common.Controllers
         [Route("/Common/Pincodes/Index/{stationId}")]
         public async Task<IActionResult> Index(int stationId)
         {
-            var station = await _context.Station.Where(i => i.StationID == stationId).FirstOrDefaultAsync();
-            ViewBag.StationId = station.StationID;
+            var station = await _context.Location.Where(i => i.Id == stationId).FirstOrDefaultAsync();
+            ViewBag.StationId = station.Id;
             ViewBag.Message = TempData["Message"];
 
             // Shafi: Display assembly deleted successfully message in index view
             ViewBag.Deleted = TempData["Deleted"];
             // End:
 
-            var sharedDbContext = _context.Pincode.Include(p => p.Station).Include(p => p.Station.City).Include(p => p.Station.City.State).Include(p => p.Station.City.State.Country).Where(i => i.StationID == stationId);
+            var sharedDbContext = _context.Pincode.Include(p => p.Location).Include(p => p.Location.City).Include(p => p.Location.City.State).Include(p => p.Location.City.State.Country).Where(i => i.StationID == stationId);
             return View(await sharedDbContext.ToListAsync());
         }
 
@@ -48,7 +48,7 @@ namespace ADMIN.Areas.Common.Controllers
             }
 
             var pincode = await _context.Pincode
-                .Include(p => p.Station)
+                .Include(p => p.Location)
                 .FirstOrDefaultAsync(m => m.PincodeID == id);
             if (pincode == null)
             {
@@ -66,7 +66,7 @@ namespace ADMIN.Areas.Common.Controllers
             ViewData["Countries"] = new SelectList(_context.Country, "CountryID", "Name");
             // End:
 
-            ViewData["StationID"] = new SelectList(_context.Station, "StationID", "Name");
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name");
             return View();
         }
 
@@ -122,7 +122,7 @@ namespace ADMIN.Areas.Common.Controllers
             {
                 return NotFound();
             }
-            ViewData["StationID"] = new SelectList(_context.Station, "StationID", "Name", pincode.StationID);
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", pincode.StationID);
             return View(pincode);
         }
 
@@ -165,7 +165,7 @@ namespace ADMIN.Areas.Common.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StationID"] = new SelectList(_context.Station, "StationID", "Name", pincode.StationID);
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", pincode.StationID);
             return View(pincode);
         }
 
@@ -179,7 +179,7 @@ namespace ADMIN.Areas.Common.Controllers
             }
 
             var pincode = await _context.Pincode
-                .Include(p => p.Station)
+                .Include(p => p.Location)
                 .FirstOrDefaultAsync(m => m.PincodeID == id);
             if (pincode == null)
             {

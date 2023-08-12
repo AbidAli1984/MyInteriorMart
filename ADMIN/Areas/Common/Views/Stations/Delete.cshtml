@@ -1,4 +1,4 @@
-﻿@model BOL.SHARED.Station
+﻿@model BOL.SHARED.Location
 
 @{
     ViewData["Title"] = "Delete Assembly";
@@ -25,7 +25,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Delete">
-            <input type="hidden" asp-for="StationID" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label class="control-label">City</label>
                 <input type="text" value="@Model.City.Name" class="form-control" disabled />

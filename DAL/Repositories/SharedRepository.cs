@@ -57,9 +57,9 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<Station>> GetAreasByCityId(int cityId)
+        public async Task<IList<Location>> GetAreasByCityId(int cityId)
         {
-            return await sharedDbContext.Station
+            return await sharedDbContext.Location
                 .OrderBy(i => i.Name)
                 .Where(i => i.CityID == cityId)
                 .ToListAsync();
@@ -73,11 +73,11 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
 
-        public IList<Locality> listLocality = new List<Locality>();
-        public async Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId)
+        public IList<Area> listLocality = new List<Area>();
+        public async Task<IList<Area>> GetLocalitiesByPincode(int pincodeId)
         {
-            return await sharedDbContext.Locality
-                .OrderBy(i => i.LocalityName)
+            return await sharedDbContext.Area
+                .OrderBy(i => i.Name)
                 .Where(i => i.PincodeID == pincodeId)
                 .ToListAsync();
         }
@@ -97,21 +97,21 @@ namespace DAL.Repositories
         {
             return await sharedDbContext.City.FindAsync(cityId);
         }
-        public async Task<Station> GetAreaByAreaId(int areaId)
+        public async Task<Location> GetAreaByAreaId(int areaId)
         {
-            return await sharedDbContext.Station.FindAsync(areaId);
+            return await sharedDbContext.Location.FindAsync(areaId);
         }
         public async Task<Pincode> GetPincodeByPincodeId(int pincodeId)
         {
             return await sharedDbContext.Pincode.FindAsync(pincodeId);
         }
-        public async Task<Locality> GetLocalityByLocalityId(int localityId)
+        public async Task<Area> GetLocalityByLocalityId(int localityId)
         {
-            return await sharedDbContext.Locality.FindAsync(localityId);
+            return await sharedDbContext.Area.FindAsync(localityId);
         }
-        public async Task<Station> GetAreaByAreaName(string area)
+        public async Task<Location> GetAreaByAreaName(string area)
         {
-            return await sharedDbContext.Station
+            return await sharedDbContext.Location
                 .FirstOrDefaultAsync(x => x.Name == area);
         }
         public async Task<Pincode> GetPincodeByPinNumber(int pinNumber)
@@ -119,10 +119,10 @@ namespace DAL.Repositories
             return await sharedDbContext.Pincode
                 .FirstOrDefaultAsync(x => x.PincodeNumber == pinNumber);
         }
-        public async Task<Locality> GetLocalityByLocalityName(string localityName)
+        public async Task<Area> GetLocalityByLocalityName(string localityName)
         {
-            return await sharedDbContext.Locality
-                .FirstOrDefaultAsync(x => x.LocalityName == localityName);
+            return await sharedDbContext.Area
+                .FirstOrDefaultAsync(x => x.Name == localityName);
         }
         #endregion
 

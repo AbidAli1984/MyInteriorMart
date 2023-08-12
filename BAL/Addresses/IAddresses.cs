@@ -11,16 +11,16 @@ namespace BAL.Addresses
         Task<IEnumerable<Country>> GetCountriesAsync();
         Task<IEnumerable<State>> GetStatesAsync();
         Task<IEnumerable<City>> GetCitiesAsync();
-        Task<IEnumerable<Station>> GetStationsAsync();
+        Task<IEnumerable<Location>> GetStationsAsync();
         Task<IEnumerable<Pincode>> GetPincodesAsync();
-        Task<IEnumerable<Locality>> GetLocalitiesAsync();
+        Task<IEnumerable<Area>> GetLocalitiesAsync();
 
         Task<Country> CountryDetailsAsync(int CountryId);
         Task<State> StateDetailsAsync(int StateId);
         Task<City> CityDetailsAsync(int CityId);
-        Task<Station> StationDetailsAsync(int StationId);
+        Task<Location> StationDetailsAsync(int StationId);
         Task<Pincode> PincodeDetailsAsync(int PincodeId);
-        Task<Locality> LocalityDetailsAsync(int LocalityId);
+        Task<Area> LocalityDetailsAsync(int LocalityId);
 
         string CountryName(int id);
         string StateName(int id);

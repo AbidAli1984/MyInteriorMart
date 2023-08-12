@@ -329,7 +329,7 @@
                             {
                                 <label asp-for="LocalityID" class="control-label"></label>
                                 <select asp-for="LocalityID" id="LocalityID" class="form-control select2">
-                                    <option selected value="@Model.LocalityID">@locality.LocalityName</option>
+                                    <option selected value="@Model.LocalityID">@locality.Name</option>
                                 </select>
                                 <span asp-validation-for="LocalityID" class="text-danger"></span>
                             }

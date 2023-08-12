@@ -52,10 +52,10 @@ namespace FRONTEND.Controllers
         // Begin: Cascade Dropdown For Assemblies
         public JsonResult fetchAssemblies(int JsonCityValueId)
         {
-            var selAssemblies = sharedManager.Station
+            var selAssemblies = sharedManager.Location
                 .OrderBy(c => c.Name)
                 .Where(c => c.CityID == JsonCityValueId)
-                .Select(c => new { value = c.StationID, text = c.Name });
+                .Select(c => new { value = c.Id, text = c.Name });
             return Json(new SelectList(selAssemblies, "value", "text"));
         }
 
@@ -72,10 +72,10 @@ namespace FRONTEND.Controllers
         // Begin: Cascade Dropdown For Locality
         public JsonResult fetchLocalities(int JsonPincodeValueId)
         {
-            var selLocalities = sharedManager.Locality
-                .OrderBy(c => c.LocalityName)
+            var selLocalities = sharedManager.Area
+                .OrderBy(c => c.Name)
                 .Where(c => c.PincodeID == JsonPincodeValueId)
-                .Select(c => new { value = c.LocalityID, text = c.LocalityName });
+                .Select(c => new { value = c.Id, text = c.Name });
             return Json(new SelectList(selLocalities, "value", "text"));
         }
     }

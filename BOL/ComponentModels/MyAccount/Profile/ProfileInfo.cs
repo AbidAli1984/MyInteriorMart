@@ -14,9 +14,9 @@ namespace BOL.ComponentModels.MyAccount.Profile
         public IList<Country> Countries { get; set; }
         public IList<State> States { get; set; }
         public IList<City> Cities { get; set; }
-        public IList<Station> Areas { get; set; }
+        public IList<Location> Areas { get; set; }
         public IList<Pincode> Pincodes { get; set; }
-        public IList<Locality> Localities { get; set; }
+        public IList<Area> Localities { get; set; }
 
         public ProfileInfo()
         {
@@ -25,9 +25,9 @@ namespace BOL.ComponentModels.MyAccount.Profile
             Countries = new List<Country>();
             States = new List<State>();
             Cities = new List<City>();
-            Areas = new List<Station>();
+            Areas = new List<Location>();
             Pincodes = new List<Pincode>();
-            Localities = new List<Locality>();
+            Localities = new List<Area>();
         }
     }
 }

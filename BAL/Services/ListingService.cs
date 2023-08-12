@@ -111,7 +111,7 @@ namespace BAL.Services
                         //SubCategoryId = item.Categories.SecondCategoryID,
                         SubCategory = secondCat != null ? secondCat.Name : string.Empty,
                         Assembly = assembly != null ? assembly.Name : string.Empty,
-                        Area = area != null ? area.LocalityName : string.Empty,
+                        Area = area != null ? area.Name : string.Empty,
                         Mobile = communication.Mobile,
                         Email = communication.Email,
                         BusinessYear = DateTime.Now.Year - item.YearOfEstablishment.Year,
@@ -164,7 +164,7 @@ namespace BAL.Services
                 listingDetailVM.Address.City = city.Name;
                 listingDetailVM.Address.Assembly = assembly.Name;
                 listingDetailVM.Address.Pincode = pincode.PincodeNumber;
-                listingDetailVM.Address.Locality = locality.LocalityName;
+                listingDetailVM.Address.Locality = locality.Name;
             }
 
             listingDetailVM.BusinessWorkingHour = await _helperFunctions.IsBusinessOpen(listingId);

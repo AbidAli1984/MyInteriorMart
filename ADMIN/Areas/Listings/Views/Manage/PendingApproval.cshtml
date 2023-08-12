@@ -174,7 +174,7 @@
             {
                 var firstCategory = await categoryRepo.FirstCategoryDetailsAsync(item.Category.FirstCategory.FirstCategoryID);
                 var secondCategory = await categoryRepo.SecondCategoryDetailsAsync(item.Category.SecondCategory.SecondCategoryID);
-                var assembly = await addressRepo.StationDetailsAsync(item.Address.Assembly.StationID);
+                var assembly = await addressRepo.StationDetailsAsync(item.Address.Assembly.Id);
                 var city = await addressRepo.CityDetailsAsync(item.Address.City.CityID);
                 var country = await addressRepo.CountryDetailsAsync(item.Address.Country.CountryID);
 

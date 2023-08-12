@@ -34,7 +34,7 @@ namespace ADMIN.Areas.Common.Controllers
             ViewBag.Deleted = TempData["Deleted"];
             // End:
 
-            var sharedDbContext = _context.Station.Include(s => s.City).Include(p => p.City.State).Include(p => p.City.State.Country).Where(i => i.CityID == cityId);
+            var sharedDbContext = _context.Location.Include(s => s.City).Include(p => p.City.State).Include(p => p.City.State.Country).Where(i => i.CityID == cityId);
             return View(await sharedDbContext.ToListAsync());
         }
 
@@ -47,9 +47,9 @@ namespace ADMIN.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var station = await _context.Station
+            var station = await _context.Location
                 .Include(s => s.City)
-                .FirstOrDefaultAsync(m => m.StationID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (station == null)
             {
                 return NotFound();
@@ -77,13 +77,13 @@ namespace ADMIN.Areas.Common.Controllers
         {
             if (name != null && cityID != null)
             {
-                Station station = new Station
+                Location station = new Location
                 {
                     Name = name,
                     CityID = cityID
                 };
 
-                var duplicate = await _context.Station.Where(i => i.CityID == cityID).AnyAsync(i => i.Name == name);
+                var duplicate = await _context.Location.Where(i => i.CityID == cityID).AnyAsync(i => i.Name == name);
 
                 if (duplicate != true)
                 {
@@ -114,7 +114,7 @@ namespace ADMIN.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var station = await _context.Station.FindAsync(id);
+            var station = await _context.Location.FindAsync(id);
             if (station == null)
             {
                 return NotFound();
@@ -129,9 +129,9 @@ namespace ADMIN.Areas.Common.Controllers
         [HttpPost]
         [Authorize(Policy = "Admin-Assembly-Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StationID,Name,CityID")] Station station)
+        public async Task<IActionResult> Edit(int id, [Bind("StationID,Name,CityID")] Location station)
         {
-            if (id != station.StationID)
+            if (id != station.Id)
             {
                 return NotFound();
             }
@@ -145,7 +145,7 @@ namespace ADMIN.Areas.Common.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StationExists(station.StationID))
+                    if (!StationExists(station.Id))
                     {
                         return NotFound();
                     }
@@ -169,9 +169,9 @@ namespace ADMIN.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var station = await _context.Station
+            var station = await _context.Location
                 .Include(s => s.City)
-                .FirstOrDefaultAsync(m => m.StationID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (station == null)
             {
                 return NotFound();
@@ -186,20 +186,20 @@ namespace ADMIN.Areas.Common.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var station = await _context.Station.FindAsync(id);
+            var station = await _context.Location.FindAsync(id);
 
             // Shafi: Show successfully deleted message in index page via TempData["Deleted"]
             TempData["Deleted"] = "Assembly " + station.Name + " deleted successfully.";
             // End:
 
-            _context.Station.Remove(station);
+            _context.Location.Remove(station);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StationExists(int id)
         {
-            return _context.Station.Any(e => e.StationID == id);
+            return _context.Location.Any((System.Linq.Expressions.Expression<Func<Location, bool>>)(e => e.Id == id));
         }
     }
 }

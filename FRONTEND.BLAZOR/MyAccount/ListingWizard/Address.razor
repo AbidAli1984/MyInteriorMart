@@ -71,12 +71,12 @@
                                     <option value="0" selected>Choose...</option>
                                     @foreach (var p in LWAddressVM.Areas)
                                     {
-                                        @if (LWAddressVM.StationId == p.StationID)
+                                        @if (LWAddressVM.StationId == p.Id)
                                         {
-                                            <option selected value="@p.StationID">@p.Name</option>
+                                            <option selected value="@p.Id">@p.Name</option>
                                             continue;
                                         }
-                                        <option value="@p.StationID">@p.Name</option>
+                                        <option value="@p.Id">@p.Name</option>
                                     }
                                 </select>
                                 <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideAreaModal())">+ Add locality</button>

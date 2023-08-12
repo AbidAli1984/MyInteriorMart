@@ -175,7 +175,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     return;
                 }
 
-                Station station = new Station
+                Location station = new Location
                 {
                     CityID = LWAddressVM.CityId,
                     Name = AreaName
@@ -271,7 +271,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 {
                     Name = LocalityName,
                     PincodeID = LWAddressVM.PincodeId,
-                    LocalityId = LWAddressVM.StationId
+                    LocationId = LWAddressVM.StationId
                 };
 
                 await sharedService.AddAsync(locality);

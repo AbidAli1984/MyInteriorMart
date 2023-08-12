@@ -1,4 +1,4 @@
-﻿@model BOL.SHARED.Locality
+﻿@model BOL.SHARED.Area
 
 @{
     ViewData["Title"] = "Create Locality";
@@ -143,21 +143,21 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Assembly</label>
-                <select asp-for="StationID" id="StationId" class="form-control select2">
+                <select asp-for="LocationId" id="StationId" class="form-control select2">
                     <option selected disabled>Select</option>
                 </select>
-                <span asp-validation-for="StationID" class="text-danger"></span>
+                <span asp-validation-for="LocationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PincodeID" class="control-label"></label>
+                <label asp-for="LocationId" class="control-label"></label>
                 <select asp-for="PincodeID" id="PincodeId" class="form-control select2">
                     <option selected disabled>Select</option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="LocalityName" class="control-label"></label>
-                <input asp-for="LocalityName" id="localityOriginal" class="form-control" />
-                <span asp-validation-for="LocalityName" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" id="localityOriginal" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <a href="" data-target="#modalConfirm" data-toggle="modal" class="btn btn-primary">Save</a>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BOL.SHARED.Locality>
+﻿@model IEnumerable<BOL.SHARED.Area>
 
 @{
     ViewData["Title"] = "All Localities";
@@ -57,12 +57,12 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add().RenderedAs((model, row) => model.LocalityID).Titled("ID").Css("text-center");
-        columns.Add(model => model.LocalityName).Titled("Locality");
+        columns.Add().RenderedAs((model, row) => model.Id).Titled("ID").Css("text-center");
+        columns.Add(model => model.Name).Titled("Locality");
         columns.Add(model => model.Pincode.PincodeNumber).Titled("Pincode");
-        columns.Add(model => model.Station.Name).Titled("Assembly");
-        columns.Add(model => model.Station.City.Name).Titled("City");
-        columns.Add(model => $"<a href=\"/Common/Localities/Edit/{model.LocalityID}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Common/Localities/Delete/{model.LocalityID}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
+        columns.Add(model => model.Location.Name).Titled("Assembly");
+        columns.Add(model => model.Location.City.Name).Titled("City");
+        columns.Add(model => $"<a href=\"/Common/Localities/Edit/{model.Id}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Common/Localities/Delete/{model.Id}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
     })
     .Filterable()
     .Sortable()

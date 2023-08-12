@@ -75,7 +75,7 @@
                 if(item.Address != null)
                 {
                     var pincodeDetail = await addressRepo.PincodeDetailsAsync(item.Address.Pincode.PincodeID);
-                    var stationDetail = await addressRepo.StationDetailsAsync(item.Address.Assembly.StationID);
+                    var stationDetail = await addressRepo.StationDetailsAsync(item.Address.Assembly.Id);
                     var cityDetail = await addressRepo.CityDetailsAsync(item.Address.City.CityID);
                     var countryDetail = await addressRepo.CountryDetailsAsync(item.Address.Country.CountryID);
 

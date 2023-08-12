@@ -77,12 +77,12 @@
         <option value="0" selected>Choose...</option>
         @foreach (var p in ProfileInfo.Areas)
         {
-            @if (ProfileInfo.UserProfile.AssemblyID == p.StationID)
+            @if (ProfileInfo.UserProfile.AssemblyID == p.Id)
             {
-                <option selected value="@p.StationID">@p.Name</option>
+                <option selected value="@p.Id">@p.Name</option>
                 continue;
             }
-            <option value="@p.StationID">@p.Name</option>
+            <option value="@p.Id">@p.Name</option>
         }
     </select>
 </div>
@@ -107,12 +107,12 @@
         <option value="0" selected>Choose...</option>
         @foreach (var p in ProfileInfo.Localities)
         {
-            @if (ProfileInfo.UserProfile.LocalityID == p.LocalityID)
+            @if (ProfileInfo.UserProfile.LocalityID == p.Id)
             {
-                <option selected value="@p.LocalityID">@p.LocalityName</option>
+                <option selected value="@p.Id">@p.Name</option>
                 continue;
             }
-            <option value="@p.LocalityID">@p.LocalityName</option>
+            <option value="@p.Id">@p.Name</option>
         }
     </select>
 </div>

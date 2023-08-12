@@ -1,4 +1,4 @@
-﻿@model BOL.SHARED.Station
+﻿@model BOL.SHARED.Location
 
 @{
     ViewData["Title"] = "Edit Assembly";
@@ -27,7 +27,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StationID" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />

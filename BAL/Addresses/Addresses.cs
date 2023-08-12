@@ -30,9 +30,9 @@ namespace BAL.Addresses
             return result;
         }
 
-        public async Task<IEnumerable<Locality>> GetLocalitiesAsync()
+        public async Task<IEnumerable<Area>> GetLocalitiesAsync()
         {
-            var result = await sharedContext.Locality.OrderBy(i => i.LocalityName).ToListAsync();
+            var result = await sharedContext.Area.OrderBy(i => i.Name).ToListAsync();
             return result;
         }
 
@@ -48,9 +48,9 @@ namespace BAL.Addresses
             return result;
         }
 
-        public async Task<IEnumerable<Station>> GetStationsAsync()
+        public async Task<IEnumerable<Location>> GetStationsAsync()
         {
-            var result = await sharedContext.Station.OrderBy(i => i.Name).ToListAsync();
+            var result = await sharedContext.Location.OrderBy(i => i.Name).ToListAsync();
             return result;
         }
 
@@ -73,9 +73,9 @@ namespace BAL.Addresses
             return city;
         }
 
-        public async Task<Station> StationDetailsAsync(int StationId)
+        public async Task<Location> StationDetailsAsync(int StationId)
         {
-            var station = await sharedContext.Station.Where(c => c.StationID == StationId).FirstOrDefaultAsync();
+            var station = await sharedContext.Location.Where(c => c.Id == StationId).FirstOrDefaultAsync();
             return station;
         }
 
@@ -85,9 +85,9 @@ namespace BAL.Addresses
             return pincode;
         }
 
-        public async Task<Locality> LocalityDetailsAsync(int LocalityId)
+        public async Task<Area> LocalityDetailsAsync(int LocalityId)
         {
-            var locality = await sharedContext.Locality.Where(c => c.LocalityID == LocalityId).FirstOrDefaultAsync();
+            var locality = await sharedContext.Area.Where(c => c.Id == LocalityId).FirstOrDefaultAsync();
             return locality;
         }
         // End:
@@ -112,7 +112,7 @@ namespace BAL.Addresses
 
         public string AssemblyName(int id)
         {
-            var assemblyName = sharedContext.Station.Where(i => i.StationID == id).Select(i => i.Name).FirstOrDefault();
+            var assemblyName = sharedContext.Location.Where(i => i.Id == id).Select(i => i.Name).FirstOrDefault();
             return assemblyName;
         }
 
@@ -134,7 +134,7 @@ namespace BAL.Addresses
 
         public int CountStationInCity(int cityId)
         {
-            return sharedContext.Station.Where(i => i.CityID == cityId).Count();
+            return sharedContext.Location.Where(i => i.CityID == cityId).Count();
         }
 
         public int CountPincodeInStation(int stationId)
@@ -144,7 +144,7 @@ namespace BAL.Addresses
 
         public int CountAreaInPincode(int pincodeId)
         {
-            return sharedContext.Locality.Where(i => i.PincodeID == pincodeId).Count();
+            return sharedContext.Area.Where(i => i.PincodeID == pincodeId).Count();
         }
     }
 }

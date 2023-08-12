@@ -14,21 +14,21 @@ namespace DAL.Repositories.Contracts
         Task<IList<Country>> GetCountries();
         Task<IList<State>> GetStatesByCountryId(int countryId);
         Task<IList<City>> GetCitiesByStateId(int stateId);
-        Task<IList<Station>> GetAreasByCityId(int cityId);
+        Task<IList<Location>> GetAreasByCityId(int cityId);
         Task<IList<Pincode>> GetPincodesByAreaId(int areaId);
-        Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId);
+        Task<IList<Area>> GetLocalitiesByPincode(int pincodeId);
         #endregion
 
         #region Address Info
         Task<Country> GetCountryByCountryId(int countryId);
         Task<State> GetStateByStateId(int stateId);
         Task<City> GetCityByCityId(int cityId);
-        Task<Station> GetAreaByAreaId(int areaId);
+        Task<Location> GetAreaByAreaId(int areaId);
         Task<Pincode> GetPincodeByPincodeId(int pincodeId);
-        Task<Locality> GetLocalityByLocalityId(int localityId);
-        Task<Station> GetAreaByAreaName(string area);
+        Task<Area> GetLocalityByLocalityId(int localityId);
+        Task<Location> GetAreaByAreaName(string area);
         Task<Pincode> GetPincodeByPinNumber(int pinNumber);
-        Task<Locality> GetLocalityByLocalityName(string localityName);
+        Task<Area> GetLocalityByLocalityName(string localityName);
         #endregion
 
         #region Company Info

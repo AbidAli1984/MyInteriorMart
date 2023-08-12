@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BOL.SHARED.Station>
+﻿@model IEnumerable<BOL.SHARED.Location>
 @inject IAddresses AddressRepos
 
 @{
@@ -57,12 +57,12 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add().RenderedAs((model, row) => model.StationID).Titled("#").Css("text-center");
+        columns.Add().RenderedAs((model, row) => model.Id).Titled("#").Css("text-center");
         columns.Add(model => model.Name).Titled("Name");
-        columns.Add(model => $"<span class='mr-3 btn btn-sm btn-secondary'>{AddressRepos.CountPincodeInStation(model.StationID)}</span><a href=\"/Common/Pincodes/Index/{model.StationID}\" class='btn btn-sm btn-secondary mr-2'>Manage Pincodes</a>").Encoded(false).Titled("Cities").Filterable(true);
+        columns.Add(model => $"<span class='mr-3 btn btn-sm btn-secondary'>{AddressRepos.CountPincodeInStation(model.Id)}</span><a href=\"/Common/Pincodes/Index/{model.Id}\" class='btn btn-sm btn-secondary mr-2'>Manage Pincodes</a>").Encoded(false).Titled("Cities").Filterable(true);
         columns.Add(model => model.City.Name).Titled("City");
         columns.Add(model => model.City.State.Name).Titled("State");
-        columns.Add(model => $"<a href=\"/Common/Stations/Edit/{model.StationID}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Common/Stations/Delete/{model.StationID}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
+        columns.Add(model => $"<a href=\"/Common/Stations/Edit/{model.Id}\" class=\"btn btn-primary btn-sm\">Edit</a> <a href=\"/Common/Stations/Delete/{model.Id}\" class=\"btn btn-danger btn-sm\">Delete</a>").Encoded(false).Titled("Actions");
     })
     .Filterable()
     .Sortable()

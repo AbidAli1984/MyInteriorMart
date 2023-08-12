@@ -35,7 +35,7 @@ namespace ADMIN.Areas.Common.Controllers
             ViewBag.Deleted = TempData["Deleted"];
             // End:
 
-            var sharedDbContext = _context.Locality.Include(l => l.Pincode).Include(l => l.Station).Include(l => l.Station.City.State).Include(l => l.Station.City.State.Country).Where(i => i.PincodeID == pincodeId);
+            var sharedDbContext = _context.Area.Include(l => l.Pincode).Include(l => l.Location).Include(l => l.Location.City.State).Include(l => l.Location.City.State.Country).Where(i => i.PincodeID == pincodeId);
             return View(await sharedDbContext.ToListAsync());
         }
 
@@ -48,10 +48,10 @@ namespace ADMIN.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var locality = await _context.Locality
+            var locality = await _context.Area
                 .Include(l => l.Pincode)
-                .Include(l => l.Station)
-                .FirstOrDefaultAsync(m => m.LocalityID == id);
+                .Include(l => l.Location)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (locality == null)
             {
                 return NotFound();
@@ -70,14 +70,14 @@ namespace ADMIN.Areas.Common.Controllers
         {
             if (localityName != null && stationId != null && pincodeId != null)
             {
-                Locality locality = new Locality
+                Area locality = new Area
                 {
-                    LocalityName = localityName,
-                    StationID = stationId,
+                    Name = localityName,
+                    LocationId = stationId,
                     PincodeID = pincodeId
                 };
 
-                var duplicate = await _context.Locality.Where(i => i.PincodeID == pincodeId).AnyAsync(i => i.LocalityName == localityName);
+                var duplicate = await _context.Area.Where(i => i.PincodeID == pincodeId).AnyAsync(i => i.Name == localityName);
 
                 if (duplicate != true)
                 {
@@ -108,13 +108,13 @@ namespace ADMIN.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var locality = await _context.Locality.FindAsync(id);
+            var locality = await _context.Area.FindAsync(id);
             if (locality == null)
             {
                 return NotFound();
             }
             ViewData["PincodeID"] = new SelectList(_context.Pincode, "PincodeID", "PincodeID", locality.PincodeID);
-            ViewData["StationID"] = new SelectList(_context.Station, "StationID", "Name", locality.StationID);
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", locality.LocationId);
             return View(locality);
         }
 
@@ -124,14 +124,14 @@ namespace ADMIN.Areas.Common.Controllers
         [HttpPost]
         [Authorize(Policy = "Admin-Area-Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LocalityID,LocalityName,StationID,PincodeID")] Locality locality)
+        public async Task<IActionResult> Edit(int id, [Bind("LocalityID,LocalityName,StationID,PincodeID")] Area locality)
         {
-            if (id != locality.LocalityID)
+            if (id != locality.Id)
             {
                 return NotFound();
             }
 
-            string oldLocalityName = await _context.Locality.Where(i => i.LocalityID == id).Select(i => i.LocalityName.ToString()).FirstOrDefaultAsync();
+            string oldLocalityName = await _context.Area.Where(i => i.Id == id).Select(i => i.Name.ToString()).FirstOrDefaultAsync();
 
             if (ModelState.IsValid)
             {
@@ -141,12 +141,12 @@ namespace ADMIN.Areas.Common.Controllers
                     await _context.SaveChangesAsync();
                     // Shafi: Show city successfully edited message
                     // in index view with TempData["SuccessMessage"]
-                    TempData["SuccessMessage"] = "Locality changed from " + oldLocalityName + " to " + locality.LocalityName + " successfully.";
+                    TempData["SuccessMessage"] = "Locality changed from " + oldLocalityName + " to " + locality.Name + " successfully.";
                     // End:
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LocalityExists(locality.LocalityID))
+                    if (!LocalityExists(locality.Id))
                     {
                         return NotFound();
                     }
@@ -158,7 +158,7 @@ namespace ADMIN.Areas.Common.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PincodeID"] = new SelectList(_context.Pincode, "PincodeID", "PincodeID", locality.PincodeID);
-            ViewData["StationID"] = new SelectList(_context.Station, "StationID", "Name", locality.StationID);
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", locality.LocationId);
             return View(locality);
         }
 
@@ -171,10 +171,10 @@ namespace ADMIN.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var locality = await _context.Locality
+            var locality = await _context.Area
                 .Include(l => l.Pincode)
-                .Include(l => l.Station)
-                .FirstOrDefaultAsync(m => m.LocalityID == id);
+                .Include(l => l.Location)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (locality == null)
             {
                 return NotFound();
@@ -189,13 +189,13 @@ namespace ADMIN.Areas.Common.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var locality = await _context.Locality.FindAsync(id);
+            var locality = await _context.Area.FindAsync(id);
 
             // Shafi: Show successfully deleted message in index page via TempData["Deleted"]
-            TempData["Deleted"] = "Locality " + locality.LocalityName + " deleted successfully.";
+            TempData["Deleted"] = "Locality " + locality.Name + " deleted successfully.";
             // End:
 
-            _context.Locality.Remove(locality);
+            _context.Area.Remove(locality);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -203,7 +203,7 @@ namespace ADMIN.Areas.Common.Controllers
 
         private bool LocalityExists(int id)
         {
-            return _context.Locality.Any(e => e.LocalityID == id);
+            return _context.Area.Any((System.Linq.Expressions.Expression<Func<Area, bool>>)(e => e.Id == id));
         }
     }
 }

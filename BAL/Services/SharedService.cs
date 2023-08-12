@@ -45,7 +45,7 @@ namespace BAL.Services
             return await sharedRepository.GetCitiesByStateId(stateId);
         }
 
-        public async Task<IList<Station>> GetAreasByCityId(int cityId)
+        public async Task<IList<Location>> GetAreasByCityId(int cityId)
         {
             return await sharedRepository.GetAreasByCityId(cityId);
         }
@@ -55,7 +55,7 @@ namespace BAL.Services
             return await sharedRepository.GetPincodesByAreaId(areaId);
         }
 
-        public async Task<IList<Locality>> GetLocalitiesByPincode(int pincodeId)
+        public async Task<IList<Area>> GetLocalitiesByPincode(int pincodeId)
         {
             return await sharedRepository.GetLocalitiesByPincode(pincodeId);
         }
@@ -74,7 +74,7 @@ namespace BAL.Services
         {
             return await sharedRepository.GetCityByCityId(cityId);
         }
-        public async Task<Station> GetAreaByAreaId(int areaId)
+        public async Task<Location> GetAreaByAreaId(int areaId)
         {
             return await sharedRepository.GetAreaByAreaId(areaId);
         }
@@ -82,11 +82,11 @@ namespace BAL.Services
         {
             return await sharedRepository.GetPincodeByPincodeId(pincodeId);
         }
-        public async Task<Locality> GetLocalityByLocalityId(int localityId)
+        public async Task<Area> GetLocalityByLocalityId(int localityId)
         {
             return await sharedRepository.GetLocalityByLocalityId(localityId);
         }
-        public async Task<Station> GetAreaByAreaName(string area)
+        public async Task<Location> GetAreaByAreaName(string area)
         {
             return await sharedRepository.GetAreaByAreaName(area);
         }
@@ -94,7 +94,7 @@ namespace BAL.Services
         {
             return await sharedRepository.GetPincodeByPinNumber(pinNumber);
         }
-        public async Task<Locality> GetLocalityByLocalityName(string localityName)
+        public async Task<Area> GetLocalityByLocalityName(string localityName)
         {
             return await sharedRepository.GetLocalityByLocalityName(localityName);
         }
