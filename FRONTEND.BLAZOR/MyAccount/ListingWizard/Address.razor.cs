@@ -25,12 +25,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
         public bool IsAddressExist { get; set; }
-        public bool showAreaModal { get; set; } = false;
-        public string AreaName { get; set; }
-        public bool showPincodeModal { get; set; } = false;
-        public int PinNumber { get; set; }
-        public bool showLocalityModal { get; set; } = false;
-        public string LocalityName { get; set; }
+
 
         protected async override Task OnInitializedAsync()
         {
@@ -66,19 +61,19 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             //StateHasChanged();
         }
 
-        public async Task GetAreaByCityId(ChangeEventArgs events)
+        public async Task GetLocalitiesByCityId()
         {
             await helperFunction.GetLocalitiesByCityId(LWAddressVM);
             StateHasChanged();
         }
 
-        public async Task GetPincodesByAreaId(ChangeEventArgs events)
+        public async Task GetPincodesByAreaId()
         {
             await helperFunction.GetPincodesByLocalityId(LWAddressVM);
             StateHasChanged();
         }
 
-        public async Task GetLocalitiesByPincodeId(ChangeEventArgs events)
+        public async Task GetLocalitiesByPincodeId()
         {
             await helperFunction.GetAreasByPincodeId(LWAddressVM);
             StateHasChanged();
@@ -131,143 +126,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
-        public async Task ShowHideAreaLocalityModal()
-        {
-            if (LWAddressVM.CityId <= 0)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Please select Country, State and City first");
-                return;
-            }
-            showAreaModal = !showAreaModal;
-            await Task.Delay(5);
-        }
-        public async Task CreateAreaLocalityAsync()
-        {
-            if (string.IsNullOrEmpty(AreaName) || LWAddressVM.CityId <= 0)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State and City must be selected and area name must not be blank.");
-                return;
-            }
-            try
-            {
-                var areaExist = await sharedService.GetLocalityByLocalityName(AreaName);
-                if(areaExist != null)
-                {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Area {AreaName} already exists.");
-                    return;
-                }
+        
 
-                Location station = new Location
-                {
-                    CityID = LWAddressVM.CityId,
-                    Name = AreaName
-                };
-
-                await sharedService.AddAsync(station);
-                await GetAreaByCityId(null);
-                await ShowHideAreaLocalityModal();
-                var city = await sharedService.GetCityByCityId(LWAddressVM.CityId);
-
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Area {AreaName} created inside city {city.Name}.");
-                AreaName = string.Empty;
-            }
-            catch (Exception exc)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
-            }
-        }
-
-        public async Task ShowHidePincodeModal()
-        {
-            if (LWAddressVM.LocalityId <= 0)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City and Locality first.");
-                return;
-            }
-            showPincodeModal = !showPincodeModal;
-            await Task.Delay(5);
-        }
-        public async Task CreatePincodeAsync()
-        {
-            if (PinNumber <= 0 || LWAddressVM.LocalityId <= 0)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City and Area must be selected and pincode number must not be blank.");
-                return;
-            }
-            try
-            {
-                var pincodeExist = await sharedService.GetPincodeByPinNumber(PinNumber);
-                if (pincodeExist != null)
-                {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pincode {PinNumber} already exists.");
-                    return;
-                }
-
-                Pincode pincode = new Pincode
-                {
-                    StationID = LWAddressVM.LocalityId,
-                    PincodeNumber = PinNumber
-                };
-
-                await sharedService.AddAsync(pincode);
-                await GetPincodesByAreaId(null);
-                await ShowHidePincodeModal();
-                var station = await sharedService.GetLocalityByLocalityId(LWAddressVM.LocalityId);
-
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Pincode {PinNumber} created inside {station.Name}.");
-                PinNumber = 0;
-            }
-            catch (Exception exc)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
-            }
-        }
-
-        public async Task ShowHideLocalityModal()
-        {
-            if (LWAddressVM.PincodeId <= 0)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City, Locality and Pincode first.");
-                return;
-            }
-            showLocalityModal = !showLocalityModal;
-            await Task.Delay(5);
-        }
-        public async Task CreateLocalityAsync()
-        {
-            if (string.IsNullOrEmpty(LocalityName) || LWAddressVM.PincodeId <= 0)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area and Pincode must be selected and Area Name must not be blank.");
-                return;
-            }
-            try
-            {
-                var localityExist = await sharedService.GetAreaByAreaName(LocalityName);
-                if (localityExist != null)
-                {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Locality {LocalityName} already exists.");
-                    return;
-                }
-
-                Area locality = new Area
-                {
-                    Name = LocalityName,
-                    PincodeID = LWAddressVM.PincodeId,
-                    LocationId = LWAddressVM.LocalityId
-                };
-
-                await sharedService.AddAsync(locality);
-                await GetLocalitiesByPincodeId(null);
-                await ShowHideLocalityModal();
-
-                var pincode = await sharedService.GetPincodeByPincodeId(LWAddressVM.PincodeId);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Locality {LocalityName} created inside pincode {pincode.PincodeNumber}.");
-                LocalityName = string.Empty;
-            }
-            catch (Exception exc)
-            {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
-            }
-        }
+        
     }
 }

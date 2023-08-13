@@ -1,0 +1,12 @@
+﻿@inject NotificationService _notice
+<button class="btn-link" @onclick="@(async() => await ShowLocalityModal())">+ Add locality</button>
+<Modal Title="Add Locality"
+       OnCancel="@(async() => await HideLocalityModal())"
+       Centered="true"
+       Visible="@showLocalityModal"
+       Footer="null">
+    <input type="text" placeholder="Locality" @bind="LocalityName" class="form-control" />
+    <br />
+    <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateLocalityAsync())">Create</buttton>
+    <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await HideLocalityModal())">Cancel</buttton>
+</Modal>

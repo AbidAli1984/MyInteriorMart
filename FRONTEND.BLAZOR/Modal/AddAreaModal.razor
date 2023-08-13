@@ -1,0 +1,12 @@
+﻿@inject NotificationService _notice
+<button class="btn-link" @onclick="@(async() => await ShowPincodeModal())">+ Add area</button>
+<Modal Title="Add Area"
+       OnCancel="@(async() => await HidePincodeModal())"
+       Centered="true"
+       Visible="@showAreaModal"
+       Footer="null">
+    <input type="text" placeholder="Area" @bind="AreaName" class="form-control" />
+    <br />
+    <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateAreaAsync())">Create</buttton>
+    <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await HidePincodeModal())">Cancel</buttton>
+</Modal>

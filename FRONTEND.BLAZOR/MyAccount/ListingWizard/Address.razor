@@ -28,15 +28,15 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <LocalityDropdown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideAreaLocalityModal())">+ Add locality</button>
+                                <AddLocalityModal ListWizAddressVM="LWAddressVM" EventGetLocalitiesByCityId="GetLocalitiesByCityId" />
                             </div>
                             <div class="form-group col-md-4">
                                 <PincodeDropdown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHidePincodeModal())">+ Add pincode</button>
+                                <AddPincodeModal ListWizAddressVM="LWAddressVM" EventGetPincodesByAreaId="GetPincodesByAreaId" />
                             </div>
                             <div class="form-group col-md-4">
                                 <AreaDropdown  ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideLocalityModal())">+ Add area</button>
+                                <AddAreaModal ListWizAddressVM="LWAddressVM" EventGetLocalitiesByPincodeId="GetLocalitiesByPincodeId" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label>Address <span class="text-danger">*</span></label>
@@ -62,43 +62,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Begin: Station Popup -->
-        <Modal Title="Add Area"
-               OnCancel="@(async() => await ShowHideAreaLocalityModal())"
-               Centered="true"
-               Visible="@showAreaModal"
-               Footer="null">
-            <input type="text" placeholder="Area" @bind="AreaName" class="form-control" />
-            <br />
-            <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateAreaLocalityAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHideAreaLocalityModal())">Cancel</buttton>
-        </Modal>
-        <!-- Begin: Station Popup -->
-        <!-- Begin: Pincode Pincode -->
-        <Modal Title="Add Pincode"
-               OnCancel="@(async() => await ShowHidePincodeModal())"
-               Centered="true"
-               Visible="@showPincodeModal"
-               Footer="null">
-            <input type="number" placeholder="Pincode" @bind="PinNumber" class="form-control" />
-            <br />
-            <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreatePincodeAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHidePincodeModal())">Cancel</buttton>
-        </Modal>
-        <!-- Begin: Pincode Popup -->
-        <!-- Begin: Locality Pincode -->
-        <Modal Title="Add Locality"
-               OnCancel="@(async() => await ShowHideLocalityModal())"
-               Centered="true"
-               Visible="@showLocalityModal"
-               Footer="null">
-            <input type="text" placeholder="Locality" @bind="LocalityName" class="form-control" />
-            <br />
-            <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateLocalityAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHideLocalityModal())">Cancel</buttton>
-        </Modal>
-        <!-- Begin: Locality Popup -->
     </Authorized>
     <NotAuthorized>
         <UnAuthorizedUser />
