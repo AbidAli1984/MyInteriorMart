@@ -18,99 +18,24 @@
                         </p>
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <CountryDropDown LWAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                @*<label>Country <span class="text-danger">*</span></label>
-                                    <select class="form-control" @onchange="GetStateByCountryId">
-                                        <option value="0" selected>Choose...</option>
-                                        @foreach (var p in AddressVM.Countries)
-                                        {
-                                            @if (AddressVM.CountryId == p.CountryID)
-                                            {
-                                                <option selected value="@p.CountryID">@p.Name</option>
-                                                continue;
-                                            }
-                                            <option value="@p.CountryID">@p.Name</option>
-                                        }
-                                    </select>*@
+                                <CountryDropDown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                             </div>
                             <div class="form-group col-md-4">
-                                <StateDropDown LWAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                @*<label>State <span class="text-danger">*</span></label>
-                                    <select class="form-control" @onchange="GetCityByStateId">
-                                        <option value="0" selected>Choose...</option>
-                                        @foreach (var p in LWAddressVM.States)
-                                        {
-                                            @if (LWAddressVM.StateId == p.StateID)
-                                            {
-                                                <option selected value="@p.StateID">@p.Name</option>
-                                                continue;
-                                            }
-                                            <option value="@p.StateID">@p.Name</option>
-                                        }
-                                    </select>*@
+                                <StateDropDown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                             </div>
                             <div class="form-group col-md-4">
-                                <CityDropDown LWAddressVM="@LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                @*<label>City <span class="text-danger">*</span></label>
-                                    <select class="form-control" @onchange="GetAreaByCityId">
-                                        <option value="0" selected>Choose...</option>
-                                        @foreach (var p in LWAddressVM.Cities)
-                                        {
-                                            @if (LWAddressVM.CityId == p.CityID)
-                                            {
-                                                <option selected value="@p.CityID">@p.Name</option>
-                                                continue;
-                                            }
-                                            <option value="@p.CityID">@p.Name</option>
-                                        }
-                                    </select>*@
+                                <CityDropDown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Locality <span class="text-danger">*</span></label>
-                                <select class="form-control wide add_bottom_10" @onchange="GetPincodesByAreaId">
-                                    <option value="0" selected>Choose...</option>
-                                    @foreach (var p in LWAddressVM.Areas)
-                                    {
-                                        @if (LWAddressVM.StationId == p.Id)
-                                        {
-                                            <option selected value="@p.Id">@p.Name</option>
-                                            continue;
-                                        }
-                                        <option value="@p.Id">@p.Name</option>
-                                    }
-                                </select>
-                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideAreaModal())">+ Add locality</button>
+                                <LocalityDropdown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
+                                <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideAreaLocalityModal())">+ Add locality</button>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Pincode <span class="text-danger">*</span></label>
-                                <select class="form-control wide add_bottom_10" @onchange="GetLocalitiesByPincodeId">
-                                    <option value="0" selected>Choose...</option>
-                                    @foreach (var p in LWAddressVM.Pincodes)
-                                    {
-                                        @if (LWAddressVM.PincodeId == p.PincodeID)
-                                        {
-                                            <option selected value="@p.PincodeID">@p.PincodeNumber</option>
-                                            continue;
-                                        }
-                                        <option value="@p.PincodeID">@p.PincodeNumber</option>
-                                    }
-                                </select>
+                                <PincodeDropdown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                                 <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHidePincodeModal())">+ Add pincode</button>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Area <span class="text-danger">*</span></label>
-                                <select class="form-control wide add_bottom_10" @onchange="SetLocalityId">
-                                    <option value="0" selected>Choose...</option>
-                                    @foreach (var p in LWAddressVM.Localities)
-                                    {
-                                        @if (LWAddressVM.LocalityId == p.Id)
-                                        {
-                                            <option selected value="@p.Id">@p.Name</option>
-                                            continue;
-                                        }
-                                        <option value="@p.Id">@p.Name</option>
-                                    }
-                                </select>
+                                <AreaDropdown  ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                                 <button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideLocalityModal())">+ Add area</button>
                             </div>
                             <div class="form-group col-md-12">
@@ -140,14 +65,14 @@
 
         <!-- Begin: Station Popup -->
         <Modal Title="Add Area"
-               OnCancel="@(async() => await ShowHideAreaModal())"
+               OnCancel="@(async() => await ShowHideAreaLocalityModal())"
                Centered="true"
                Visible="@showAreaModal"
                Footer="null">
             <input type="text" placeholder="Area" @bind="AreaName" class="form-control" />
             <br />
-            <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateAreaAsync())">Create</buttton>
-            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHideAreaModal())">Cancel</buttton>
+            <buttton class="btn btn-success btn-sm" @onclick="@(async() => await CreateAreaLocalityAsync())">Create</buttton>
+            <buttton class="btn btn-danger btn-sm ml-2" @onclick="@(async() => await ShowHideAreaLocalityModal())">Cancel</buttton>
         </Modal>
         <!-- Begin: Station Popup -->
         <!-- Begin: Pincode Pincode -->

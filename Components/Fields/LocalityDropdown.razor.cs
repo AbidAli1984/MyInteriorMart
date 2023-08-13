@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 
 namespace Components.Fields
 {
-    public partial class StateDropDown
+    public partial class LocalityDropdown
     {
         [Parameter] public LWAddressVM ListWizAddressVM { get; set; }
         [Parameter] public EventCallback ExecuteStateHasChanged { get; set; }
         [Inject] BAL.HelperFunctions helperFunction { get; set; }
 
-        public async Task GetCitiesByStateId(ChangeEventArgs events)
+        public async Task GetPincodesByLocalityId(ChangeEventArgs events)
         {
-            ListWizAddressVM.IsStateChange = true;
-            ListWizAddressVM.StateId = Convert.ToInt32(events.Value.ToString());
-            await helperFunction.GetCitiesByStateId(ListWizAddressVM);
+            ListWizAddressVM.IsLocalityChange = true;
+            ListWizAddressVM.LocalityId = Convert.ToInt32(events.Value.ToString());
+            await helperFunction.GetPincodesByLocalityId(ListWizAddressVM);
             await ExecuteStateHasChanged.InvokeAsync();
         }
 
@@ -23,14 +23,14 @@ namespace Components.Fields
         {
             if (isAllowToGetData)
             {
-                await helperFunction.GetStatesByCountryId(ListWizAddressVM);
+                await helperFunction.GetLocalitiesByCityId(ListWizAddressVM);
                 StateHasChanged();
             }
         }
 
         private bool isAllowToGetData
         {
-            get { return ListWizAddressVM != null && ListWizAddressVM.CountryId > 0 && ListWizAddressVM.IsFirstLoad; }
+            get { return ListWizAddressVM != null && ListWizAddressVM.CityId > 0 && ListWizAddressVM.IsFirstLoad; }
         }
     }
 }

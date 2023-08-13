@@ -63,84 +63,90 @@ namespace BAL
         #endregion  
 
         #region Address Information
-        public async Task GetStateByCountryId(LWAddressVM lwAddressVM)
+        public async Task GetStatesByCountryId(LWAddressVM lwAddressVM)
         {
             if (lwAddressVM.IsCountryChange)
             {
                 lwAddressVM.StateId = 0;
                 lwAddressVM.CityId = 0;
-                lwAddressVM.StationId = 0;
-                lwAddressVM.PincodeId = 0;
                 lwAddressVM.LocalityId = 0;
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.AreaId = 0;
+                lwAddressVM.IsCountryChange = false;
             }
             lwAddressVM.States.Clear();
             lwAddressVM.Cities.Clear();
-            lwAddressVM.Areas.Clear();
-            lwAddressVM.Pincodes.Clear();
             lwAddressVM.Localities.Clear();
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Areas.Clear();
 
             if (lwAddressVM.CountryId > 0)
                 lwAddressVM.States = await _sharedService.GetStatesByCountryId(lwAddressVM.CountryId);
         }
 
-        public async Task GetCityByStateId(LWAddressVM lwAddressVM)
+        public async Task GetCitiesByStateId(LWAddressVM lwAddressVM)
         {
             if (lwAddressVM.IsStateChange)
             {
                 lwAddressVM.CityId = 0;
-                lwAddressVM.StationId = 0;
-                lwAddressVM.PincodeId = 0;
                 lwAddressVM.LocalityId = 0;
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.AreaId = 0;
+                lwAddressVM.IsStateChange = false;
             }
             lwAddressVM.Cities.Clear();
-            lwAddressVM.Areas.Clear();
-            lwAddressVM.Pincodes.Clear();
             lwAddressVM.Localities.Clear();
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Areas.Clear();
 
             if (lwAddressVM.StateId > 0)
                 lwAddressVM.Cities = await _sharedService.GetCitiesByStateId(lwAddressVM.StateId);
         }
 
-        public async Task GetAreaByCityId(LWAddressVM lwAddressVM)
+        public async Task GetLocalitiesByCityId(LWAddressVM lwAddressVM)
         {
             if (lwAddressVM.IsCityChange)
             {
-                lwAddressVM.StationId = 0;
-                lwAddressVM.PincodeId = 0;
                 lwAddressVM.LocalityId = 0;
+                lwAddressVM.PincodeId = 0;
+                lwAddressVM.AreaId = 0;
+                lwAddressVM.IsCityChange = false;
             }
-            lwAddressVM.Areas.Clear();
-            lwAddressVM.Pincodes.Clear();
             lwAddressVM.Localities.Clear();
+            lwAddressVM.Pincodes.Clear();
+            lwAddressVM.Areas.Clear();
 
             if (lwAddressVM.CityId > 0)
-                lwAddressVM.Areas = await _sharedService.GetAreasByCityId(lwAddressVM.CityId);
+                lwAddressVM.Localities = await _sharedService.GetLocalitiesByCityId(lwAddressVM.CityId);
         }
 
-        public async Task GetPincodesByAreaId(LWAddressVM lwAddressVM)
+        public async Task GetPincodesByLocalityId(LWAddressVM lwAddressVM)
         {
-            if (lwAddressVM.IsFirstLoad)
+            if (lwAddressVM.IsLocalityChange)
             {
                 lwAddressVM.PincodeId = 0;
-                lwAddressVM.LocalityId = 0;
+                lwAddressVM.AreaId = 0;
+                lwAddressVM.IsLocalityChange = false;
             }
             lwAddressVM.Pincodes.Clear();
-            lwAddressVM.Localities.Clear();
+            lwAddressVM.Areas.Clear();
 
-            if (lwAddressVM.StationId > 0)
-                lwAddressVM.Pincodes = await _sharedService.GetPincodesByAreaId(lwAddressVM.StationId);
+            if (lwAddressVM.LocalityId > 0)
+                lwAddressVM.Pincodes = await _sharedService.GetPincodesByLocalityId(lwAddressVM.LocalityId);
         }
 
-        public async Task GetLocalitiesByPincodeId(LWAddressVM lwAddressVM)
+        public async Task GetAreasByPincodeId(LWAddressVM lwAddressVM)
         {
-            if (lwAddressVM.IsFirstLoad)
+            if (lwAddressVM.IsPincodeChange)
             {
-                lwAddressVM.LocalityId = 0;
+                lwAddressVM.AreaId = 0;
+                lwAddressVM.IsPincodeChange = false;
             }
-            lwAddressVM.Localities.Clear();
+            lwAddressVM.Areas.Clear();
 
             if (lwAddressVM.PincodeId > 0)
-                lwAddressVM.Localities = await _sharedService.GetLocalitiesByPincode(lwAddressVM.PincodeId);
+                lwAddressVM.Areas = await _sharedService.GetAreasByPincodeId(lwAddressVM.PincodeId);
+            lwAddressVM.IsFirstLoad = false;
         }
         #endregion
 

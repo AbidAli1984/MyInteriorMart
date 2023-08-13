@@ -1,0 +1,17 @@
+﻿<label>Locality <span class="text-danger">*</span></label>
+<select class="form-control wide add_bottom_10" @onchange="GetPincodesByLocalityId">
+    <option value="0" selected>Choose...</option>
+    @if (ListWizAddressVM.Localities != null)
+    {
+        foreach (var p in ListWizAddressVM.Localities)
+        {
+            if (ListWizAddressVM.LocalityId == p.Id)
+            {
+                <option selected value="@p.Id">@p.Name</option>
+                continue;
+            }
+            <option value="@p.Id">@p.Name</option>
+        }
+    }
+</select>
+@*<button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHideAreaModal())">+ Add locality</button>*@

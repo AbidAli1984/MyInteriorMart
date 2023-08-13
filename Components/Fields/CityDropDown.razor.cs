@@ -7,25 +7,30 @@ namespace Components.Fields
 {
     public partial class CityDropDown
     {
-        [Parameter] public LWAddressVM LWAddressVM { get; set; }
+        [Parameter] public LWAddressVM ListWizAddressVM { get; set; }
         [Parameter] public EventCallback ExecuteStateHasChanged { get; set; }
         [Inject] BAL.HelperFunctions helperFunction { get; set; }
 
-        public async Task GetLocalityByCityId(ChangeEventArgs events)
+        public async Task GetLocalitiesByCityId(ChangeEventArgs events)
         {
-            LWAddressVM.IsCityChange = true;
-            LWAddressVM.CityId = Convert.ToInt32(events.Value.ToString());
+            ListWizAddressVM.IsCityChange = true;
+            ListWizAddressVM.CityId = Convert.ToInt32(events.Value.ToString());
+            await helperFunction.GetLocalitiesByCityId(ListWizAddressVM);
             await ExecuteStateHasChanged.InvokeAsync();
         }
 
         protected async override void OnParametersSet()
         {
-            if (LWAddressVM != null && (LWAddressVM.IsStateChange || LWAddressVM.StateId > 0))
+            if (isAllowToGetData)
             {
-                await helperFunction.GetCityByStateId(LWAddressVM);
-                LWAddressVM.IsStateChange = false;
+                await helperFunction.GetCitiesByStateId(ListWizAddressVM);
                 StateHasChanged();
             }
+        }
+
+        private bool isAllowToGetData
+        {
+            get { return ListWizAddressVM != null && ListWizAddressVM.StateId > 0 && ListWizAddressVM.IsFirstLoad; }
         }
     }
 }

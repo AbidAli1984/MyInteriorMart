@@ -46,18 +46,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.CommunicationComplete, navManager);
                     
                     ListingId = listing.ListingID;
-                    //await helperFunction.GetCountries(LWAddressVM);
                     var address = await listingService.GetAddressByListingId(ListingId);
                     if (address != null)
                     {
                         LWAddressVM.CountryId = address.CountryID;
                         IsAddressExist = true;
                         LWAddressVM.SetViewModel(address);
-                        //GetStateByCountryId();
-                        //await GetCityByStateId();
-                        //await GetAreaByCityId(null);
-                        //await GetPincodesByAreaId(null);
-                        //await GetLocalitiesByPincodeId(null);
                     }
                 }
             }
@@ -69,37 +63,25 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async void ExecuteStateHasChanged()
         {
-            //await helperFunction.GetStateByCountryId(LWAddressVM);
-            StateHasChanged();
-        }
-
-        public async Task GetCityByStateId()
-        {
-            await helperFunction.GetCityByStateId(LWAddressVM);
-            StateHasChanged();
+            //StateHasChanged();
         }
 
         public async Task GetAreaByCityId(ChangeEventArgs events)
         {
-            await helperFunction.GetAreaByCityId(LWAddressVM);
+            await helperFunction.GetLocalitiesByCityId(LWAddressVM);
             StateHasChanged();
         }
 
         public async Task GetPincodesByAreaId(ChangeEventArgs events)
         {
-            await helperFunction.GetPincodesByAreaId(LWAddressVM);
+            await helperFunction.GetPincodesByLocalityId(LWAddressVM);
             StateHasChanged();
         }
 
         public async Task GetLocalitiesByPincodeId(ChangeEventArgs events)
         {
-            await helperFunction.GetLocalitiesByPincodeId(LWAddressVM);
+            await helperFunction.GetAreasByPincodeId(LWAddressVM);
             StateHasChanged();
-        }
-
-        public void SetLocalityId(ChangeEventArgs events)
-        {
-            LWAddressVM.LocalityId = Convert.ToInt32(events.Value.ToString());
         }
 
         public async Task AddOrUpdateAddress()
@@ -149,7 +131,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
-        public async Task ShowHideAreaModal()
+        public async Task ShowHideAreaLocalityModal()
         {
             if (LWAddressVM.CityId <= 0)
             {
@@ -159,7 +141,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             showAreaModal = !showAreaModal;
             await Task.Delay(5);
         }
-        public async Task CreateAreaAsync()
+        public async Task CreateAreaLocalityAsync()
         {
             if (string.IsNullOrEmpty(AreaName) || LWAddressVM.CityId <= 0)
             {
@@ -168,7 +150,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             try
             {
-                var areaExist = await sharedService.GetAreaByAreaName(AreaName);
+                var areaExist = await sharedService.GetLocalityByLocalityName(AreaName);
                 if(areaExist != null)
                 {
                     helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Area {AreaName} already exists.");
@@ -183,7 +165,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                 await sharedService.AddAsync(station);
                 await GetAreaByCityId(null);
-                await ShowHideAreaModal();
+                await ShowHideAreaLocalityModal();
                 var city = await sharedService.GetCityByCityId(LWAddressVM.CityId);
 
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Area {AreaName} created inside city {city.Name}.");
@@ -197,7 +179,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task ShowHidePincodeModal()
         {
-            if (LWAddressVM.StationId <= 0)
+            if (LWAddressVM.LocalityId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City and Locality first.");
                 return;
@@ -207,7 +189,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         }
         public async Task CreatePincodeAsync()
         {
-            if (PinNumber <= 0 || LWAddressVM.StationId <= 0)
+            if (PinNumber <= 0 || LWAddressVM.LocalityId <= 0)
             {
                 helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City and Area must be selected and pincode number must not be blank.");
                 return;
@@ -223,14 +205,14 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                 Pincode pincode = new Pincode
                 {
-                    StationID = LWAddressVM.StationId,
+                    StationID = LWAddressVM.LocalityId,
                     PincodeNumber = PinNumber
                 };
 
                 await sharedService.AddAsync(pincode);
                 await GetPincodesByAreaId(null);
                 await ShowHidePincodeModal();
-                var station = await sharedService.GetAreaByAreaId(LWAddressVM.StationId);
+                var station = await sharedService.GetLocalityByLocalityId(LWAddressVM.LocalityId);
 
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Pincode {PinNumber} created inside {station.Name}.");
                 PinNumber = 0;
@@ -260,7 +242,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             try
             {
-                var localityExist = await sharedService.GetLocalityByLocalityName(LocalityName);
+                var localityExist = await sharedService.GetAreaByAreaName(LocalityName);
                 if (localityExist != null)
                 {
                     helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Locality {LocalityName} already exists.");
@@ -271,7 +253,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                 {
                     Name = LocalityName,
                     PincodeID = LWAddressVM.PincodeId,
-                    LocationId = LWAddressVM.StationId
+                    LocationId = LWAddressVM.LocalityId
                 };
 
                 await sharedService.AddAsync(locality);

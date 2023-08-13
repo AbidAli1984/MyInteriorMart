@@ -14,9 +14,9 @@ namespace BAL.Services.Contracts
         Task<IList<Country>> GetCountries();
         Task<IList<State>> GetStatesByCountryId(int countryId = 101);
         Task<IList<City>> GetCitiesByStateId(int stateId);
-        Task<IList<Location>> GetAreasByCityId(int cityId);
-        Task<IList<Pincode>> GetPincodesByAreaId(int areaId);
-        Task<IList<Area>> GetLocalitiesByPincode(int pincodeId);
+        Task<IList<Location>> GetLocalitiesByCityId(int cityId);
+        Task<IList<Pincode>> GetPincodesByLocalityId(int areaId);
+        Task<IList<Area>> GetAreasByPincodeId(int pincodeId);
         #endregion
 
 
@@ -24,12 +24,12 @@ namespace BAL.Services.Contracts
         Task<Country> GetCountryByCountryId(int countryId);
         Task<State> GetStateByStateId(int stateId);
         Task<City> GetCityByCityId(int cityId);
-        Task<Location> GetAreaByAreaId(int areaId);
+        Task<Location> GetLocalityByLocalityId(int localityId);
         Task<Pincode> GetPincodeByPincodeId(int pincodeId);
-        Task<Area> GetLocalityByLocalityId(int localityId);
-        Task<Location> GetAreaByAreaName(string area);
+        Task<Area> GetAreaByAreaId(int areaId);
+        Task<Location> GetLocalityByLocalityName(string locality);
         Task<Pincode> GetPincodeByPinNumber(int pinNumber);
-        Task<Area> GetLocalityByLocalityName(string localityName);
+        Task<Area> GetAreaByAreaName(string area);
         #endregion
 
         #region Company Info

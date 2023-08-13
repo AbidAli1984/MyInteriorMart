@@ -1,0 +1,17 @@
+﻿<label>Pincode <span class="text-danger">*</span></label>
+<select class="form-control wide add_bottom_10" @onchange="GetAreasByPincodeId">
+    <option value="0" selected>Choose...</option>
+    @if (ListWizAddressVM.Pincodes != null)
+    {
+        foreach (var p in ListWizAddressVM.Pincodes)
+        {
+            if (ListWizAddressVM.PincodeId == p.PincodeID)
+            {
+                <option selected value="@p.PincodeID">@p.PincodeNumber</option>
+                continue;
+            }
+            <option value="@p.PincodeID">@p.PincodeNumber</option>
+        }
+    }
+</select>
+@*<button class="btn btn-sm btn-link" @onclick="@(async() => await ShowHidePincodeModal())">+ Add pincode</button>*@

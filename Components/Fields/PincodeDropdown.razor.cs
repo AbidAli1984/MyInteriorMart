@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 
 namespace Components.Fields
 {
-    public partial class StateDropDown
+    public partial class PincodeDropdown
     {
         [Parameter] public LWAddressVM ListWizAddressVM { get; set; }
         [Parameter] public EventCallback ExecuteStateHasChanged { get; set; }
         [Inject] BAL.HelperFunctions helperFunction { get; set; }
 
-        public async Task GetCitiesByStateId(ChangeEventArgs events)
+        public async Task GetAreasByPincodeId(ChangeEventArgs events)
         {
-            ListWizAddressVM.IsStateChange = true;
-            ListWizAddressVM.StateId = Convert.ToInt32(events.Value.ToString());
-            await helperFunction.GetCitiesByStateId(ListWizAddressVM);
+            ListWizAddressVM.IsPincodeChange = true;
+            ListWizAddressVM.PincodeId = Convert.ToInt32(events.Value.ToString());
+            await helperFunction.GetAreasByPincodeId(ListWizAddressVM);
             await ExecuteStateHasChanged.InvokeAsync();
         }
 
@@ -23,14 +23,14 @@ namespace Components.Fields
         {
             if (isAllowToGetData)
             {
-                await helperFunction.GetStatesByCountryId(ListWizAddressVM);
+                await helperFunction.GetPincodesByLocalityId(ListWizAddressVM);
                 StateHasChanged();
             }
         }
 
         private bool isAllowToGetData
         {
-            get { return ListWizAddressVM != null && ListWizAddressVM.CountryId > 0 && ListWizAddressVM.IsFirstLoad; }
+            get { return ListWizAddressVM != null && ListWizAddressVM.LocalityId > 0 && ListWizAddressVM.IsFirstLoad; }
         }
     }
 }

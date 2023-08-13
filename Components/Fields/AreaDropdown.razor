@@ -1,0 +1,16 @@
+﻿<label>Area <span class="text-danger">*</span></label>
+<select class="form-control wide add_bottom_10" @onchange="SetAreaId">
+    <option value="0" selected>Choose...</option>
+    @if (ListWizAddressVM.Areas != null)
+    {
+        foreach (var p in ListWizAddressVM.Areas)
+        {
+            if (ListWizAddressVM.AreaId == p.Id)
+            {
+                <option selected value="@p.Id">@p.Name</option>
+                continue;
+            }
+            <option value="@p.Id">@p.Name</option>
+        }
+    }
+</select>

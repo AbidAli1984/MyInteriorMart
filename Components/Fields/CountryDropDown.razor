@@ -1,12 +1,12 @@
 ﻿<label>Country <span class="text-danger">*</span></label>
 
-<select class="form-control" @onchange="GetStateByCountryId">
+<select class="form-control" @onchange="GetStatesByCountryId">
     <option value="0" selected>Choose...</option>
     @if (Countries != null)
     {
         foreach (var p in Countries)
         {
-            if (LWAddressVM.CountryId == p.CountryID)
+            if (ListWizAddressVM.CountryId == p.CountryID)
             {
                 <option selected value="@p.CountryID">@p.Name</option>
                 continue;

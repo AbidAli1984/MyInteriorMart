@@ -88,8 +88,8 @@ namespace BAL.Services
                     int listingId = item.ListingID;
 
                     var address = addresses.Where(x => x.ListingID == listingId).FirstOrDefault();
-                    var assembly = await _sharedRepository.GetAreaByAreaId(address.AssemblyID);
-                    var area = await _sharedRepository.GetLocalityByLocalityId(address.LocalityID);
+                    var assembly = await _sharedRepository.GetLocalityByLocalityId(address.AssemblyID);
+                    var area = await _sharedRepository.GetAreaByAreaId(address.LocalityID);
                     var logoImage = await _listingRepository.GetLogoImageByListingId(listingId);
 
                     var communication = communications.Where(x => x.ListingID == listingId).FirstOrDefault();
@@ -154,9 +154,9 @@ namespace BAL.Services
                 var country = await _sharedRepository.GetCountryByCountryId(address.CountryID);
                 var state = await _sharedRepository.GetStateByStateId(address.StateID);
                 var city = await _sharedRepository.GetCityByCityId(address.City);
-                var assembly = await _sharedRepository.GetAreaByAreaId(address.AssemblyID);
+                var assembly = await _sharedRepository.GetLocalityByLocalityId(address.AssemblyID);
                 var pincode = await _sharedRepository.GetPincodeByPincodeId(address.PincodeID);
-                var locality = await _sharedRepository.GetLocalityByLocalityId(address.LocalityID);
+                var locality = await _sharedRepository.GetAreaByAreaId(address.LocalityID);
 
                 listingDetailVM.Address.LocalAddress = address.LocalAddress;
                 listingDetailVM.Address.Country = country.Name;

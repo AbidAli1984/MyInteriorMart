@@ -45,19 +45,19 @@ namespace BAL.Services
             return await sharedRepository.GetCitiesByStateId(stateId);
         }
 
-        public async Task<IList<Location>> GetAreasByCityId(int cityId)
+        public async Task<IList<Location>> GetLocalitiesByCityId(int cityId)
         {
-            return await sharedRepository.GetAreasByCityId(cityId);
+            return await sharedRepository.GetLocalitiesByCityId(cityId);
         }
 
-        public async Task<IList<Pincode>> GetPincodesByAreaId(int areaId)
+        public async Task<IList<Pincode>> GetPincodesByLocalityId(int areaId)
         {
-            return await sharedRepository.GetPincodesByAreaId(areaId);
+            return await sharedRepository.GetPincodesByLocalityId(areaId);
         }
 
-        public async Task<IList<Area>> GetLocalitiesByPincode(int pincodeId)
+        public async Task<IList<Area>> GetAreasByPincodeId(int pincodeId)
         {
-            return await sharedRepository.GetLocalitiesByPincode(pincodeId);
+            return await sharedRepository.GetAreasByPincodeId(pincodeId);
         }
 
         #region Address Info
@@ -74,29 +74,29 @@ namespace BAL.Services
         {
             return await sharedRepository.GetCityByCityId(cityId);
         }
-        public async Task<Location> GetAreaByAreaId(int areaId)
+        public async Task<Location> GetLocalityByLocalityId(int localityId)
         {
-            return await sharedRepository.GetAreaByAreaId(areaId);
+            return await sharedRepository.GetLocalityByLocalityId(localityId);
         }
         public async Task<Pincode> GetPincodeByPincodeId(int pincodeId)
         {
             return await sharedRepository.GetPincodeByPincodeId(pincodeId);
         }
-        public async Task<Area> GetLocalityByLocalityId(int localityId)
+        public async Task<Area> GetAreaByAreaId(int areaId)
         {
-            return await sharedRepository.GetLocalityByLocalityId(localityId);
+            return await sharedRepository.GetAreaByAreaId(areaId);
         }
-        public async Task<Location> GetAreaByAreaName(string area)
+        public async Task<Location> GetLocalityByLocalityName(string locality)
         {
-            return await sharedRepository.GetAreaByAreaName(area);
+            return await sharedRepository.GetLocalityByLocalityName(locality);
         }
         public async Task<Pincode> GetPincodeByPinNumber(int pinNumber)
         {
             return await sharedRepository.GetPincodeByPinNumber(pinNumber);
         }
-        public async Task<Area> GetLocalityByLocalityName(string localityName)
+        public async Task<Area> GetAreaByAreaName(string area)
         {
-            return await sharedRepository.GetLocalityByLocalityName(localityName);
+            return await sharedRepository.GetAreaByAreaName(area);
         }
         #endregion
 

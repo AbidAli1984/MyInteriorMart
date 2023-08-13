@@ -100,7 +100,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             ProfileInfo.Localities.Clear();
 
             if (ProfileInfo.UserProfile.CityID > 0)
-                ProfileInfo.Areas = await sharedService.GetAreasByCityId(ProfileInfo.UserProfile.CityID);
+                ProfileInfo.Areas = await sharedService.GetLocalitiesByCityId(ProfileInfo.UserProfile.CityID);
 
             StateHasChanged();
         }
@@ -111,7 +111,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             ProfileInfo.Localities.Clear();
 
             if (ProfileInfo.UserProfile.AssemblyID > 0)
-                ProfileInfo.Pincodes = await sharedService.GetPincodesByAreaId(ProfileInfo.UserProfile.AssemblyID);
+                ProfileInfo.Pincodes = await sharedService.GetPincodesByLocalityId(ProfileInfo.UserProfile.AssemblyID);
 
             StateHasChanged();
         }
@@ -121,7 +121,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             ProfileInfo.Localities.Clear();
 
             if (ProfileInfo.UserProfile.PincodeID > 0)
-                ProfileInfo.Localities = await sharedService.GetLocalitiesByPincode(ProfileInfo.UserProfile.PincodeID);
+                ProfileInfo.Localities = await sharedService.GetAreasByPincodeId(ProfileInfo.UserProfile.PincodeID);
 
             StateHasChanged();
         }
