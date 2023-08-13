@@ -69,7 +69,7 @@ namespace DAL.Repositories
         {
             return await sharedDbContext.Pincode
                 .OrderBy(i => i.PincodeNumber)
-                .Where(i => i.StationID == localityId)
+                .Where(i => i.LocationId == localityId)
                 .ToListAsync();
         }
 

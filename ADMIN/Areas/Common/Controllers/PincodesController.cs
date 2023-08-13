@@ -34,7 +34,7 @@ namespace ADMIN.Areas.Common.Controllers
             ViewBag.Deleted = TempData["Deleted"];
             // End:
 
-            var sharedDbContext = _context.Pincode.Include(p => p.Location).Include(p => p.Location.City).Include(p => p.Location.City.State).Include(p => p.Location.City.State.Country).Where(i => i.StationID == stationId);
+            var sharedDbContext = _context.Pincode.Include(p => p.Location).Include(p => p.Location.City).Include(p => p.Location.City.State).Include(p => p.Location.City.State.Country).Where(i => i.LocationId == stationId);
             return View(await sharedDbContext.ToListAsync());
         }
 
@@ -83,10 +83,10 @@ namespace ADMIN.Areas.Common.Controllers
                 Pincode pincode = new Pincode
                 {
                     PincodeNumber = pincodeNumber.Value,
-                    StationID = stationID
+                    LocationId = stationID
                 };
 
-                var duplicate = await _context.Pincode.Where(i => i.StationID == stationID).AnyAsync(i => i.PincodeNumber == pincodeNumber);
+                var duplicate = await _context.Pincode.Where(i => i.LocationId == stationID).AnyAsync(i => i.PincodeNumber == pincodeNumber);
 
                 if (duplicate != true)
                 {
@@ -122,7 +122,7 @@ namespace ADMIN.Areas.Common.Controllers
             {
                 return NotFound();
             }
-            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", pincode.StationID);
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", pincode.LocationId);
             return View(pincode);
         }
 
@@ -165,7 +165,7 @@ namespace ADMIN.Areas.Common.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", pincode.StationID);
+            ViewData["StationID"] = new SelectList(_context.Location, "StationID", "Name", pincode.LocationId);
             return View(pincode);
         }
 

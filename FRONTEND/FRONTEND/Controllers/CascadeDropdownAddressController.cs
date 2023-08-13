@@ -64,7 +64,7 @@ namespace FRONTEND.Controllers
         {
             var selPincodes = sharedManager.Pincode
                 .OrderBy(c => c.PincodeNumber)
-                .Where(c => c.StationID == JsonAssemblyValueId)
+                .Where(c => c.LocationId == JsonAssemblyValueId)
                 .Select(c => new { value = c.PincodeID, text = c.PincodeNumber });
             return Json(new SelectList(selPincodes, "value", "text"));
         }

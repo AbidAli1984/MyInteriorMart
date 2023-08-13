@@ -19,7 +19,7 @@ namespace BOL.SHARED
 
         [Display(Name = "Station", Prompt = "Select Station")]
         [Required(ErrorMessage = "Select Station")]
-        public Nullable<int> StationID { get; set; }
+        public Nullable<int> LocationId { get; set; }
 
         public virtual Location Location { get; set; }
         public IList<Area> Area { get; set; }

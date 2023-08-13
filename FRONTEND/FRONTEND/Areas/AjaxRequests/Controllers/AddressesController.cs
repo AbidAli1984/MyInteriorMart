@@ -53,7 +53,7 @@ namespace FRONTEND.Areas.AjaxRequests.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _context.Pincode.AnyAsync(p => p.PincodeNumber == pincode.PincodeNumber && p.StationID == pincode.StationID))
+                if (await _context.Pincode.AnyAsync(p => p.PincodeNumber == pincode.PincodeNumber && p.LocationId == pincode.LocationId))
                 {
                     TempData["CreateError"] = pincode.PincodeNumber + " already exisits in pincode database.";
                     return Redirect("/Subscriptions/Addresses/Create");

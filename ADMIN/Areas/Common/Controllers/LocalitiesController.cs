@@ -28,7 +28,7 @@ namespace ADMIN.Areas.Common.Controllers
         {
             var pincode = await _context.Pincode.Where(i => i.PincodeID == pincodeId).FirstOrDefaultAsync();
             ViewBag.PincodeId = pincode.PincodeID;
-            ViewBag.StationId = pincode.StationID;
+            ViewBag.StationId = pincode.LocationId;
             ViewBag.Message = TempData["Message"];
 
             // Shafi: Display locality deleted successfully message in index view

@@ -139,7 +139,7 @@ namespace BAL.Addresses
 
         public int CountPincodeInStation(int stationId)
         {
-            return sharedContext.Pincode.Where(i => i.StationID == stationId).Count();
+            return sharedContext.Pincode.Where(i => i.LocationId == stationId).Count();
         }
 
         public int CountAreaInPincode(int pincodeId)
