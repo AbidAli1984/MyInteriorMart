@@ -39,6 +39,8 @@
     <Compile Remove="DBContexts\SHARED\Migrations\20200707163519_008.Designer.cs" />
     <Compile Remove="DBContexts\SHARED\Migrations\20230812210307_CreateAreaAndLocationTable.cs" />
     <Compile Remove="DBContexts\SHARED\Migrations\20230812210307_CreateAreaAndLocationTable.Designer.cs" />
+    <Compile Remove="DBContexts\SHARED\Migrations\20230822172247_AddedReligionAndCasteTable.cs" />
+    <Compile Remove="DBContexts\SHARED\Migrations\20230822172247_AddedReligionAndCasteTable.Designer.cs" />
     <Compile Remove="DBContexts\USER\Migrations\20230710162724_AddedDefaultToSomeFieldsInUserProfileTable.cs" />
     <Compile Remove="DBContexts\USER\Migrations\20230710162724_AddedDefaultToSomeFieldsInUserProfileTable.Designer.cs" />
     <Compile Remove="DBContexts\USER\Migrations\20230717115654_AddedQualificationTableInSharedDB.cs" />

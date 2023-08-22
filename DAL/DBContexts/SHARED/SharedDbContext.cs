@@ -21,5 +21,7 @@ namespace DAL.SHARED
         public DbSet<Pincode> Pincode { get; set; }
         public DbSet<Area> Area { get; set; }
         public DbSet<Messages> Messages { get; set; }
+        public DbSet<Religion> Religions { get; set; }
+        public DbSet<Caste> Castes { get; set; }
     }
 }
