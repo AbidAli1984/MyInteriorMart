@@ -31,11 +31,11 @@ namespace BOL.LISTING.UploadImage
 
         [Display(Name = "Religion")]
         [Required(ErrorMessage = "Religion required.")]
-        public string Religion { get; set; }
+        public int ReligionId { get; set; }
 
         [Display(Name = "Cast")]
         [Required(ErrorMessage = "Cast required.")]
-        public string Cast { get; set; }
+        public int CastId { get; set; }
 
         [Display(Name = "Country")]
         [Required(ErrorMessage = "Select Country")]

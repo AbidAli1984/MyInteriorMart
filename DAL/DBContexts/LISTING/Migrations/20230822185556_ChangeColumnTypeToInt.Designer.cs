@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.DBContexts.LISTING.Migrations
 {
     [DbContext(typeof(ListingDbContext))]
-    [Migration("20230822170235_AddColumnsToOwnerImageTable")]
-    partial class AddColumnsToOwnerImageTable
+    [Migration("20230822185556_ChangeColumnTypeToInt")]
+    partial class ChangeColumnTypeToInt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1294,9 +1294,8 @@ namespace DAL.DBContexts.LISTING.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Cast")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CastId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CountryID")
                         .HasColumnType("int");
@@ -1323,9 +1322,8 @@ namespace DAL.DBContexts.LISTING.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Religion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReligionId")
+                        .HasColumnType("int");
 
                     b.Property<int>("StateID")
                         .HasColumnType("int");

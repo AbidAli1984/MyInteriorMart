@@ -1292,13 +1292,8 @@ namespace DAL.LISTING.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Cast")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cast1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CastId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CountryID")
                         .HasColumnType("int");
@@ -1325,9 +1320,8 @@ namespace DAL.LISTING.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Religion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReligionId")
+                        .HasColumnType("int");
 
                     b.Property<int>("StateID")
                         .HasColumnType("int");
