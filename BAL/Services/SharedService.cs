@@ -110,5 +110,15 @@ namespace BAL.Services
             return await sharedRepository.GetDesignations();
         }
         #endregion
+
+        public async Task<IList<Religion>> GetReligions()
+        {
+            return await sharedRepository.GetReligions();
+        }
+
+        public async Task<IList<Caste>> GetCastesByReligionId(int religionId)
+        {
+            return await sharedRepository.GetCastesByReligionId(religionId);
+        }
     }
 }

@@ -78,32 +78,20 @@
 
                                     <div class="col-md-6 ">
                                         <div class="form-group">
-                                            <label for="name">Religion<span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="religion" id="religion"
-                                                   placeholder="Name">
+                                            <ReligionDropdown ReligionsDropdownVM="UploadImagesVM.ReligionsDropdownVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="form-group">
-                                            <label for="name">Cast<span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="cast" id="cast"
-                                                   placeholder="Name">
+                                            <CasteDropdown ReligionsDropdownVM="UploadImagesVM.ReligionsDropdownVM" />
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 ">
-                                        <div class="form-group">
-                                            <label for="name">State<span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="state" id="state"
-                                                   placeholder="Name">
-                                        </div>
+                                        <CountryDropDown ListWizAddressVM="UploadImagesVM.LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
                                     </div>
                                     <div class="col-md-6 ">
-                                        <div class="form-group">
-                                            <label for="name">Country<span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="country" id="country"
-                                                   placeholder="Name">
-                                        </div>
+                                        <StateDropDown ListWizAddressVM="UploadImagesVM.LWAddressVM" />
                                     </div>
 
                                 </div>

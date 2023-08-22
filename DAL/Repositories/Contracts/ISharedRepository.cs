@@ -35,5 +35,8 @@ namespace DAL.Repositories.Contracts
         Task<IList<NatureOfBusiness>> GetNatureOfBusinesses();
         Task<IList<Designation>> GetDesignations();
         #endregion
+
+        Task<IList<Religion>> GetReligions();
+        Task<IList<Caste>> GetCastesByReligionId(int religionId);
     }
 }

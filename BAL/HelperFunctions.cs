@@ -3,6 +3,7 @@ using BAL.Services.Contracts;
 using BOL.ComponentModels.Listings;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.MyAccount.Profile;
+using BOL.ComponentModels.Shared;
 using DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -150,6 +151,13 @@ namespace BAL
         }
         #endregion
 
+        public async Task GetCastesByReligionId(ReligionsDropdownVM religionsDropdownVM)
+        {
+            religionsDropdownVM.Castes.Clear();
+            if (religionsDropdownVM.SelectedReligionId > 0)
+                religionsDropdownVM.Castes = await _sharedService.GetCastesByReligionId(religionsDropdownVM.SelectedReligionId);
+        }
+
         public async Task<BusinessWorkingHour> IsBusinessOpen(int ListingID)
         {
             var workingTime = await _listingRepository.GetWorkingHoursByListingId(ListingID);
@@ -170,7 +178,7 @@ namespace BAL
                 businessWorking.OpenTime = (workingTime.SundayHoliday ? workingTime.MondayFrom : workingTime.SundayFrom).ToString("hh:mm tt");
                 return businessWorking;
             }
-            else if((day == Constants.Sunday && workingTime.SundayHoliday))
+            else if ((day == Constants.Sunday && workingTime.SundayHoliday))
             {
                 businessWorking.OpenDay = Constants.Monday;
                 businessWorking.OpenTime = workingTime.MondayFrom.ToString("hh:mm tt");

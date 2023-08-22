@@ -20,7 +20,6 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         public bool IsCityChange { get; set; }
         public bool IsLocalityChange { get; set; }
         public bool IsPincodeChange { get; set; }
-        public bool IsAreaChange { get; set; }
 
         public IList<State> States { get; set; }
         public IList<City> Cities { get; set; }
@@ -63,6 +62,11 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         {
             return CountryId > 0 && StateId > 0 && CityId > 0 && LocalityId > 0 && 
                 PincodeId > 0 && AreaId > 0 && !string.IsNullOrEmpty(Address);
+        }
+
+        public bool isValidCountryState()
+        {
+            return CountryId > 0 && StateId > 0;
         }
     }
 }

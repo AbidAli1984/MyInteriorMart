@@ -434,6 +434,10 @@ namespace BAL.Services
                     ImagePath = uploadImagesVM.OwnerImageDetail.ImageUrl,
                     Designation = uploadImagesVM.OwnerImageDetail.Designation,
                     OwnerName = uploadImagesVM.OwnerImageDetail.TitleOrName,
+                    CountryID = uploadImagesVM.LWAddressVM.CountryId,
+                    StateID = uploadImagesVM.LWAddressVM.StateId,
+                    ReligionId = uploadImagesVM.ReligionsDropdownVM.SelectedReligionId,
+                    CastId = uploadImagesVM.ReligionsDropdownVM.SelectedCasteId,
                 };
                 await _listingRepository.AddAsync(ownerImage);
 

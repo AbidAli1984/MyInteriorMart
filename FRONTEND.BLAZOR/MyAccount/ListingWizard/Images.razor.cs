@@ -3,6 +3,7 @@ using BAL;
 using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
+using BOL.ComponentModels.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -54,6 +55,8 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
         }
 
+        public void ExecuteStateHasChanged() { }
+
         #region Logo Image
         public void SetLogoImage(InputFileChangeEventArgs e)
         {
@@ -92,7 +95,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
         public async Task UploadOwnerImage()
         {
-            if (!UploadImagesVM.isOwnerValid())
+            if (!UploadImagesVM.isOwnerValid() || !UploadImagesVM.LWAddressVM.isValidCountryState() || !UploadImagesVM.ReligionsDropdownVM.isValid())
             {
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
                 return;

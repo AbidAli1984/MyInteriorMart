@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BOL.ComponentModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -34,6 +35,9 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             return OwnerImage != null && !string.IsNullOrWhiteSpace(OwnerImageDetail.Designation) && 
                 !string.IsNullOrWhiteSpace(OwnerImageDetail.TitleOrName);
         }
+
+        public LWAddressVM LWAddressVM { get; set; } = new LWAddressVM();
+        public ReligionsDropdownVM ReligionsDropdownVM { get; set; } = new ReligionsDropdownVM();
 
 
         public Stream GalleryImage { get; set; }

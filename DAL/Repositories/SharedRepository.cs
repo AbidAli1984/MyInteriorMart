@@ -135,5 +135,18 @@ namespace DAL.Repositories
             return await sharedDbContext.Designation.ToListAsync();
         }
         #endregion
+
+
+        public async Task<IList<Religion>> GetReligions()
+        {
+            return await sharedDbContext.Religions
+                .ToListAsync();
+        }
+
+        public async Task<IList<Caste>> GetCastesByReligionId(int religionId)
+        {
+            return await sharedDbContext.Castes.Where(x => x.ReligionId == religionId)
+                .ToListAsync();
+        }
     }
 }

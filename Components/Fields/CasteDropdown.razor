@@ -1,0 +1,17 @@
+﻿<label>Religion <span class="text-danger">*</span></label>
+
+<select class="form-control" @onchange="SetCasteId">
+    <option value="0" selected>Choose...</option>
+    @if (ReligionsDropdownVM.Castes != null)
+    {
+        foreach (var rel in ReligionsDropdownVM.Castes)
+        {
+            if (ReligionsDropdownVM.SelectedCasteId == rel.Id)
+            {
+                <option selected value="@rel.Id">@rel.Name</option>
+                continue;
+            }
+            <option value="@rel.Id">@rel.Name</option>
+        }
+    }
+</select>
