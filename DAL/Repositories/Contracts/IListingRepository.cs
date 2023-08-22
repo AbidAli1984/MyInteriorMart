@@ -62,6 +62,8 @@ namespace DAL.Repositories.Contracts
         Task DeleteOwnerImage(int id);
         Task<IList<GalleryImage>> GetGalleryImagesByListingId(int listingId);
         Task DeleteGalleryImage(int id);
+
+        Task<BannerDetail> GetBannerDetailByListingId(int listingId);
         #endregion
     }
 }

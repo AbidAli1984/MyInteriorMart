@@ -56,7 +56,12 @@ namespace BAL
             return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Gallery/";
         }
 
-        public async Task UploadOwnerOrGalleryImage(Stream file, string filePath)
+        public string GetBannerImageFilePath(string ownerId)
+        {
+            return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Banner.jpg";
+        }
+
+        public async Task UploadImage(Stream file, string filePath)
         {
             filePath = filePath.Replace("/", "\\");
             await FileManagerService.UploadFile(file, filePath, true);

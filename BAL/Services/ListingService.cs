@@ -520,6 +520,45 @@ namespace BAL.Services
                 return false;
             }
         }
+
+        public async Task<BannerDetail> GetBannerDetailByListingId(int listingId)
+        {
+            return await _listingRepository.GetBannerDetailByListingId(listingId);
+        }
+        public async Task<BannerDetail> AddOrUpdateBannerImage(UploadImagesVM uploadImagesVM)
+        {
+            try
+            {
+                var bannerDetail = await _listingRepository.GetBannerDetailByListingId(uploadImagesVM.ListingId);
+                bool recordNotFound = bannerDetail == null;
+
+                if (recordNotFound)
+                    bannerDetail = new BannerDetail();
+
+                bannerDetail.ImagePath = uploadImagesVM.BannerImageDet.ImageUrl;
+                bannerDetail.ImageTitle = uploadImagesVM.BannerImageDet.TitleOrName;
+
+                if (recordNotFound)
+                {
+                    bannerDetail.ListingID = uploadImagesVM.ListingId;
+                    bannerDetail.OwnerGuid = uploadImagesVM.OwnerId;
+                    bannerDetail.CreatedDate = DateTime.Now;
+
+                    await _listingRepository.AddAsync(bannerDetail);
+                }
+                else
+                {
+                    bannerDetail.UpdateDate = DateTime.Now;
+                    await _listingRepository.UpdateAsync(bannerDetail);
+                }
+                bannerDetail.ImagePath += "?DummyId=" + DateTime.Now.Ticks;
+                return bannerDetail;
+            }
+            catch
+            {
+                return null;
+            }
+        }
         #endregion
     }
 }

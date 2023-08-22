@@ -253,6 +253,12 @@ namespace DAL.Repositories
             _listingDbContext.GalleryImages.Remove(galleryImage);
             await _listingDbContext.SaveChangesAsync();
         }
+
+        public async Task<BannerDetail> GetBannerDetailByListingId(int listingId)
+        {
+            return await _listingDbContext.BannerDetails
+                .FirstOrDefaultAsync(x => x.ListingID == listingId);
+        }
         #endregion
     }
 }

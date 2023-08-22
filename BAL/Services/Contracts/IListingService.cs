@@ -65,6 +65,8 @@ namespace BAL.Services.Contracts
         Task<IList<ImageDetails>> GetGalleryImagesByListingId(int listingId);
         Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteGalleryImage(int id);
+        Task<BannerDetail> GetBannerDetailByListingId(int listingId);
+        Task<BannerDetail> AddOrUpdateBannerImage(UploadImagesVM uploadImagesVM);
         #endregion
     }
 }

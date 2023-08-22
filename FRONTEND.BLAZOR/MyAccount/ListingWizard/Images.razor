@@ -184,23 +184,15 @@
                             <div class="col-12">
                                 <div class="row mt-5 justify-content-center">
                                     <div class="col-md-6">
-                                        <form action="#">
-                                            <div class="form-group">
-                                                <label for="name">
-                                                    Select Banner Image <span class="text-danger">*</span>
-                                                </label>
-                                                <input class="form-control" type="file" name="gallery_img"
-                                                       id="gallery_img">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">
-                                                    Banner Title<span class="text-danger">*</span>
-                                                </label>
-                                                <input class="form-control" type="text" name="title" id="title"
-                                                       placeholder="Image Title">
-                                            </div>
-                                            <input type="submit" value="submit" class="btn_add mt-3">
-                                        </form>
+                                        <div class="form-group">
+                                            <label for="name">Select Banner Image <span class="text-danger">*</span></label>
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetBannerImage" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Banner Title<span class="text-danger">*</span></label>
+                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.BannerImageDet.TitleOrName" />
+                                        </div>
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadBannerImage())" class="btn_add mt-3">
                                     </div>
                                 </div>
                                 <hr style="margin-top: 32px;">
@@ -212,9 +204,8 @@
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-md-12 col-lg-12 col-6 mb-5">
                                         <div class="upload_banner_img_sec">
-                                            <img class="delete_img" src="/resources/img/delete.png" alt="delete" style="right: 15px;">
-                                            <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
-                                            <div class="img_title text-center">Banner Title</div>
+                                            <img class="upload_images" src="@UploadImagesVM.BannerImageDetail.ImagePath" alt="Logo">
+                                            <div class="img_title text-center">@UploadImagesVM.BannerImageDetail.ImageTitle</div>
                                         </div>
                                     </div>
                                 </div>

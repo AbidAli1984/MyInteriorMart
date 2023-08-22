@@ -4,6 +4,7 @@ using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.Shared;
+using BOL.LISTING.UploadImage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -47,6 +48,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                         UploadImagesVM.LogoImageUrl = logoImage.ImagePath;
                     UploadImagesVM.OwnerImages = await listingService.GetOwnerImagesByListingId(UploadImagesVM.ListingId);
                     UploadImagesVM.GalleryImages = await listingService.GetGalleryImagesByListingId(UploadImagesVM.ListingId);
+                    UploadImagesVM.BannerImageDetail = await listingService.GetBannerDetailByListingId(UploadImagesVM.ListingId);
                 }
             }
             catch (Exception exc)
@@ -102,7 +104,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             UploadImagesVM.OwnerImageDetail.ImageUrl = helperFunction.GetOwnerImageFilePath(UploadImagesVM.OwnerId);
             bool isUpdated = await listingService.AddOwnerImage(UploadImagesVM);
-            await helperFunction.UploadOwnerOrGalleryImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
+            await helperFunction.UploadImage(UploadImagesVM.OwnerImage, UploadImagesVM.OwnerImageDetail.ImageUrl);
             resetOwnerImageDetail();
 
             if (isUpdated)
@@ -151,7 +153,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             UploadImagesVM.GalleryImageDetail.ImageUrl = helperFunction.GetGalleryImageFilePath(UploadImagesVM.OwnerId);
             bool isUpdated = await listingService.AddGalleryImage(UploadImagesVM);
-            await helperFunction.UploadOwnerOrGalleryImage(UploadImagesVM.GalleryImage, UploadImagesVM.GalleryImageDetail.ImageUrl);
+            await helperFunction.UploadImage(UploadImagesVM.GalleryImage, UploadImagesVM.GalleryImageDetail.ImageUrl);
             UploadImagesVM.GalleryImageDetail = new ImageDetails();
             UploadImagesVM.GalleryImage = null;
 
@@ -173,6 +175,33 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
             if (isDeleted)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image deleted successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+        #endregion
+
+        #region Banner Image
+        public void SetBannerImage(InputFileChangeEventArgs e)
+        {
+            UploadImagesVM.BannerImage = e.File.OpenReadStream();
+        }
+
+        public async Task UploadBannerImage()
+        {
+            if (!UploadImagesVM.isBannerValid())
+            {
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Please select the image to upload!");
+                return;
+            }
+
+            UploadImagesVM.BannerImageDet.ImageUrl = helperFunction.GetBannerImageFilePath(UploadImagesVM.OwnerId);
+            UploadImagesVM.BannerImageDetail = await listingService.AddOrUpdateBannerImage(UploadImagesVM);
+            await helperFunction.UploadImage(UploadImagesVM.BannerImage, UploadImagesVM.BannerImageDet.ImageUrl);
+            UploadImagesVM.BannerImageDet = new ImageDetails();
+            UploadImagesVM.BannerImage = null;
+
+            if (UploadImagesVM.BannerImageDetail != null)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Banner Image uploaded successfully!");
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
