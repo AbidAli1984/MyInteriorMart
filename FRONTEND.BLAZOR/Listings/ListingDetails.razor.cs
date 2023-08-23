@@ -18,21 +18,14 @@ namespace FRONTEND.BLAZOR.Listings
 {
     public partial class ListingDetails
     {
-        [Inject]
-        private IUserService userService { get; set; }
-        [Inject]
-        private IUserProfileService userProfileService { get; set; }
-        [Inject]
-        private IListingService listingService { get; set; }
-        [Inject]
-        private IAuditService auditService { get; set; }
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
-        [Inject]
-        Helper helper { get; set; }
+        [Inject] private IUserService userService { get; set; }
+        [Inject] private IListingService listingService { get; set; }
+        [Inject] private IAuditService auditService { get; set; }
+        [Inject] private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject] Helper helper { get; set; }
+        [Inject] NavigationManager navigationManager { get; set; }
 
-        [Parameter]
-        public string ListingID { get; set; }
+        [Parameter] public string ListingID { get; set; }
 
         public ApplicationUser applicationUser { get; set; }
         public ListingDetailVM listingDetailVM { get; set; } = new ListingDetailVM();
@@ -60,6 +53,7 @@ namespace FRONTEND.BLAZOR.Listings
                 }
                 int.TryParse(ListingID, out int listingId);
                 listingDetailVM = await listingService.GetListingDetailByListingId(listingId, CurrentUserGuid);
+                listingDetailVM.shareUrl = navigationManager.Uri;
                 //await CheckBookmarkAsync();
             }
             catch (Exception exc)

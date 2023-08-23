@@ -1,7 +1,4 @@
 ﻿@page "/Listing/Index/{ListingID}"
-@inject AuditDbContext auditContext
-@inject CategoriesDbContext categoriesContext
-@inject SharedDbContext sharedContext
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject IJSRuntime jsRuntime
@@ -482,8 +479,8 @@
                                 }
                             </div>
                             <div class="col-lg-12 social-share p-0">
-                                <a href="#0"><i class="fa fa-facebook-official"></i></a>
-                                <a href="#0"><i class="fa fa-whatsapp"></i></a>
+                                <a href="@($"{BOL.Constants.FacebookLink} {listingDetailVM.Listing.CompanyName}&u={listingDetailVM.shareUrl}")" target="_blank"><i class="fa fa-facebook-official"></i></a>
+                                <a href="@($"{BOL.Constants.WhatsappLink} {listingDetailVM.Listing.CompanyName} : {listingDetailVM.shareUrl}")" target="_blank"><i class="fa fa-whatsapp"></i></a>
                                 <a href="#0"><i class="fa fa-linkedin-square"></i></a>
                                 <a href="#0"><i class="fa fa-twitter-square"></i></a>
                                 <a href="#0"><i class="fa fa-youtube-play"></i></a>

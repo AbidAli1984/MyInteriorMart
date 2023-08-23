@@ -53,5 +53,7 @@ namespace BOL.ComponentModels.Listings
         public bool IsLiked { get; set; } = false;
         public int RatingCount { get; set; }
         public decimal RatingAverage { get; set; }
+
+        public string shareUrl { get; set; }
     }
 }

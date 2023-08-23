@@ -43,5 +43,12 @@ namespace BOL
         public const int WorkingHourComplete = 6;
         public const int PaymentModeComplete = 7;
         #endregion
+
+        private const string ShareCompanyTagLine = "Check this out on MyInteriorMart!";
+
+        #region Share Via Social Links
+        public const string FacebookLink = "https://www.facebook.com/sharer/sharer.php?quote=" + ShareCompanyTagLine;
+        public const string WhatsappLink = "https://web.whatsapp.com/send?text=" + ShareCompanyTagLine;
+        #endregion
     }
 }
