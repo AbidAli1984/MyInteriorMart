@@ -203,8 +203,16 @@
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-md-12 col-lg-12 col-6 mb-5">
                                         <div class="upload_banner_img_sec">
-                                            <img class="upload_images" src="@UploadImagesVM.BannerImageDetail.ImagePath" alt="Logo">
-                                            <div class="img_title text-center">@UploadImagesVM.BannerImageDetail.ImageTitle</div>
+                                            @if (@UploadImagesVM.BannerImageDetail == null)
+                                            {
+                                                <img class="upload_images" src="/resources/img/furniture-design.jpg" alt="Logo">
+                                                <div class="img_title text-center">Banner Title</div>
+                                            }
+                                            else
+                                            {
+                                                <img class="upload_images" src="@UploadImagesVM.BannerImageDetail.ImagePath" alt="Logo">
+                                                <div class="img_title text-center">@UploadImagesVM.BannerImageDetail.ImageTitle</div>
+                                            }
                                         </div>
                                     </div>
                                 </div>

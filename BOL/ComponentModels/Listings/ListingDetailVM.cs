@@ -13,7 +13,7 @@ namespace BOL.ComponentModels.Listings
     {
         public int ListingId { get; set; }
         public string LogoUrl { get; set; }
-        public IList<OwnerImage> OwnerImages { get; set; } = new List<OwnerImage>();
+        public IList<OwnerImageVM> OwnerImagesVM { get; set; } = new List<OwnerImageVM>();
         public IList<GalleryImage> GalleryImages { get; set; } = new List<GalleryImage>();
         public string CurrentUserId { get; set; }
         public Listing Listing { get; set; } = new Listing();

@@ -90,7 +90,9 @@ namespace DAL.Repositories
 
         public async Task<State> GetStateByStateId(int stateId)
         {
-            return await sharedDbContext.State.FindAsync(stateId);
+            return await sharedDbContext.State
+                .Include(x => x.Country)
+                .FirstOrDefaultAsync(x => x.StateID == stateId);
         }
         public async Task<City> GetCityByCityId(int cityId)
         {
@@ -147,6 +149,13 @@ namespace DAL.Repositories
         {
             return await sharedDbContext.Castes.Where(x => x.ReligionId == religionId)
                 .ToListAsync();
+        }
+
+        public async Task<Caste> GetCasteByCasteId(int casteId)
+        {
+            return await sharedDbContext.Castes
+                .Include(x => x.Religion)
+                .FirstOrDefaultAsync(x => x.Id == casteId);
         }
     }
 }

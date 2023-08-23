@@ -21,7 +21,7 @@
                 </div>
                 <div class="box_detail_cus">
                     <div class="cust-profile">
-                        @if (listingDetailVM.OwnerImages == null || listingDetailVM.OwnerImages.Count <= 0)
+                        @if (listingDetailVM.OwnerImagesVM == null || listingDetailVM.OwnerImagesVM.Count <= 0)
                         {
                             <img src="resources/img/icon/profile.svg" alt="profile">
                             <h6 class="cust-name">
@@ -37,15 +37,15 @@
                         {
                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
-                                    @foreach (var image in listingDetailVM.OwnerImages)
+                                    @foreach (var image in listingDetailVM.OwnerImagesVM)
                                     {
                                         <div class="carousel-item @(count++ == 0 ? "active" : "")">
-                                            <img src="@image.ImagePath" alt="profile">
-                                            <h4 class="cust-name">@image.OwnerName</h4>
+                                            <img src="@image.ImageUrl" alt="profile">
+                                            <h4 class="cust-name">@image.Name</h4>
                                             <span class="cust-type">@image.Designation</span>
                                             <div style="margin-top: 10px; color: #000;">
-                                                <span>[Cast]</span>, <span>[Religion]</span> <br>
-                                                <span>@listingDetailVM.Address.State</span>, <span>@listingDetailVM.Address.Country</span>
+                                                <span>@image.Caste</span>, <span>@image.Religion</span> <br>
+                                                <span>@image.State</span>, <span>@image.Country</span>
                                             </div>
                                         </div>
                                     }
@@ -62,7 +62,7 @@
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-                                        }
+                        }
                     </div>
                 </div>
                 <div class="listing-specialisat box_detail_cus">

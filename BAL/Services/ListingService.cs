@@ -143,10 +143,39 @@ namespace BAL.Services
             }
 
             listingDetailVM.ListingId = listingId;
-            listingDetailVM.OwnerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
             listingDetailVM.GalleryImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
             listingDetailVM.Communication = await _listingRepository.GetCommunicationByListingId(listingId);
 
+
+            var ownerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
+            listingDetailVM.OwnerImagesVM = ownerImages.Select(x => new OwnerImageVM
+            {
+                CasteId = x.CasteId,
+                Designation = x.Designation,
+                Id = x.Id,
+                ImageUrl = x.ImagePath,
+                Name = x.OwnerName,
+               StateId = x.StateID
+
+            }).ToList();
+
+            foreach(var owner in listingDetailVM.OwnerImagesVM)
+            {
+                var caste = await _sharedRepository.GetCasteByCasteId(owner.CasteId);
+                var state = await _sharedRepository.GetStateByStateId(owner.StateId);
+
+                if(caste != null)
+                {
+                    owner.Caste = caste.Name;
+                    owner.Religion = caste.Religion == null ? string.Empty : caste.Religion.Name;
+                }
+
+                if (state != null)
+                {
+                    owner.State = state.Name;
+                    owner.Country = state.Country == null ? string.Empty : state.Country.Name;
+                }
+            }
 
             var address = await _listingRepository.GetAddressByListingId(listingId);
             if (address != null)
@@ -440,7 +469,7 @@ namespace BAL.Services
                     CountryID = uploadImagesVM.LWAddressVM.CountryId,
                     StateID = uploadImagesVM.LWAddressVM.StateId,
                     ReligionId = uploadImagesVM.ReligionsDropdownVM.SelectedReligionId,
-                    CastId = uploadImagesVM.ReligionsDropdownVM.SelectedCasteId,
+                    CasteId = uploadImagesVM.ReligionsDropdownVM.SelectedCasteId,
                 };
                 await _listingRepository.AddAsync(ownerImage);
 
