@@ -31,7 +31,7 @@ namespace DAL.LISTING
         public DbSet<Categories> Categories { get; set; }
         public DbSet<AssembliesAndCities> AssembliesAndCities { get; set; }
         public DbSet<Rating> Rating { get; set; }
-        public DbSet<ListingEnquiry> listingEnquiries { get; set; }
+        public DbSet<ListingEnquiry> ListingEnquiries { get; set; }
         public IEnumerable<object> NearestSmartCity { get; set; }
         // End:
 

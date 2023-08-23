@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BOL.LISTING
@@ -35,5 +36,8 @@ namespace BOL.LISTING
         [Display(Name = "Message")]
         [Required(ErrorMessage = "Message Required")]
         public string Message { get; set; }
+
+        [Display(Name = "Created Date")]
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }
