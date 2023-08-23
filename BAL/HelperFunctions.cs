@@ -40,25 +40,40 @@ namespace BAL
             return await FileManagerService.MoveFile(sourceFile, destFile);
         }
 
+        private string GetImagePath(string ownerId, string folderName, string fileName = null)
+        {
+            if (!string.IsNullOrWhiteSpace(folderName) && !string.IsNullOrWhiteSpace(fileName))
+                return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/{folderName}/{fileName}.jpg";
+            else if (!string.IsNullOrWhiteSpace(fileName))
+                return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/{fileName}.jpg";
+            else
+                return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/{folderName}/";
+        }
+
         public async Task<string> UploadLogoImage(Stream file, string ownerId)
         {
-            string filePath = $"{Constants.ListingImagesPath}\\{ownerId}\\LOGO.jpg";
+            string filePath = GetImagePath(ownerId, null, "LOGO");// $"{Constants.ListingImagesPath}\\{ownerId}\\LOGO.jpg";
             return await FileManagerService.UploadFile(file, filePath, true);
         }
 
         public string GetOwnerImageFilePath(string ownerId)
         {
-            return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Owners/";
+            return GetImagePath(ownerId, "Owners");
         }
 
         public string GetGalleryImageFilePath(string ownerId)
         {
-            return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Gallery/";
+            return GetImagePath(ownerId, "Gallery");
         }
 
         public string GetBannerImageFilePath(string ownerId)
         {
-            return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Banner.jpg";
+            return GetImagePath(ownerId, null, "Banners"); //$"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/Banner.jpg";
+        }
+
+        public string GetCertificateImageFilePath(string ownerId)
+        {
+            return GetImagePath(ownerId, "Certificate");
         }
 
         public async Task UploadImage(Stream file, string filePath)

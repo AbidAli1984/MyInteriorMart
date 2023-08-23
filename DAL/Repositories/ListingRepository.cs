@@ -224,11 +224,15 @@ namespace DAL.Repositories
         #endregion
 
         #region Upload Images
+        #region logo
         public async Task<LogoImage> GetLogoImageByListingId(int listingId)
         {
             return await _listingDbContext.LogoImages
                 .FirstOrDefaultAsync(l => l.ListingID == listingId);
         }
+        #endregion
+
+        #region owner
         public async Task<IList<OwnerImage>> GetOwnerImagesByListingId(int listingId)
         {
             return await _listingDbContext.OwnerImages
@@ -241,6 +245,9 @@ namespace DAL.Repositories
             _listingDbContext.OwnerImages.Remove(ownerImage);
             await _listingDbContext.SaveChangesAsync();
         }
+        #endregion
+
+        #region gallery
         public async Task<IList<GalleryImage>> GetGalleryImagesByListingId(int listingId)
         {
             return await _listingDbContext.GalleryImages
@@ -253,12 +260,30 @@ namespace DAL.Repositories
             _listingDbContext.GalleryImages.Remove(galleryImage);
             await _listingDbContext.SaveChangesAsync();
         }
+        #endregion
 
+        #region banner
         public async Task<BannerDetail> GetBannerDetailByListingId(int listingId)
         {
             return await _listingDbContext.BannerDetails
                 .FirstOrDefaultAsync(x => x.ListingID == listingId);
         }
+        #endregion
+
+        #region certificate
+        public async Task<IList<CertificationDetail>> GetCertificationDetailsByListingId(int listingId)
+        {
+            return await _listingDbContext.CertificationDetails
+                .Where(x => x.ListingID == listingId)
+                .ToListAsync();
+        }
+        public async Task DeleteCertificationDetail(int id)
+        {
+            var certificationDetail = await _listingDbContext.CertificationDetails.FindAsync(id);
+            _listingDbContext.CertificationDetails.Remove(certificationDetail);
+            await _listingDbContext.SaveChangesAsync();
+        }
+        #endregion
         #endregion
     }
 }

@@ -65,6 +65,17 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             return BannerImage != null && !string.IsNullOrWhiteSpace(BannerImageDet.TitleOrName);
         }
         #endregion
+
+        #region Certificate
+        public Stream CertificateImage { get; set; }
+        public ImageDetails CertificateImageDetail { get; set; } = new ImageDetails();
+        public IList<ImageDetails> CertificateImages { get; set; } = new List<ImageDetails>();
+
+        public bool isCertificateValid()
+        {
+            return CertificateImage != null && !string.IsNullOrWhiteSpace(CertificateImageDetail.TitleOrName);
+        }
+        #endregion
     }
 
     public class ImageDetails

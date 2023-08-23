@@ -64,6 +64,8 @@ namespace DAL.Repositories.Contracts
         Task DeleteGalleryImage(int id);
 
         Task<BannerDetail> GetBannerDetailByListingId(int listingId);
+        Task<IList<CertificationDetail>> GetCertificationDetailsByListingId(int listingId);
+        Task DeleteCertificationDetail(int id);
         #endregion
     }
 }

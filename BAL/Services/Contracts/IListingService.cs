@@ -59,14 +59,21 @@ namespace BAL.Services.Contracts
         #region Upload Images
         Task<LogoImage> GetLogoImageByListingId(int listingId);
         Task<bool> AddOrUpdateLogoImage(UploadImagesVM uploadImagesVM);
+
         Task<IList<ImageDetails>> GetOwnerImagesByListingId(int listingId);
         Task<bool> AddOwnerImage(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteOwnerImage(int id);
+
         Task<IList<ImageDetails>> GetGalleryImagesByListingId(int listingId);
         Task<bool> AddGalleryImage(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteGalleryImage(int id);
+
         Task<BannerDetail> GetBannerDetailByListingId(int listingId);
         Task<BannerDetail> AddOrUpdateBannerImage(UploadImagesVM uploadImagesVM);
+
+        Task<IList<ImageDetails>> GetCertificateDetailsByListingId(int listingId);
+        Task<bool> AddCertificateDetail(UploadImagesVM uploadImagesVM);
+        Task<bool> DeleteCertificateDetail(int id);
         #endregion
     }
 }

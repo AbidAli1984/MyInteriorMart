@@ -179,7 +179,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row hide imageSection" id="banner_section">
                             <div class="col-12">
                                 <div class="row mt-5 justify-content-center">
@@ -218,13 +217,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Select Certificate Image <span class="text-danger">*</span></label>
-                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetCertificateImage" />
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Certificate Title<span class="text-danger">*</span></label>
-                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
+                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.CertificateImageDetail.TitleOrName" />
                                         </div>
-                                        <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadCertificateImage())" class="btn_add mt-3">
                                     </div>
                                 </div>
                                 <hr style="margin-top: 32px;">
@@ -234,15 +233,15 @@
                                     </div>
                                 </div>
                                 <div class="row justify-content-center mt-4">
-                                    @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
+                                    @if (UploadImagesVM.CertificateImages != null && UploadImagesVM.CertificateImages.Count > 0)
                                     {
-                                        foreach (var galleryImage in UploadImagesVM.GalleryImages)
+                                        foreach (var certificateImage in UploadImagesVM.CertificateImages)
                                         {
                                             <div class="col-md-3 col-lg-2 col-6 mb-5">
                                                 <div class="upload_img_sec">
-                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteGalleryImage(galleryImage.Id))" alt="delete">
-                                                    <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
-                                                    <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteCertificateImage(certificateImage.Id))" alt="delete">
+                                                    <img class="upload_images" src="@certificateImage.ImageUrl" alt="Owner Image">
+                                                    <div class="img_title text-center">@certificateImage.TitleOrName</div>
                                                 </div>
                                             </div>
                                         }

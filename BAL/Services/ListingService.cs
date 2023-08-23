@@ -372,6 +372,7 @@ namespace BAL.Services
         #endregion
 
         #region Upload Images
+        #region logo
         public async Task<LogoImage> GetLogoImageByListingId(int listingId)
         {
             return await _listingRepository.GetLogoImageByListingId(listingId);
@@ -408,7 +409,9 @@ namespace BAL.Services
                 return false;
             }
         }
+        #endregion
 
+        #region owner
         public async Task<IList<ImageDetails>> GetOwnerImagesByListingId(int listingId)
         {
             var ownerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
@@ -467,7 +470,9 @@ namespace BAL.Services
                 return false;
             }
         }
+        #endregion
 
+        #region gallery
         public async Task<IList<ImageDetails>> GetGalleryImagesByListingId(int listingId)
         {
             var ownerImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
@@ -520,7 +525,9 @@ namespace BAL.Services
                 return false;
             }
         }
+        #endregion
 
+        #region Banner
         public async Task<BannerDetail> GetBannerDetailByListingId(int listingId)
         {
             return await _listingRepository.GetBannerDetailByListingId(listingId);
@@ -559,6 +566,62 @@ namespace BAL.Services
                 return null;
             }
         }
+        #endregion
+
+        #region certificate
+        public async Task<IList<ImageDetails>> GetCertificateDetailsByListingId(int listingId)
+        {
+            var certificate = await _listingRepository.GetCertificationDetailsByListingId(listingId);
+
+            return certificate.Select(x => new ImageDetails
+            {
+                Id = x.Id,
+                ImageUrl = x.ImagePath,
+                TitleOrName = x.ImageTitle
+            }).ToList();
+        }
+
+        public async Task<bool> AddCertificateDetail(UploadImagesVM uploadImagesVM)
+        {
+            try
+            {
+                var certificate = new CertificationDetail
+                {
+                    ListingID = uploadImagesVM.ListingId,
+                    OwnerGuid = uploadImagesVM.OwnerId,
+                    CreatedDate = DateTime.Now,
+                    ImagePath = uploadImagesVM.CertificateImageDetail.ImageUrl,
+                    ImageTitle = uploadImagesVM.CertificateImageDetail.TitleOrName,
+                };
+                await _listingRepository.AddAsync(certificate);
+
+                certificate.ImagePath += $"{certificate.Id}.jpg";
+                await _listingRepository.UpdateAsync(certificate);
+
+                uploadImagesVM.CertificateImageDetail.ImageUrl = certificate.ImagePath;
+                uploadImagesVM.CertificateImageDetail.Id = certificate.Id;
+                uploadImagesVM.CertificateImages.Add(uploadImagesVM.CertificateImageDetail);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteCertificateDetail(int id)
+        {
+            try
+            {
+                await _listingRepository.DeleteCertificationDetail(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
         #endregion
     }
 }

@@ -49,6 +49,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     UploadImagesVM.OwnerImages = await listingService.GetOwnerImagesByListingId(UploadImagesVM.ListingId);
                     UploadImagesVM.GalleryImages = await listingService.GetGalleryImagesByListingId(UploadImagesVM.ListingId);
                     UploadImagesVM.BannerImageDetail = await listingService.GetBannerDetailByListingId(UploadImagesVM.ListingId);
+                    UploadImagesVM.CertificateImages = await listingService.GetCertificateDetailsByListingId(UploadImagesVM.ListingId);
                 }
             }
             catch (Exception exc)
@@ -202,6 +203,48 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
             if (UploadImagesVM.BannerImageDetail != null)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Banner Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+        #endregion
+
+        #region Certificate Image
+        public void SetCertificateImage(InputFileChangeEventArgs e)
+        {
+            UploadImagesVM.CertificateImage = e.File.OpenReadStream();
+        }
+
+        public async Task UploadCertificateImage()
+        {
+            if (!UploadImagesVM.isCertificateValid())
+            {
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                return;
+            }
+            UploadImagesVM.CertificateImageDetail.ImageUrl = helperFunction.GetCertificateImageFilePath(UploadImagesVM.OwnerId);
+            bool isUpdated = await listingService.AddCertificateDetail(UploadImagesVM);
+            await helperFunction.UploadImage(UploadImagesVM.CertificateImage, UploadImagesVM.CertificateImageDetail.ImageUrl);
+            UploadImagesVM.CertificateImageDetail = new ImageDetails();
+            UploadImagesVM.CertificateImage = null;
+
+            if (isUpdated)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Certificate Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+
+        public async Task DeleteCertificateImage(int id)
+        {
+            bool isDeleted = await listingService.DeleteCertificateDetail(id);
+            var imageDetail = UploadImagesVM.CertificateImages.FirstOrDefault(x => x.Id == id);
+            if (imageDetail != null)
+            {
+                UploadImagesVM.CertificateImages.Remove(imageDetail);
+                FileManagerService.DeletFile(imageDetail.ImageUrl);
+            }
+
+            if (isDeleted)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Certificate Image deleted successfully!");
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
