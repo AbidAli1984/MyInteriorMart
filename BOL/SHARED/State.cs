@@ -22,12 +22,13 @@ namespace BOL.SHARED
         [Required(ErrorMessage = "Select country")]
         public Nullable<int> CountryID { get; set; }
 
-        // Shafi: Navigation properties
-        public virtual Country Country { get; set; }
-        // End:
 
-        // Shafi: Show state in
-        public IList<City> City { get; set; }
-        // End:
+        public State()
+        {
+            Cities = new HashSet<City>();
+        }
+
+        public virtual Country Country { get; set; }
+        public virtual ICollection<City> Cities { get; set; }
     }
 }

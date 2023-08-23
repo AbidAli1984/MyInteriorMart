@@ -21,7 +21,11 @@ namespace BOL.SHARED
         [Required(ErrorMessage = "Select Station")]
         public Nullable<int> LocationId { get; set; }
 
+        public Pincode()
+        {
+            Areas = new HashSet<Area>();
+        }
         public virtual Location Location { get; set; }
-        public IList<Area> Area { get; set; }
+        public virtual ICollection<Area> Areas { get; set; }
     }
 }

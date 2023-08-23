@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace BOL.LISTING.UploadImage
 {
@@ -35,7 +33,7 @@ namespace BOL.LISTING.UploadImage
 
         [Display(Name = "Cast")]
         [Required(ErrorMessage = "Cast required.")]
-        public int CastId { get; set; }
+        public int CasteId { get; set; }
 
         [Display(Name = "Country")]
         [Required(ErrorMessage = "Select Country")]

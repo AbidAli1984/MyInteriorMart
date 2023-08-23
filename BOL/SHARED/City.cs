@@ -23,13 +23,14 @@ namespace BOL.SHARED
         [Required(ErrorMessage = "Name required.")]
         public string Name { get; set; }
 
-        // Shafi: Navigation properties
+
+        public City()
+        {
+            Locations = new HashSet<Location>();
+        }
+
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
-        // End:
-
-        // Shafi: Show city in
-        public IList<Location> Station { get; set; }
-        // End:
+        public virtual ICollection<Location> Locations { get; set; }
     }
 }

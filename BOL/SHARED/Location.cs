@@ -20,8 +20,12 @@ namespace BOL.SHARED
         [Required(ErrorMessage = "Select city")]
         public Nullable<int> CityID { get; set; }
 
+        public Location()
+        {
+            Pincodes = new HashSet<Pincode>();
+        }
+
         public virtual City City { get; set; }
-        public IList<Pincode> Pincode { get; set; }
-        public IList<Area> Area { get; set; }
+        public virtual ICollection<Pincode> Pincodes { get; set; }
     }
 }

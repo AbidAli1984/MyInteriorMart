@@ -31,8 +31,10 @@ namespace BOL.SHARED
         [Display(Name = "Phone Code", Prompt = "91, 93 etc.")]
         public string PhoneCode { get; set; }
 
-        // Shafi: Foreign Key
-        public IList<State> State { get; set; }
-        // End:
+        public Country()
+        {
+            States = new HashSet<State>();
+        }
+        public virtual ICollection<State> States { get; set; }
     }
 }
