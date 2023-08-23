@@ -458,16 +458,16 @@
                                 </div>
                             </div>
                             <div class="social-details">
-                                <a href="#enquiry-in-dialog1" title="Send Enquiry" id="enquiry-in" class="btn btn-guotes btn-sm">Get Quotes</a>
+                                <ListingEnquiryModal CurrentUserGuid="@CurrentUserGuid" ListingId="listingDetailVM.ListingId" />
+                                @*<a href="#enquiry-in-dialog1" title="Send Enquiry" id="enquiry-in" class="btn btn-guotes btn-sm">Get Quotes</a>*@
                                 @if (userAuthenticated)
                                 {
-                                    string likeThumbIcon = listingDetailVM.IsLiked ? "fa fa-thumbs-o-down" : "fa fa-thumbs-o-up";
                                     <button id="BookmarkMe" class="pushRight btn btn-sm @(listingDetailVM.IsBookmarked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleBookmark())">
                                         <i class="fa fa-bookmark-o"></i> Bookmark
                                     </button>
                                     <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i> Share</a>
                                     <button id="LikeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsLiked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleLikeAsync())">
-                                        <i class="@likeThumbIcon"></i> Like
+                                        <i class="fa fa-thumbs-o-up"></i> Like  
                                     </button>
                                     <button id="SubscribeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsSubscribe ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleSubscribeAsync())">
                                         <i class="fa fa-bell-o"></i> Subscribe
@@ -475,16 +475,10 @@
                                 }
                                 else
                                 {
-                                    <button id="BookmarkMe" class="pushRight btn btn-light btn-sm">
-                                        <i class="fa fa-bookmark-o"></i> Bookmark
-                                    </button>
+                                    <button id="BookmarkMe" class="pushRight btn btn-light btn-sm"><i class="fa fa-bookmark-o"></i> Bookmark</button>
                                     <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i></a>
-                                    <button id="LikeMe" class="pushRight btn btn-light btn-sm ml-1">
-                                        <i class="fa fa-thumbs-o-up"></i> Like
-                                    </button>
-                                    <button id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1">
-                                        <i class="fa fa-bell-o"></i> Subscribe
-                                    </button>
+                                    <button id="LikeMe" class="pushRight btn btn-light btn-sm ml-1"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                                    <button id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1"><i class="fa fa-bell-o"></i> Subscribe</button>
                                 }
                             </div>
                             <div class="col-lg-12 social-share p-0">

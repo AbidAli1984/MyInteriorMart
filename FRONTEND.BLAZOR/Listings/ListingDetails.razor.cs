@@ -38,7 +38,7 @@ namespace FRONTEND.BLAZOR.Listings
         public ListingDetailVM listingDetailVM { get; set; } = new ListingDetailVM();
 
         public int count { get; set; }
-        public string CurrentUserGuid { get; set; }
+        public string CurrentUserGuid { get; set; } = string.Empty;
         public bool userAuthenticated { get; set; } = false;
         public string ErrorMessage { get; set; }
         public string userAgent { get; set; }

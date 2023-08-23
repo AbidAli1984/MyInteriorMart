@@ -1,0 +1,42 @@
+﻿@inject NotificationService _notice
+<button class="btn btn-guotes btn-sm" @onclick="@(async() => await ShowEnquiryModal())">Get Quotes</button>
+<Modal Title="Enquiry Now"
+       OnCancel="@(async() => await HideEnquiryModal())"
+       Centered="true"
+       Visible="@showEnquiryModal"
+       Footer="null">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input class="form-control" type="text" placeholder="Full Name" @bind="@ListingEnquiryVM.ListingEnquiry.FullName" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input class="form-control" type="number" placeholder="Mobile Number" @bind="@ListingEnquiryVM.ListingEnquiry.MobileNumber" maxlength="10"
+                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Enquiry Title</label>
+                <input class="form-control" type="text" placeholder="Enquiry Title" @bind="@ListingEnquiryVM.ListingEnquiry.EnquiryTitle" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Email</label>
+                <input class="form-control" type="email" placeholder="Email" @bind="@ListingEnquiryVM.ListingEnquiry.Email" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Message</label>
+                <textarea class="form-control" placeholder="Message" @bind="@ListingEnquiryVM.ListingEnquiry.Message" />
+            </div>
+        </div>
+    </div>
+    <buttton class="btn btn-primary w-100" @onclick="@(async() => await CreateEnquiry())">Submit</buttton>
+</Modal>
