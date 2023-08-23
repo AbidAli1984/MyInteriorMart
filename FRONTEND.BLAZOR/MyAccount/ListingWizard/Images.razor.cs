@@ -50,6 +50,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     UploadImagesVM.GalleryImages = await listingService.GetGalleryImagesByListingId(UploadImagesVM.ListingId);
                     UploadImagesVM.BannerImageDetail = await listingService.GetBannerDetailByListingId(UploadImagesVM.ListingId);
                     UploadImagesVM.CertificateImages = await listingService.GetCertificateDetailsByListingId(UploadImagesVM.ListingId);
+                    UploadImagesVM.ClientImages = await listingService.GetClientDetailsByListingId(UploadImagesVM.ListingId);
                 }
             }
             catch (Exception exc)
@@ -245,6 +246,48 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
             if (isDeleted)
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Certificate Image deleted successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+        #endregion
+
+        #region Client Image
+        public void SetClientImage(InputFileChangeEventArgs e)
+        {
+            UploadImagesVM.ClientImage = e.File.OpenReadStream();
+        }
+
+        public async Task UploadClientImage()
+        {
+            if (!UploadImagesVM.isClientValid())
+            {
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                return;
+            }
+            UploadImagesVM.ClientImageDetail.ImageUrl = helperFunction.GetClientImageFilePath(UploadImagesVM.OwnerId);
+            bool isUpdated = await listingService.AddClientDetail(UploadImagesVM);
+            await helperFunction.UploadImage(UploadImagesVM.ClientImage, UploadImagesVM.ClientImageDetail.ImageUrl);
+            UploadImagesVM.ClientImageDetail = new ImageDetails();
+            UploadImagesVM.ClientImage = null;
+
+            if (isUpdated)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Client Image uploaded successfully!");
+            else
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+        }
+
+        public async Task DeleteClientImage(int id)
+        {
+            bool isDeleted = await listingService.DeleteClientDetail(id);
+            var imageDetail = UploadImagesVM.ClientImages.FirstOrDefault(x => x.Id == id);
+            if (imageDetail != null)
+            {
+                UploadImagesVM.ClientImages.Remove(imageDetail);
+                FileManagerService.DeletFile(imageDetail.ImageUrl);
+            }
+
+            if (isDeleted)
+                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Client Image deleted successfully!");
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }

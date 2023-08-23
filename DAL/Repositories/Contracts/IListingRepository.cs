@@ -58,14 +58,20 @@ namespace DAL.Repositories.Contracts
 
         #region Upload Images
         Task<LogoImage> GetLogoImageByListingId(int listingId);
+
         Task<IList<OwnerImage>> GetOwnerImagesByListingId(int listingId);
         Task DeleteOwnerImage(int id);
+
         Task<IList<GalleryImage>> GetGalleryImagesByListingId(int listingId);
         Task DeleteGalleryImage(int id);
 
         Task<BannerDetail> GetBannerDetailByListingId(int listingId);
+
         Task<IList<CertificationDetail>> GetCertificationDetailsByListingId(int listingId);
         Task DeleteCertificationDetail(int id);
+
+        Task<IList<ClientDetail>> GetClientDetailsByListingId(int listingId);
+        Task DeleteClientDetail(int id);
         #endregion
     }
 }

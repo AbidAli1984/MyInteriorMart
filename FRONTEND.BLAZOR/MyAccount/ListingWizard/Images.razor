@@ -217,7 +217,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Select Certificate Image <span class="text-danger">*</span></label>
-                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetCertificateImage" />
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="certificate_img" OnChange="SetCertificateImage" />
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Certificate Title<span class="text-danger">*</span></label>
@@ -266,13 +266,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Select Client Logo Image <span class="text-danger">*</span></label>
-                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="gallery_img" OnChange="SetGalleryImage" />
+                                            <Microsoft.AspNetCore.Components.Forms.InputFile Class="form-control file-upload" id="client_img" OnChange="SetClientImage" />
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Client Logo Title<span class="text-danger">*</span></label>
-                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.GalleryImageDetail.TitleOrName" />
+                                            <Input Type="text" Placeholder="Image Title" @bind-Value="UploadImagesVM.ClientImageDetail.TitleOrName" />
                                         </div>
-                                        <input type="submit" value="submit" @onclick="@(async() => await UploadGalleryImage())" class="btn_add mt-3">
+                                        <input type="submit" value="submit" @onclick="@(async() => await UploadClientImage())" class="btn_add mt-3">
                                     </div>
                                 </div>
                                 <hr style="margin-top: 32px;">
@@ -282,15 +282,15 @@
                                     </div>
                                 </div>
                                 <div class="row justify-content-center mt-4">
-                                    @if (UploadImagesVM.GalleryImages != null && UploadImagesVM.GalleryImages.Count > 0)
+                                    @if (UploadImagesVM.ClientImages != null && UploadImagesVM.ClientImages.Count > 0)
                                     {
-                                        foreach (var galleryImage in UploadImagesVM.GalleryImages)
+                                        foreach (var clientImg in UploadImagesVM.ClientImages)
                                         {
                                             <div class="col-md-3 col-lg-2 col-6 mb-5">
                                                 <div class="upload_img_sec">
-                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteGalleryImage(galleryImage.Id))" alt="delete">
-                                                    <img class="upload_images" src="@galleryImage.ImageUrl" alt="Owner Image">
-                                                    <div class="img_title text-center">@galleryImage.TitleOrName</div>
+                                                    <img class="delete_img" src="/resources/img/delete.png" @onclick="@(async() => await DeleteClientImage(clientImg.Id))" alt="delete">
+                                                    <img class="upload_images" src="@clientImg.ImageUrl" alt="Owner Image">
+                                                    <div class="img_title text-center">@clientImg.TitleOrName</div>
                                                 </div>
                                             </div>
                                         }

@@ -76,6 +76,11 @@ namespace BAL
             return GetImagePath(ownerId, "Certificate");
         }
 
+        public string GetClientImageFilePath(string ownerId)
+        {
+            return GetImagePath(ownerId, "Client");
+        }
+
         public async Task UploadImage(Stream file, string filePath)
         {
             filePath = filePath.Replace("/", "\\");

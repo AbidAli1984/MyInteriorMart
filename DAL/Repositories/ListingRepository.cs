@@ -284,6 +284,21 @@ namespace DAL.Repositories
             await _listingDbContext.SaveChangesAsync();
         }
         #endregion
+
+        #region client
+        public async Task<IList<ClientDetail>> GetClientDetailsByListingId(int listingId)
+        {
+            return await _listingDbContext.ClientDetails
+                .Where(x => x.ListingID == listingId)
+                .ToListAsync();
+        }
+        public async Task DeleteClientDetail(int id)
+        {
+            var clientDetail = await _listingDbContext.ClientDetails.FindAsync(id);
+            _listingDbContext.ClientDetails.Remove(clientDetail);
+            await _listingDbContext.SaveChangesAsync();
+        }
+        #endregion
         #endregion
     }
 }

@@ -622,6 +622,61 @@ namespace BAL.Services
             }
         }
         #endregion
+
+        #region client
+        public async Task<IList<ImageDetails>> GetClientDetailsByListingId(int listingId)
+        {
+            var client = await _listingRepository.GetClientDetailsByListingId(listingId);
+
+            return client.Select(x => new ImageDetails
+            {
+                Id = x.Id,
+                ImageUrl = x.ImagePath,
+                TitleOrName = x.ImageTitle
+            }).ToList();
+        }
+
+        public async Task<bool> AddClientDetail(UploadImagesVM uploadImagesVM)
+        {
+            try
+            {
+                var client = new ClientDetail
+                {
+                    ListingID = uploadImagesVM.ListingId,
+                    OwnerGuid = uploadImagesVM.OwnerId,
+                    CreatedDate = DateTime.Now,
+                    ImagePath = uploadImagesVM.ClientImageDetail.ImageUrl,
+                    ImageTitle = uploadImagesVM.ClientImageDetail.TitleOrName,
+                };
+                await _listingRepository.AddAsync(client);
+
+                client.ImagePath += $"{client.Id}.jpg";
+                await _listingRepository.UpdateAsync(client);
+
+                uploadImagesVM.ClientImageDetail.ImageUrl = client.ImagePath;
+                uploadImagesVM.ClientImageDetail.Id = client.Id;
+                uploadImagesVM.ClientImages.Add(uploadImagesVM.ClientImageDetail);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteClientDetail(int id)
+        {
+            try
+            {
+                await _listingRepository.DeleteClientDetail(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
         #endregion
     }
 }

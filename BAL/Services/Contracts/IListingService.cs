@@ -74,6 +74,10 @@ namespace BAL.Services.Contracts
         Task<IList<ImageDetails>> GetCertificateDetailsByListingId(int listingId);
         Task<bool> AddCertificateDetail(UploadImagesVM uploadImagesVM);
         Task<bool> DeleteCertificateDetail(int id);
+
+        Task<IList<ImageDetails>> GetClientDetailsByListingId(int listingId);
+        Task<bool> AddClientDetail(UploadImagesVM uploadImagesVM);
+        Task<bool> DeleteClientDetail(int id);
         #endregion
     }
 }
