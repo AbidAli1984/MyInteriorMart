@@ -15,7 +15,14 @@
                 <div class="box_detail_cus">
                     <div class="p-3">
                         <div class="user_logo_sec">
-                            <img src="resources/img/furniture-design.jpg" alt="img" class="user_log_img">
+                            @if (listingDetailVM.LogoImage == null)
+                            {
+                                <img src="resources/img/furniture-design.jpg" alt="img" class="user_log_img">
+                            }
+                            else
+                            {
+                                <img src="@listingDetailVM.LogoImage.ImagePath" alt="img" class="user_log_img">
+                            }
                         </div>
                     </div>
                 </div>
@@ -256,9 +263,18 @@
             <div class="col-lg-9 individual-listing-main padding-5">
                 <div class="listing-gallery">
                     <div class="gallery">
-                        <a href="/resources/img/hero_in_restaurants_detail.jpg" class="big">
-                            <img src="/resources/img/hero_in_restaurants_detail.jpg" alt="Image 2" title="Image 2" style="width: 100%;">
-                        </a>
+                        @if (listingDetailVM.BannerImageDetail == null)
+                        {
+                            <a href="/resources/img/hero_in_restaurants_detail.jpg" class="big">
+                                <img src="/resources/img/hero_in_restaurants_detail.jpg" alt="Image 2" title="Image 2" style="width: 100%;">
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@listingDetailVM.BannerImageDetail.ImagePath" class="big">
+                                <img src="@listingDetailVM.BannerImageDetail.ImagePath" alt="@listingDetailVM.BannerImageDetail.ImageTitle" title="@listingDetailVM.BannerImageDetail.ImageTitle" style="width: 100%;">
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="company-listing-main">
@@ -339,7 +355,7 @@
                                 </p>
                             </div>
                             <div class="col-lg-12 px-0 mb-1 year_gst mt-0">
-                                <p class="mb-0"><i class="icon-user-5"></i> [Number of Users] </p>
+                                <p class="mb-0"><i class="icon-user-5"></i>@listingDetailVM.Listing.NumberOfEmployees Employees</p>
                                 <p class="mb-0">
                                     <b>Turnover : </b>@listingDetailVM.Listing.Turnover.
                                 </p>
@@ -398,6 +414,12 @@
                                             <div class="col-3">Wednesday</div>
                                             <div class="col-9">
                                                 @listingDetailVM.WorkingHour.WednesdayFrom.ToString("hh:mm tt") to @listingDetailVM.WorkingHour.WednesdayTo.ToString("hh:mm tt")
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-3">Thursday</div>
+                                            <div class="col-9">
+                                                @listingDetailVM.WorkingHour.ThursdayFrom.ToString("hh:mm tt") to @listingDetailVM.WorkingHour.ThursdayTo.ToString("hh:mm tt")
                                             </div>
                                         </div>
                                         <div class="row">

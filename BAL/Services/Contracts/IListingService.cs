@@ -19,8 +19,6 @@ namespace BAL.Services.Contracts
 
         Task<IList<ReviewListingViewModel>> GetReviewsAsync(int listingId);
 
-        Task<IEnumerable<ListingBanner>> GetSecCatListingByListingId(int listingId);
-
         Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);
 
         Task<int> CountRatingAsync(int ListingID, int rating);

@@ -13,6 +13,7 @@ namespace BOL.ComponentModels.Listings
     {
         public int ListingId { get; set; }
         public string LogoUrl { get; set; }
+        public LogoImage LogoImage { get; set; } = new LogoImage();
         public IList<OwnerImageVM> OwnerImagesVM { get; set; } = new List<OwnerImageVM>();
         public IList<GalleryImage> GalleryImages { get; set; } = new List<GalleryImage>();
         public string CurrentUserId { get; set; }
@@ -27,7 +28,7 @@ namespace BOL.ComponentModels.Listings
         public WorkingHours WorkingHour { get; set; } = new WorkingHours();
         public PaymentMode PaymentMode { get; set; } = new PaymentMode();
 
-        public IEnumerable<ListingBanner> ListingBanners { get; set; } = new List<ListingBanner>();
+        public BannerDetail BannerImageDetail { get; set; } = new BannerDetail();
         public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
         public Rating CurrentUserRating { get; set; } = new Rating();
         public decimal Rating { 

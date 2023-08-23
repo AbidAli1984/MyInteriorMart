@@ -143,9 +143,9 @@ namespace BAL.Services
             }
 
             listingDetailVM.ListingId = listingId;
+            listingDetailVM.LogoImage = await GetLogoImageByListingId(listingId);
             listingDetailVM.GalleryImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
             listingDetailVM.Communication = await _listingRepository.GetCommunicationByListingId(listingId);
-
 
             var ownerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
             listingDetailVM.OwnerImagesVM = ownerImages.Select(x => new OwnerImageVM
@@ -176,6 +176,8 @@ namespace BAL.Services
                     owner.Country = state.Country == null ? string.Empty : state.Country.Name;
                 }
             }
+
+            listingDetailVM.BannerImageDetail = await GetBannerDetailByListingId(listingId);
 
             var address = await _listingRepository.GetAddressByListingId(listingId);
             if (address != null)
@@ -212,10 +214,6 @@ namespace BAL.Services
             var rating = await GetRatingAsync(listingId);
             listingDetailVM.RatingCount = rating.Count();
             listingDetailVM.RatingAverage = await GetRatingAverage(listingId);
-
-            var listingBanners = await _listingRepository.GetListingBannersBySecondCategoryId(category.SecondCategoryID);
-            if (listingBanners.Count() > 0)
-                listingDetailVM.ListingBanners = listingBanners.Where(x => x.Placement == "banner-1");
 
             if (!string.IsNullOrWhiteSpace(currentUserId))
             {
@@ -286,13 +284,6 @@ namespace BAL.Services
         public async Task<IEnumerable<Rating>> GetRatingAsync(int ListingID)
         {
             return await _listingRepository.GetRatingsByListingId(ListingID);
-        }
-
-        public async Task<IEnumerable<ListingBanner>> GetSecCatListingByListingId(int listingId)
-        {
-            var listingCat = await _listingRepository.GetCategoryByListingId(listingId);
-
-            return await _listingRepository.GetListingBannersBySecondCategoryId(listingCat.SecondCategoryID);
         }
 
         public async Task<Listing> GetListingByOwnerId(string ownerId)
