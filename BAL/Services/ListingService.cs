@@ -362,6 +362,13 @@ namespace BAL.Services
             }).ToList();
         }
 
+        #region Social Network
+        public async Task<SocialNetwork> GetSocialNetworkByListingId(int listingId)
+        {
+            return await _listingRepository.GetSocialNetworkByListingId(listingId);
+        }
+        #endregion
+
         #region Banner
         public async Task<IndexVM> GetHomeBannerList()
         {

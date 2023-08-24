@@ -7,6 +7,7 @@ using BOL.ComponentModels.MyAccount.Profile;
 using BOL.LISTING;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -66,6 +67,11 @@ namespace FRONTEND.BLAZOR
                 else if (listing.Steps < Constants.CompanyComplete)
                     navManager.NavigateTo("/MyAccount/Listing/Communication");
             }
+        }
+
+        public static string GetIpAddress(IHttpContextAccessor httpConAccess)
+        {
+            return httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
         }
 
     }

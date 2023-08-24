@@ -49,6 +49,12 @@ namespace BAL.Services.Contracts
 
         Task<IList<SearchResultViewModel>> GetSearchListings();
 
+
+
+        #region Social Network
+        Task<SocialNetwork> GetSocialNetworkByListingId(int listingId);
+        #endregion
+
         #region Banner
         Task<IndexVM> GetHomeBannerList();
         Task<ListingResultBannerVM> GetListingResultBannersByUrl(string url);

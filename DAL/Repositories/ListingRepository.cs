@@ -198,6 +198,15 @@ namespace DAL.Repositories
             await _listingDbContext.SaveChangesAsync();
         }
 
+        #region Social Network
+        public async Task<SocialNetwork> GetSocialNetworkByListingId(int listingId)
+        {
+            return await _listingDbContext.SocialNetwork
+                .Where(l => l.ListingID == listingId)
+                .FirstOrDefaultAsync();
+        }
+        #endregion
+
         #region Banner
         public async Task<IList<HomeBanner>> GetHomeBannerList()
         {

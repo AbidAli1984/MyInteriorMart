@@ -49,6 +49,10 @@ namespace DAL.Repositories.Contracts
 
         Task UpdateAsync(object data);
 
+        #region Social Network
+        Task<SocialNetwork> GetSocialNetworkByListingId(int listingId);
+        #endregion
+
         #region Banner
         Task<IList<HomeBanner>> GetHomeBannerList();
         Task<IList<CategoryBanner>> GetCategoryBannersByThirtCategoryId(int thirdCategoryId);
