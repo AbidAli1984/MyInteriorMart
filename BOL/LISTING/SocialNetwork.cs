@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 namespace BOL.LISTING
 {
-    [Table("SocialNetwork", Schema = "listing")]
+    [Table("SocialNetwork")]
     public class SocialNetwork
     {
         [Key]
@@ -54,19 +54,9 @@ namespace BOL.LISTING
         [MaxLength(500, ErrorMessage = "Maximum 500 characters allowed.")]
         public string Pinterest { get; set; }
 
-        [Display(Name = "Telegram", Prompt = "https://t.me/Group-Name")]
+        [Display(Name = "Twitter", Prompt = "https://t.me/Group-Name")]
         [MinLength(3, ErrorMessage = "Minimum 3 characters required.")]
         [MaxLength(500, ErrorMessage = "Maximum 500 characters allowed.")]
-        public string Telegram { get; set; }
-
-        [Display(Name = "Others", Prompt = "https://others.com/Company-Name")]
-        [MinLength(3, ErrorMessage = "Minimum 3 characters required.")]
-        [MaxLength(500, ErrorMessage = "Maximum 500 characters allowed.")]
-        public string Others { get; set; }
-
-        [Display(Name = "Others1", Prompt = "https://others1.com/myinteriormart")]
-        [MinLength(3, ErrorMessage = "Minimum 3 characters required.")]
-        [MaxLength(500, ErrorMessage = "Maximum 500 characters allowed.")]
-        public string Others1 { get; set; }
+        public string Twitter { get; set; }
     }
 }
