@@ -506,7 +506,6 @@ a {
 
 /*-------- 1.2 Buttons --------*/
 .btn {
-    border: none;
     padding: 11px 30px;
     transition: all 0.3s ease-in-out;
     font-size: 16px;

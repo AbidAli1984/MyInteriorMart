@@ -53,6 +53,13 @@ namespace DAL.Repositories.Contracts
         Task<SocialNetwork> GetSocialNetworkByListingId(int listingId);
         #endregion
 
+        #region Keyword
+        Task<IList<string>> GetKeywords();
+        Task<List<Keyword>> GetKeywordsByListingId(int listingId);
+        Task<IList<Keyword>> AddKeywordsAsync(IList<Keyword> keywords);
+        Task DeleteKeywordsByListingId(IList<Keyword> keywords);
+        #endregion
+
         #region Banner
         Task<IList<HomeBanner>> GetHomeBannerList();
         Task<IList<CategoryBanner>> GetCategoryBannersByThirtCategoryId(int thirdCategoryId);

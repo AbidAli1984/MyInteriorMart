@@ -1606,3 +1606,20 @@ hr {
 	width: 100%;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+.keyword .btn {
+	padding: 5px 10px 5px 15px;
+	margin: 5px;
+	font-size: 14px;
+	border-color: #6c757d;
+	cursor: default !important;
+}
+
+.keyword button {
+	padding: 0 5px;
+	background-color: #848484;
+	color: white;
+	border-radius: 50%;
+	cursor: pointer;
+	margin-left: 5px;
+}

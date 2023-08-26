@@ -187,14 +187,16 @@ namespace DAL.Repositories
 
         public async Task<object> AddAsync(object data)
         {
-            await _listingDbContext.AddAsync(data);
+            if (data != null)
+                await _listingDbContext.AddAsync(data);
             await _listingDbContext.SaveChangesAsync();
             return data;
         }
 
         public async Task UpdateAsync(object data)
         {
-            _listingDbContext.Update(data);
+            if (data != null)
+                _listingDbContext.Update(data);
             await _listingDbContext.SaveChangesAsync();
         }
 
@@ -204,6 +206,46 @@ namespace DAL.Repositories
             return await _listingDbContext.SocialNetwork
                 .Where(l => l.ListingID == listingId)
                 .FirstOrDefaultAsync();
+        }
+        #endregion
+
+
+
+        #region Keyword
+        public async Task<IList<string>> GetKeywords()
+        {
+            return await _listingDbContext.Keywords
+                .Select(x => x.SeoKeyword).Distinct().ToListAsync();
+        }
+
+        public async Task<List<Keyword>> GetKeywordsByListingId(int listingId)
+        {
+            return await _listingDbContext.Keywords
+                .Where(l => l.ListingID == listingId).ToListAsync();
+        }
+
+
+        public async Task<IList<Keyword>> AddKeywordsAsync(IList<Keyword> keywords)
+        {
+            try
+            {
+                if (keywords != null && keywords.Count > 0)
+                {
+                    await _listingDbContext.Keywords.AddRangeAsync(keywords);
+                    await _listingDbContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                string mess = ex.Message;
+            }
+            return keywords;
+        }
+
+        public async Task DeleteKeywordsByListingId(IList<Keyword> keywords)
+        {
+            _listingDbContext.Keywords.RemoveRange(keywords);
+            await _listingDbContext.SaveChangesAsync();
         }
         #endregion
 

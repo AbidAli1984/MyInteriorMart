@@ -369,6 +369,27 @@ namespace BAL.Services
         }
         #endregion
 
+        #region Keyword
+        public async Task<IList<string>> GetKeywords()
+        {
+            return await _listingRepository.GetKeywords();
+        }
+        public async Task<List<BOL.LISTING.Keyword>> GetKeywordsByListingId(int listingId)
+        {
+            return await _listingRepository.GetKeywordsByListingId(listingId);
+        }
+
+        public async Task<IList<BOL.LISTING.Keyword>> AddKeywordsAsync(IList<BOL.LISTING.Keyword> keywords)
+        {
+            return await _listingRepository.AddKeywordsAsync(keywords);
+        }
+
+        public async Task DeleteKeywordsByListingId(IList<BOL.LISTING.Keyword> keywords)
+        {
+            await _listingRepository.DeleteKeywordsByListingId(keywords);
+        }
+        #endregion
+
         #region Banner
         public async Task<IndexVM> GetHomeBannerList()
         {

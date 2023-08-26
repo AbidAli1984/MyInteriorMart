@@ -13,8 +13,46 @@
                             </span>
                         </p>
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <h1>Keywords</h1>
+                            <div class="form-group col-md-6">
+                                <label for="name">Facebook </label>
+                                <Input Placeholder="Enter Facebook Link" @bind-Value="@SeoKeyword" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <button class="btn btn-primary" @onclick="@(() => AddKeyword())">+ Add</button>
+                            </div>
+                            <div class="form-group col-md-12 keyword">
+                                <label for="name">Selected Keywords </label><br />
+                                @if (ListKeyword != null)
+                                {
+                                    @foreach (var keyword in ListKeyword)
+                                    {
+                                        <span class="btn">
+                                            @keyword.SeoKeyword
+                                            <button @onclick="@(() => RemoveFromListKeyword(@keyword.SeoKeyword))"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                        </span>
+                                    }
+                                }
+                                @if (InsertKeyword != null)
+                                {
+                                    @foreach (var keyword in InsertKeyword)
+                                    {
+                                        <span class="btn">
+                                            @keyword.SeoKeyword
+                                            <button @onclick="@(() => RemoveFromInsertKeyword(@keyword.SeoKeyword))"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                        </span>
+                                    }
+                                }
+                            </div>
+                            <div class="text-left col-12 mt-3">
+                                @if (buttonBusy == false)
+                                {
+                                    <button @onclick="@(async() => await AddOrUpdateKeyword())" class="btn btn-primary">Save & Continue</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary">Saving...</button>
+                                }
+                                <a href="/MyAccount/Listing/SocialLinks" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
                             </div>
                         </div>
                     </div>

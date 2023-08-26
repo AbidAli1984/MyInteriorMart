@@ -55,6 +55,13 @@ namespace BAL.Services.Contracts
         Task<SocialNetwork> GetSocialNetworkByListingId(int listingId);
         #endregion
 
+        #region Keyword
+        Task<IList<string>> GetKeywords();
+        Task<List<BOL.LISTING.Keyword>> GetKeywordsByListingId(int listingId);
+        Task<IList<BOL.LISTING.Keyword>> AddKeywordsAsync(IList<BOL.LISTING.Keyword> keywords);
+        Task DeleteKeywordsByListingId(IList<BOL.LISTING.Keyword> keywords);
+        #endregion
+
         #region Banner
         Task<IndexVM> GetHomeBannerList();
         Task<ListingResultBannerVM> GetListingResultBannersByUrl(string url);
