@@ -27,6 +27,7 @@ namespace DAL.LISTING
         public DbSet<Branches> Branches { get; set; }
         public DbSet<Specialisation> Specialisation { get; set; }
         public DbSet<SocialNetwork> SocialNetwork { get; set; }
+        public DbSet<Keyword> Keywords { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<AssembliesAndCities> AssembliesAndCities { get; set; }
