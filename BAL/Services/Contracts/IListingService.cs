@@ -25,7 +25,7 @@ namespace BAL.Services.Contracts
 
         Task<Listing> GetListingByOwnerId(string ownerId);
 
-        Task UpdateListingStepByOwnerId(string ownerId, int currentPageStep);
+        Task UpdateListingStepByOwnerId(string ownerId, int currentPageStep, int currentDBStep);
 
         Task<Categories> GetCategoryByListingId(int listingId);
 

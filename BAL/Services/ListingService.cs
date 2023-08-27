@@ -291,11 +291,11 @@ namespace BAL.Services
             return await _listingRepository.GetListingByOwnerId(ownerId);
         }
 
-        public async Task UpdateListingStepByOwnerId(string ownerId, int currentPageStep)
+        public async Task UpdateListingStepByOwnerId(string ownerId, int currentPageStep, int currentDBStep)
         {
-            var listing = await GetListingByOwnerId(ownerId);
-            if (listing.Steps < currentPageStep)
+            if (currentDBStep < currentPageStep)
             {
+                var listing = await GetListingByOwnerId(ownerId);
                 listing.Steps = currentPageStep;
                 await UpdateAsync(listing);
             }

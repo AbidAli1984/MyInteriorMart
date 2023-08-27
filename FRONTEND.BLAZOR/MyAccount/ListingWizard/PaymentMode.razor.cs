@@ -25,6 +25,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public bool IsPaymentModeExist { get; set; }
 
  
@@ -43,6 +44,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.WorkingHourComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     var paymentMode = await listingService.GetPaymentModeByListingId(ListingId);
                     if (paymentMode != null)
                     {
@@ -95,7 +97,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(paymentMode);
                 }
 
-                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.PaymentModeComplete);
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.PaymentModeComplete, Steps);
                 navManager.NavigateTo("/MyAccount/Listing/Images");
             }
             catch (Exception exc)

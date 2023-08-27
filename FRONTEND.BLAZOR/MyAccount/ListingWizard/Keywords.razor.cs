@@ -31,6 +31,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public string SeoKeyword { get; set; }
 
 
@@ -45,9 +46,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    helper.NavigateToPageByStep(listing, Constants.CategoryComplete, navManager);
+                    helper.NavigateToPageByStep(listing, Constants.SocialLinkComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     ListKeyword = await listingService.GetKeywordsByListingId(ListingId);
 
                     if (ListKeyword == null)
@@ -119,6 +121,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             await listingService.DeleteKeywordsByListingId(DeleteKeywords);
             ListKeyword.AddRange(await listingService.AddKeywordsAsync(InsertKeyword));
             InsertKeyword.Clear();
+            await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SEOKeywordComplete, Steps);
             helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Keywords added Successfully");
         }
 

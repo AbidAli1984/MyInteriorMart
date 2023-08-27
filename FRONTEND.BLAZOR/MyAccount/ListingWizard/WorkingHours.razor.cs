@@ -25,6 +25,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public bool IsWorkingHourExist { get; set; }
 
         protected async override Task OnInitializedAsync()
@@ -42,6 +43,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.SpecialisationComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     var workingHour = await listingService.GetWorkingHoursByListingId(ListingId);
                     if (workingHour != null)
                     {
@@ -97,7 +99,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(workingHour);
                 }
 
-                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.WorkingHourComplete);
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.WorkingHourComplete, Steps);
                 navManager.NavigateTo("/MyAccount/Listing/PaymentMode");
             }
             catch (Exception exc)

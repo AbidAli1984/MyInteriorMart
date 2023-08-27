@@ -25,6 +25,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public bool IsCommunicationExist { get; set; }
 
         protected async override Task OnInitializedAsync()
@@ -42,6 +43,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.CompanyComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     var communication = await listingService.GetCommunicationByListingId(ListingId);
                     if (communication != null)
                     {
@@ -105,7 +107,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(communication);
                 }
 
-                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.CommunicationComplete);
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.CommunicationComplete, Steps);
                 navManager.NavigateTo($"/MyAccount/Listing/Address");
             }
             catch (Exception exc)

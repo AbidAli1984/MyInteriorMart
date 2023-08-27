@@ -42,6 +42,9 @@ namespace BOL
         public const int SpecialisationComplete = 5;
         public const int WorkingHourComplete = 6;
         public const int PaymentModeComplete = 7;
+        public const int UploadImageComplete = 8;
+        public const int SocialLinkComplete = 9;
+        public const int SEOKeywordComplete = 10;
         #endregion
 
         private const string ShareCompanyTagLine = "Check this out on MyInteriorMart!";

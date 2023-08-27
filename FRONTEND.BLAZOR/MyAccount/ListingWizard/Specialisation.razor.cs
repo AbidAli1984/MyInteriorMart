@@ -27,6 +27,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public bool IsSpecialisationExist { get; set; }
 
 
@@ -45,6 +46,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.CategoryComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     var specialisation = await listingService.GetSpecialisationByListingId(ListingId);
                     if (specialisation != null)
                     {
@@ -97,7 +99,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(specialisation);
                 }
 
-                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SpecialisationComplete);
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SpecialisationComplete, Steps);
                 navManager.NavigateTo($"/MyAccount/Listing/WorkingHours");
             }
             catch (Exception exc)

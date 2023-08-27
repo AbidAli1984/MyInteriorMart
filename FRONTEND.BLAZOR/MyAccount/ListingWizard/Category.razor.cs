@@ -27,6 +27,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public bool IsCategoryExist { get; set; }
 
         protected async override Task OnInitializedAsync()
@@ -43,6 +44,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     helper.NavigateToPageByStep(listing, Constants.AddressComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     CategoryVM.FirstCategories = await categoryService.GetFirstCategoriesAsync();
                     var category = await listingService.GetCategoryByListingId(ListingId);
                     if (category != null)
@@ -131,7 +133,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(category);
                 }
 
-                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.CategoryComplete);
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.CategoryComplete, Steps);
                 navManager.NavigateTo($"/MyAccount/Listing/Specialisation");
             }
             catch (Exception exc)

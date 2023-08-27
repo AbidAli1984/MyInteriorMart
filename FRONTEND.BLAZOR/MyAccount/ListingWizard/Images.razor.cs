@@ -3,8 +3,6 @@ using BAL;
 using BAL.FileManager;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
-using BOL.ComponentModels.Shared;
-using BOL.LISTING.UploadImage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -39,10 +37,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     UploadImagesVM.OwnerId = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(UploadImagesVM.OwnerId);
-                    if (listing == null)
-                        navManager.NavigateTo("/MyAccount/Listing/Company");
+                    helper.NavigateToPageByStep(listing, BOL.Constants.PaymentModeComplete, navManager);
 
                     UploadImagesVM.ListingId = listing.ListingID;
+                    UploadImagesVM.step = listing.Steps;
                     var logoImage = await listingService.GetLogoImageByListingId(UploadImagesVM.ListingId);
                     if (logoImage != null)
                         UploadImagesVM.LogoImageUrl = logoImage.ImagePath;
@@ -80,7 +78,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             bool isUpdated = await listingService.AddOrUpdateLogoImage(UploadImagesVM);
 
             if (isUpdated)
+            {
+                await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Logo Image uploaded successfully!");
+            }
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
@@ -110,7 +111,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             resetOwnerImageDetail();
 
             if (isUpdated)
+            {
+                await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image uploaded successfully!");
+            }
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
@@ -160,7 +164,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             UploadImagesVM.GalleryImage = null;
 
             if (isUpdated)
+            {
+                await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image uploaded successfully!");
+            }
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
@@ -203,7 +210,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             UploadImagesVM.BannerImage = null;
 
             if (UploadImagesVM.BannerImageDetail != null)
+            {
+                await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Banner Image uploaded successfully!");
+            }
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
@@ -229,7 +239,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             UploadImagesVM.CertificateImage = null;
 
             if (isUpdated)
+            {
+                await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Certificate Image uploaded successfully!");
+            }
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }
@@ -271,7 +284,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             UploadImagesVM.ClientImage = null;
 
             if (isUpdated)
+            {
+                await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Client Image uploaded successfully!");
+            }
             else
                 helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
         }

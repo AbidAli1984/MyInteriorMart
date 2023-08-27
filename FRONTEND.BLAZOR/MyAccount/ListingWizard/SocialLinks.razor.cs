@@ -25,6 +25,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public int ListingId { get; set; }
+        public int Steps { get; set; }
         public bool IsSocialNetworkExist { get; set; }
 
         protected async override Task OnInitializedAsync()
@@ -38,9 +39,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     var listing = await listingService.GetListingByOwnerId(CurrentUserGuid);
-                    helper.NavigateToPageByStep(listing, Constants.CategoryComplete, navManager);
+                    helper.NavigateToPageByStep(listing, Constants.UploadImageComplete, navManager);
 
                     ListingId = listing.ListingID;
+                    Steps = listing.Steps;
                     SocialNetwork = await listingService.GetSocialNetworkByListingId(ListingId);
                     IsSocialNetworkExist = SocialNetwork != null;
                     if (!IsSocialNetworkExist)
@@ -95,6 +97,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     await listingService.UpdateAsync(socialNetwork);
                 }
 
+                await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SocialLinkComplete, Steps);
                 navManager.NavigateTo($"/MyAccount/Listing/Keywords");
             }
             catch (Exception exc)

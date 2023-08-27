@@ -11,6 +11,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
     {
         public string OwnerId { get; set; }
         public int ListingId { get; set; }
+        public int step { get; set; }
         public LWAddressVM LWAddressVM { get; set; } = new LWAddressVM();
         public ReligionsDropdownVM ReligionsDropdownVM { get; set; } = new ReligionsDropdownVM();
 

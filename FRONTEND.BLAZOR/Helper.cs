@@ -58,14 +58,20 @@ namespace FRONTEND.BLAZOR
                     navManager.NavigateTo("/MyAccount/Listing/Communication");
                 else if (listing.Steps < Constants.AddressComplete)
                     navManager.NavigateTo("/MyAccount/Listing/Address");
-                else if (listing.Steps < Constants.CompanyComplete)
-                    navManager.NavigateTo("/MyAccount/Listing/Communication");
-                else if (listing.Steps < Constants.CompanyComplete)
-                    navManager.NavigateTo("/MyAccount/Listing/Communication");
-                else if (listing.Steps < Constants.CompanyComplete)
-                    navManager.NavigateTo("/MyAccount/Listing/Communication");
-                else if (listing.Steps < Constants.CompanyComplete)
-                    navManager.NavigateTo("/MyAccount/Listing/Communication");
+                else if (listing.Steps < Constants.CategoryComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Category");
+                else if (listing.Steps < Constants.SpecialisationComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Specialisation");
+                else if (listing.Steps < Constants.WorkingHourComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/WorkingHours");
+                else if (listing.Steps < Constants.PaymentModeComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/PaymentMode");
+                else if (listing.Steps < Constants.UploadImageComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Images");
+                else if (listing.Steps < Constants.SocialLinkComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/SocialLinks");
+                else if (listing.Steps < Constants.SEOKeywordComplete)
+                    navManager.NavigateTo("/MyAccount/Listing/Keywords");
             }
         }
 
