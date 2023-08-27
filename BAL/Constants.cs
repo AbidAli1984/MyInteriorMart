@@ -47,5 +47,6 @@ namespace BAL
         #endregion
 
         public static IList<SearchResultViewModel> Listings;
+        public static IList<SearchResultViewModel> Keywords;
     }
 }

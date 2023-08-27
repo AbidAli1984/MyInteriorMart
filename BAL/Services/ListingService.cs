@@ -370,9 +370,14 @@ namespace BAL.Services
         #endregion
 
         #region Keyword
-        public async Task<IList<string>> GetKeywords()
+        public async Task<IList<SearchResultViewModel>> GetKeywords()
         {
-            return await _listingRepository.GetKeywords();
+            var keywords = await _listingRepository.GetKeywords();
+            return keywords.Select((x) => new SearchResultViewModel
+            {
+                label = x.SeoKeyword,
+                value = x.SeoKeyword
+            }).Distinct().ToList();
         }
         public async Task<List<BOL.LISTING.Keyword>> GetKeywordsByListingId(int listingId)
         {

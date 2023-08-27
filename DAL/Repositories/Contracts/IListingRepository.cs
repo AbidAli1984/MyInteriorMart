@@ -54,7 +54,7 @@ namespace DAL.Repositories.Contracts
         #endregion
 
         #region Keyword
-        Task<IList<string>> GetKeywords();
+        Task<IList<Keyword>> GetKeywords();
         Task<List<Keyword>> GetKeywordsByListingId(int listingId);
         Task<IList<Keyword>> AddKeywordsAsync(IList<Keyword> keywords);
         Task DeleteKeywordsByListingId(IList<Keyword> keywords);

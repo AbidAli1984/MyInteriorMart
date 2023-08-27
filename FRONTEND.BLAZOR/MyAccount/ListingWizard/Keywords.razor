@@ -1,4 +1,6 @@
 ﻿@page "/MyAccount/Listing/Keywords"
+
+
 <AuthorizeView>
     <Authorized>
         <div class="container my-5">
@@ -13,20 +15,14 @@
                             </span>
                         </p>
                         <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="name">Facebook </label>
-                                <Input Placeholder="Enter Facebook Link" @bind-Value="@SeoKeyword" />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <button class="btn btn-primary" @onclick="@(() => AddKeyword())">+ Add</button>
-                            </div>
+                            <KeywordsDropdown SelectedListing="SelectedListing" CreateKeywordClick="AddKeyword" />
                             <div class="form-group col-md-12 keyword">
                                 <label for="name">Selected Keywords </label><br />
                                 @if (ListKeyword != null)
                                 {
                                     @foreach (var keyword in ListKeyword)
                                     {
-                                        <span class="btn">
+                                        <span class="keywordcontainer">
                                             @keyword.SeoKeyword
                                             <button @onclick="@(() => RemoveFromListKeyword(@keyword.SeoKeyword))"><i class="fa fa-times" aria-hidden="true"></i></button>
                                         </span>
@@ -36,7 +32,7 @@
                                 {
                                     @foreach (var keyword in InsertKeyword)
                                     {
-                                        <span class="btn">
+                                        <span class="keywordcontainer">
                                             @keyword.SeoKeyword
                                             <button @onclick="@(() => RemoveFromInsertKeyword(@keyword.SeoKeyword))"><i class="fa fa-times" aria-hidden="true"></i></button>
                                         </span>

@@ -2,6 +2,7 @@
 using BAL.Services.Contracts;
 using BOL;
 using BOL.LISTING;
+using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         public List<Keyword> ListKeyword { get; set; }
         public IList<Keyword> InsertKeyword { get; set; } = new List<Keyword>();
         public IList<Keyword> DeleteKeywords { get; set; } = new List<Keyword>();
-        public IList<string> dropDownKeyword { get; set; }
+        public SearchResultViewModel SelectedListing { get; set; } = new SearchResultViewModel();
 
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
@@ -48,13 +49,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 
                     ListingId = listing.ListingID;
                     ListKeyword = await listingService.GetKeywordsByListingId(ListingId);
-                    dropDownKeyword = await listingService.GetKeywords();
-
 
                     if (ListKeyword == null)
                         ListKeyword = new List<Keyword>();
-                    if (dropDownKeyword == null)
-                        dropDownKeyword = new List<string>();
                 }
             }
             catch (Exception exc)
@@ -86,22 +83,25 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             try
             {
-                var existingListKeyword = ListKeyword.FirstOrDefault(x => x.SeoKeyword == SeoKeyword);
-                var existingAddKeyword = InsertKeyword.FirstOrDefault(x => x.SeoKeyword == SeoKeyword);
+                if (!string.IsNullOrWhiteSpace(SelectedListing.label))
+                {
+                    var existingListKeyword = ListKeyword.FirstOrDefault(x => x.SeoKeyword == SelectedListing.label);
+                    var existingAddKeyword = InsertKeyword.FirstOrDefault(x => x.SeoKeyword == SelectedListing.label);
 
-                if (existingListKeyword == null && existingAddKeyword == null)
-                {
-                    var key = new Keyword
+                    if (existingListKeyword == null && existingAddKeyword == null)
                     {
-                        ListingID = ListingId,
-                        OwnerGuid = CurrentUserGuid,
-                        SeoKeyword = SeoKeyword
-                    };
-                    InsertKeyword.Add(key);
-                }
-                else
-                {
-                    helper.ShowNotification(_notice, NotificationType.Info, NotificationPlacement.BottomRight, "Notification", $"{SeoKeyword} is already exists in the listing");
+                        var key = new Keyword
+                        {
+                            ListingID = ListingId,
+                            OwnerGuid = CurrentUserGuid,
+                            SeoKeyword = SelectedListing.label
+                        };
+                        InsertKeyword.Add(key);
+                    }
+                    else
+                    {
+                        helper.ShowNotification(_notice, NotificationType.Info, NotificationPlacement.BottomRight, "Notification", $"{SelectedListing.label} is already exists in the listing");
+                    }
                 }
             }
             catch (Exception exc)
@@ -110,7 +110,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             finally
             {
-                SeoKeyword = string.Empty;
+                SelectedListing.label = string.Empty;
             }
         }
 
@@ -119,6 +119,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             await listingService.DeleteKeywordsByListingId(DeleteKeywords);
             ListKeyword.AddRange(await listingService.AddKeywordsAsync(InsertKeyword));
             InsertKeyword.Clear();
+            helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Keywords added Successfully");
         }
 
     }

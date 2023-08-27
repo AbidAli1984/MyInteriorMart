@@ -212,10 +212,9 @@ namespace DAL.Repositories
 
 
         #region Keyword
-        public async Task<IList<string>> GetKeywords()
+        public async Task<IList<Keyword>> GetKeywords()
         {
-            return await _listingDbContext.Keywords
-                .Select(x => x.SeoKeyword).Distinct().ToListAsync();
+            return await _listingDbContext.Keywords.ToListAsync();
         }
 
         public async Task<List<Keyword>> GetKeywordsByListingId(int listingId)
