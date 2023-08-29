@@ -1,5 +1,6 @@
 ﻿using BOL.BANNERADS;
 using BOL.CATEGORIES;
+using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.LISTING;
 using BOL.LISTING.UploadImage;
 using BOL.VIEWMODELS;
@@ -28,6 +29,8 @@ namespace BOL.ComponentModels.Listings
 
         public BannerDetail BannerImageDetail { get; set; } = new BannerDetail();
         public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
+        public IList<ImageDetails> CertificateImages { get; set; } = new List<ImageDetails>();
+        public IList<ImageDetails> ClientImages { get; set; } = new List<ImageDetails>();
         public Rating CurrentUserRating { get; set; } = new Rating();
         public decimal Rating { 
             get

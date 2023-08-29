@@ -220,6 +220,8 @@ namespace BAL.Services
             }
 
             listingDetailVM.listReviews = await GetReviewsAsync(listingId);
+            listingDetailVM.CertificateImages = await GetCertificateDetailsByListingId(listingId);
+            listingDetailVM.ClientImages = await GetClientDetailsByListingId(listingId);
 
             return listingDetailVM;
         }

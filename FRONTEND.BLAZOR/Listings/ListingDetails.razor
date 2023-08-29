@@ -78,10 +78,6 @@
                             {
                                 <li><i class="fa fa-check"></i> @keyword.SeoKeyword</li>
                             }
-                            @*<li><i class="fa fa-check"></i> Category 1</li>
-                            <li><i class="fa fa-check"></i> Category 2</li>
-                            <li><i class="fa fa-check"></i> Category 3</li>
-                            <li><i class="fa fa-check"></i> Category 4</li>*@
                         </ul>
                     </div>
                 }
@@ -593,61 +589,37 @@
                                 <div class="tab-pane fade" id="certificates" role="tabpanel"
                                      aria-labelledby="certificates">
                                     <div class="row justify-content-center pt-5 px-3">
-                                        <div class="col-md-3 col-6 mb-3">
-                                            <div class="certificate_img_sec">
-                                                <img src="resources/img/furniture-design.jpg" alt="certificate_img"
-                                                     class="certificate_img">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-6 mb-3">
-                                            <div class="certificate_img_sec">
-                                                <img src="resources/img/furniture-design1.jpg" alt="certificate_img"
-                                                     class="certificate_img">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-6 mb-3">
-                                            <div class="certificate_img_sec">
-                                                <img src="resources/img/furniture-design.jpg" alt="certificate_img"
-                                                     class="certificate_img">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-6 mb-3">
-                                            <div class="certificate_img_sec">
-                                                <img src="resources/img/furniture-design1.jpg" alt="certificate_img"
-                                                     class="certificate_img">
-                                            </div>
-                                        </div>
+                                        @if (listingDetailVM.CertificateImages != null)
+                                        {
+                                            foreach (var certificate in listingDetailVM.CertificateImages)
+                                            {
+                                                <div class="col-md-3 col-6 mb-3">
+                                                    <div class="certificate_img_sec">
+                                                        <img src="@certificate.ImageUrl" alt="@certificate.TitleOrName" class="certificate_img">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
 
                                 <div class="tab-pane fade" id="clients" role="tabpanel" aria-labelledby="clients">
                                     <div class="row pt-4 px-4">
                                         <div class="owl-coursel-img-3 owl-carousel owl-theme mt-4">
-                                            <div class="item">
-                                                <div class="cleints_img_sec">
-                                                    <img src="resources/img/access_bg.jpg" alt="cleints_img" class="cleints_img">
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="cleints_img_sec">
-                                                    <img src="resources/img/furniture-design.jpg" alt="cleints_img" class="cleints_img">
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="cleints_img_sec">
-                                                    <img src="resources/img/furniture-design1.jpg" alt="cleints_img" class="cleints_img">
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="cleints_img_sec">
-                                                    <img src="resources/img/listing-img.jpeg" alt="cleints_img" class="cleints_img">
-                                                </div>
-                                            </div>
+                                            @if (listingDetailVM.ClientImages != null)
+                                            {
+                                                foreach (var client in listingDetailVM.ClientImages)
+                                                {
+                                                    <div class="item">
+                                                        <div class="cleints_img_sec">
+                                                            <img src="@client.ImageUrl" alt="@client.TitleOrName" class="cleints_img">
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
