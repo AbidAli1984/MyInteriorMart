@@ -21,10 +21,8 @@ namespace BOL.ComponentModels.Listings
         public Communication Communication { get; set; } = new Communication();
         public AddressVM Address { get; set; } = new AddressVM();
         public BusinessWorkingHour BusinessWorkingHour { get; set; } = new BusinessWorkingHour();
-        public string FirstCategory { get; set; }
-        public string SecondCategory { get; set; }
-
         public Specialisation Specialisation { get; set; } = new Specialisation();
+        public List<Keyword> Keywords { get; set; } = new List<Keyword>();
         public WorkingHours WorkingHour { get; set; } = new WorkingHours();
         public PaymentMode PaymentMode { get; set; } = new PaymentMode();
 

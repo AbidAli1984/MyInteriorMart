@@ -69,15 +69,22 @@
                         }
                     </div>
                 </div>
-                <div class="listing-specialisat box_detail_cus">
-                    <h6>Categories</h6>
-                    <ul class="listing-specialisat-list">
-                        <li><i class="fa fa-check"></i> Category 1</li>
-                        <li><i class="fa fa-check"></i> Category 2</li>
-                        <li><i class="fa fa-check"></i> Category 3</li>
-                        <li><i class="fa fa-check"></i> Category 4</li>
-                    </ul>
-                </div>
+                @if (listingDetailVM.Keywords != null)
+                {
+                    <div class="listing-specialisat box_detail_cus">
+                        <h6>SERVICES</h6>
+                        <ul class="listing-specialisat-list">
+                            @foreach (var keyword in listingDetailVM.Keywords)
+                            {
+                                <li><i class="fa fa-check"></i> @keyword.SeoKeyword</li>
+                            }
+                            @*<li><i class="fa fa-check"></i> Category 1</li>
+                            <li><i class="fa fa-check"></i> Category 2</li>
+                            <li><i class="fa fa-check"></i> Category 3</li>
+                            <li><i class="fa fa-check"></i> Category 4</li>*@
+                        </ul>
+                    </div>
+                }
                 <div class="listing-specialisat box_detail_cus">
                     <h6>Specialisation</h6>
                     <ul class="listing-specialisat-list">
@@ -304,7 +311,7 @@
                                 <div class="company-details">
                                     <h5 class="company-name">@listingDetailVM.Listing.CompanyName</h5>
                                 </div>
-                                <span class="company-category-name">@listingDetailVM.FirstCategory > @listingDetailVM.SecondCategory</span>
+                                <span class="company-category-name">@listingDetailVM.Listing.BusinessCategory</span>
                                 <span class="company-rating">
                                     @listingDetailVM.RatingAverage.ToString("0.0")
                                     <div class="cat_star">
@@ -464,7 +471,7 @@
                                     </button>
                                     <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i> Share</a>
                                     <button id="LikeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsLiked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleLikeAsync())">
-                                        <i class="fa fa-thumbs-o-up"></i> Like  
+                                        <i class="fa fa-thumbs-o-up"></i> Like
                                     </button>
                                     <button id="SubscribeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsSubscribe ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleSubscribeAsync())">
                                         <i class="fa fa-bell-o"></i> Subscribe
@@ -494,7 +501,7 @@
                             <div class="col-12">
                                 <h3>About Us </h3>
                                 <p>
-                                    @listingDetailVM.Listing.CompanyName
+                                    @listingDetailVM.Listing.Description
                                 </p>
                             </div>
                         </div>

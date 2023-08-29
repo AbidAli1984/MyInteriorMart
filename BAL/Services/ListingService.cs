@@ -202,13 +202,9 @@ namespace BAL.Services
 
             var category = await _listingRepository.GetCategoryByListingId(listingId);
 
-            var firstCategory = await _categoryRepository.GetFirstCategoryById(category.FirstCategoryID);
-            var secondCategory = await _categoryRepository.GetSecondCategoryById(category.SecondCategoryID);
-            listingDetailVM.FirstCategory = firstCategory.Name;
-            listingDetailVM.SecondCategory = secondCategory.Name;
-
             listingDetailVM.Specialisation = await _listingRepository.GetSpecialisationByListingId(listingId);
             listingDetailVM.PaymentMode = await _listingRepository.GetPaymentModeByListingId(listingId);
+            listingDetailVM.Keywords = await _listingRepository.GetKeywordsByListingId(listingId);
             listingDetailVM.WorkingHour = await _listingRepository.GetWorkingHoursByListingId(listingId);
 
             var rating = await GetRatingAsync(listingId);
