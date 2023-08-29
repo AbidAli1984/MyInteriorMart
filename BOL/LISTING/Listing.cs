@@ -79,6 +79,14 @@ namespace BOL.LISTING
         [MinLength(5, ErrorMessage = "Minimum 5 characters rerquired.")]
         public string ListingURL { get; set; }
 
+        [Display(Name = "BusinessC ategory")]
+        [Required(ErrorMessage = "Business Category required.")]
+        public string BusinessCategory { get; set; }
+
+        [Display(Name = "Description")]
+        [Required(ErrorMessage = "Description required.")]
+        public string Description { get; set; }
+
         [Display(Name = "Approved", Prompt = "Select Approve")]
         public bool Approved { get; set; }
 
