@@ -26,6 +26,7 @@ namespace BOL.ComponentModels.Listings
         public List<Keyword> Keywords { get; set; } = new List<Keyword>();
         public WorkingHours WorkingHour { get; set; } = new WorkingHours();
         public PaymentMode PaymentMode { get; set; } = new PaymentMode();
+        public SocialNetwork SocialNetwork { get; set; }
 
         public BannerDetail BannerImageDetail { get; set; } = new BannerDetail();
         public IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();

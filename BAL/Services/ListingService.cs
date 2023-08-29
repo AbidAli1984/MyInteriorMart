@@ -206,6 +206,7 @@ namespace BAL.Services
             listingDetailVM.PaymentMode = await _listingRepository.GetPaymentModeByListingId(listingId);
             listingDetailVM.Keywords = await _listingRepository.GetKeywordsByListingId(listingId);
             listingDetailVM.WorkingHour = await _listingRepository.GetWorkingHoursByListingId(listingId);
+            listingDetailVM.SocialNetwork = await _listingRepository.GetSocialNetworkByListingId(listingId);
 
             var rating = await GetRatingAsync(listingId);
             listingDetailVM.RatingCount = rating.Count();

@@ -459,7 +459,8 @@
                             </div>
                             <div class="social-details">
                                 <ListingEnquiryModal CurrentUserGuid="@CurrentUserGuid" ListingId="listingDetailVM.ListingId" />
-                                @*<a href="#enquiry-in-dialog1" title="Send Enquiry" id="enquiry-in" class="btn btn-guotes btn-sm">Get Quotes</a>*@
+                                @*<a href="@($"{BOL.Constants.FacebookLink} {listingDetailVM.Listing.CompanyName}&u={listingDetailVM.shareUrl}")" target="_blank"><i class="fa fa-facebook-official"></i></a>
+                                    <a href="@($"{BOL.Constants.WhatsappLink} {listingDetailVM.Listing.CompanyName} : {listingDetailVM.shareUrl}")" target="_blank"><i class="fa fa-whatsapp"></i></a>*@
                                 @if (userAuthenticated)
                                 {
                                     <button id="BookmarkMe" class="pushRight btn btn-sm @(listingDetailVM.IsBookmarked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleBookmark())">
@@ -481,15 +482,40 @@
                                     <button id="SubscribeMe" class="pushRight btn btn-light btn-sm ml-1"><i class="fa fa-bell-o"></i> Subscribe</button>
                                 }
                             </div>
-                            <div class="col-lg-12 social-share p-0">
-                                <a href="@($"{BOL.Constants.FacebookLink} {listingDetailVM.Listing.CompanyName}&u={listingDetailVM.shareUrl}")" target="_blank"><i class="fa fa-facebook-official"></i></a>
-                                <a href="@($"{BOL.Constants.WhatsappLink} {listingDetailVM.Listing.CompanyName} : {listingDetailVM.shareUrl}")" target="_blank"><i class="fa fa-whatsapp"></i></a>
-                                <a href="#0"><i class="fa fa-linkedin-square"></i></a>
-                                <a href="#0"><i class="fa fa-twitter-square"></i></a>
-                                <a href="#0"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#0"><i class="fa fa-instagram"></i></a>
-                                <a href="#0"><i class="fa fa-pinterest-square"></i></a>
-                            </div>
+                            @if (listingDetailVM.SocialNetwork != null)
+                            {
+                                <div class="col-lg-12 social-share p-0">
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.Facebook))
+                                    {
+                                        <a href="@listingDetailVM.SocialNetwork.Facebook" target="_blank"><i class="fa fa-facebook-official"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.WhatsappGroupLink))
+                                    {
+                                        <a href="@listingDetailVM.SocialNetwork.WhatsappGroupLink" target="_blank"><i class="fa fa-whatsapp"></i></a>
+                                    }
+
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.Linkedin))
+                                    {
+                                        <a href="listingDetailVM.SocialNetwork.Linkedin" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.Twitter))
+                                    {
+                                        <a href="@listingDetailVM.SocialNetwork.Twitter" target="_blank"><i class="fa fa-twitter-square"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.Youtube))
+                                    {
+                                        <a href="@listingDetailVM.SocialNetwork.Youtube" target="_blank"><i class="fa fa-youtube-play"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.Instagram))
+                                    {
+                                        <a href="@listingDetailVM.SocialNetwork.Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(listingDetailVM.SocialNetwork.Pinterest))
+                                    {
+                                        <a href="@listingDetailVM.SocialNetwork.Pinterest" target="_blank"><i class="fa fa-pinterest-square"></i></a>
+                                    }
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="banner-block one-block my-5">
