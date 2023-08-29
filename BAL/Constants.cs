@@ -48,5 +48,7 @@ namespace BAL
 
         public static IList<SearchResultViewModel> Listings;
         public static IList<SearchResultViewModel> Keywords;
+
+        public static string[] ArrKeywords;
     }
 }

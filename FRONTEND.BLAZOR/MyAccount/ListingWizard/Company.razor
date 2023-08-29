@@ -37,7 +37,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">
-                                    Year Of Establishment <span class="text-danger">*</span>
+                                    Year Of Establishment c
                                 </label>
                                 <DatePicker @bind-Value="@CompanyVM.YearOfEstablishment" Picker="@DatePickerType.Year" />
                             </div>
@@ -45,6 +45,13 @@
                                 <label>Company Name <span class="text-danger">*</span></label>
                                 <Input Placeholder="Company Name" @bind-Value="@CompanyVM.CompanyName" />
                             </div>
+
+                            <div class="form-group col-md-4">
+                                <label>Business Category <span class="text-danger">*</span></label>
+                                <AutoComplete Options="BAL.Constants.ArrKeywords" ValueChanged="SearchBusinessCategory" 
+                                              OnSelectionChange="AddKeyword" Value="@CompanyVM.BusinessCategory" />
+                            </div>
+
                             <div class="form-group col-md-4">
                                 <label>GST Number <span class="text-danger">*</span></label>
                                 <Input Placeholder="GST Number" @bind-Value="@CompanyVM.GSTNumber" />
@@ -87,6 +94,11 @@
                                         DefaultActiveFirstItem="false"
                                         EnableSearch>
                                 </Select>
+                            </div>
+                            <div class="form-group col-md-8"></div>
+                            <div class="form-group col-md-12">
+                                <label for="description_text">Description <span class="text-danger">*</span></label>
+                                <textarea @bind="@CompanyVM.Description" name="description_text" id="description_text" class="form-control"></textarea>
                             </div>
                             <div class="text-left col-12 mt-3">
                                 @if (buttonBusy == false)

@@ -7,27 +7,24 @@ using System.Threading.Tasks;
 using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BAL;
+using System.Collections.Generic;
+using BOL.VIEWMODELS;
+using System.Linq;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
 {
     public partial class Company
     {
 
-        [Inject]
-        private IHttpContextAccessor httpConAccess { get; set; }
-        [Inject]
-        IUserService userService { get; set; }
-        [Inject]
-        IListingService listingService { get; set; }
-        [Inject]
-        ISharedService sharedService { get; set; }
-        [Inject]
-        Helper helper { get; set; }
+        [Inject] private IHttpContextAccessor httpConAccess { get; set; }
+        [Inject] IUserService userService { get; set; }
+        [Inject] IListingService listingService { get; set; }
+        [Inject] ISharedService sharedService { get; set; }
+        [Inject] Helper helper { get; set; }
 
         public CompanyVM CompanyVM { get; set; } = new CompanyVM();
 
         public bool buttonBusy { get; set; }
-
         public string CurrentUserGuid { get; set; }
         public bool IsCompanyExists { get; set; }
 
@@ -49,6 +46,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                         IsCompanyExists = true;
                         CompanyVM.SetViewModel(listing);
                     }
+                    Constants.Keywords = await listingService.GetKeywords();
                 }
             }
             catch (Exception exc)
@@ -75,7 +73,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     listing = new Listing();
 
                 CompanyVM.SetContextModel(listing);
-                
+
                 if (recordNotFound)
                 {
                     DateTime timeZoneDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
@@ -103,6 +101,30 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             {
                 buttonBusy = false;
             }
+        }
+
+        public void AddKeyword(AutoCompleteOption autoCompleteOption)
+        {
+            CompanyVM.BusinessCategory = autoCompleteOption.Label;
+        }
+
+        private void SearchBusinessCategory(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                Constants.ArrKeywords = Constants.Keywords.Select(x => x.label).ToArray();
+                CompanyVM.BusinessCategory = string.Empty;
+            }
+            else
+            {
+                var filterKey = Constants.Keywords
+                    .Select(x => x.label)
+                    .Where(x => x.ToLower().Contains(searchText.ToLower()));
+
+                Constants.ArrKeywords = filterKey.Any() ? filterKey.ToArray() : null;
+                if (Constants.ArrKeywords == null)
+                    CompanyVM.BusinessCategory = searchText;
+            }   
         }
     }
 }

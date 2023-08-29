@@ -56,7 +56,7 @@ namespace BAL.Services.Contracts
         #endregion
 
         #region Keyword
-        Task<IList<SearchResultViewModel>> GetKeywords();
+        Task<IList<SearchResultViewModel>> GetKeywords(string searchText = null);
         Task<List<BOL.LISTING.Keyword>> GetKeywordsByListingId(int listingId);
         Task<IList<BOL.LISTING.Keyword>> AddKeywordsAsync(IList<BOL.LISTING.Keyword> keywords);
         Task DeleteKeywordsByListingId(IList<BOL.LISTING.Keyword> keywords);

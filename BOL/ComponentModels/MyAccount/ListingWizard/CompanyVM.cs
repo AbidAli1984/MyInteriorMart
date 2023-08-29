@@ -17,6 +17,8 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         public int NumberOfEmployees { get; set; }
         public string NatureOfBusiness { get; set; }
         public string Designation { get; set; }
+        public string BusinessCategory { get; set; }
+        public string Description { get; set; }
 
         public IList<SelectItem> GenderList { get; set; }
         public IList<SelectItem> TurnoverList { get; set; }
@@ -56,6 +58,8 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             NumberOfEmployees = listing.NumberOfEmployees;
             NatureOfBusiness = listing.NatureOfBusiness;
             Designation = listing.Designation;
+            BusinessCategory = listing.BusinessCategory;
+            Description = listing.Description;
         }
 
         public void SetContextModel(Listing listing)
@@ -70,6 +74,8 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             listing.NatureOfBusiness = NatureOfBusiness;
             listing.Designation = Designation;
             listing.ListingURL = CompanyName.Replace(" ", "-");
+            listing.BusinessCategory = BusinessCategory;
+            listing.Description = Description;
 
             if (listing.Steps < Constants.CompanyComplete)
                 listing.Steps = Constants.CompanyComplete;
@@ -79,7 +85,8 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
         {
             return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Gender) && YearOfEstablishment != null &&
                 !string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(GSTNumber) && NumberOfEmployees > 0 &&
-                !string.IsNullOrWhiteSpace(Designation) && !string.IsNullOrWhiteSpace(NatureOfBusiness) && !string.IsNullOrWhiteSpace(Turnover);
+                !string.IsNullOrWhiteSpace(Designation) && !string.IsNullOrWhiteSpace(NatureOfBusiness) && !string.IsNullOrWhiteSpace(Turnover) &&
+                !string.IsNullOrWhiteSpace(BusinessCategory) && !string.IsNullOrWhiteSpace(Description);
         }
     }
 }
