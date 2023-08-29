@@ -9574,6 +9574,85 @@ article.blog .post_info {
     height: 250px;
 }
 
+.certificate_img_sec {
+    width: 100%;
+    height: 240px;
+}
+
+.certificate_img {
+    width: 100%;
+    height: 100%;
+}
+
+.cleints_img_sec {
+    width: 100%;
+    height: 160px;
+}
+
+.cleints_img {
+    width: 100%;
+    height: 100%;
+}
+
+.notification .notification-list {
+    position: relative;
+    padding: 10px 10px 10px 22px;
+    margin-bottom: 10px;
+}
+
+.notification .nitify_dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #fe900d;
+    left: 7px;
+    top: 14px;
+}
+
+.notify_heading {
+    font-size: 14px;
+    color: #fe900d;
+    margin-bottom: 7px;
+}
+
+.notify_txt {
+    font-size: 10px;
+}
+
+.notify_body {
+    height: 300px;
+    padding: 0 5px;
+    overflow: auto;
+    margin-top: 10px;
+}
+
+.notification .small {
+    font-size: 9px;
+    margin-top: -3px;
+}
+
+.all_notifications .notify_heading {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.all_notifications .notify_txt {
+    font-size: 14px;
+}
+
+.all_notifications .small {
+    margin-top: -6px;
+}
+
+.mobile_listing_btn {
+    display: none;
+    position: fixed;
+    bottom: 50px;
+    right: 12px;
+    z-index: 1000000;
+}
+
 @media (max-width: 767px) {
     .chat_img_sec {
         display: block;
@@ -9611,15 +9690,65 @@ article.blog .post_info {
     a.grid_item {
         margin-bottom: 0;
     }
-}
 
+    .all_notifications .notification-list {
+        margin: 5px 10px;
+    }
 
-@media (max-width: 767px) {
-    .chat_img_sec {
+    .all_notifications .notify_heading {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .all_notifications .notify_txt {
+        font-size: 10px;
+    }
+
+    .all_notifications .small {
+        margin-top: -8px;
+        font-size: 9px;
+    }
+
+    .mobile_listing_btn {
         display: block;
-        width: 80px;
-        height: 80px;
-        margin: auto;
+    }
+
+    .notification .notification-list {
+        position: relative;
+        padding: 8px 10px 8px 15px;
+        margin-bottom: 5px;
+    }
+
+    .notify_heading {
+        font-size: 12px;
+        color: #fe900d;
+        margin-bottom: 5px;
+    }
+
+    .notification .nitify_dot {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #fe900d;
+        left: 5px;
+        top: 12px;
+    }
+
+    .notification .small {
+        font-size: 7px;
+        margin-top: -3px;
+    }
+
+    .notify_txt {
+        font-size: 7px;
+    }
+
+    .notify_body {
+        height: 218px;
+        padding: 0;
+        overflow: auto;
+        margin-top: 0px;
     }
 }
 

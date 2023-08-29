@@ -66,7 +66,7 @@ namespace FRONTEND.BLAZOR.Listings
         {
             if (render)
             {
-                await jsRuntime.InvokeVoidAsync("initializeListingGallerySlick");
+                await jsRuntime.InvokeVoidAsync("initializeListingDetails");
             }
         }
 
