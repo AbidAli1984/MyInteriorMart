@@ -237,30 +237,58 @@ namespace BAL.Services
 
         public async Task<IList<ReviewListingViewModel>> GetReviewsAsync(int listingId)
         {
+            var listings = new List<Listing>();
+            listings.Add(await _listingRepository.GetApprovedListingByListingId(listingId));
+            return await GetReviews(listings);
+        }
+
+        public async Task<IList<ReviewListingViewModel>> GetReviewsByOwnerIdAsync(string ownerId)
+        {
+            var listings = await _listingRepository.GetListingsByOwnerId(ownerId);
+            return await GetReviews(listings);
+        }
+
+        private async Task<IList<ReviewListingViewModel>> GetReviews(IEnumerable<Listing> listings)
+        {
+            if (listings.Count() <= 0)
+                return null;
+
             IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
-            var listingAllReviews = await GetRatingsByListingId(listingId);
 
-            foreach (var i in listingAllReviews)
+            foreach (var listing in listings)
             {
-                var profile = await _userProfileRepository.GetProfileByOwnerGuid(i.OwnerGuid);
-                var reviewListingViewModel = new ReviewListingViewModel
+                var ratings = await _listingRepository.GetRatingsByListingId(listing.ListingID);
+                if (ratings == null)
+                    continue;
+                foreach (var rating in ratings)
                 {
-                    ReviewID = i.RatingID,
-                    OwnerGuid = i.OwnerGuid,
-                    Comment = i.Comment,
-                    Date = i.Date,
-                    VisitTime = i.Time.ToString(),
-                    Ratings = i.Ratings
-                };
+                    var profile = await _userProfileRepository.GetProfileByOwnerGuid(rating.OwnerGuid);
+                    var reviewListingViewModel = new ReviewListingViewModel
+                    {
+                        ListingId = listing.ListingID,
+                        Name = listing.CompanyName,
+                        NameFirstLetter = listing.CompanyName[0].ToString(),
+                        ListingUrl = listing.ListingURL,
+                        ReviewID = rating.RatingID,
+                        OwnerGuid = rating.OwnerGuid,
+                        Comment = rating.Comment,
+                        Date = rating.Date,
+                        VisitTime = rating.Time.ToString(),
+                        Ratings = rating.Ratings,
+                        BusinessCategory = listing.BusinessCategory
+                    };
 
-                if (profile != null)
-                {
-                    reviewListingViewModel.Name = profile.Name;
-                    reviewListingViewModel.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
+                    if (profile != null)
+                    {
+                        reviewListingViewModel.UserName = profile.Name;
+                        reviewListingViewModel.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
+                    }
+
+                    listReviews.Add(reviewListingViewModel);
                 }
-
-                listReviews.Add(reviewListingViewModel);
             }
+
+            
             return listReviews;
         }
 

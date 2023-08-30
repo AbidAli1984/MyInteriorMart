@@ -18,6 +18,7 @@ namespace BAL.Services.Contracts
         Task<ListingDetailVM> GetListingDetailByListingId(int listingId, string currentUserId);
 
         Task<IList<ReviewListingViewModel>> GetReviewsAsync(int listingId);
+        Task<IList<ReviewListingViewModel>> GetReviewsByOwnerIdAsync(string ownerId);
 
         Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);
 

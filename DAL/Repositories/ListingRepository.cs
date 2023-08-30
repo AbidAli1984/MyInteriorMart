@@ -143,6 +143,13 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId)
+        {
+            return await _listingDbContext.Listing
+                .Where(i => i.OwnerGuid == ownerId)
+                .ToListAsync();
+        }
+
         public async Task<Listing> GetApprovedListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing

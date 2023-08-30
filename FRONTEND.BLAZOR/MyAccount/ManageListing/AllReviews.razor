@@ -1,8 +1,4 @@
 ﻿@page "/ManageListing/AllReviews"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject CategoriesDbContext categoriesContext
-@inject AuthenticationStateProvider authenticationState
 
 <style>
     .example {
@@ -31,35 +27,34 @@
                             </p>
                             <div class="list_general reviews">
                                 <ul>
-                                    @if (listRLVM != null)
+                                    @if (ReviewListingVMs != null)
                                     {
-                                        foreach (var i in listRLVM)
+                                        foreach (var reviewListing in ReviewListingVMs)
                                         {
                                             <li>
-                                                <span>@i.CreatedDate</span>
+                                                <span>@reviewListing.Date</span>
                                                 <div class="company-rating pl-2 d-inline-flex">
                                                     <div class="cat_star">
-                                                        @for (int j = 1; j <= i.RatingLimit; j++)
+                                                        @for (int j = 1; j <= reviewListing.RatingLimit; j++)
                                                         {
-                                                            <i class="icon_star @(j<= i.Ratings ? "active" : "")"></i>
+                                                            <i class="icon_star @(j <= reviewListing.Ratings ? "active" : "")"></i>
                                                         }
                                                     </div>
                                                 </div>
-                                                <figure><img src="/resources/img/listing-img.jpeg" alt=""></figure>
-                                                <h4>@i.Name <small class="float-right" style="font-size:12px;">@i.FirstCat > @i.SecondCat</small></h4>
-
-                                                <p>@i.Comment</p>
+                                                <figure><img src="@reviewListing.UserImage" alt="@reviewListing.UserName"></figure>
+                                                <h4>@reviewListing.Name <small>@reviewListing.BusinessCategory</small></h4>
+                                                <p>@reviewListing.Comment</p>
                                                 <div class="row mb-2">
                                                     <div class="inline-popups mr-2">
-                                                        <a href="/Listing/Index/@i.ListingId" target="_blank" data-effect="mfp-zoom-in" class="btn_1 gray">
-                                                            <i class="fa fa-fw fa-reply"></i> View this review
+                                                        <a href="/Listing/Index/@reviewListing.ListingId" target="_blank" data-effect="mfp-zoom-in" class="btn_1 gray">
+                                                            <i class="fa fa-fw fa-reply"></i> Reply
                                                         </a>
                                                     </div>
-                                                    <div class="inline-popups">
-                                                        <a href="#" data-effect="mfp-zoom-in" class="btn_1 gray">
-                                                            <i class="fa fa-fw fa-times-circle-o"></i> Remove this review
-                                                        </a>
-                                                    </div>
+                                                    @*<div class="inline-popups">
+                                                            <a href="#" data-effect="mfp-zoom-in" class="btn_1 gray">
+                                                                <i class="fa fa-fw fa-times-circle-o"></i> Remove this review
+                                                            </a>
+                                                        </div>*@
                                                 </div>
                                             </li>
                                         }

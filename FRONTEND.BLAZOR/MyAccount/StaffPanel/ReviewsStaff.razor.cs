@@ -61,7 +61,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel
                         Name = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,
-                        FirstCat = firstCategory.Name,
+                        BusinessCategory = firstCategory.Name,
                         SecondCat = secondCategory.Name,
                         Ratings = i.Ratings,
                         Comment = i.Comment

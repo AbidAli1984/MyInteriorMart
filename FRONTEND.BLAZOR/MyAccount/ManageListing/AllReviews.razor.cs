@@ -1,24 +1,23 @@
 ﻿using BAL.Services.Contracts;
 using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 {
     public partial class AllReviews
     {
-        [Inject]
-        public IUserService userService { get; set; }
+        [Inject] private AuthenticationStateProvider authenticationState { get; set; }
+        [Inject] private IUserService userService { get; set; }
+        [Inject] private IListingService listingService { get; set; }
 
         public string CurrentUserGuid { get; set; }
         public bool isVendor { get; set; } = false;
 
-        public IEnumerable<BOL.LISTING.Rating> userRatings { get; set; }
-        public IList<ReviewListingViewModel> listRLVM = new List<ReviewListingViewModel>();
+        public IList<ReviewListingViewModel> ReviewListingVMs = new List<ReviewListingViewModel>();
 
         protected async override Task OnInitializedAsync()
         {
@@ -32,45 +31,12 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     CurrentUserGuid = applicationUser.Id;
                     isVendor = applicationUser.IsVendor;
-                    await GetUsersReviewsAsync();
+                    ReviewListingVMs = await listingService.GetReviewsByOwnerIdAsync(CurrentUserGuid);
                 }
             }
             catch (Exception exc)
             {
                 string ErrorMessage = exc.Message;
-            }
-        }
-
-        public async Task GetUsersReviewsAsync()
-        {
-            userRatings = await listingContext.Rating.Where(i => i.OwnerGuid == CurrentUserGuid).OrderByDescending(i => i.ListingID).ToListAsync();
-
-            foreach(var i in userRatings)
-            {
-                var listing = await listingContext.Listing.Where(x => x.ListingID == i.ListingID).FirstOrDefaultAsync();
-                var category = await listingContext.Categories.Where(x => x.ListingID == i.ListingID).FirstOrDefaultAsync();
-                var firstCategory = await categoriesContext.FirstCategory.Where(x => x.FirstCategoryID == category.FirstCategoryID).FirstOrDefaultAsync();
-                var secondCategory = await categoriesContext.SecondCategory.Where(x => x.SecondCategoryID == category.SecondCategoryID).FirstOrDefaultAsync();
-
-                if (listing != null)
-                {
-                    ReviewListingViewModel rlvm = new ReviewListingViewModel
-                    {
-                        ReviewID = i.RatingID,
-                        ListingId = i.ListingID,
-                        OwnerGuid = i.OwnerGuid,
-                        CreatedDate = i.Date.ToString("MMMM dd yyyy"),
-                        Name = listing.CompanyName,
-                        NameFirstLetter = listing.CompanyName[0].ToString(),
-                        ListingUrl = listing.ListingURL,
-                        FirstCat = firstCategory.Name,
-                        SecondCat = secondCategory.Name,
-                        Ratings = i.Ratings,
-                        Comment = i.Comment
-                    };
-
-                    listRLVM.Add(rlvm);
-                }
             }
         }
     }
