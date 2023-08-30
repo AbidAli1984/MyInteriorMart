@@ -594,7 +594,7 @@
                                                                     <i class="icon_star @(review.Ratings >= 3 ? "active" : "")"></i>
                                                                     <i class="icon_star @(review.Ratings >= 4 ? "active" : "")"></i>
                                                                     <i class="icon_star @(review.Ratings >= 5 ? "active" : "")"></i>
-                                                                    <span><strong>@review.Name – @review.Date</strong> </span>
+                                                                    <span><strong>@review.UserName – @review.Date</strong> </span>
                                                                 </div>
                                                                 <p>@review.Comment<a href="#0"> view more...</a></p>
                                                             </div>
@@ -606,12 +606,6 @@
                                         }
                                     </div>
                                 </div>
-
-
-
-
-
-
                                 <div class="tab-pane fade" id="certificates" role="tabpanel"
                                      aria-labelledby="certificates">
                                     <div class="row justify-content-center pt-5 px-3">
