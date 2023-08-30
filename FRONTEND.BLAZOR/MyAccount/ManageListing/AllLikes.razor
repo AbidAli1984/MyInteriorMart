@@ -29,23 +29,22 @@
                                     <a class="back_btn mx-3" href="/MyAccount/MyActivity">Back</a>
                                 </span>
                             </p>
-                            <div class="list_general">
+                            <div class="list_general like-listing">
                                 <ul>
-                                    @if (listLLVM != null)
+                                    @if (likeListingVMs != null)
                                     {
-                                        foreach (var i in listLLVM)
+                                        foreach (var likeListingVM in likeListingVMs)
                                         {
                                             <li>
-                                                <figure><img src="/resources/img/listing-img.jpeg" alt=""></figure>
-                                                <small>@i.SecondCat</small>
-                                                <h4>@i.Name</h4>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, est ei idque voluptua copiosae,
-                                                    [This is the dummy text need to implement description]....
+                                                <figure><img src="@likeListingVM.UserImage" alt="@likeListingVM.UserName"></figure>
+                                                <small>@likeListingVM.BusinessCategory</small>
+                                                <h4>@likeListingVM.Name</h4>
+                                                <p class="description">
+                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i><strong> "@likeListingVM.UserName"</strong> liked your listing: "@likeListingVM.Name"
                                                 </p>
                                                 <p>
-                                                    <a href="/Listing/Index/@i.ListingID"
-                                                       class="btn_1 gray primary-btn-color">
+                                                    <a href="/Listing/Index/@likeListingVM.ListingID"
+                                                       class="btn btn-primary rounded">
                                                         <i class="fa fa-fw fa-eye"></i> View item
                                                     </a>
                                                 </p>

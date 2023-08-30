@@ -15,7 +15,9 @@ namespace BOL.VIEWMODELS
         public string Name { get; set; }
         public string NameFirstLetter { get; set; }
         public string ListingUrl { get; set; }
-        public string FirstCat { get; set; }
+        public string BusinessCategory { get; set; }
         public string SecondCat { get; set; }
+        public string UserName { get; set; }
+        public string UserImage { get; set; }
     }
 }

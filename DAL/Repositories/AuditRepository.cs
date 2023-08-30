@@ -49,6 +49,7 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync(i => i.ListingID == listingId && i.UserGuid == userGuid);
         }
 
+
         public async Task<IEnumerable<Subscribes>> GetSubscriberByListingId(int listingId)
         {
             return await _auditDbContext.Subscribes

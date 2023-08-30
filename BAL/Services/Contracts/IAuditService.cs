@@ -1,4 +1,5 @@
 ﻿using BOL.AUDITTRAIL;
+using BOL.VIEWMODELS;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +19,7 @@ namespace BAL.Services.Contracts
         Task<bool> CheckIfUserSubscribedToListing(int listingId, string userGuid);
         Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid);
         Task<bool> CheckIfUserLikedListing(int listingId, string userGuid);
+
+        Task<IList<LikeListingViewModel>> GetLikesByOwnerIdAsync(string userGuid);
     }
 }
