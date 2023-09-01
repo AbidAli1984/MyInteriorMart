@@ -68,6 +68,7 @@ namespace DAL.Repositories
         {
             return await _auditDbContext.ListingLikeDislike
                 .Where(i => i.ListingID == listingId && i.Like)
+                .OrderByDescending(i => i.VisitDate)
                 .ToListAsync();
         }
     }

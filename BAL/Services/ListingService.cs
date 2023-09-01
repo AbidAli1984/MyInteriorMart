@@ -237,29 +237,26 @@ namespace BAL.Services
 
         public async Task<IList<ReviewListingViewModel>> GetReviewsAsync(int listingId)
         {
-            var listings = new List<Listing>();
-            listings.Add(await _listingRepository.GetApprovedListingByListingId(listingId));
-            return await GetReviews(listings);
+            var listing = await _listingRepository.GetApprovedListingByListingId(listingId);
+            return await GetReviews(listing);
         }
 
         public async Task<IList<ReviewListingViewModel>> GetReviewsByOwnerIdAsync(string ownerId)
         {
-            var listings = await _listingRepository.GetListingsByOwnerId(ownerId);
-            return await GetReviews(listings);
+            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
+            return await GetReviews(listing);
         }
 
-        private async Task<IList<ReviewListingViewModel>> GetReviews(IEnumerable<Listing> listings)
+        private async Task<IList<ReviewListingViewModel>> GetReviews(Listing listing)
         {
-            if (listings.Count() <= 0)
+            if (listing == null)
                 return null;
 
             IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
 
-            foreach (var listing in listings)
+            var ratings = await _listingRepository.GetRatingsByListingId(listing.ListingID);
+            if (ratings != null)
             {
-                var ratings = await _listingRepository.GetRatingsByListingId(listing.ListingID);
-                if (ratings == null)
-                    continue;
                 foreach (var rating in ratings)
                 {
                     var profile = await _userProfileRepository.GetProfileByOwnerGuid(rating.OwnerGuid);
@@ -272,7 +269,7 @@ namespace BAL.Services
                         ReviewID = rating.RatingID,
                         OwnerGuid = rating.OwnerGuid,
                         Comment = rating.Comment,
-                        Date = rating.Date,
+                        Date = rating.Date.ToString(Constants.dateFormat1),
                         VisitTime = rating.Time.ToString(),
                         Ratings = rating.Ratings,
                         BusinessCategory = listing.BusinessCategory
@@ -288,7 +285,6 @@ namespace BAL.Services
                 }
             }
 
-            
             return listReviews;
         }
 

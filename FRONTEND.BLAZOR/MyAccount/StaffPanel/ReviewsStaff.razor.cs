@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using BAL;
 using BAL.Services.Contracts;
 using BOL.SHARED;
 using BOL.VIEWMODELS;
@@ -57,7 +58,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel
                         ReviewID = i.RatingID,
                         ListingId = i.ListingID,
                         OwnerGuid = i.OwnerGuid,
-                        Date = i.Date,
+                        Date = i.Date.ToString(Constants.dateFormat1),
                         Name = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,

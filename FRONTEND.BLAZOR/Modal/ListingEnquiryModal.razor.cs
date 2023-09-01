@@ -70,7 +70,7 @@ namespace FRONTEND.BLAZOR.Modal
 
         public async Task CreateEnquiry()
         {
-            if (!!isRegisteredUser)
+            if (!isRegisteredUser)
                 return;
 
             if (!ListingEnquiryVM.isValid())

@@ -29,7 +29,6 @@ namespace DAL.Repositories.Contracts
         Task<IEnumerable<Listing>> GetApprovedListings();
 
         Task<Listing> GetListingByOwnerId(string ownerId);
-        Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId);
 
         Task<Listing> GetApprovedListingByListingId(int listingId);
 

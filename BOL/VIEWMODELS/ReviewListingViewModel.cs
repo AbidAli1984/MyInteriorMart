@@ -16,7 +16,7 @@ namespace BOL.VIEWMODELS
         public string ListingUrl { get; set; }
         public string BusinessCategory { get; set; }
         public string SecondCat { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public int Ratings { get; set; }
         public string Comment { get; set; }
         public string VisitTime { get; set; }

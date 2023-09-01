@@ -68,22 +68,20 @@ namespace BAL.Services
 
         public async Task<IList<LikeListingViewModel>> GetLikesByOwnerIdAsync(string ownerId)
         {
-            var listings = await _listingRepository.GetListingsByOwnerId(ownerId);
-            return await GetLikes(listings);
+            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
+            return await GetLikes(listing);
         }
 
-        private async Task<IList<LikeListingViewModel>> GetLikes(IEnumerable<Listing> listings)
+        private async Task<IList<LikeListingViewModel>> GetLikes(Listing listing)
         {
-            if (listings.Count() <= 0)
+            if (listing == null)
                 return null;
 
             IList<LikeListingViewModel> listLikes = new List<LikeListingViewModel>();
 
-            foreach (var listing in listings)
+            var likes = await _auditRepository.GetLikesByListingId(listing.ListingID);
+            if (likes != null)
             {
-                var likes = await _auditRepository.GetLikesByListingId(listing.ListingID);
-                if (likes == null)
-                    continue;
                 foreach (var like in likes)
                 {
                     var profile = await _userProfileRepository.GetProfileByOwnerGuid(like.UserGuid);
@@ -92,7 +90,7 @@ namespace BAL.Services
                         LikeDislikeID = like.LikeDislikeID,
                         ListingID = like.ListingID,
                         OwnerGuid = like.UserGuid,
-                        VisitDate = like.VisitDate.ToString("dd/MM/yyyy"),
+                        VisitDate = like.VisitDate.ToString(Constants.dateFormat1),
                         Name = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,

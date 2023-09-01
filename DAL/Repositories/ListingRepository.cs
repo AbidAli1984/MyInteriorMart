@@ -143,13 +143,6 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Listing>> GetListingsByOwnerId(string ownerId)
-        {
-            return await _listingDbContext.Listing
-                .Where(i => i.OwnerGuid == ownerId)
-                .ToListAsync();
-        }
-
         public async Task<Listing> GetApprovedListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing
@@ -184,7 +177,10 @@ namespace DAL.Repositories
 
         public async Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId)
         {
-            return await _listingDbContext.Rating.Where(l => l.ListingID == listingId).ToListAsync();
+            return await _listingDbContext.Rating
+                .Where(l => l.ListingID == listingId)
+                .OrderByDescending(l => l.Date)
+                .ToListAsync();
         }
 
         public async Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId)

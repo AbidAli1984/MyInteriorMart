@@ -36,25 +36,13 @@
                                         foreach (var likeListingVM in likeListingVMs)
                                         {
                                             <li>
-                                                <figure><img src="@likeListingVM.UserImage" alt="@likeListingVM.UserName"></figure>
-                                                <small>@likeListingVM.BusinessCategory</small>
-                                                <h4>@likeListingVM.Name</h4>
+                                                <div class="image">
+                                                    <img src="@likeListingVM.UserImage" alt="@likeListingVM.UserName">
+                                                </div>
+                                                <span>@likeListingVM.VisitDate</span><br />
                                                 <p class="description">
                                                     <i class="fa fa-thumbs-up" aria-hidden="true"></i><strong> "@likeListingVM.UserName"</strong> liked your listing: "@likeListingVM.Name"
                                                 </p>
-                                                <p>
-                                                    <a href="/Listing/Index/@likeListingVM.ListingID"
-                                                       class="btn btn-primary rounded">
-                                                        <i class="fa fa-fw fa-eye"></i> View item
-                                                    </a>
-                                                </p>
-                                                <ul class="buttons">
-                                                    <li>
-                                                        <a href="#" class="btn_1 gray delete wishlist_close">
-                                                            <i class="fa fa-fw fa-times-circle-o"></i> Unlike
-                                                        </a>
-                                                    </li>
-                                                </ul>
                                             </li>
                                         }
                                     }

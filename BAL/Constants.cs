@@ -7,6 +7,7 @@ namespace BAL
     {
         public static string WebRoot { get; set; }
         public const string dateFormat = "dd/MM/yyyy";
+        public const string dateFormat1 = "dd MMM yyyy hh:mm tt";
         public const string dbDateFormat = "yyyy-MM-dd";
         public const string tempImagePath = @"\FileManager\tempImages\";
         public const string profileImagesPath = @"\FileManager\ProfileImages\";
