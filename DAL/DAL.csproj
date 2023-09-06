@@ -33,6 +33,8 @@
     <Compile Remove="DBContexts\LISTING\Migrations\20200724124949_31.Designer.cs" />
     <Compile Remove="DBContexts\LISTING\Migrations\20230804113542_AddedOwnerImageTableInListingDB.cs" />
     <Compile Remove="DBContexts\LISTING\Migrations\20230804113542_AddedOwnerImageTableInListingDB.Designer.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20230906122301_RemoveNavigationProperty.cs" />
+    <Compile Remove="DBContexts\LISTING\Migrations\20230906122301_RemoveNavigationProperty.Designer.cs" />
     <Compile Remove="DBContexts\SHARED\Migrations\20200622152652_shared-009.cs" />
     <Compile Remove="DBContexts\SHARED\Migrations\20200622152652_shared-009.Designer.cs" />
     <Compile Remove="DBContexts\SHARED\Migrations\20200707163519_008.cs" />
