@@ -597,6 +597,16 @@
                                                                     <span><strong>@review.UserName – @review.Date</strong> </span>
                                                                 </div>
                                                                 <p>@review.Comment<a href="#0"> view more...</a></p>
+                                                                @if (@review.RatingReply.Id > 0)
+                                                                {
+                                                                    <div class="owner_reply">
+                                                                        <span><strong>Reply from Owner</strong> </span>
+                                                                        <p class="m-0">
+                                                                            @review.RatingReply.Message
+                                                                            <a href="#0">view more...</a>
+                                                                        </p>
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         </div>
                                                     </div>
