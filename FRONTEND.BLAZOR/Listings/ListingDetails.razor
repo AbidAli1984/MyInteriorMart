@@ -579,13 +579,14 @@
                                     <div class="row review_row">
                                         @foreach (var review in listingDetailVM.listReviews)
                                         {
-                                            <div class="col-md-12  col-lg-12 review-user">
-                                                <h6 style="text-align: right;">Latest review by @review.UserName on @review.Date</h6>
+                                            <div class="col-md-12 col-lg-12 review-user">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-lg-2 text-center">
-                                                                <img src="@review.UserImage" class="rounded-circle img-thumbnail">
+                                                        <div class="row">
+                                                            <div class="col-lg-2 col-3 text-center">
+                                                                <div class="review_img_sec">
+                                                                    <img src="@review.UserImage" class="rounded-circle img-thumbnail">
+                                                                </div>
                                                             </div>
                                                             <div class="col-lg-10 pl-lg-0">
                                                                 <div class="cat_star">

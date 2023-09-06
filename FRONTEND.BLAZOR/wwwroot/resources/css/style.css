@@ -9151,6 +9151,13 @@ article.blog .post_info {
     padding: 0 20px;
 }
 
+.review_img_sec {
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin: auto;
+}
+
 
 .btn-outline-warning {
     color: #444;
