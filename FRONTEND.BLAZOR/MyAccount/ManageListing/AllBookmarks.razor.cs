@@ -12,6 +12,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 {
     public partial class AllBookmarks
     {
+        [Inject] AuthenticationStateProvider authenticationState { get; set; }
         [Inject] public IUserService userService { get; set; }
         [Inject] public IAuditService auditService { get; set; }
 
