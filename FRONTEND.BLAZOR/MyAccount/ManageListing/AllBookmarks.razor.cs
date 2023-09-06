@@ -2,6 +2,7 @@
 using BOL.AUDITTRAIL;
 using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
