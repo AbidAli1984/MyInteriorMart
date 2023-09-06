@@ -4,14 +4,16 @@ using DAL.LISTING;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DAL.LISTING.Migrations
+namespace DAL.DBContexts.LISTING.Migrations
 {
     [DbContext(typeof(ListingDbContext))]
-    partial class ListingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230906112157_CreateRatingReplyTable")]
+    partial class CreateRatingReplyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1036,8 +1038,7 @@ namespace DAL.LISTING.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RatingId")
-                        .IsUnique();
+                    b.HasIndex("RatingId");
 
                     b.ToTable("RatingReply");
                 });
@@ -1500,8 +1501,8 @@ namespace DAL.LISTING.Migrations
             modelBuilder.Entity("BOL.LISTING.RatingReply", b =>
                 {
                     b.HasOne("BOL.LISTING.Rating", "Rating")
-                        .WithOne("RatingReply")
-                        .HasForeignKey("BOL.LISTING.RatingReply", "RatingId")
+                        .WithMany()
+                        .HasForeignKey("RatingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

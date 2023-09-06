@@ -43,5 +43,7 @@ namespace BOL.LISTING
 
         [Display(Name = "Approved By Admin")]
         public bool ApprovedByAdmin { get; set; }
+
+        public RatingReply RatingReply { get; set; }
     }
 }
