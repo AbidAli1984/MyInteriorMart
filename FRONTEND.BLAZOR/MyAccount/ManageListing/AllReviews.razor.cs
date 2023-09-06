@@ -1,4 +1,5 @@
 ﻿using BAL.Services.Contracts;
+using BOL.LISTING;
 using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -37,6 +38,27 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
             catch (Exception exc)
             {
                 string ErrorMessage = exc.Message;
+            }
+        }
+
+        public async Task CreateOrUpdateReviewReply(RatingReply ratingReply, int ratingId)
+        {
+            try
+            {
+                //var ratingReply = await listingService.GetRatingReplyById(id);
+                if (ratingReply.Id == 0)
+                {
+                    ratingReply.RatingId = ratingId;
+                    await listingService.AddAsync(ratingReply);
+                }
+                else
+                {
+                    await listingService.UpdateAsync(ratingReply);
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
             }
         }
     }

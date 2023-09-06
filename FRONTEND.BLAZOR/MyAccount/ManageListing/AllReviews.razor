@@ -32,23 +32,53 @@
                                         foreach (var reviewListing in ReviewListingVMs)
                                         {
                                             <li>
-                                                <span>@reviewListing.Date</span>
-                                                <div class="company-rating pl-2 d-inline-flex">
-                                                    <div class="cat_star">
-                                                        @for (int j = 1; j <= reviewListing.RatingLimit; j++)
-                                                        {
-                                                            <i class="icon_star @(j <= reviewListing.Ratings ? "active" : "")"></i>
-                                                        }
+                                                <div class="li">
+                                                    <figure><img src="@reviewListing.UserImage" alt="@reviewListing.UserName"></figure>
+                                                    <span>@reviewListing.Date</span>
+                                                    <div class="company-rating pl-2 d-inline-flex">
+                                                        <div class="cat_star">
+                                                            @for (int j = 1; j <= reviewListing.RatingLimit; j++)
+                                                            {
+                                                                <i class="icon_star @(j <= reviewListing.Ratings ? "active" : "")"></i>
+                                                            }
+                                                        </div>
                                                     </div>
+                                                    <h4>@reviewListing.UserName</h4>
+                                                    <p>@reviewListing.Comment</p>
+                                                    @if (reviewListing.RatingReply.Id > 0)
+                                                    {
+                                                        <div class="owner_reply">
+                                                            <span><strong>Reply</strong> </span>
+                                                            <p class="m-0">
+                                                                @reviewListing.RatingReply.Message
+                                                                <a href="#0">view more...</a>
+                                                            </p>
+                                                        </div>
+                                                    }
                                                 </div>
-                                                <figure><img src="@reviewListing.UserImage" alt="@reviewListing.UserName"></figure>
-                                                <h4>@reviewListing.UserName</h4>
-                                                <p>@reviewListing.Comment</p>
-                                                <div class="row mb-2">
+                                                <div class="col-md-12 p-0 mt-3 mb-2">
                                                     <div class="inline-popups mr-2">
-                                                        <a href="/Listing/Index/@reviewListing.ListingId" target="_blank" data-effect="mfp-zoom-in" class="btn_1 gray">
-                                                            <i class="fa fa-fw fa-reply"></i> Reply
+                                                        <a data-toggle="collapse" href="@("#replyReview" + reviewListing.RatingId)"
+                                                           role="button" aria-expanded="false" aria-controls="@("replyReview" + reviewListing.RatingId)" class="btn_1 gray mb-3 reply ">
+                                                            <i class="fa fa-fw fa-reply"></i>@(reviewListing.RatingReply.Id == 0 ? "" : " Edit ") Reply
                                                         </a>
+
+                                                        <div class="add-review collapse my-3" id="@("replyReview" + reviewListing.RatingId)">
+                                                            <div class="card card-body">
+                                                                <h6>@(reviewListing.RatingReply.Id == 0 ? "Reply a Review" : "Edit Reply")</h6>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <textarea name="review_text" id="review_text"
+                                                                                  class="form-control"
+                                                                                  style="height:130px;"
+                                                                                  @bind="@reviewListing.RatingReply.Message"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group col-md-12 add_top_20 add_bottom_30">
+                                                                        <button class="btn btn-primary" @onclick="@(async () => await CreateOrUpdateReviewReply(reviewListing.RatingReply, reviewListing.RatingId))">Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>

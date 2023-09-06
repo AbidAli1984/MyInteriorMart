@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BOL.LISTING;
 
 namespace BOL.VIEWMODELS
 {
     public class ReviewListingViewModel
     {
-        public int ReviewID { get; set; }
+        public int RatingId { get; set; }
         public int ListingId { get; set; }
         public string OwnerGuid { get; set; }
         public string Name { get; set; }
@@ -21,6 +19,7 @@ namespace BOL.VIEWMODELS
         public string Comment { get; set; }
         public string VisitTime { get; set; }
         public int RatingLimit { get { return 5; } }
-        public string CreatedDate { get; set; }
+
+        public RatingReply RatingReply { get; set; }
     }
 }

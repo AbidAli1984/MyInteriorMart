@@ -55,7 +55,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel
                 {
                     ReviewListingViewModel rlvm = new ReviewListingViewModel
                     {
-                        ReviewID = i.RatingID,
+                        RatingId = i.RatingID,
                         ListingId = i.ListingID,
                         OwnerGuid = i.OwnerGuid,
                         Date = i.Date.ToString(Constants.dateFormat1),

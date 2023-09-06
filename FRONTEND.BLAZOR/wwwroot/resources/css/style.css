@@ -9145,6 +9145,13 @@ article.blog .post_info {
     color: #fe900d;
 }
 
+.owner_reply {
+    margin: 20px 0 0 60px;
+    border-left: 2px solid #dedddd;
+    padding: 0 20px;
+}
+
+
 .btn-outline-warning {
     color: #444;
     background-color: #fff;

@@ -266,13 +266,14 @@ namespace BAL.Services
                         Name = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,
-                        ReviewID = rating.RatingID,
+                        RatingId = rating.RatingID,
                         OwnerGuid = rating.OwnerGuid,
                         Comment = rating.Comment,
                         Date = rating.Date.ToString(Constants.dateFormat1),
                         VisitTime = rating.Time.ToString(),
                         Ratings = rating.Ratings,
-                        BusinessCategory = listing.BusinessCategory
+                        BusinessCategory = listing.BusinessCategory,
+                        RatingReply = rating.RatingReply == null ? new RatingReply() : rating.RatingReply
                     };
 
                     if (profile != null)
@@ -286,6 +287,11 @@ namespace BAL.Services
             }
 
             return listReviews;
+        }
+
+        public async Task<RatingReply> GetRatingReplyById(int id)
+        {
+            return await _listingRepository.GetRatingReplyById(id);
         }
 
         public async Task<IList<ListingEnquiry>> GetEnquiryByOwnerIdAsync(string ownerId)

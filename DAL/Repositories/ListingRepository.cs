@@ -178,9 +178,16 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId)
         {
             return await _listingDbContext.Rating
+                .Include(l => l.RatingReply)
                 .Where(l => l.ListingID == listingId)
                 .OrderByDescending(l => l.Date)
                 .ToListAsync();
+        }
+
+        public async Task<RatingReply> GetRatingReplyById(int id)
+        {
+            return await _listingDbContext.RatingReplies
+                .FirstOrDefaultAsync(l => l.Id == id);
         }
 
         public async Task<IList<ListingEnquiry>> GetEnquiryByListingId(int listingId)
