@@ -21,5 +21,7 @@ namespace BAL.Services.Contracts
         Task<bool> CheckIfUserLikedListing(int listingId, string userGuid);
 
         Task<IList<LikeListingViewModel>> GetLikesByOwnerIdAsync(string userGuid);
+
+        Task<IList<BookmarkListingViewModel>> GetBookmarksByOwnerIdAsync(string ownerId);
     }
 }

@@ -12,7 +12,6 @@ namespace BOL.VIEWMODELS
         public string VisitDate { get; set; }
         public string VisitTime { get; set; }
         public string OwnerGuid { get; set; }
-        public string Name { get; set; }
         public string NameFirstLetter { get; set; }
         public string ListingUrl { get; set; }
         public string BusinessCategory { get; set; }

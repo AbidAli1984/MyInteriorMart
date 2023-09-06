@@ -29,26 +29,20 @@
                             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                 <div class="add-review">
                                     <h5>Bookmarks</h5>
-                                    <div class="list_general reviews">
+                                    <div class="list_general like-listing">
                                         <ul>
-                                            @if (listBLVM != null)
+                                            @if (BookmarkListingVMs != null)
                                             {
-                                                foreach (var i in listBLVM)
+                                                foreach (var bookmarkListingVM in BookmarkListingVMs)
                                                 {
                                                     <li>
-                                                        <span>June 04 2021</span>
-                                                        <figure>
-                                                            <Avatar Style="color: #f56a00; background-color: #fde3cf; ">@i.NameFirstLetter</Avatar>
-                                                        </figure>
-                                                        <h4>@i.CompanyName <small class="float-right" style="font-size:12px;">@i.FirstCat > @i.SecondCat</small></h4>
-
-                                                        <div class="row mb-2">
-                                                            <div class="inline-popups mr-2">
-                                                                <a href="/Listing/Index/@i.ListingID" target="_blank" data-effect="mfp-zoom-in" class="btn_1 gray">
-                                                                    <i class="fa fa-fw fa-reply"></i> View Listing
-                                                                </a>
-                                                            </div>
+                                                        <div class="image">
+                                                            <img src="@bookmarkListingVM.UserImage" alt="@bookmarkListingVM.UserName">
                                                         </div>
+                                                        <span>@bookmarkListingVM.VisitDate</span><br />
+                                                        <p class="description">
+                                                            <i class="fa fa-bookmark" aria-hidden="true"></i><strong> "@bookmarkListingVM.UserName"</strong> bookmarked your listing: "@bookmarkListingVM.CompanyName"
+                                                        </p>
                                                     </li>
                                                 }
                                             }

@@ -87,14 +87,8 @@ namespace BAL.Services
                     var profile = await _userProfileRepository.GetProfileByOwnerGuid(like.UserGuid);
                     LikeListingViewModel likeListingnVM = new LikeListingViewModel
                     {
-                        LikeDislikeID = like.LikeDislikeID,
-                        ListingID = like.ListingID,
-                        OwnerGuid = like.UserGuid,
                         VisitDate = like.VisitDate.ToString(Constants.dateFormat1),
-                        Name = listing.CompanyName,
-                        NameFirstLetter = listing.CompanyName[0].ToString(),
-                        ListingUrl = listing.ListingURL,
-                        BusinessCategory = listing.BusinessCategory
+                        CompanyName = listing.CompanyName,
                     };
 
                     if (profile != null)
@@ -107,6 +101,43 @@ namespace BAL.Services
                 }
             }
             return listLikes;
+        }
+
+        public async Task<IList<BookmarkListingViewModel>> GetBookmarksByOwnerIdAsync(string ownerId)
+        {
+            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
+            return await GetBookmarks(listing);
+        }
+
+        private async Task<IList<BookmarkListingViewModel>> GetBookmarks(Listing listing)
+        {
+            if (listing == null)
+                return null;
+
+            IList<BookmarkListingViewModel> listBookmarks = new List<BookmarkListingViewModel>();
+
+            var bookmarks = await _auditRepository.GetBookmarksByListingId(listing.ListingID);
+            if (bookmarks != null)
+            {
+                foreach (var bookmark in bookmarks)
+                {
+                    var profile = await _userProfileRepository.GetProfileByOwnerGuid(bookmark.UserGuid);
+                    BookmarkListingViewModel bookmarListingnVM = new BookmarkListingViewModel
+                    {
+                        VisitDate = bookmark.VisitDate.ToString(Constants.dateFormat1),
+                        CompanyName = listing.CompanyName
+                    };
+
+                    if (profile != null)
+                    {
+                        bookmarListingnVM.UserName = profile.Name;
+                        bookmarListingnVM.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
+                    }
+
+                    listBookmarks.Add(bookmarListingnVM);
+                }
+            }
+            return listBookmarks;
         }
 
     }
