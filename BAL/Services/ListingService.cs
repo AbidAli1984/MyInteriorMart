@@ -288,6 +288,12 @@ namespace BAL.Services
             return listReviews;
         }
 
+        public async Task<IList<ListingEnquiry>> GetEnquiryByOwnerIdAsync(string ownerId)
+        {
+            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
+            return await _listingRepository.GetEnquiryByListingId(listing.ListingID);
+        }
+
         public async Task<decimal> GetRatingAverage(int ListingID)
         {
             var ratings = await _listingRepository.GetRatingsByListingId(ListingID);
@@ -353,11 +359,6 @@ namespace BAL.Services
         public async Task<Specialisation> GetSpecialisationByListingId(int listingId)
         {
             return await _listingRepository.GetSpecialisationByListingId(listingId);
-        }
-
-        public async Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId)
-        {
-            return await _listingRepository.GetRatingsByListingId(listingId);
         }
 
         public async Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId)

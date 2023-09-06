@@ -20,6 +20,8 @@ namespace BAL.Services.Contracts
         Task<IList<ReviewListingViewModel>> GetReviewsAsync(int listingId);
         Task<IList<ReviewListingViewModel>> GetReviewsByOwnerIdAsync(string ownerId);
 
+        Task<IList<ListingEnquiry>> GetEnquiryByOwnerIdAsync(string ownerId);
+
         Task<IEnumerable<Rating>> GetRatingAsync(int ListingID);
 
         Task<int> CountRatingAsync(int ListingID, int rating);
@@ -39,8 +41,6 @@ namespace BAL.Services.Contracts
         Task<Address> GetAddressByListingId(int listingId);
 
         Task<Specialisation> GetSpecialisationByListingId(int listingId);
-
-        Task<IEnumerable<Rating>> GetRatingsByListingId(int listingId);
 
         Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId);
 

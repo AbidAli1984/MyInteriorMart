@@ -183,6 +183,14 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IList<ListingEnquiry>> GetEnquiryByListingId(int listingId)
+        {
+            return await _listingDbContext.ListingEnquiries
+                .Where(l => l.ListingID == listingId)
+                .OrderByDescending(l => l.CreatedDate)
+                .ToListAsync();
+        }
+
         public async Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId)
         {
             return await _listingDbContext.Rating.Where(l => l.ListingID == listingId && l.OwnerGuid == ownerId).FirstOrDefaultAsync();

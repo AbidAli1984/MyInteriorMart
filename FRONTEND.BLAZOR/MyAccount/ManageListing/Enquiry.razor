@@ -12,23 +12,62 @@
                                 <a class="back_btn mx-3" href="/MyAccount/MyActivity">Back</a>
                             </span>
                         </p>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input class="form-control" type="text" name="enquiry_name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input class="form-control" type="email" name="enquiry_email_name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea class="form-control" id="enquiry" name="enquiry"
-                                              style="height:100px;"></textarea>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <input type="submit" value="Submit" class="btn btn-primary w-100">
+                        <div class="listing-list">
+                            <div class="row">
+                                <div class="col-lg-12 mb-space-remove">
+                                    @if (listingEnquiries != null)
+                                    {
+                                        foreach (var listEnquiry in listingEnquiries)
+                                        {
+                                            <a href="#">
+                                                <div class="strip map_view px-4 py-3" style="margin-bottom: 15px;">
+                                                    <div class="enquiry_date">
+                                                        @listEnquiry.DateFormatted
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-3 col-4">
+                                                            <div class="enquiry_list_heading">Full Name <span>:</span></div>
+                                                        </div>
+                                                        <div class="col-md-9 col-8">
+                                                            <div class="enquiry_list_txt">@listEnquiry.FullName</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-3 col-4">
+                                                            <div class="enquiry_list_heading">Mobile Number <span>:</span></div>
+                                                        </div>
+                                                        <div class="col-md-9 col-8">
+                                                            <div class="enquiry_list_txt">+91 @listEnquiry.MobileNumber</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-3 col-4">
+                                                            <div class="enquiry_list_heading">Email Id <span>:</span></div>
+                                                        </div>
+                                                        <div class="col-md-9 col-8">
+                                                            <div class="enquiry_list_txt">@listEnquiry.Email</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-3 col-4">
+                                                            <div class="enquiry_list_heading">Enquiry Title <span>:</span></div>
+                                                        </div>
+                                                        <div class="col-md-9 col-8">
+                                                            <div class="enquiry_list_txt">@listEnquiry.EnquiryTitle</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-3 col-4">
+                                                            <div class="enquiry_list_heading">Message<span>:</span></div>
+                                                        </div>
+                                                        <div class="col-md-9 col-8">
+                                                            <div class="enquiry_list_txt">@listEnquiry.Message</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>

@@ -39,5 +39,7 @@ namespace BOL.LISTING
 
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public string DateFormatted { get { return CreatedDate.ToString(Constants.dateFormat1); } }
     }
 }

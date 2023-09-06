@@ -6,7 +6,7 @@ namespace BOL
 {
     public class Constants
     {
-
+        public const string dateFormat1 = "dd MMM yyyy hh:mm tt";
 
         #region Side Navigations
         public static int EditProfile = 1;
