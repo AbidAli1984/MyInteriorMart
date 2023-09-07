@@ -15,15 +15,21 @@
                                     <h5>Suggestion</h5>
                                     <div class="form-group">
                                         <label>Title</label>
-                                        <input class="form-control" type="text" name="suggestion_title">
+                                        <Input Placeholder="Title" @bind-Value="@Suggestions.Title" />
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" id="Address" name="Address"
-                                                  style="height:100px;"></textarea>
+                                        <textarea class="form-control" style="height:100px;" @bind="@Suggestions.Suggestion"></textarea>
                                     </div>
                                     <div class="text-center mt-3">
-                                        <input type="submit" value="Submit" class="btn btn-primary w-100">
+                                        @if (buttonBusy)
+                                        {
+                                            <button class="btn btn-secondary">Saving...</button>
+                                        }
+                                        else
+                                        {
+                                            <button @onclick="@(async() => await AddSuggestion())" class="btn btn-primary">Submit</button>
+                                        }
                                     </div>
                                 </div>
                             </div>
