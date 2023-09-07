@@ -34,5 +34,9 @@ namespace BOL.AUDITTRAIL
         [Display(Name = "Description", Prompt = "Description")]
         [Required(ErrorMessage = "Description required.")]
         public string Description { get; set; }
+
+        [Display(Name = "Complaint Image")]
+        [Required(ErrorMessage = "Complaint Image required.")]
+        public string ImagePath { get; set; }
     }
 }
