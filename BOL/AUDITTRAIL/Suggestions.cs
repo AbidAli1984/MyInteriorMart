@@ -10,6 +10,9 @@ namespace BOL.AUDITTRAIL
         [Display(Name = "SuggestionID")]
         public int SuggestionID { get; set; }
 
+        [Display(Name = "OwnerGuid", Prompt = "Owner ID")]
+        public string OwnerGuid { get; set; }
+
         [Display(Name = "Date")]
         [DataType(DataType.Date, ErrorMessage = "Date format issue.")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
