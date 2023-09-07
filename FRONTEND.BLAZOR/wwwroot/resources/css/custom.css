@@ -1553,11 +1553,13 @@ iframe#gmap_canvas {
 }
 
 .notification-list {
-    background-color: #f8f8f8;
-    padding: 15px;
-    margin-bottom: 15px;
-    border: 1px solid;
-    border-color: #bbb3b37a;
+	background-color: #f8f8f8;
+	padding: 15px;
+	margin-bottom: 15px;
+	border: 1px solid;
+	border-color: #bbb3b37a;
+	display: table;
+	width: 100%;
 }
 
 .notification-list p {

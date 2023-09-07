@@ -127,5 +127,25 @@ namespace BAL.Services
             }
             return listingActivityVMs;
         }
+
+        public async Task<IList<ListingActivityVM>> GetNotificationByOwnerIdAsync(string ownerId)
+        {
+            var activitySubscribe = await GetListingActivity(ownerId, Constants.Subscribe);
+            var activityLikes = await GetListingActivity(ownerId, Constants.Like);
+            var activityBookmarks = await GetListingActivity(ownerId, Constants.Bookmark);
+
+            List<ListingActivityVM> listingActivityVMs = new List<ListingActivityVM>();
+
+            if (activitySubscribe != null)
+                listingActivityVMs.AddRange(activitySubscribe);
+
+            if (activityLikes != null)
+                listingActivityVMs.AddRange(activityLikes);
+
+            if (activityBookmarks != null)
+                listingActivityVMs.AddRange(activityBookmarks);
+
+            return listingActivityVMs.OrderByDescending(x => x.VisitDate).ToList();
+        }
     }
 }
