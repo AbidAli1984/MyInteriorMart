@@ -81,7 +81,7 @@ namespace BAL.Services
             return await GetListingActivity(ownerId, Constants.Subscribe);
         }
 
-        private async Task<IList<ListingActivityVM>> GetListingActivity(string ownerId, int activityType)
+        private async Task<IList<ListingActivityVM>> GetListingActivity(string ownerId, int activityType, bool isNotification = false)
         {
             var listing = await _listingRepository.GetListingByOwnerId(ownerId);
             string activityText = string.Empty;
@@ -112,7 +112,8 @@ namespace BAL.Services
                 CompanyName = listing.CompanyName,
                 VisitDate = x.VisitDate.ToString(Constants.dateFormat1),
                 ActivityType = activityType,
-                ActivityText = activityText
+                ActivityText = activityText,
+                isNotification = isNotification
             }).ToList();
 
             foreach (var like in listingActivityVMs)
@@ -130,9 +131,9 @@ namespace BAL.Services
 
         public async Task<IList<ListingActivityVM>> GetNotificationByOwnerIdAsync(string ownerId)
         {
-            var activitySubscribe = await GetListingActivity(ownerId, Constants.Subscribe);
-            var activityLikes = await GetListingActivity(ownerId, Constants.Like);
-            var activityBookmarks = await GetListingActivity(ownerId, Constants.Bookmark);
+            var activitySubscribe = await GetListingActivity(ownerId, Constants.Subscribe, true);
+            var activityLikes = await GetListingActivity(ownerId, Constants.Like, true);
+            var activityBookmarks = await GetListingActivity(ownerId, Constants.Bookmark, true);
 
             List<ListingActivityVM> listingActivityVMs = new List<ListingActivityVM>();
 

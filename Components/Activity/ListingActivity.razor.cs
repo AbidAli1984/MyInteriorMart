@@ -1,6 +1,7 @@
 ﻿using BAL;
 using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace Components.Activity
 {
@@ -9,12 +10,29 @@ namespace Components.Activity
         [Parameter]
         public ListingActivityVM listingActivityVM { get; set; }
 
-        public string ClassName { 
-            get
+        private string classIcon = string.Empty;
+        private string classColor = string.Empty;
+
+
+        protected async override Task OnInitializedAsync()
+        {
+            if (listingActivityVM.ActivityType == Constants.Like)
             {
-                return listingActivityVM.ActivityType == Constants.Like ? "fa-thumbs-up" :
-                listingActivityVM.ActivityType == Constants.Bookmark ? "fa-bookmark" :
-                listingActivityVM.ActivityType == Constants.Subscribe ? "fa-link" : string.Empty;
+                classIcon = "fa-thumbs-up";
+                if (listingActivityVM.isNotification)
+                    classColor = "text-primary";
+            }
+            else if (listingActivityVM.ActivityType == Constants.Bookmark)
+            {
+                classIcon = "fa-bookmark";
+                if (listingActivityVM.isNotification)
+                    classColor = "text-success";
+            }
+            else if (listingActivityVM.ActivityType == Constants.Subscribe)
+            {
+                classIcon = "fa-link";
+                if (listingActivityVM.isNotification)
+                    classColor = "text-danger";
             }
         }
     }

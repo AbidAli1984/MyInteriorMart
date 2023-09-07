@@ -1,10 +1,10 @@
 ﻿<div class="image">
     <img src="@listingActivityVM.UserImage" alt="@listingActivityVM.UserName">
 </div>
-<span>@listingActivityVM.VisitDate</span>
+<span class="@classColor">@listingActivityVM.VisitDate</span>
 <br />
-<p class="description">
+<p class="description @classColor">
     
-    <i class="fa @ClassName" aria-hidden="true"></i>
+    <i class="fa @classIcon @classColor" aria-hidden="true"></i>
     <strong> "@listingActivityVM.UserName"</strong> @listingActivityVM.ActivityText your listing: "@listingActivityVM.CompanyName"
 </p>

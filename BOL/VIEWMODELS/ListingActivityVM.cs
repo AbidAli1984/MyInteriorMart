@@ -13,5 +13,6 @@ namespace BOL.VIEWMODELS
         public string VisitDate { get; set; }
         public int ActivityType { get; set; }
         public string ActivityText { get; set; }
+        public bool isNotification { get; set; }
     }
 }
