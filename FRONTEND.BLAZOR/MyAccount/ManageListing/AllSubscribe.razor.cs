@@ -21,7 +21,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 
         public bool isVendor { get; set; } = false;
 
-        public IList<SubscribeListingViewModel> subscribeListingVM = new List<SubscribeListingViewModel>();
+        public IList<ListingActivityVM> subscribeListingVM = new List<ListingActivityVM>();
 
         protected async override Task OnInitializedAsync()
         {

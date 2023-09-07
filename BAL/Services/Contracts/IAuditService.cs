@@ -20,10 +20,10 @@ namespace BAL.Services.Contracts
         Task<bool> CheckIfUserBookmarkedListing(int listingId, string userGuid);
         Task<bool> CheckIfUserLikedListing(int listingId, string userGuid);
 
-        Task<IList<LikeListingViewModel>> GetLikesByOwnerIdAsync(string userGuid);
+        Task<IList<ListingActivityVM>> GetLikesByOwnerIdAsync(string ownerId);
 
-        Task<IList<BookmarkListingViewModel>> GetBookmarksByOwnerIdAsync(string ownerId);
+        Task<IList<ListingActivityVM>> GetBookmarksByOwnerIdAsync(string ownerId);
 
-        Task<IList<SubscribeListingViewModel>> GetSubscribesByOwnerIdAsync(string ownerId);
+        Task<IList<ListingActivityVM>> GetSubscribesByOwnerIdAsync(string ownerId);
     }
 }

@@ -66,116 +66,66 @@ namespace BAL.Services
             return subscribe != null && subscribe.Subscribe;
         }
 
-        public async Task<IList<LikeListingViewModel>> GetLikesByOwnerIdAsync(string ownerId)
+        public async Task<IList<ListingActivityVM>> GetLikesByOwnerIdAsync(string ownerId)
+        {
+            return await GetListingActivity(ownerId, Constants.Like);
+        }
+
+        public async Task<IList<ListingActivityVM>> GetBookmarksByOwnerIdAsync(string ownerId)
+        {
+            return await GetListingActivity(ownerId, Constants.Bookmark);
+        }
+
+        public async Task<IList<ListingActivityVM>> GetSubscribesByOwnerIdAsync(string ownerId)
+        {
+            return await GetListingActivity(ownerId, Constants.Subscribe);
+        }
+
+        private async Task<IList<ListingActivityVM>> GetListingActivity(string ownerId, int activityType)
         {
             var listing = await _listingRepository.GetListingByOwnerId(ownerId);
-            return await GetLikes(listing);
-        }
+            string activityText = string.Empty;
+            IEnumerable<ListingActivity> ListingActivity = null;
 
-        private async Task<IList<LikeListingViewModel>> GetLikes(Listing listing)
-        {
-            if (listing == null)
+            if (activityType == Constants.Like)
+            {
+                activityText = "Liked";
+                ListingActivity = await _auditRepository.GetLikesByListingId(listing.ListingID);
+            }
+            else if (activityType == Constants.Bookmark)
+            {
+                activityText = "Bookmarked";
+                ListingActivity = await _auditRepository.GetBookmarksByListingId(listing.ListingID);
+            }
+            else if (activityType == Constants.Subscribe)
+            {
+                activityText = "Subscribed";
+                ListingActivity = await _auditRepository.GetSubscriberByListingId(listing.ListingID);
+            }
+
+            if (ListingActivity == null)
                 return null;
 
-            IList<LikeListingViewModel> listLikes = new List<LikeListingViewModel>();
-
-            var likes = await _auditRepository.GetLikesByListingId(listing.ListingID);
-            if (likes != null)
+            var listingActivityVMs = ListingActivity.Select(x => new ListingActivityVM
             {
-                foreach (var like in likes)
+                OwnerGuid = x.UserGuid,
+                CompanyName = listing.CompanyName,
+                VisitDate = x.VisitDate.ToString(Constants.dateFormat1),
+                ActivityType = activityType,
+                ActivityText = activityText
+            }).ToList();
+
+            foreach (var like in listingActivityVMs)
+            {
+                var profile = await _userProfileRepository.GetProfileByOwnerGuid(like.OwnerGuid);
+
+                if (profile != null)
                 {
-                    var profile = await _userProfileRepository.GetProfileByOwnerGuid(like.UserGuid);
-                    LikeListingViewModel likeListingnVM = new LikeListingViewModel
-                    {
-                        VisitDate = like.VisitDate.ToString(Constants.dateFormat1),
-                        CompanyName = listing.CompanyName,
-                    };
-
-                    if (profile != null)
-                    {
-                        likeListingnVM.UserName = profile.Name;
-                        likeListingnVM.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
-                    }
-
-                    listLikes.Add(likeListingnVM);
+                    like.UserName = profile.Name;
+                    like.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
                 }
             }
-            return listLikes;
+            return listingActivityVMs;
         }
-
-        public async Task<IList<BookmarkListingViewModel>> GetBookmarksByOwnerIdAsync(string ownerId)
-        {
-            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
-            return await GetBookmarks(listing);
-        }
-
-        private async Task<IList<BookmarkListingViewModel>> GetBookmarks(Listing listing)
-        {
-            if (listing == null)
-                return null;
-
-            IList<BookmarkListingViewModel> listBookmarks = new List<BookmarkListingViewModel>();
-
-            var bookmarks = await _auditRepository.GetBookmarksByListingId(listing.ListingID);
-            if (bookmarks != null)
-            {
-                foreach (var bookmark in bookmarks)
-                {
-                    var profile = await _userProfileRepository.GetProfileByOwnerGuid(bookmark.UserGuid);
-                    BookmarkListingViewModel bookmarListingnVM = new BookmarkListingViewModel
-                    {
-                        VisitDate = bookmark.VisitDate.ToString(Constants.dateFormat1),
-                        CompanyName = listing.CompanyName
-                    };
-
-                    if (profile != null)
-                    {
-                        bookmarListingnVM.UserName = profile.Name;
-                        bookmarListingnVM.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
-                    }
-
-                    listBookmarks.Add(bookmarListingnVM);
-                }
-            }
-            return listBookmarks;
-        }
-
-        public async Task<IList<SubscribeListingViewModel>> GetSubscribesByOwnerIdAsync(string ownerId)
-        {
-            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
-            return await GetSubscribes(listing);
-        }
-
-        private async Task<IList<SubscribeListingViewModel>> GetSubscribes(Listing listing)
-        {
-            if (listing == null)
-                return null;
-
-            IList<SubscribeListingViewModel> listSubscribes = new List<SubscribeListingViewModel>();
-
-            var subscribes = await _auditRepository.GetSubscriberByListingId(listing.ListingID);
-            if (subscribes != null)
-            {
-                foreach (var subscribe in subscribes)
-                {
-                    var profile = await _userProfileRepository.GetProfileByOwnerGuid(subscribe.UserGuid);
-                    SubscribeListingViewModel subscribeListingnVM = new SubscribeListingViewModel
-                    {
-                        VisitDate = subscribe.VisitDate.ToString(Constants.dateFormat1),
-                        CompanyName = listing.CompanyName
-                    };
-
-                    if (profile != null)
-                    {
-                        subscribeListingnVM.UserName = profile.Name;
-                        subscribeListingnVM.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
-                    }
-
-                    listSubscribes.Add(subscribeListingnVM);
-                }
-            }
-            return listSubscribes;
-        }
-
     }
 }

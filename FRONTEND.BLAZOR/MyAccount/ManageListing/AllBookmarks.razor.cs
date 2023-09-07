@@ -19,7 +19,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
 
         public bool isVendor { get; set; } = false;
 
-        public IList<BookmarkListingViewModel> BookmarkListingVMs = new List<BookmarkListingViewModel>();
+        public IList<ListingActivityVM> BookmarkListingVMs = new List<ListingActivityVM>();
 
         protected async override Task OnInitializedAsync()
         {

@@ -16,7 +16,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
         public string CurrentUserGuid { get; set; }
         public bool isVendor { get; set; } = false;
 
-        public IList<LikeListingViewModel> likeListingVMs = new List<LikeListingViewModel>();
+        public IList<ListingActivityVM> likeListingVMs = new List<ListingActivityVM>();
 
         protected async override Task OnInitializedAsync()
         {

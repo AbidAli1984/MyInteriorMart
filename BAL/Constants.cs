@@ -49,6 +49,12 @@ namespace BAL
         public const string Saturday = "Saturday";
         #endregion
 
+        #region Listing Activity
+        public const int Like = 1;
+        public const int Bookmark = 2;
+        public const int Subscribe = 3;
+        #endregion
+
         public static IList<SearchResultViewModel> Listings;
         public static IList<SearchResultViewModel> Keywords;
 
