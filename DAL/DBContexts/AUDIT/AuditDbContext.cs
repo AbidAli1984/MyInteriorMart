@@ -23,5 +23,6 @@ namespace DAL.AUDIT
         public DbSet<ListingClaim> ListingClaim { get; set; }
         public DbSet<UserRegistrationOTPVerification> UserRegistrationOTPVerification { get; set; }
         public DbSet<UserLoginOTPVerification> UserLoginOTPVerification { get; set; }
+        public DbSet<Complaint> Complaints { get; set; }
     }
 }
