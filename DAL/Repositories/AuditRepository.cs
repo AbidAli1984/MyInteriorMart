@@ -54,6 +54,7 @@ namespace DAL.Repositories
         {
             return await _auditDbContext.Subscribes
                 .Where(i => i.ListingID == listingId && i.Subscribe)
+                .OrderByDescending(i => i.VisitDate)
                 .ToListAsync();
         }
 
@@ -61,6 +62,7 @@ namespace DAL.Repositories
         {
             return await _auditDbContext.Bookmarks
                 .Where(i => i.ListingID == listingId && i.Bookmark)
+                .OrderByDescending(i => i.VisitDate)
                 .ToListAsync();
         }
 

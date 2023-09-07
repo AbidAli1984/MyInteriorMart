@@ -31,15 +31,7 @@
                                             {
                                                 foreach (var subscribeListingVM in subscribeListingVM)
                                                 {
-                                                    <li>
-                                                        <div class="image">
-                                                            <img src="@subscribeListingVM.UserImage" alt="@subscribeListingVM.UserName">
-                                                        </div>
-                                                        <span>@subscribeListingVM.VisitDate</span><br />
-                                                        <p class="description">
-                                                            <i class="fa fa-link" aria-hidden="true"></i><strong> "@subscribeListingVM.UserName"</strong> @subscribeListingVM.ActivityText your listing: "@subscribeListingVM.CompanyName"
-                                                        </p>
-                                                    </li>
+                                                    <li><ListingActivity listingActivityVM="subscribeListingVM" /></li>
                                                 }
                                             }
                                             else

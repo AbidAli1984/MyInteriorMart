@@ -32,15 +32,7 @@
                                     {
                                         foreach (var likeListingVM in likeListingVMs)
                                         {
-                                            <li>
-                                                <div class="image">
-                                                    <img src="@likeListingVM.UserImage" alt="@likeListingVM.UserName">
-                                                </div>
-                                                <span>@likeListingVM.VisitDate</span><br />
-                                                <p class="description">
-                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i><strong> "@likeListingVM.UserName"</strong> @likeListingVM.ActivityText your listing: "@likeListingVM.CompanyName"
-                                                </p>
-                                            </li>
+                                            <li><ListingActivity listingActivityVM="likeListingVM" /></li>
                                         }
                                     }
                                     else

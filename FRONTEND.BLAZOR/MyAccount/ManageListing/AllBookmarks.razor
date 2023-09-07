@@ -31,15 +31,7 @@
                                             {
                                                 foreach (var bookmarkListingVM in BookmarkListingVMs)
                                                 {
-                                                    <li>
-                                                        <div class="image">
-                                                            <img src="@bookmarkListingVM.UserImage" alt="@bookmarkListingVM.UserName">
-                                                        </div>
-                                                        <span>@bookmarkListingVM.VisitDate</span><br />
-                                                        <p class="description">
-                                                            <i class="fa fa-bookmark" aria-hidden="true"></i><strong> "@bookmarkListingVM.UserName"</strong> @bookmarkListingVM.ActivityText your listing: "@bookmarkListingVM.CompanyName"
-                                                        </p>
-                                                    </li>
+                                                    <li><ListingActivity listingActivityVM="bookmarkListingVM" /></li>
                                                 }
                                             }
                                             else
