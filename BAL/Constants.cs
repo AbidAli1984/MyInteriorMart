@@ -1,4 +1,5 @@
 ﻿using BOL.VIEWMODELS;
+using System;
 using System.Collections.Generic;
 
 namespace BAL
@@ -12,6 +13,7 @@ namespace BAL
         public const string tempImagePath = @"\FileManager\tempImages\";
         public const string profileImagesPath = @"\FileManager\ProfileImages\";
         public const string ListingImagesPath = @"\FileManager\ListingImages";
+        public const string ComplaintImagesPath = @"\FileManager\ComplaintImages";
 
         #region Category Id
         public const int Cat_Repairs = 40;
@@ -51,5 +53,7 @@ namespace BAL
         public static IList<SearchResultViewModel> Keywords;
 
         public static string[] ArrKeywords;
+
+        public static string randomGuid { get { return Guid.NewGuid().ToString(); } }
     }
 }

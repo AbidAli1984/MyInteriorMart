@@ -15,19 +15,25 @@
                                     <h5>Complaint</h5>
                                     <div class="form-group">
                                         <label>Title</label>
-                                        <input class="form-control" type="text" name="complaint_title">
+                                        <Input Placeholder="Title" @bind-Value="@complaint.Title" />
                                     </div>
                                     <div class="form-group">
                                         <label>Complaint Description</label>
-                                        <textarea class="form-control" id="complaint_dis" name="complaint_dis"
-                                                  style="height:100px;"></textarea>
+                                        <textarea placeholder="Complaint Description" class="form-control" style="height:100px;" @bind="@complaint.Description"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>File</label>
-                                        <input class="form-control" type="file" name="complaint_file">
+                                        <Microsoft.AspNetCore.Components.Forms.InputFile @key="@_inputFileId" Class="form-control file-upload" OnChange="SetComplaintImage" />
                                     </div>
                                     <div class="text-center mt-3">
-                                        <input type="submit" value="Submit" class="btn btn-primary w-100">
+                                        @if (buttonBusy)
+                                        {
+                                            <button class="btn btn-secondary">Saving...</button>
+                                        }
+                                        else
+                                        {
+                                            <button @onclick="@(async() => await AddComplaint())" class="btn btn-primary">Submit</button>
+                                        }
                                     </div>
                                 </div>
                             </div>

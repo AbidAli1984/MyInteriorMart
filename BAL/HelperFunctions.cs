@@ -40,14 +40,14 @@ namespace BAL
             return await FileManagerService.MoveFile(sourceFile, destFile);
         }
 
-        private string GetImagePath(string ownerId, string folderName, string fileName = null)
+        private string GetImagePath(string ownerId, string folderName, string fileName = null, string imagePath = Constants.ListingImagesPath)
         {
             if (!string.IsNullOrWhiteSpace(folderName) && !string.IsNullOrWhiteSpace(fileName))
-                return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/{folderName}/{fileName}.jpg";
+                return $"{imagePath.Replace("\\", "/")}/{ownerId}/{folderName}/{fileName}.jpg";
             else if (!string.IsNullOrWhiteSpace(fileName))
-                return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/{fileName}.jpg";
+                return $"{imagePath.Replace("\\", "/")}/{ownerId}/{fileName}.jpg";
             else
-                return $"{Constants.ListingImagesPath.Replace("\\", "/")}/{ownerId}/{folderName}/";
+                return $"{imagePath.Replace("\\", "/")}/{ownerId}/{folderName}/";
         }
 
         public async Task<string> UploadLogoImage(Stream file, string ownerId)
@@ -79,6 +79,12 @@ namespace BAL
         public string GetClientImageFilePath(string ownerId)
         {
             return GetImagePath(ownerId, "Client");
+        }
+
+        public async Task<string> UploadComplaintImage(Stream file, string ownerId)
+        {
+            string filePath = GetImagePath(ownerId, null, Constants.randomGuid, Constants.ComplaintImagesPath);
+            return await FileManagerService.UploadFile(file, filePath, true);
         }
 
         public async Task UploadImage(Stream file, string filePath)

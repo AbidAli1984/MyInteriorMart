@@ -37,7 +37,6 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     Suggestions.OwnerGuid = applicationUser.Id;
                     Suggestions.Mobile = applicationUser.PhoneNumber;
                     Suggestions.Email = applicationUser.Email;
-                    Suggestions.Date = DateTime.Now;
 
                     if (userProfile != null)
                         Suggestions.Name = userProfile.Name;
@@ -60,6 +59,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             try
             {
                 buttonBusy = true;
+                Suggestions.Date = DateTime.Now;
                 await auditService.AddAsync(Suggestions);
                 ResetSuggestion();
                 helper.ShowNotification(_notification, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your suggestion submitted successfully!");
