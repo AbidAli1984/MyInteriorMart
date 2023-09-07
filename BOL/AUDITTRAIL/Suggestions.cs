@@ -25,6 +25,9 @@ namespace BOL.AUDITTRAIL
         [Display(Name = "Mobile", Prompt = "Mobile")]
         public string Mobile { get; set; }
 
+        [Display(Name = "Title")]
+        public string Title { get; set; }
+
         [Display(Name = "Suggestion", Prompt = "Suggestion")]
         [Required(ErrorMessage = "Suggestion required.")]
         public string Suggestion { get; set; }
