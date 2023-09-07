@@ -23,5 +23,7 @@ namespace BAL.Services.Contracts
         Task<IList<LikeListingViewModel>> GetLikesByOwnerIdAsync(string userGuid);
 
         Task<IList<BookmarkListingViewModel>> GetBookmarksByOwnerIdAsync(string ownerId);
+
+        Task<IList<SubscribeListingViewModel>> GetSubscribesByOwnerIdAsync(string ownerId);
     }
 }

@@ -140,5 +140,42 @@ namespace BAL.Services
             return listBookmarks;
         }
 
+        public async Task<IList<SubscribeListingViewModel>> GetSubscribesByOwnerIdAsync(string ownerId)
+        {
+            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
+            return await GetSubscribes(listing);
+        }
+
+        private async Task<IList<SubscribeListingViewModel>> GetSubscribes(Listing listing)
+        {
+            if (listing == null)
+                return null;
+
+            IList<SubscribeListingViewModel> listSubscribes = new List<SubscribeListingViewModel>();
+
+            var subscribes = await _auditRepository.GetSubscriberByListingId(listing.ListingID);
+            if (subscribes != null)
+            {
+                foreach (var subscribe in subscribes)
+                {
+                    var profile = await _userProfileRepository.GetProfileByOwnerGuid(subscribe.UserGuid);
+                    SubscribeListingViewModel subscribeListingnVM = new SubscribeListingViewModel
+                    {
+                        VisitDate = subscribe.VisitDate.ToString(Constants.dateFormat1),
+                        CompanyName = listing.CompanyName
+                    };
+
+                    if (profile != null)
+                    {
+                        subscribeListingnVM.UserName = profile.Name;
+                        subscribeListingnVM.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
+                    }
+
+                    listSubscribes.Add(subscribeListingnVM);
+                }
+            }
+            return listSubscribes;
+        }
+
     }
 }

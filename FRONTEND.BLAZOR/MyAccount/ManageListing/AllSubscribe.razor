@@ -1,8 +1,4 @@
 ﻿@page "/ManageListing/AllSubscribes"
-@inject ListingDbContext listingContext
-@inject AuditDbContext auditContext
-@inject CategoriesDbContext categoriesContext
-@inject AuthenticationStateProvider authenticationState
 
 <style>
     .example {
@@ -29,26 +25,20 @@
                             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                 <div class="add-review">
                                     <h5>Subscribe</h5>
-                                    <div class="list_general reviews">
+                                    <div class="list_general like-listing">
                                         <ul>
-                                            @if (listSLVM != null)
+                                            @if (subscribeListingVM != null)
                                             {
-                                                foreach (var i in listSLVM)
+                                                foreach (var subscribeListingVM in subscribeListingVM)
                                                 {
                                                     <li>
-                                                        <span>June 04 2021</span>
-                                                        <figure>
-                                                            <Avatar Style="color: #f56a00; background-color: #fde3cf; ">@i.NameFirstLetter</Avatar>
-                                                        </figure>
-                                                        <h4>@i.CompanyName <small class="float-right" style="font-size:12px;">@i.FirstCat > @i.SecondCat</small></h4>
-
-                                                        <div class="row mb-2">
-                                                            <div class="inline-popups mr-2">
-                                                                <a href="/Listing/Index/@i.ListingID" target="_blank" data-effect="mfp-zoom-in" class="btn_1 gray">
-                                                                    <i class="fa fa-fw fa-reply"></i> View Listing
-                                                                </a>
-                                                            </div>
+                                                        <div class="image">
+                                                            <img src="@subscribeListingVM.UserImage" alt="@subscribeListingVM.UserName">
                                                         </div>
+                                                        <span>@subscribeListingVM.VisitDate</span><br />
+                                                        <p class="description">
+                                                            <i class="fa fa-link" aria-hidden="true"></i><strong> "@subscribeListingVM.UserName"</strong> subscribed for your listing: "@subscribeListingVM.CompanyName"
+                                                        </p>
                                                     </li>
                                                 }
                                             }
