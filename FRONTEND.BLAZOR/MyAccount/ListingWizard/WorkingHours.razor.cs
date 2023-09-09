@@ -62,7 +62,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!WorkingHoursVM.IsCopiedToAll())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "Please Select Monday From & Monday To Timing First.");
+                helper.ShowNotification(_notice, "Please Select Monday From & Monday To Timing First.", NotificationType.Info);
             }
             await Task.Delay(1);
         }
@@ -71,7 +71,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!WorkingHoursVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "From and To Timings are Compulsory for Monday To Friday.");
+                helper.ShowNotification(_notice, "From and To Timings are Compulsory for Monday To Friday.", NotificationType.Info);
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
             finally
             {

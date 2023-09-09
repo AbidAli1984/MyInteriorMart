@@ -102,13 +102,13 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
                     }
                     else
                     {
-                        helper.ShowNotification(_notice, NotificationType.Info, NotificationPlacement.BottomRight, "Notification", $"{SelectedListing.label} is already exists in the listing");
+                        helper.ShowNotification(_notice, $"{SelectedListing.label} is already exists in the listing", NotificationType.Info);
                     }
                 }
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice,  exc.Message, NotificationType.Error);
             }
             finally
             {
@@ -122,7 +122,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             ListKeyword.AddRange(await listingService.AddKeywordsAsync(InsertKeyword));
             InsertKeyword.Clear();
             await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SEOKeywordComplete, Steps);
-            helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Keywords added Successfully");
+            helper.ShowNotification(_notice, $"Keywords added Successfully");
         }
 
     }

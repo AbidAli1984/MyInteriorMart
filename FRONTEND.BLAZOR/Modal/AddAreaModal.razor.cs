@@ -28,7 +28,7 @@ namespace FRONTEND.BLAZOR.Modal
         {
             if (ListWizAddressVM.PincodeId <= 0)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City, Locality and Pincode first.");
+                helper.ShowNotification(_notice, $"Pleae select Country, State, City, Locality and Pincode first.", NotificationType.Info);
                 return;
             }
             showAreaModal = true;
@@ -39,7 +39,7 @@ namespace FRONTEND.BLAZOR.Modal
         {
             if (string.IsNullOrEmpty(AreaName) || ListWizAddressVM.PincodeId <= 0)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area and Pincode must be selected and Area Name must not be blank.");
+                helper.ShowNotification(_notice, $"Country, State, City, Area and Pincode must be selected and Area Name must not be blank.", NotificationType.Info);
                 return;
             }
             try
@@ -47,7 +47,7 @@ namespace FRONTEND.BLAZOR.Modal
                 var areaExist = await sharedService.GetAreaByAreaName(AreaName);
                 if (areaExist != null)
                 {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Area {AreaName} already exists.");
+                    helper.ShowNotification(_notice, $"Area {AreaName} already exists.", NotificationType.Info);
                     return;
                 }
 
@@ -65,12 +65,12 @@ namespace FRONTEND.BLAZOR.Modal
                     await EventGetLocalitiesByPincodeId.InvokeAsync();
 
                 await HidePincodeModal();
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Area {AreaName} created inside pincode {pincode.PincodeNumber}.");
+                helper.ShowNotification(_notice, $"Area {AreaName} created inside pincode {pincode.PincodeNumber}.");
                 AreaName = string.Empty;
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
         }
     }

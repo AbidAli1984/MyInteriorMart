@@ -66,7 +66,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!isModelValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "Please provide atlseat one social link.");
+                helper.ShowNotification(_notice, "Please provide atlseat one social link.", NotificationType.Info);
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
             finally
             {

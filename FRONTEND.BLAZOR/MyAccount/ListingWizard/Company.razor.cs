@@ -59,7 +59,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!CompanyVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
+                helper.ShowNotification(_notice, "All fields are compulsory.", NotificationType.Info);
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Info);
             }
             finally
             {

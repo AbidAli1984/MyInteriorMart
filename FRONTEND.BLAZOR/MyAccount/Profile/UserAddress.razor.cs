@@ -133,7 +133,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 ProfileInfo.UserProfile.StateID <= 0 || ProfileInfo.UserProfile.CityID <= 0 || ProfileInfo.UserProfile.AssemblyID <= 0 || 
                 ProfileInfo.UserProfile.PincodeID <= 0 || ProfileInfo.UserProfile.LocalityID <= 0 || string.IsNullOrEmpty(ProfileInfo.UserProfile.Address))
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
+                helper.ShowNotification(_notice, "All fields are compulsory.", NotificationType.Info);
                 return false;
             }
 
@@ -147,7 +147,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
             if (ProfileInfo.UserProfile == null)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
+                helper.ShowNotification(_notice, "User profile does not exists.", NotificationType.Info);
                 return;
             }
 
@@ -156,11 +156,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 ProfileInfo.UserProfile.IsProfileCompleted = true;
 
                 await userProfileService.UpdateUserProfile(ProfileInfo.UserProfile);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
+                helper.ShowNotification(_notice, "Your profile updated successfully.");
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
         }
     }

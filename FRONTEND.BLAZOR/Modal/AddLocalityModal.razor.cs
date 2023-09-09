@@ -28,7 +28,7 @@ namespace FRONTEND.BLAZOR.Modal
         {
             if (ListWizAddressVM.CityId <= 0)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Please select Country, State and City first");
+                helper.ShowNotification(_notice, $"Please select Country, State and City first", NotificationType.Info);
                 return;
             }
             showLocalityModal = true;
@@ -39,7 +39,7 @@ namespace FRONTEND.BLAZOR.Modal
         {
             if (string.IsNullOrEmpty(LocalityName) || ListWizAddressVM.CityId <= 0)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State and City must be selected and locality name must not be blank.");
+                helper.ShowNotification(_notice, $"Country, State and City must be selected and locality name must not be blank.", NotificationType.Info);
                 return;
             }
             try
@@ -47,7 +47,7 @@ namespace FRONTEND.BLAZOR.Modal
                 var localityExist = await sharedService.GetLocalityByLocalityName(LocalityName);
                 if (localityExist != null)
                 {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Locality {LocalityName} already exists.");
+                    helper.ShowNotification(_notice, $"Locality {LocalityName} already exists.", NotificationType.Info);
                     return;
                 }
 
@@ -64,12 +64,12 @@ namespace FRONTEND.BLAZOR.Modal
                     await EventGetLocalitiesByCityId.InvokeAsync();
                 
                 await HideLocalityModal();
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Locality {LocalityName} created inside city {city.Name}.");
+                helper.ShowNotification(_notice, $"Locality {LocalityName} created inside city {city.Name}.");
                 LocalityName = string.Empty;
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
         }
     }

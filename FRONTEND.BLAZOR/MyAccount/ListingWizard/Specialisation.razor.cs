@@ -71,7 +71,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!SpecialisationVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Please select at least one specialisation.");
+                helper.ShowNotification(_notice, $"Please select at least one specialisation.", NotificationType.Info);
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
             finally
             {

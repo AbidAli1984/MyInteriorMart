@@ -42,8 +42,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             if (await userService.IsVerifiedAndPasswordChanged(UserRegisterVM))
             {
                 navManager.NavigateTo("/Auth/Login");
-                helper.ShowNotification(_notice, AntDesign.NotificationType.Success, AntDesign.NotificationPlacement.BottomRight,
-                    "Confirmation", "Password Change Successfully!");
+                helper.ShowNotification(_notice, "Password Change Successfully!");
             }
             else
             {
@@ -59,8 +58,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Auth
             if (isOtpGenerated)
             {
                 StateHasChanged();
-                helper.ShowNotification(_notice, AntDesign.NotificationType.Info, AntDesign.NotificationPlacement.BottomRight,
-                    "Confirmation", "Otp Sent Successfully to registered Mobile");
+                helper.ShowNotification(_notice, "Otp Sent Successfully to registered Mobile", AntDesign.NotificationType.Info);
             }
             else
                 UserRegisterVM.EmailErrMessage = $"No account found with given Email or Mobile No.";

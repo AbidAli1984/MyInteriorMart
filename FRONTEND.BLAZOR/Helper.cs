@@ -29,12 +29,13 @@ namespace FRONTEND.BLAZOR
             _sharedService = sharedService;
         }
 
-        public void ShowNotification(NotificationService _notice, NotificationType type, NotificationPlacement placement, string message, string description)
+        public void ShowNotification(NotificationService _notice, string message, NotificationType type = NotificationType.Success, 
+            NotificationPlacement placement = NotificationPlacement.BottomRight)
         {
             _notice.Open(new NotificationConfig()
             {
-                Message = message,
-                Description = description,
+                Message = type.ToString(),
+                Description = message,
                 NotificationType = type,
                 Placement = placement
             });

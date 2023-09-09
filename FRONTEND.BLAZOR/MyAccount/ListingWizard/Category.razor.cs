@@ -104,7 +104,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!CategoryVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"First Category and Second Category must not be blank.");
+                helper.ShowNotification(_notice, $"First Category and Second Category must not be blank.", NotificationType.Info);
                 return;
             }
 
@@ -138,7 +138,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
             finally
             {

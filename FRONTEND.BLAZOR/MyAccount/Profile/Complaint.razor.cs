@@ -62,7 +62,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             if (string.IsNullOrEmpty(complaint.Title) || string.IsNullOrEmpty(complaint.Description) || ComplaintImage == null)
             {
-                helper.ShowNotification(_notification, NotificationType.Info, NotificationPlacement.BottomRight, "Information", "All fields are compulsory.");
+                helper.ShowNotification(_notification, "All fields are compulsory.", NotificationType.Info);
                 return;
             }
 
@@ -73,11 +73,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 complaint.ImagePath = await helperFunction.UploadComplaintImage(ComplaintImage, complaint.OwnerGuid);
                 await auditService.AddAsync(complaint);
                 ResetComplaint();
-                helper.ShowNotification(_notification, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your complaint submitted successfully!");
+                helper.ShowNotification(_notification, "Your complaint submitted successfully!");
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notification, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notification, exc.Message, NotificationType.Error);
             }
             finally
             {

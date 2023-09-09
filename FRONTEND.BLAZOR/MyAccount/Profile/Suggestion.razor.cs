@@ -52,7 +52,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             if (string.IsNullOrEmpty(Suggestions.Title) || string.IsNullOrEmpty(Suggestions.Suggestion))
             {
-                helper.ShowNotification(_notification, NotificationType.Info, NotificationPlacement.BottomRight, "Information", "All fields are compulsory.");
+                helper.ShowNotification(_notification, "All fields are compulsory.", NotificationType.Info);
                 return;
             }
 
@@ -62,11 +62,11 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                 Suggestions.Date = DateTime.Now;
                 await auditService.AddAsync(Suggestions);
                 ResetSuggestion();
-                helper.ShowNotification(_notification, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your suggestion submitted successfully!");
+                helper.ShowNotification(_notification, "Your suggestion submitted successfully!");
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notification, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notification, exc.Message, NotificationType.Error);
             }
             finally
             {

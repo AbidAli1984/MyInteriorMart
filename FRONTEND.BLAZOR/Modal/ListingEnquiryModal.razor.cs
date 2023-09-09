@@ -75,7 +75,7 @@ namespace FRONTEND.BLAZOR.Modal
 
             if (!ListingEnquiryVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"All Fields are mandatory!.");
+                helper.ShowNotification(_notice, $"All Fields are mandatory!.", NotificationType.Info);
                 return;
             }
             try
@@ -85,12 +85,12 @@ namespace FRONTEND.BLAZOR.Modal
                 await listingService.AddAsync(ListingEnquiryVM.ListingEnquiry);
 
                 await HideEnquiryModal();
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Your Enquiry has been sent.");
+                helper.ShowNotification(_notice, $"Your Enquiry has been sent.");
                 ListingEnquiryVM.ListingEnquiry = new ListingEnquiry();
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
         }
     }

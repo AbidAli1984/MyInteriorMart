@@ -80,7 +80,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
         {
             if (string.IsNullOrEmpty(UserProfileVM.Gender) || string.IsNullOrEmpty(UserProfileVM.Name))
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "All fields are compulsory.");
+                helper.ShowNotification(_notice, "All fields are compulsory.", NotificationType.Error);
                 return false;
             }
 
@@ -109,16 +109,16 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
                     await userProfileService.AddUserProfile(userProfile);
                     navManager.NavigateTo("/MyAccount/ProfileInfo");
-                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile created successfully.");
+                    helper.ShowNotification(_notice, "Your profile created successfully.");
                 }
                 catch (Exception exc)
                 {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                    helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
                 }
                 return;
             }
 
-            helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile already exists.");
+            helper.ShowNotification(_notice, "User profile already exists.", NotificationType.Error);
         }
 
         public async Task UpdateProfileAsync()
@@ -136,16 +136,16 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     userProfile.ImageUrl = await MoveProfileImage();
 
                     await userProfileService.UpdateUserProfile(userProfile);
-                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Your profile updated successfully.");
+                    helper.ShowNotification(_notice, "Your profile updated successfully.");
                 }
                 catch (Exception exc)
                 {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                    helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
                 }
                 return;
             }
 
-            helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "User profile does not exists.");
+            helper.ShowNotification(_notice, "User profile does not exists.", NotificationType.Error);
         }
 
         public async Task UploadProfileImage()

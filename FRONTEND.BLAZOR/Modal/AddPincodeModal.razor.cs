@@ -27,7 +27,7 @@ namespace FRONTEND.BLAZOR.Modal
         {
             if (ListWizAddressVM.LocalityId <= 0)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pleae select Country, State, City and Locality first.");
+                helper.ShowNotification(_notice, $"Pleae select Country, State, City and Locality first.", NotificationType.Info);
                 return;
             }
             showPincodeModal = true;
@@ -38,7 +38,7 @@ namespace FRONTEND.BLAZOR.Modal
         {
             if (PinNumber <= 0 || ListWizAddressVM.LocalityId <= 0)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City and Area must be selected and pincode number must not be blank.");
+                helper.ShowNotification(_notice, $"Country, State, City and Area must be selected and pincode number must not be blank.", NotificationType.Info);
                 return;
             }
             try
@@ -46,7 +46,7 @@ namespace FRONTEND.BLAZOR.Modal
                 var pincodeExist = await sharedService.GetPincodeByPinNumber(PinNumber);
                 if (pincodeExist != null)
                 {
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Pincode {PinNumber} already exists.");
+                    helper.ShowNotification(_notice, $"Pincode {PinNumber} already exists.", NotificationType.Info);
                     return;
                 }
 
@@ -63,12 +63,12 @@ namespace FRONTEND.BLAZOR.Modal
                     await EventGetPincodesByAreaId.InvokeAsync();
 
                 await HidePincodeModal();
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", $"Pincode {PinNumber} created inside {station.Name}.");
+                helper.ShowNotification(_notice, $"Pincode {PinNumber} created inside {station.Name}.");
                 PinNumber = 0;
             }
             catch (Exception exc)
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", exc.Message);
+                helper.ShowNotification(_notice, exc.Message, NotificationType.Error);
             }
         }
     }

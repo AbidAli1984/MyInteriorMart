@@ -69,7 +69,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!UploadImagesVM.isLogoValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Please select the image to upload!");
+                helper.ShowNotification(_notice, "Please select the image to upload!", NotificationType.Info);
                 return;
             }
 
@@ -80,10 +80,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             if (isUpdated)
             {
                 await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Logo Image uploaded successfully!");
+                helper.ShowNotification(_notice, "Logo Image uploaded successfully!");
             }
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
         #endregion
 
@@ -102,7 +102,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!UploadImagesVM.isOwnerValid() || !UploadImagesVM.LWAddressVM.isValidCountryState() || !UploadImagesVM.ReligionsDropdownVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                helper.ShowNotification(_notice, "All fields are compulsary!", NotificationType.Info);
                 return;
             }
             UploadImagesVM.OwnerImageDetail.ImageUrl = helperFunction.GetOwnerImageFilePath(UploadImagesVM.OwnerId);
@@ -113,10 +113,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             if (isUpdated)
             {
                 await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image uploaded successfully!");
+                helper.ShowNotification(_notice, "Owner Image uploaded successfully!");
             }
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
 
         public async Task DeleteOwnerImage(int id)
@@ -130,9 +130,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
 
             if (isDeleted)
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Owner Image deleted successfully!");
+                helper.ShowNotification(_notice, "Owner Image deleted successfully!");
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
 
         private void resetOwnerImageDetail()
@@ -154,7 +154,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!UploadImagesVM.isGalleryValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                helper.ShowNotification(_notice, "All fields are compulsary!", NotificationType.Info);
                 return;
             }
             UploadImagesVM.GalleryImageDetail.ImageUrl = helperFunction.GetGalleryImageFilePath(UploadImagesVM.OwnerId);
@@ -166,10 +166,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             if (isUpdated)
             {
                 await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image uploaded successfully!");
+                helper.ShowNotification(_notice, "Gallery Image uploaded successfully!");
             }
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
 
         public async Task DeleteGalleryImage(int id)
@@ -183,9 +183,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
 
             if (isDeleted)
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Gallery Image deleted successfully!");
+                helper.ShowNotification(_notice, "Gallery Image deleted successfully!");
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
         #endregion
 
@@ -199,7 +199,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!UploadImagesVM.isBannerValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Please select the image to upload!");
+                helper.ShowNotification(_notice, "Please select the image to upload!", NotificationType.Info);
                 return;
             }
 
@@ -212,10 +212,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             if (UploadImagesVM.BannerImageDetail != null)
             {
                 await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Banner Image uploaded successfully!");
+                helper.ShowNotification(_notice, "Banner Image uploaded successfully!");
             }
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
         #endregion
 
@@ -229,7 +229,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!UploadImagesVM.isCertificateValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                helper.ShowNotification(_notice, "All fields are compulsary!", NotificationType.Info);
                 return;
             }
             UploadImagesVM.CertificateImageDetail.ImageUrl = helperFunction.GetCertificateImageFilePath(UploadImagesVM.OwnerId);
@@ -241,10 +241,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             if (isUpdated)
             {
                 await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Certificate Image uploaded successfully!");
+                helper.ShowNotification(_notice, "Certificate Image uploaded successfully!");
             }
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
 
         public async Task DeleteCertificateImage(int id)
@@ -258,9 +258,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
 
             if (isDeleted)
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Certificate Image deleted successfully!");
+                helper.ShowNotification(_notice, "Certificate Image deleted successfully!");
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
         #endregion
 
@@ -274,7 +274,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!UploadImagesVM.isClientValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "All fields are compulsary!");
+                helper.ShowNotification(_notice, "All fields are compulsary!", NotificationType.Info);
                 return;
             }
             UploadImagesVM.ClientImageDetail.ImageUrl = helperFunction.GetClientImageFilePath(UploadImagesVM.OwnerId);
@@ -286,10 +286,10 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             if (isUpdated)
             {
                 await listingService.UpdateListingStepByOwnerId(UploadImagesVM.OwnerId, BOL.Constants.UploadImageComplete, UploadImagesVM.step);
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Client Image uploaded successfully!");
+                helper.ShowNotification(_notice, "Client Image uploaded successfully!");
             }
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
 
         public async Task DeleteClientImage(int id)
@@ -303,9 +303,9 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
             }
 
             if (isDeleted)
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Client Image deleted successfully!");
+                helper.ShowNotification(_notice, "Client Image deleted successfully!");
             else
-                helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Error", "Something went worng, please contact Administrator!");
+                helper.ShowNotification(_notice, "Something went worng, please contact Administrator!", NotificationType.Error);
         }
         #endregion
     }

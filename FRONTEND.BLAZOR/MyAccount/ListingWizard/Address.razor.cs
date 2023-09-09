@@ -85,7 +85,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
         {
             if (!LWAddressVM.isValid())
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", $"Country, State, City, Area, Pincode, Locality and Address is Compulsory.");
+                helper.ShowNotification(_notice, $"Country, State, City, Area, Pincode, Locality and Address is Compulsory.", NotificationType.Info);
                 return;
             }
 

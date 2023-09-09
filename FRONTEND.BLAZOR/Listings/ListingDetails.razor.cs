@@ -176,7 +176,7 @@ namespace FRONTEND.BLAZOR.Listings
         {
             if (listingDetailVM.CurrentUserRating.Ratings <= 0 || string.IsNullOrEmpty(listingDetailVM.CurrentUserRating.Comment))
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "Rating & Comment Required.");
+                helper.ShowNotification(_notice, "Rating & Comment Required.", NotificationType.Info);
                 return;
             }
 
@@ -215,17 +215,17 @@ namespace FRONTEND.BLAZOR.Listings
                         await listingService.UpdateAsync(rating);
                     }
                     listingDetailVM.listReviews = await listingService.GetReviewsAsync(listingDetailVM.ListingId);
-                    helper.ShowNotification(_notice, NotificationType.Success, NotificationPlacement.BottomRight, "Success", "Thank you for submitting your review.");
+                    helper.ShowNotification(_notice, "Thank you for submitting your review.");
                 }
                 catch (Exception exc)
                 {
                     string msg = exc.Message + "\n\n" + exc.InnerException.ToString();
-                    helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", msg);
+                    helper.ShowNotification(_notice, msg, NotificationType.Error);
                 }
             }
             else
             {
-                helper.ShowNotification(_notice, NotificationType.Error, NotificationPlacement.BottomRight, "Error", "Use must be login to post reviews.");
+                helper.ShowNotification(_notice, "Use must be login to post reviews.", NotificationType.Info);
             }
 
         }
