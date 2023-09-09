@@ -5,23 +5,40 @@
     {
         <a class="nav-link @ActiveLink(Constants.MyActivity)" href="/MyAccount/MyActivity" role="tab" aria-controls="v-pill-reviews" aria-selected="false">My Activity</a>
     }
-    <a class="nav-link @ActiveLink(Constants.EditProfile)" href="/MyAccount/UserProfile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Edit Profile</a>
-    <a class="nav-link @ActiveLink(Constants.PersonalInfo)" href="/MyAccount/ProfileInfo" role="tab" aria-controls="v-pills-address" aria-selected="true">Personal Info</a>
+    <a class="nav-link @ActiveLink(Constants.EditProfile)" href="/MyAccount/UserProfile" role="tab" aria-controls="v-pills-profile" aria-selected="true">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Edit Profile
+    </a>
+    <a class="nav-link @ActiveLink(Constants.PersonalInfo)" href="/MyAccount/ProfileInfo" role="tab" aria-controls="v-pills-address" aria-selected="true">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Personal Info
+    </a>
     @if (isVendor)
     {
-        <a class="nav-link @ActiveLink(Constants.ManageListing)" href="/MyAccount/ManageListing" role="tab" aria-controls="v-pills-add-listing" aria-selected="false">Manage Listing</a>
-        @*<a class="nav-link @ActiveLink(Constants.MyListings)" href="/ManageListing/AllListing" role="tab" aria-selected="false">My Listings</a>*@
-        <a class="nav-link @ActiveLink(Constants.Offers)" href="/MyAccount/Offers" role="tab" aria-controls="v-pill-offers" aria-selected="false">Offers</a>
+        @*<a class="nav-link @ActiveLink(Constants.ManageListing)" href="/MyAccount/ManageListing" role="tab" aria-controls="v-pills-add-listing" aria-selected="false">
+                    <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Manage Listing
+                </a>
+                <a class="nav-link @ActiveLink(Constants.MyListings)" href="/ManageListing/AllListing" role="tab" aria-selected="false">My Listings</a>
+            <a class="nav-link @ActiveLink(Constants.Offers)" href="/MyAccount/Offers" role="tab" aria-controls="v-pill-offers" aria-selected="false">
+                <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Offers
+            </a>*@
     }
 
-    <a class="nav-link @ActiveLink(Constants.Bookmark)" href="/ManageListing/AllBookmarks" role="tab" aria-controls="v-pill-bookmark" aria-selected="true">Bookmarks</a>
-    <a class="nav-link @ActiveLink(Constants.Subscribe)" href="/ManageListing/AllSubscribes" role="tab" aria-controls="v-pill-subscribe" aria-selected="false">Subscribe</a>
+    <a class="nav-link @ActiveLink(Constants.Bookmark)" href="/ManageListing/AllBookmarks" role="tab" aria-controls="v-pill-bookmark" aria-selected="true">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Bookmark
+    </a>
+    <a class="nav-link @ActiveLink(Constants.Subscribe)" href="/ManageListing/AllSubscribes" role="tab" aria-controls="v-pill-subscribe" aria-selected="false">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Subscribe
+    </a>
+    <a class="nav-link @ActiveLink(Constants.Chat)" href="/MyAccount/Chat" role="tab" aria-controls="v-pill-chat" aria-selected="false">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Chat
+    </a>
     @*<a class="nav-link @ActiveLink(Constants.Settings)" href="/Identity/Account/Manage" role="tab" aria-controls="v-pill-settings" aria-selected="false">Settings</a>*@
 
-
-    <a class="nav-link @ActiveLink(Constants.Suggestion)" href="/MyAccount/Suggestion" role="tab" aria-controls="v-pills-suggestion" aria-selected="false">Suggestion</a>
-    <a class="nav-link @ActiveLink(Constants.Complaint)" href="/MyAccount/Complaint" role="tab" aria-controls="v-pill-complaint" aria-selected="false">Complaint</a>
-    <a class="nav-link @ActiveLink(Constants.Notification)" href="/MyAccount/Notification" role="tab" aria-controls="v-pill-notification" aria-selected="false">Notification</a>
-    <a class="nav-link @ActiveLink(Constants.Chat)" href="/MyAccount/Chat" role="tab" aria-controls="v-pill-chat" aria-selected="false">Chat</a>
-    <a class="nav-link @ActiveLink(Constants.History)" href="/MyAccount/History" role="tab" aria-controls="v-pill-history" aria-selected="false">History</a>
+    <a class="nav-link @ActiveLink(Constants.Suggestion)" href="/MyAccount/Suggestion" role="tab" aria-controls="v-pills-suggestion" aria-selected="false">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Suggestion
+    </a>
+    <a class="nav-link @ActiveLink(Constants.Complaint)" href="/MyAccount/Complaint" role="tab" aria-controls="v-pill-complaint" aria-selected="false">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Complaint
+    </a>
+    @*<a class="nav-link @ActiveLink(Constants.Notification)" href="/MyAccount/Notification" role="tab" aria-controls="v-pill-notification" aria-selected="false">Notification</a>*@
+    @*<a class="nav-link @ActiveLink(Constants.History)" href="/MyAccount/History" role="tab" aria-controls="v-pill-history" aria-selected="false">History</a>*@
 </div>
