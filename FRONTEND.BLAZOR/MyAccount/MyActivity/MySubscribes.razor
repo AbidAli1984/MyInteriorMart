@@ -1,0 +1,55 @@
+﻿@page "/MyActivity/MySubscribes"
+
+<style>
+    .example {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-bottom: 20px;
+        padding: 30px 50px;
+        margin: 20px 0;
+    }
+</style>
+
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-sidebar-content">
+                            <h4>Like</h4>
+                            <p class="add-lidting-title-from">
+                                Dashboard / Subscribes
+                                <span>
+                                    <a class="back_btn mx-3" href="/MyAccount/Dashboard">Back</a>
+                                </span>
+                            </p>
+                            <div class="list_general like-listing">
+                                <ul>
+                                    @if (subscribeListingVM != null)
+                                    {
+                                        foreach (var subscribeListingVM in subscribeListingVM)
+                                        {
+                                            <li><ListingActivity listingActivityVM="subscribeListingVM" /></li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="example">
+                                            <Spin />
+                                        </div>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>
+

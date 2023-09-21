@@ -6,15 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FRONTEND.BLAZOR.MyAccount.ManageListing
+namespace FRONTEND.BLAZOR.MyAccount.MyActivity
 {
-    public partial class AllSubscribe
+    public partial class MySubscribes
     {
         [Inject] AuthenticationStateProvider authenticationState { get; set; }
         [Inject] public IUserService userService { get; set; }
         [Inject] public IAuditService auditService { get; set; }
-
-        public bool isVendor { get; set; } = false;
 
         public IList<ListingActivityVM> subscribeListingVM = new List<ListingActivityVM>();
 
@@ -28,8 +26,7 @@ namespace FRONTEND.BLAZOR.MyAccount.ManageListing
                 if (user.Identity.IsAuthenticated)
                 {
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
-                    isVendor = applicationUser.IsVendor;
-                    subscribeListingVM = await auditService.GetSubscribesByOwnerIdAsync(applicationUser.Id);
+                    subscribeListingVM = await auditService.GetListingSubscribesByUserIdAsync(applicationUser.Id);
                 }
             }
             catch (Exception exc)
