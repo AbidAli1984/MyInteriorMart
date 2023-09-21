@@ -7,10 +7,10 @@
         <a class="nav-link @ActiveLink(Constants.Dashboard)" href="/MyAccount/Dashboard" role="tab" aria-controls="v-pill-reviews" aria-selected="false">
             <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Dashboard
         </a>
-        <a class="nav-link @ActiveLink(Constants.MyActivity)" href="/MyAccount/MyActivity" role="tab" aria-controls="v-pill-reviews" aria-selected="false">
-            <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">My Activity
-        </a>
     }
+    <a class="nav-link @ActiveLink(Constants.MyActivity)" href="/MyAccount/MyActivity" role="tab" aria-controls="v-pill-reviews" aria-selected="false">
+        <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">My Activity
+    </a>
     <a class="nav-link @ActiveLink(Constants.EditProfile)" href="/MyAccount/UserProfile" role="tab" aria-controls="v-pills-profile" aria-selected="true">
         <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Edit Profile
     </a>
@@ -30,7 +30,8 @@
         </a>
     }
 
-    @if (!isVendor) {
+    @if (!isVendor)
+    {
         // -Enquiry
         //- Bookmark
         //- Like
@@ -54,7 +55,7 @@
         </a>
     }
 
-    <a class="nav-link @ActiveLink(Constants.Register)" href="/MyAccount/Notification" role="tab" aria-controls="v-pill-notification" aria-selected="false">
+    <a class="nav-link @ActiveLink(Constants.ChangePassword)" href="/MyAccount/ChangePassword" role="tab" aria-controls="v-pill-notification" aria-selected="false">
         <img class="listing_icons" src="/resources/img/icon/business-listing.jpeg" alt="icon">Change Password
     </a>
     @*<a class="nav-link @ActiveLink(Constants.History)" href="/MyAccount/History" role="tab" aria-controls="v-pill-history" aria-selected="false">History</a>*@

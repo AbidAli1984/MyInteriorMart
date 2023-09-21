@@ -9837,6 +9837,11 @@ article.blog .post_info {
     background-color: #f8f8f8;
 }
 
+.dialog-mfp.profile-password-change {
+    max-width: none;
+    margin: 0;
+}
+
 @media (max-width: 767px) {
     .chat_img_sec {
         display: block;

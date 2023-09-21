@@ -56,6 +56,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.Auth
                 UserRegisterVM.Password = string.Empty;
                 UserRegisterVM.NewPassword = string.Empty;
                 UserRegisterVM.ConfirmPassword = string.Empty;
+                message = string.Empty;
                 helper.ShowNotification(_notice, "Password Change Successfully!");
             }
             else
