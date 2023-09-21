@@ -1,0 +1,61 @@
+﻿@page "/MyAccount/Dashboard"
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <SideNavigation isVendor="@isVendor" currentPage="@BOL.Constants.Dashboard" />
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review">
+                                    <h5>Dashboard</h5>
+                                    <div class="row">
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="/ManageListing/AllBookmarks">
+                                                <div class="add_listing_card d-flex align-items-center justify-content-start">
+                                                    <div class="add_listing_card_title">Bookmarks</div>
+                                                    <div class="this_count">15</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="/ManageListing/AllLikes">
+                                                <div class="add_listing_card d-flex align-items-center justify-content-start">
+                                                    <div class="add_listing_card_title">Likes</div>
+                                                    <div class="this_count">122</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="/ManageListing/AllReviews">
+                                                <div class="add_listing_card d-flex align-items-center justify-content-start">
+                                                    <div class="add_listing_card_title">Reviews</div>
+                                                    <div class="this_count">67</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4 col-6 mb-3">
+                                            <a href="/ManageListing/AllSubscribes">
+                                                <div class="add_listing_card d-flex align-items-center justify-content-start">
+                                                    <div class="add_listing_card_title">Subscribe</div>
+                                                    <div class="this_count">75</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>

@@ -28,6 +28,12 @@ namespace BOL
         public static int ChangePassword = 17;
         public static int MyActivity = 18;
         public static int Dashboard = 19;
+        public static int Register = 20;
+        public static int BusinessListing = 21;
+        public static int LabourNaka = 22;
+        public static int Buy = 23;
+        public static int Sell = 24;
+        public static int Jobs = 25;
         #endregion
 
         #region Business
