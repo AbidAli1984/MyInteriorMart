@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR.MyAccount.MyActivity
 {
-    public partial class MyBookmarks
+    public partial class MyLikes
     {
         [Inject] AuthenticationStateProvider authenticationState { get; set; }
         [Inject] public IUserService userService { get; set; }
         [Inject] public IAuditService auditService { get; set; }
 
-        public IList<ListingActivityVM> BookmarkListingVMs = new List<ListingActivityVM>();
+        public IList<ListingActivityVM> likeListingVMs = new List<ListingActivityVM>();
 
         protected async override Task OnInitializedAsync()
         {
@@ -26,7 +26,7 @@ namespace FRONTEND.BLAZOR.MyAccount.MyActivity
                 if (user.Identity.IsAuthenticated)
                 {
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
-                    BookmarkListingVMs = await auditService.GetListingBookmarksByUserIdAsync(applicationUser.Id);
+                    likeListingVMs = await auditService.GetListingLikesByUserIdAsync(applicationUser.Id);
                 }
             }
             catch (Exception exc)
