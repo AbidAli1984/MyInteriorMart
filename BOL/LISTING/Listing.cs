@@ -1,4 +1,5 @@
-﻿using BOL.SHARED;
+﻿using BOL.LISTING.UploadImage;
+using BOL.SHARED;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -100,5 +101,7 @@ namespace BOL.LISTING
         [Required(ErrorMessage = "GST Number required.")]
         public string GSTNumber { get; set; }
         public int Steps { get; set; }
+
+        public virtual LogoImage LogoImage { get; set; }
     }
 }

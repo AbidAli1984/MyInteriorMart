@@ -30,5 +30,7 @@ namespace BOL.LISTING.UploadImage
         [Display(Name = "Updated Date")]
         [Required(ErrorMessage = "Updated Date required.")]
         public DateTime UpdateDate { get; set; }
+
+        public virtual Listing Listing { get; set; }
     }
 }
