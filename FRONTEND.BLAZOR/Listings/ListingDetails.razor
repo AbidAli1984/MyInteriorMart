@@ -1,4 +1,5 @@
-﻿@page "/Listing/Index/{ListingID}"
+﻿@*/Listing/@item.City/@item.ListingUrl-@item.Locality/@item.id*@
+@page "/Listing/{City}/{Detail}/{ListingID}"
 @inject AuthenticationStateProvider authenticationState
 @inject NotificationService _notice
 @inject IJSRuntime jsRuntime

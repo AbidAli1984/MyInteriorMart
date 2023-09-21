@@ -25,6 +25,8 @@ namespace FRONTEND.BLAZOR.Listings
         [Inject] Helper helper { get; set; }
         [Inject] NavigationManager navigationManager { get; set; }
 
+        [Parameter] public string City { get; set; }
+        [Parameter] public string Detail { get; set; }
         [Parameter] public string ListingID { get; set; }
 
         public ApplicationUser applicationUser { get; set; }
@@ -51,9 +53,12 @@ namespace FRONTEND.BLAZOR.Listings
 
                     userAuthenticated = true;
                 }
-                int.TryParse(ListingID, out int listingId);
-                listingDetailVM = await listingService.GetListingDetailByListingId(listingId, CurrentUserGuid);
-                listingDetailVM.shareUrl = navigationManager.Uri;
+                
+                listingDetailVM = await listingService.GetListingDetailByListingId(ListingID, CurrentUserGuid);
+                if (listingDetailVM != null)
+                {
+                    listingDetailVM.shareUrl = navigationManager.Uri;
+                }
                 //await CheckBookmarkAsync();
             }
             catch (Exception exc)

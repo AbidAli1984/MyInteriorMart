@@ -144,6 +144,13 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Listing> GetApprovedListingById(string id)
+        {
+            return await _listingDbContext.Listing
+                .Where(l => l.Id.ToString() == id && l.Approved)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Listing> GetApprovedListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing

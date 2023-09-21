@@ -67,7 +67,7 @@
                             <div class="row no-gutters">
                                 <div class="col-3">
                                     <figure>
-                                        <a href="/Listing/Index/@item.ListingId">
+                                        <a href="/Listing/@item.City/@item.ListingUrl-@item.Locality/@item.id.ToUpper()">
                                             <img src="@item.LogoImageUrl" class="img-fluid" alt="">
                                         </a>
                                     </figure>
@@ -75,9 +75,9 @@
                                 <div class="col-9">
                                     <div class="wrapper">
                                         <a href="#0" class="loc_open">Claim Listing</a>
-                                        <h3><a href="/Listing/Index/@item.ListingId">@item.CompanyName</a></h3>
+                                        <h3><a href="/Listing/@item.City/@item.ListingUrl-@item.Locality/@item.id.ToUpper()">@item.CompanyName</a></h3>
                                         <small>@item.SubCategory <span class="mob_reating">@item.RatingAverage.ToString("0.0")<i class="icon_star active"></i></span></small>
-                                        <p><a href="#0" onclick="onHtmlClick('Marker',1)" class="address">@item.Assembly, @item.Area</a></p>
+                                        <p><a href="#0" onclick="onHtmlClick('Marker',1)" class="address">@item.Locality, @item.Area</a></p>
                                         <p class="loc-time">
                                             <i class="fa fa-clock-o"></i> :
                                             <b class="@(item.BusinessWorking.IsBusinessOpen ? "" : "text-danger")">@item.BusinessWorking.IsBusinessOpenText</b>

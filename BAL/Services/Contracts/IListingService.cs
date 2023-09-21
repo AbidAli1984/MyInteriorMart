@@ -15,7 +15,7 @@ namespace BAL.Services.Contracts
     {
         Task<IList<ListingResultVM>> GetListings(string url, string level, PageVM pageVM);
 
-        Task<ListingDetailVM> GetListingDetailByListingId(int listingId, string currentUserId);
+        Task<ListingDetailVM> GetListingDetailByListingId(string listingId, string currentUserId);
 
         Task<IList<ReviewListingViewModel>> GetReviewsAsync(int listingId);
         Task<IList<ReviewListingViewModel>> GetReviewsByOwnerIdAsync(string ownerId);

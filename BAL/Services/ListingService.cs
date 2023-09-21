@@ -88,7 +88,8 @@ namespace BAL.Services
                     int listingId = item.ListingID;
 
                     var address = addresses.Where(x => x.ListingID == listingId).FirstOrDefault();
-                    var assembly = await _sharedRepository.GetLocalityByLocalityId(address.AssemblyID);
+                    var city = await _sharedRepository.GetCityByCityId(address.City);
+                    var locality = await _sharedRepository.GetLocalityByLocalityId(address.AssemblyID);
                     var area = await _sharedRepository.GetAreaByAreaId(address.LocalityID);
                     var logoImage = await _listingRepository.GetLogoImageByListingId(listingId);
 
@@ -105,12 +106,15 @@ namespace BAL.Services
 
                     ListingResultVM ListingResultVM = new ListingResultVM
                     {
+                        id = item.Id.ToString(),
                         ListingId = listingId,
                         CompanyName = item.CompanyName,
                         Url = item.ListingURL,
                         //SubCategoryId = item.Categories.SecondCategoryID,
                         SubCategory = secondCat != null ? secondCat.Name : string.Empty,
-                        Assembly = assembly != null ? assembly.Name : string.Empty,
+                        ListingUrl = item.ListingURL,
+                        City = city != null ? city.Name : string.Empty,
+                        Locality = locality != null ? locality.Name : string.Empty,
                         Area = area != null ? area.Name : string.Empty,
                         Mobile = communication.Mobile,
                         Email = communication.Email,
@@ -128,24 +132,35 @@ namespace BAL.Services
             return ListingResultVMs;
         }
 
-        public async Task<ListingDetailVM> GetListingDetailByListingId(int listingId, string currentUserId)
+        public async Task<ListingDetailVM> GetListingDetailByListingId(string id, string currentUserId)
         {
+            var listing = await _listingRepository.GetApprovedListingById(id);
+            if (listing == null)
+                return null;
+
+            int listingId = listing.ListingID;
             ListingDetailVM listingDetailVM = new ListingDetailVM()
             {
                 CurrentUserId = currentUserId,
+                Listing = listing,
+                ListingId = listingId,
                 LogoUrl = GetListingLogoUrlByListingId(listingId),
+                LogoImage = await GetLogoImageByListingId(listingId),
+                GalleryImages = await _listingRepository.GetGalleryImagesByListingId(listingId),
+                Communication = await _listingRepository.GetCommunicationByListingId(listingId),
+                BannerImageDetail = await GetBannerDetailByListingId(listingId),
+                BusinessWorkingHour = await _helperFunctions.IsBusinessOpen(listingId),
+                Specialisation = await _listingRepository.GetSpecialisationByListingId(listingId),
+                PaymentMode = await _listingRepository.GetPaymentModeByListingId(listingId),
+                Keywords = await _listingRepository.GetKeywordsByListingId(listingId),
+                WorkingHour = await _listingRepository.GetWorkingHoursByListingId(listingId),
+                SocialNetwork = await _listingRepository.GetSocialNetworkByListingId(listingId),
+                listReviews = await GetReviewsAsync(listingId),
+                CertificateImages = await GetCertificateDetailsByListingId(listingId),
+                ClientImages = await GetClientDetailsByListingId(listingId),
             };
-            listingDetailVM.Listing = await _listingRepository.GetApprovedListingByListingId(listingId);
-            if (listingDetailVM.Listing == null)
-            {
-                listingDetailVM.Listing = new Listing();
-                return null;
-            }
 
-            listingDetailVM.ListingId = listingId;
-            listingDetailVM.LogoImage = await GetLogoImageByListingId(listingId);
-            listingDetailVM.GalleryImages = await _listingRepository.GetGalleryImagesByListingId(listingId);
-            listingDetailVM.Communication = await _listingRepository.GetCommunicationByListingId(listingId);
+
 
             var ownerImages = await _listingRepository.GetOwnerImagesByListingId(listingId);
             listingDetailVM.OwnerImagesVM = ownerImages.Select(x => new OwnerImageVM
@@ -155,16 +170,16 @@ namespace BAL.Services
                 Id = x.Id,
                 ImageUrl = x.ImagePath,
                 Name = x.OwnerName,
-               StateId = x.StateID
+                StateId = x.StateID
 
             }).ToList();
 
-            foreach(var owner in listingDetailVM.OwnerImagesVM)
+            foreach (var owner in listingDetailVM.OwnerImagesVM)
             {
                 var caste = await _sharedRepository.GetCasteByCasteId(owner.CasteId);
                 var state = await _sharedRepository.GetStateByStateId(owner.StateId);
 
-                if(caste != null)
+                if (caste != null)
                 {
                     owner.Caste = caste.Name;
                     owner.Religion = caste.Religion == null ? string.Empty : caste.Religion.Name;
@@ -176,8 +191,6 @@ namespace BAL.Services
                     owner.Country = state.Country == null ? string.Empty : state.Country.Name;
                 }
             }
-
-            listingDetailVM.BannerImageDetail = await GetBannerDetailByListingId(listingId);
 
             var address = await _listingRepository.GetAddressByListingId(listingId);
             if (address != null)
@@ -198,15 +211,7 @@ namespace BAL.Services
                 listingDetailVM.Address.Locality = locality.Name;
             }
 
-            listingDetailVM.BusinessWorkingHour = await _helperFunctions.IsBusinessOpen(listingId);
-
             var category = await _listingRepository.GetCategoryByListingId(listingId);
-
-            listingDetailVM.Specialisation = await _listingRepository.GetSpecialisationByListingId(listingId);
-            listingDetailVM.PaymentMode = await _listingRepository.GetPaymentModeByListingId(listingId);
-            listingDetailVM.Keywords = await _listingRepository.GetKeywordsByListingId(listingId);
-            listingDetailVM.WorkingHour = await _listingRepository.GetWorkingHoursByListingId(listingId);
-            listingDetailVM.SocialNetwork = await _listingRepository.GetSocialNetworkByListingId(listingId);
 
             var rating = await GetRatingAsync(listingId);
             listingDetailVM.RatingCount = rating.Count();
@@ -219,10 +224,6 @@ namespace BAL.Services
                 listingDetailVM.IsLiked = await _auditService.CheckIfUserLikedListing(listingId, currentUserId); ;
                 listingDetailVM.CurrentUserRating = await _listingRepository.GetRatingByListingIdAndOwnerId(listingId, currentUserId);
             }
-
-            listingDetailVM.listReviews = await GetReviewsAsync(listingId);
-            listingDetailVM.CertificateImages = await GetCertificateDetailsByListingId(listingId);
-            listingDetailVM.ClientImages = await GetClientDetailsByListingId(listingId);
 
             return listingDetailVM;
         }

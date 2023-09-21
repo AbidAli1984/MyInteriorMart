@@ -9,9 +9,12 @@ namespace BOL.ComponentModels.Listings
     public class ListingResultVM
     {
         public int ListingId { get; set; }
+        public string id { get; set; }
         public string CompanyName { get; set; }
         public string SubCategory { get; set; }
-        public string Assembly { get; set; }
+        public string ListingUrl { get; set; }
+        public string City { get; set; }
+        public string Locality { get; set; }
         public string Area { get; set; }
         public string Mobile { get; set; }
         public decimal RatingAverage { get; set; }
