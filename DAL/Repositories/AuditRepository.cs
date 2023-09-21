@@ -73,5 +73,29 @@ namespace DAL.Repositories
                 .OrderByDescending(i => i.VisitDate)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<ListingLikeDislike>> GetLikesByUserId(string userId)
+        {
+            return await _auditDbContext.ListingLikeDislike
+                .Where(i => i.UserGuid == userId && i.Like)
+                .OrderByDescending(i => i.VisitDate)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Bookmarks>> GetBookmarksByUserId(string userId)
+        {
+            return await _auditDbContext.Bookmarks
+                .Where(i => i.UserGuid == userId && i.Bookmark)
+                .OrderByDescending(i => i.VisitDate)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Subscribes>> GetSubscriberByUserId(string userId)
+        {
+            return await _auditDbContext.Subscribes
+                .Where(i => i.UserGuid == userId && i.Subscribe)
+                .OrderByDescending(i => i.VisitDate)
+                .ToListAsync();
+        }
     }
 }

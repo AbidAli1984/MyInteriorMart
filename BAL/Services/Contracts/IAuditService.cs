@@ -27,5 +27,9 @@ namespace BAL.Services.Contracts
         Task<IList<ListingActivityVM>> GetSubscribesByOwnerIdAsync(string ownerId);
 
         Task<IList<ListingActivityVM>> GetNotificationByOwnerIdAsync(string ownerId);
+
+        Task<IList<ListingActivityVM>> GetListingLikesByUserIdAsync(string userId);
+        Task<IList<ListingActivityVM>> GetListingBookmarksByUserIdAsync(string userId);
+        Task<IList<ListingActivityVM>> GetListingSubscribesByUserIdAsync(string userId);
     }
 }

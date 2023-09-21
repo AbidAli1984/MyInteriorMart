@@ -94,6 +94,7 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Listing>> GetApprovedListingsByListingIds(int[] listingIds)
         {
             return await _listingDbContext.Listing
+                .Include(x => x.LogoImage)
                 .Where(x => x.Approved && listingIds.Contains(x.ListingID))
                 .OrderByDescending(i => i.ListingID)
                 .ToListAsync();

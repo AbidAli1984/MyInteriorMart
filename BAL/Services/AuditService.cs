@@ -123,7 +123,7 @@ namespace BAL.Services
                 if (profile != null)
                 {
                     like.UserName = profile.Name;
-                    like.UserImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
+                    like.ProfileImage = string.IsNullOrWhiteSpace(profile.ImageUrl) ? "resources/img/icon/profile.svg" : profile.ImageUrl;
                 }
             }
             return listingActivityVMs;
@@ -147,6 +147,65 @@ namespace BAL.Services
                 listingActivityVMs.AddRange(activityBookmarks);
 
             return listingActivityVMs.OrderByDescending(x => x.VisitDate).ToList();
+        }
+
+
+        public async Task<IList<ListingActivityVM>> GetListingLikesByUserIdAsync(string userId)
+        {
+            return await GetUserListing(userId, Constants.Like);
+        }
+
+        public async Task<IList<ListingActivityVM>> GetListingBookmarksByUserIdAsync(string userId)
+        {
+            return await GetUserListing(userId, Constants.Bookmark);
+        }
+
+        public async Task<IList<ListingActivityVM>> GetListingSubscribesByUserIdAsync(string userId)
+        {
+            return await GetUserListing(userId, Constants.Subscribe);
+        }
+
+        private async Task<IList<ListingActivityVM>> GetUserListing(string userId, int activityType)
+        {
+            string activityText = string.Empty;
+            IEnumerable<ListingActivity> ListingActivity = null;
+
+            if (activityType == Constants.Like)
+            {
+                activityText = "Liked";
+                ListingActivity = await _auditRepository.GetLikesByUserId(userId);
+            }
+            else if (activityType == Constants.Bookmark)
+            {
+                activityText = "Bookmarked";
+                ListingActivity = await _auditRepository.GetBookmarksByUserId(userId);
+            }
+            else if (activityType == Constants.Subscribe)
+            {
+                activityText = "Subscribed";
+                ListingActivity = await _auditRepository.GetSubscriberByUserId(userId);
+            }
+
+            if (ListingActivity == null)
+                return null;
+
+            var listingids = ListingActivity.Select(x => x.ListingID).ToArray();
+
+            var listings = await _listingRepository.GetApprovedListingsByListingIds(listingids);
+
+            if (listings == null)
+                return null;
+
+            var listingActivityVMs = listings.Select(x => new ListingActivityVM
+            {
+                OwnerGuid = x.OwnerGuid,
+                CompanyName = x.CompanyName,
+                VisitDate = ListingActivity.FirstOrDefault(l => l.ListingID == x.ListingID).VisitDate.ToString(Constants.dateFormat1),
+                ProfileImage = x.LogoImage == null || string.IsNullOrWhiteSpace(x.LogoImage.ImagePath) ? "resources/img/icon/profile.svg" : x.LogoImage.ImagePath,
+                ActivityType = activityType,
+                ActivityText = activityText,
+            }).ToList();
+            return listingActivityVMs;
         }
     }
 }

@@ -18,5 +18,9 @@ namespace DAL.Repositories.Contracts
         Task<IEnumerable<Subscribes>> GetSubscriberByListingId(int listingId);
         Task<IEnumerable<Bookmarks>> GetBookmarksByListingId(int listingId);
         Task<IEnumerable<ListingLikeDislike>> GetLikesByListingId(int listingId);
+
+        Task<IEnumerable<ListingLikeDislike>> GetLikesByUserId(string userId);
+        Task<IEnumerable<Bookmarks>> GetBookmarksByUserId(string userId);
+        Task<IEnumerable<Subscribes>> GetSubscriberByUserId(string userId);
     }
 }

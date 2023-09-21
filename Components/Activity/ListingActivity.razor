@@ -1,10 +1,18 @@
 ﻿<div class="image">
-    <img src="@listingActivityVM.UserImage" alt="@listingActivityVM.UserName">
+    <img src="@listingActivityVM.ProfileImage" alt="@listingActivityVM.UserName">
 </div>
 <span class="@classColor">@listingActivityVM.VisitDate</span>
 <br />
 <p class="description @classColor">
-    
+
     <i class="fa @classIcon @classColor" aria-hidden="true"></i>
-    <strong> "@listingActivityVM.UserName"</strong> @listingActivityVM.ActivityText your listing: "@listingActivityVM.CompanyName"
+    @if (string.IsNullOrWhiteSpace(listingActivityVM.UserName))
+    {
+        <span> You @listingActivityVM.ActivityText </span>
+    }
+    else
+    {
+        <span><strong> "@listingActivityVM.UserName"</strong> @listingActivityVM.ActivityText your </span>
+    }
+    listing: "@listingActivityVM.CompanyName"
 </p>
