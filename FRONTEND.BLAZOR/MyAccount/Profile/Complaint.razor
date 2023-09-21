@@ -28,11 +28,11 @@
                                     <div class="text-center mt-3">
                                         @if (buttonBusy)
                                         {
-                                            <button class="btn btn-secondary">Saving...</button>
+                                            <button class="btn btn-secondary w-100">Saving...</button>
                                         }
                                         else
                                         {
-                                            <button @onclick="@(async() => await AddComplaint())" class="btn btn-primary">Submit</button>
+                                            <button @onclick="@(async() => await AddComplaint())" class="btn btn-primary w-100">Submit</button>
                                         }
                                     </div>
                                 </div>
