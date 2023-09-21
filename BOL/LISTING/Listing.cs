@@ -15,6 +15,9 @@ namespace BOL.LISTING
         [Display(Name = "Listing ID")]
         public int ListingID { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+
         [Display(Name = "OwnerGuid", Prompt = "Owner ID")]
         [Required(ErrorMessage = "Owner Guid required.")]
         public string OwnerGuid { get; set; }
