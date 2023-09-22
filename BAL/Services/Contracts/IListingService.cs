@@ -50,7 +50,7 @@ namespace BAL.Services.Contracts
 
         Task UpdateAsync(object data);
 
-        Task<IList<SearchResultViewModel>> GetSearchListings();
+        Task<IList<SearchHomeListingViewModel>> GetSearchListings();
 
 
 

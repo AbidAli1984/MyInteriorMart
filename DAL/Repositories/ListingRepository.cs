@@ -130,9 +130,10 @@ namespace DAL.Repositories
             return count;
         }
 
-        public async Task<IEnumerable<Listing>> GetApprovedListings()
+        public async Task<IList<Listing>> GetApprovedListings()
         {
             return await _listingDbContext.Listing.Where(x => x.Approved)
+                .Include(x=>x.Address)
                 .OrderByDescending(i => i.ListingID)
                 .ToListAsync();
         }

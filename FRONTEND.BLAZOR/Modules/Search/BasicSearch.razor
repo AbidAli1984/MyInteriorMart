@@ -7,9 +7,9 @@
                 <div class="wrap">
                     <div class="search">
                         <BlazoredTypeahead SearchMethod="SearchListings" @bind-Value="SelectedListing" Placeholder="Search">
-                            <SelectedTemplate>@context.value</SelectedTemplate>
+                            <SelectedTemplate>@context.Id</SelectedTemplate>
                             <ResultTemplate>
-                                @context.label
+                                @context.CompanyName - @context.LocalityName, @context.CityName
                             </ResultTemplate>
                         </BlazoredTypeahead>
                         <button type="submit" class="searchButton">
@@ -25,5 +25,5 @@
 
 @if (SelectedListing != null)
 {
-    navManager.NavigateTo($"/Listing/Index/{SelectedListing.value}");
+    navManager.NavigateTo($"/Listing/{SelectedListing.CityName}/{SelectedListing.ListingUrl}-{SelectedListing.LocalityName}/{SelectedListing.Id}");
 }

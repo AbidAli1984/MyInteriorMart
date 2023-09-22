@@ -383,13 +383,26 @@ namespace BAL.Services
             await _listingRepository.UpdateAsync(data);
         }
 
-        public async Task<IList<SearchResultViewModel>> GetSearchListings()
+        public async Task<IList<SearchHomeListingViewModel>> GetSearchListings()
         {
             var listings = await _listingRepository.GetApprovedListings();
-            return listings.Select((x) => new SearchResultViewModel
+            if (listings == null)
+                return new List<SearchHomeListingViewModel>();
+
+            var listingswithaddress = listings.Where(x => x.Address != null).ToList();
+            if (listingswithaddress == null)
+                return new List<SearchHomeListingViewModel>();
+
+            var locationIds = listingswithaddress.Select(x => x.Address).Select(x => x.AssemblyID).ToArray();
+            var localities = await _sharedRepository.GetLocaliiesByLocalityIds(locationIds);
+
+            return listingswithaddress.Select((x) => new SearchHomeListingViewModel
             {
-                label = x.CompanyName,
-                value = Convert.ToString(x.ListingID)
+                CompanyName = x.CompanyName,
+                Id = Convert.ToString(x.Id),
+                ListingUrl = x.ListingURL,
+                CityName = localities.FirstOrDefault(l => l.Id == x.Address.AssemblyID).City.Name,
+                LocalityName = localities.FirstOrDefault(l => l.Id == x.Address.AssemblyID).Name
             }).ToList();
         }
 

@@ -55,7 +55,7 @@ namespace BAL
         public const int Subscribe = 3;
         #endregion
 
-        public static IList<SearchResultViewModel> Listings;
+        public static IList<SearchHomeListingViewModel> Listings;
         public static IList<SearchResultViewModel> Keywords;
 
         public static string[] ArrKeywords;

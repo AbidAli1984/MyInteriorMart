@@ -100,7 +100,9 @@ namespace DAL.Repositories
         }
         public async Task<Location> GetLocalityByLocalityId(int localityId)
         {
-            return await sharedDbContext.Location.FindAsync(localityId);
+            return await sharedDbContext.Location
+                .Include(x => x.City)
+                .FirstOrDefaultAsync(x => x.Id == localityId);
         }
         public async Task<Pincode> GetPincodeByPincodeId(int pincodeId)
         {
@@ -156,6 +158,13 @@ namespace DAL.Repositories
             return await sharedDbContext.Castes
                 .Include(x => x.Religion)
                 .FirstOrDefaultAsync(x => x.Id == casteId);
+        }
+        public async Task<IList<Location>> GetLocaliiesByLocalityIds(int[] localityIds)
+        {
+            return await sharedDbContext.Location
+                .Include(x => x.City)
+                .Where(x => localityIds.Contains(x.Id))
+                .ToListAsync();
         }
     }
 }

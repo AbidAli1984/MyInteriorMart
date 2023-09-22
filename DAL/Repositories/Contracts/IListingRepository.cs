@@ -26,7 +26,7 @@ namespace DAL.Repositories.Contracts
 
         Task<int> CountRatingAsync(int ListingID, int rating);
 
-        Task<IEnumerable<Listing>> GetApprovedListings();
+        Task<IList<Listing>> GetApprovedListings();
 
         Task<Listing> GetListingByOwnerId(string ownerId);
         Task<Listing> GetApprovedListingById(string listingId);

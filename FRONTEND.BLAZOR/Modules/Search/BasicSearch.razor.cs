@@ -12,14 +12,14 @@ namespace FRONTEND.BLAZOR.Modules.Search
     {
         [Inject] private IListingService listingService { get; set; }
 
-        private SearchResultViewModel SelectedListing;
+        private SearchHomeListingViewModel SelectedListing;
         protected async override Task OnInitializedAsync()
         {
             Constants.Listings = await listingService.GetSearchListings();
         }
-        private async Task<IEnumerable<SearchResultViewModel>> SearchListings(string searchText)
+        private async Task<IEnumerable<SearchHomeListingViewModel>> SearchListings(string searchText)
         {
-            return await Task.FromResult(Constants.Listings.Where(x => x.label.ToLower().Contains(searchText.ToLower())).ToList());
+            return await Task.FromResult(Constants.Listings.Where(x => x.CompanyName.ToLower().Contains(searchText.ToLower())).ToList());
         }
     }
 }
