@@ -106,5 +106,7 @@ namespace BOL.LISTING
         public int Steps { get; set; }
 
         public virtual LogoImage LogoImage { get; set; }
+
+        public virtual Address Address { get; set; }
     }
 }

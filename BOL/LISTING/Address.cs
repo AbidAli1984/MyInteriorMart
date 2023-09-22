@@ -49,7 +49,6 @@ namespace BOL.LISTING
         [Display(Name = "Local Address")]
         [Required(ErrorMessage = "Address Required")]
         public string LocalAddress { get; set; }
-
-
+        public virtual Listing Listing { get; set; }
     }
 }
