@@ -67,6 +67,12 @@
     <Folder Include="wwwroot\CloudBox\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="wwwroot\resources\img\icon\business-listing.jpeg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="CloudBox\home\14.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

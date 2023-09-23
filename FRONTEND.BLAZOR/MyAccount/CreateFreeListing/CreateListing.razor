@@ -1,0 +1,45 @@
+﻿@page "/MyAccount/Listing/Free-Listing"
+
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-3 p-0">
+                        <FreeListingSideNav currentPage="@BOL.Constants.EditProfile" />
+                    </div>
+
+                    <div class="col-lg-9 p-0">
+                        <div class="tab-content profile-sidebar-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <div class="add-review">
+                                    <h5>Post your free ad</h5>
+                                    <div class="row py-5">
+                                        <div class="col-md-12 d-flex justify-content-center">
+                                            <div class="select_category_sec d-flex align-items-center">
+                                                <div class="select_category_img_sec">
+                                                    <img src="/resources/img/left.jpeg" alt="img" class="select_category_img">
+                                                </div>
+                                                <div class="select_category_info text-center">
+                                                    <h5>
+                                                        Select the appropriate category to post your ad
+                                                    </h5>
+                                                    <p>
+                                                        Not Sure? Give us a missed call us at 1234567890 and we will help you.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>
