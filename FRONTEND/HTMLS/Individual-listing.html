@@ -197,14 +197,67 @@
                </div>
                <div class="col-lg-9 col-12">
                   <ul id="top_menu">
-                     <li>
-                        <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
-                           Listing</a>
-                     </li>
-                     <li>
+                     <li><a href="login.html" id="hide_in_mobile" class="btn_add listing-btn">Free Listing</a></li>
+                     <!-- <li>
                         <a href="#" class="notification" title="notification">
                            <img src="FrontEnd/img/icon/notification.svg" alt="notification">
                         </a>
+                     </li> -->
+                     <li>
+                        <div class="dropdown notification">
+                           <a class=" dropdown-toggle notification" type="button" id="notification" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <img src="FrontEnd/img/icon/notification.svg" alt="notification">
+                           </a>
+                           <div class="dropdown-menu notification-menu" aria-labelledby="notification">
+                              <div class="d-flex justify-content-between align-items-center mb-1">
+                                 <h6 class="m-0">Notifications</h6>
+                                 <a href="notifications.html" style="font-size: 12px; color: #fe900d;">View All</a>
+                              </div>
+                              <div class="notify_body">
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      </li>
                      <li>
                         <div class="dropdown usericon">
@@ -213,10 +266,8 @@
                               <img src="FrontEnd/img/icon/user.svg">
                            </a>
                            <div class="dropdown-menu" aria-labelledby="usericon">
-                              <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user"
-                                    style="margin-right: 15px;"></i>My Profile</a>
-                              <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i
-                                    class="fa fa-bell "></i>Notification</a>
+                              <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user" style="margin-right: 15px;"></i>My Profile</a>
+                              <!-- <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i class="fa fa-bell "></i>Notification</a> -->
                               <a class="dropdown-item" href="index.html"><i class="fa fa-sign-out "></i>Logout</a>
                            </div>
                         </div>
@@ -232,12 +283,12 @@
                   </a>
                   <nav id="menu" class="main-menu">
                      <ul>
-                        <li><span><a href="index.html">Home</a></span></li>
+                        <!-- <li><span><a href="index.html">Home</a></span></li>
                         <li><span><a href="#0">Buy</a></span></li>
                         <li><span><a href="#0">Sell</a></span></li>
                         <li><span><a href="#0">Offer</a></span></li>
                         <li><span><a href="#0">Job</a></span></li>
-                        <li><span><a href="labour-naka.html">Labour Naka</a></span></li>
+                        <li><span><a href="labour-naka.html">Labour Naka</a></span></li> -->
                         <li><span><a href="#">Suggestion</a></span></li>
                      </ul>
                   </nav>
@@ -282,8 +333,10 @@
                                  <h4 class="cust-name">Habib Hamza</h4>
                                  <span class="cust-type">Owner</span>
                                  <div style="margin-top: 10px; color: #000;">
-                                    <span>Cast</span> , <span>Religion</span> <br>
-                                    <span>Sate</span> , <span>Country</span>
+                                    <span>Cast</span> ,
+                                    <span>Religion</span> <br>
+                                    <span>Sate</span> ,
+                                    <span>Country</span>
                                  </div>
                               </div>
                               <div class="carousel-item">
@@ -389,31 +442,31 @@
                               <div class="pro-large-img img-zoom gallery1">
                                  <a href="./FrontEnd/img/access_bg.jpg" class="big">
                                     <img src="./FrontEnd/img/access_bg.jpg" alt="product-details"
-                                       style="width: 100%;" />
+                                       style="width: 100%; height: 100%; " />
                                  </a>
                               </div>
                               <div class="pro-large-img img-zoom gallery1">
                                  <a href="./FrontEnd/img/furniture-design.jpg" class="big">
                                     <img src="./FrontEnd/img/furniture-design.jpg" alt="product-details"
-                                       style="width: 100%;" />
+                                       style="width: 100%; height: 100%;" />
                                  </a>
                               </div>
                               <div class="pro-large-img img-zoom gallery1">
                                  <a href="./FrontEnd/img/furniture-design1.jpg" class="big">
                                     <img src="./FrontEnd/img/furniture-design1.jpg" alt="product-details"
-                                       style="width: 100%;" />
+                                       style="width: 100%; height: 100%;" />
                                  </a>
                               </div>
                               <div class="pro-large-img img-zoom gallery1">
                                  <a href="./FrontEnd/img/home_section_1.jpg" class="big">
                                     <img src="./FrontEnd/img/home_section_1.jpg" alt="product-details"
-                                       style="width: 100%;" />
+                                       style="width: 100%; height: 100%;" />
                                  </a>
                               </div>
                               <div class="pro-large-img img-zoom gallery1">
                                  <a href="./FrontEnd/img/listing-img.jpeg" class="big">
                                     <img src="./FrontEnd/img/listing-img.jpeg" alt="product-details"
-                                       style="width: 100%;" />
+                                       style="width: 100%; height: 100%;" />
                                  </a>
                               </div>
                            </div>
@@ -445,6 +498,7 @@
                               </div>
                               <span class="company-category-name">Web Development</span>
                               <span class="company-rating">
+                                 <span>4.0</span>
                                  <div class="cat_star">
                                     <i class="icon_star active"></i>
                                     <i class="icon_star active"></i>
@@ -452,7 +506,7 @@
                                     <i class="icon_star active"></i>
                                     <i class="icon_star"></i>
                                  </div>
-                                 <span>4.0 based on 4 rating</span>
+                                 <span>rating</span>
                               </span>
 
 
@@ -463,8 +517,11 @@
                                  India <a href="#0">more...</a>
                               </p>
                               <p>
-                                 <span><i class="icon-map-1"></i>Locality</span>
-                                 <span style="float: right;"><i class="icon-address"></i> Andheri West </span>
+                                 <span><i class="icon-map-1"></i>Locality</span> <br>
+                                 
+                              </p>
+                              <p>
+                                 <span><i class="icon-address"></i> Andheri West </span>
                               </p>
                            </div>
                            <div class="col-12 col-md-12 mb-1 p-0 company-website">
@@ -473,30 +530,41 @@
                                  title="https://www.creativeconcept.in">
                                  www.creativeconcept.in</a>
                            </div>
+                           
                            <div class="col-lg-12 mb-1 px-0 year_gst">
                               <p class="m-0"><i class="icon-calendar-5"></i> Year of Establishment 2020 </p>
-                              <p class="m-0">
+                           </div>
+                           <div class="col-lg-12 mb-1 px-0 year_gst">
+                              <p class="m-0" style="padding-left: 3px;">
                                  <b>GST NO : </b>ASDF12345678999
                               </p>
                            </div>
                            <div class="col-lg-12 px-0 mb-1 year_gst mt-0">
                               <p class="mb-0"><i class="icon-user-5"></i> Number of Users </p>
-                              <p class="mb-0">
+                           </div>
+                           <div class="col-lg-12 px-0 mb-1 year_gst mt-0">
+                              <p class="mb-0" style="padding-left: 3px;">
                                  <b>Turnover : </b>50 Lacks.
                               </p>
                            </div>
-                           <div class="col-lg-12 mb-1 p-0">
-                              
-                                    <i class="icon-mobile-6"></i> <a href="tel:1324567890"
-                                       title="Call Now">1324567890</a> &nbsp;
-                                    <i class="icon-mobile-6"></i> <a href="tel:1324567890"
-                                       title="Whatsapp">1324567890</a> &nbsp;
-                                    <i class="icon-headphones"></i> <a href="tel:1324567890"
-                                       title="Whatsapp">012345</a>
-                                 
+                           <div class="col-lg-12 mb-1 px-0 year_gst">
+                              <p class="mb-0 mx-1"><i class="fa fa-language mr-1" style="font-size: 16px;"></i> 
+                                 <span>English,</span>
+                                 <span> Hindi,</span>
+                                 <span> Marathi</span>
+                              </p>
                            </div>
-                           
-                           
+                           <div class="col-lg-12 mb-1 p-0">
+
+                              <i class="icon-mobile-6"></i> <a href="tel:1324567890" title="Call Now">1324567890</a>
+                              &nbsp;
+                              <i class="icon-mobile-6"></i> <a href="tel:1324567890" title="Whatsapp">1324567890</a>
+                              &nbsp;
+                              <i class="icon-headphones"></i> <a href="tel:1324567890" title="Whatsapp">012345</a>
+
+                           </div>
+
+
                            <div class="company-time">
                               <a class="company-time-title btn btn-link collapsed" data-toggle="collapse"
                                  href="#companytime" role="button" aria-expanded="false" aria-controls="companytime">
@@ -540,14 +608,14 @@
                                  <i class="icon-bookmark-empty"></i> Bookmark
                               </a>
                               <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i
-                                 class="icon-share"></i> Share</a>
+                                    class="icon-share"></i> Share</a>
                               <a href="#0" id="LikeMe" class="pushRight btn btn-light btn-sm">
                                  <i class="icon-thumbs-up"></i> Like
                               </a>
                               <a href="#0" id="SubscribeMe" class="pushRight btn btn-light btn-sm">
-                                 <i class="icon-bell"></i> Subscribe 
+                                 <i class="icon-bell"></i> Subscribe
                               </a>
-                              
+
                            </div>
                            <div class="col-lg-12 social-share p-0">
                               <a href="#0"><i class="icon-facebook-squared-1"></i></a>
@@ -583,18 +651,32 @@
                                  <a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#reviews"
                                     role="tab" aria-controls="reviews" aria-selected="true">Reviews</a>
                               </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="certificates-tab" data-toggle="tab" href="#certificates"
+                                    role="tab" aria-controls="certificates" aria-selected="false">Certificates</a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="clients-tab" data-toggle="tab" href="#clients" role="tab"
+                                    aria-controls="clients" aria-selected="false">Clients</a>
+                              </li>
                            </ul>
                            <div class="tab-content checkout">
 
                               <div class="tab-pane fade show active" id="reviews" role="tabpanel"
                                  aria-labelledby="reviews">
-                                 <div class="review-form mb-3">
-                                    <div class="" style="text-align: right;">
-                                       <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button"
-                                          aria-expanded="false" aria-controls="WriteReview">
-                                          <i class="icon-pencil"></i> Write Review
-                                       </a>
+                                 <div class="review-form mt-3">
+                                    <div class="d-flex justify-content-between">
+                                       <div class="Count_review">
+                                          75 Reviews, 100% genuine ratings from My Interior Mart users
+                                       </div>
+                                       <div class="">
+                                          <a class="btn btn-link" data-toggle="collapse" href="#WriteReview" role="button"
+                                             aria-expanded="false" aria-controls="WriteReview">
+                                             <i class="icon-pencil"></i> Write Review
+                                          </a>
+                                       </div>
                                     </div>
+                                    
                                     <div class="add-review collapse" id="WriteReview">
                                        <div class="card card-body">
                                           <h6>Leave a Review</h6>
@@ -687,16 +769,21 @@
                                           </div>
                                        </div>
                                     </div> -->
+                                    
+                                    <hr>
                                     <div class="col-md-12  col-lg-12 review-user">
-                                       <h6 style="text-align: right;">Latest review by Mohammad Shafi Shaikh on 2 months ago</h6>
+                                       <!-- <h6 style="text-align: right;">Latest review by Mohammad Shafi Shaikh on 2 months
+                                          ago</h6> -->
                                        <div class="row">
                                           <div class="col-lg-12">
-                                             <div class="row align-items-center">
-                                                <div class="col-lg-2 text-center">
-                                                   <img src="FrontEnd/img/icon/profile.svg"
-                                                      class="rounded-circle img-thumbnail">
+                                             <div class="row">
+                                                <div class="col-lg-2 col-3 text-center">
+                                                   <div class="review_img_sec">
+                                                      <img src="FrontEnd/img/icon/profile.svg"
+                                                         class="rounded-circle img-thumbnail">
+                                                   </div>
                                                 </div>
-                                                <div class="col-lg-10 pl-lg-0">
+                                                <div class="col-lg-10 col-9 pl-lg-0">
                                                    <div class="cat_star">
                                                       <i class="icon_star active"></i>
                                                       <i class="icon_star active"></i>
@@ -704,8 +791,18 @@
                                                       <i class="icon_star active"></i>
                                                       <span><strong>Shaikh – 2 months ago</strong> </span>
                                                    </div>
-                                                   <p class="m-0">Very good company. afafasdf aasf asdfsadf adsfadfadf<a href="#0">
-                                                         view more...</a></p>
+                                                   <p class="m-0">Very good company. afafasdf aasf asdfsadf adsfadfadf<a
+                                                         href="#0">
+                                                         view more...</a>
+                                                   </p>
+
+                                                   <div class="owner_reply">
+                                                      <span><strong>Reply from Owner</strong> </span>
+                                                      <p class="m-0">
+                                                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                         <a href="#0">view more...</a>
+                                                      </p>
+                                                   </div>
                                                 </div>
                                              </div>
                                           </div>
@@ -713,15 +810,18 @@
                                     </div>
                                     <hr>
                                     <div class="col-md-12  col-lg-12 review-user">
-                                       <h6 style="text-align: right;">Latest review by Mohammad Shafi Shaikh on 2 months ago</h6>
+                                       <!-- <h6 style="text-align: right;">Latest review by Mohammad Shafi Shaikh on 2 months
+                                          ago</h6> -->
                                        <div class="row">
                                           <div class="col-lg-12">
-                                             <div class="row align-items-center">
-                                                <div class="col-lg-2 text-center">
-                                                   <img src="FrontEnd/img/icon/profile.svg"
-                                                      class="rounded-circle img-thumbnail">
+                                             <div class="row">
+                                                <div class="col-lg-2 col-3 text-center">
+                                                   <div class="review_img_sec">
+                                                      <img src="FrontEnd/img/icon/profile.svg"
+                                                         class="rounded-circle img-thumbnail">
+                                                   </div>
                                                 </div>
-                                                <div class="col-lg-10 pl-lg-0">
+                                                <div class="col-lg-10 col-9 pl-lg-0">
                                                    <div class="cat_star">
                                                       <i class="icon_star active"></i>
                                                       <i class="icon_star active"></i>
@@ -729,8 +829,18 @@
                                                       <i class="icon_star active"></i>
                                                       <span><strong>Shaikh – 2 months ago</strong> </span>
                                                    </div>
-                                                   <p class="m-0">Very good company. afafasdf aasf asdfsadf adsfadfadf<a href="#0">
-                                                         view more...</a></p>
+                                                   <p class="m-0">Very good company. afafasdf aasf asdfsadf adsfadfadf<a
+                                                         href="#0">
+                                                         view more...</a>
+                                                   </p>
+
+                                                   <div class="owner_reply">
+                                                      <span><strong>Reply from Owner</strong> </span>
+                                                      <p class="m-0">
+                                                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                         <a href="#0">view more...</a>
+                                                      </p>
+                                                   </div>
                                                 </div>
                                              </div>
                                           </div>
@@ -738,15 +848,18 @@
                                     </div>
                                     <hr>
                                     <div class="col-md-12  col-lg-12 review-user">
-                                       <h6 style="text-align: right;">Latest review by Mohammad Shafi Shaikh on 2 months ago</h6>
+                                       <!-- <h6 style="text-align: right;">Latest review by Mohammad Shafi Shaikh on 2 months
+                                          ago</h6> -->
                                        <div class="row">
                                           <div class="col-lg-12">
-                                             <div class="row align-items-center">
-                                                <div class="col-lg-2 text-center">
-                                                   <img src="FrontEnd/img/icon/profile.svg"
-                                                      class="rounded-circle img-thumbnail">
+                                             <div class="row">
+                                                <div class="col-lg-2 col-3 text-center">
+                                                   <div class="review_img_sec">
+                                                      <img src="FrontEnd/img/icon/profile.svg"
+                                                         class="rounded-circle img-thumbnail">
+                                                   </div>
                                                 </div>
-                                                <div class="col-lg-10 pl-lg-0">
+                                                <div class="col-lg-10 col-9 pl-lg-0">
                                                    <div class="cat_star">
                                                       <i class="icon_star active"></i>
                                                       <i class="icon_star active"></i>
@@ -754,14 +867,81 @@
                                                       <i class="icon_star active"></i>
                                                       <span><strong>Shaikh – 2 months ago</strong> </span>
                                                    </div>
-                                                   <p class="m-0">Very good company. afafasdf aasf asdfsadf adsfadfadf<a href="#0">
-                                                         view more...</a></p>
+                                                   <p class="m-0">Very good company. afafasdf aasf asdfsadf adsfadfadf<a
+                                                         href="#0">
+                                                         view more...</a>
+                                                   </p>
+
+                                                   <div class="owner_reply">
+                                                      <span><strong>Reply from Owner</strong> </span>
+                                                      <p class="m-0">
+                                                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                         <a href="#0">view more...</a>
+                                                      </p>
+                                                   </div>
                                                 </div>
                                              </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <hr>
+                                    
+                                 </div>
+                              </div>
+
+                              <div class="tab-pane fade" id="certificates" role="tabpanel"
+                                 aria-labelledby="certificates">
+                                 <div class="row justify-content-center pt-5 px-3">
+                                    <div class="col-md-4 col-6 mb-3">
+                                       <div class="certificate_img_sec">
+                                          <img src="./FrontEnd/img/furniture-design.jpg" alt="certificate_img"
+                                             class="certificate_img">
+                                       </div>
+                                    </div>
+                                    <div class="col-md-4 col-6 mb-3">
+                                       <div class="certificate_img_sec">
+                                          <img src="./FrontEnd/img/furniture-design1.jpg" alt="certificate_img"
+                                             class="certificate_img">
+                                       </div>
+                                    </div>
+                                    <div class="col-md-4 col-6 mb-3">
+                                       <div class="certificate_img_sec">
+                                          <img src="./FrontEnd/img/furniture-design.jpg" alt="certificate_img"
+                                             class="certificate_img">
+                                       </div>
+                                    </div>
+                                    
+                                 </div>
+
+                              </div>
+
+                              <div class="tab-pane fade" id="clients" role="tabpanel" aria-labelledby="clients">
+
+                                 <div class="row pt-4 px-4">
+                                    <div class="owl-carousel-2 owl-carousel owl-theme mt-4">
+                                       <div class="item">
+                                          <div class="cleints_img_sec">
+                                             <img src="./FrontEnd/img/access_bg.jpg" alt="cleints_img" class="cleints_img">
+                                          </div>
+                                       </div>
+                                       <div class="item">
+                                          <div class="cleints_img_sec">
+                                             <img src="FrontEnd/img/furniture-design.jpg" alt="cleints_img" class="cleints_img">
+                                          </div>
+                                       </div>
+                                       <div class="item">
+                                          <div class="cleints_img_sec">
+                                             <img src="FrontEnd/img/furniture-design1.jpg" alt="cleints_img" class="cleints_img">
+                                          </div>
+                                       </div>
+                                       <div class="item">
+                                          <div class="cleints_img_sec">
+                                             <img src="FrontEnd/img/listing-img.jpeg" alt="cleints_img" class="cleints_img">
                                           </div>
                                        </div>
                                     </div>
                                  </div>
+
                               </div>
 
                            </div>
@@ -826,7 +1006,7 @@
                </div>
             </div>
             <!-- /row-->
-            <hr>
+            <hr style="margin: 0;">
             <div class="row">
                <div class="col-lg-8 col-12 block-center-footer">
                   <ul id="additional_links">
@@ -1048,6 +1228,13 @@
    <!--Enquiry sticky button start-->
    <a href="#enquiry-in-dialog" title="Send Enquiry" id="enquiry-in" class="enquiry-sticky">Enquiry</a>
    <!--Enquiry sticky button end-->
+
+    <!-- Floating Button -->
+    <div class="mobile_listing_btn">
+      <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
+         Listing</a>
+   </div>
+   <!-- Floating Button -->
 
    <div id="toTop"></div>
    <!-- Back to top button -->

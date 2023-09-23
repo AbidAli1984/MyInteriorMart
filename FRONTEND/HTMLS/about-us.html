@@ -46,14 +46,67 @@
                </div>
                <div class="col-lg-9 col-12">
                   <ul id="top_menu">
-                     <li>
-                        <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
-                           Listing</a>
-                     </li>
-                     <li>
+                     <li><a href="login.html" id="hide_in_mobile" class="btn_add listing-btn">Free Listing</a></li>
+                     <!-- <li>
                         <a href="#" class="notification" title="notification">
                            <img src="FrontEnd/img/icon/notification.svg" alt="notification">
                         </a>
+                     </li> -->
+                     <li>
+                        <div class="dropdown notification">
+                           <a class=" dropdown-toggle notification" type="button" id="notification"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <img src="FrontEnd/img/icon/notification.svg" alt="notification">
+                           </a>
+                           <div class="dropdown-menu notification-menu" aria-labelledby="notification">
+                              <div class="d-flex justify-content-between align-items-center mb-1">
+                                 <h6 class="m-0">Notifications</h6>
+                                 <a href="notifications.html" style="font-size: 12px; color: #fe900d;">View All</a>
+                              </div>
+                              <div class="notify_body">
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      </li>
                      <li>
                         <div class="dropdown usericon">
@@ -64,8 +117,7 @@
                            <div class="dropdown-menu" aria-labelledby="usericon">
                               <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user"
                                     style="margin-right: 15px;"></i>My Profile</a>
-                              <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i
-                                    class="fa fa-bell "></i>Notification</a>
+                              <!-- <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i class="fa fa-bell "></i>Notification</a> -->
                               <a class="dropdown-item" href="index.html"><i class="fa fa-sign-out "></i>Logout</a>
                            </div>
                         </div>
@@ -81,12 +133,12 @@
                   </a>
                   <nav id="menu" class="main-menu">
                      <ul>
-                        <li><span><a href="index.html">Home</a></span></li>
+                        <!-- <li><span><a href="index.html">Home</a></span></li>
                         <li><span><a href="#0">Buy</a></span></li>
                         <li><span><a href="#0">Sell</a></span></li>
                         <li><span><a href="#0">Offer</a></span></li>
                         <li><span><a href="#0">Job</a></span></li>
-                        <li><span><a href="labour-naka.html">Labour Naka</a></span></li>
+                        <li><span><a href="labour-naka.html">Labour Naka</a></span></li> -->
                         <li><span><a href="#">Suggestion</a></span></li>
                      </ul>
                   </nav>
@@ -99,106 +151,88 @@
          <div class="layer"></div>
       </header>
       <!-- Menu End -->
-
-
       <main>
          <div class="container mt-4 mb-4">
             <div class="row">
-               <div class="col-lg-9 col-md-9 col-sm-12">
-                  <div class="about_img_sec">
-                     <img src="FrontEnd/img/hero_in_hotels_detail.jpg" alt="">
-                  </div>
-                  <div class="card-shadow">
-                     <h2>About The Founder </h2>
-                     <p>Mr. Habib Humza Al - Hameed Is The Founder And Managing Director Of My Interior Mart Which Is
-                        India’s 1st Interior And Construction Industry Search Engine. He Has More Than 17 Years Of
-                        Experience In Interior Industry. He Has Done Numerous Projects Of Interior Contract For His
-                        Various Customers From Mumbai, Navi Mumbai And Thane City.</p>
-                     <p>He Has Passion To Become Mumbai’s #1 Company And To Make His Dream Come True He Works Very Hard
-                        And Spent A Lot Of Time, Money And Has Done Various Research On Various Online Technologies.</p>
-                     <p>To Bring Customers Listing From Different Industries On The First Page Of Google Is His Primary
-                        Objective, And To Serve Customers By Providing Authentic And Genuine Leads Is His Top Aim. In
-                        2018 He Published His Magazine On Interior Design And Construction Industry Called “My Interior
-                        Mart Print Magazine” And Launched Its First Issue In Diwali Month Of The 2018 Year.</p>
-                     <p>In Small Span Of Time He Has Gained Various Customers From Different Industries. He Is Also
-                        Involved In Interior Design And Civil Work For His Customers. He Is Also A Proprietor In
-                        Creative Concept A 10 Years Old Interior Contractor Company.</p>
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <!-- <div class="about_img_sec">
+                     <img src="FrontEnd/img/listing-img.jpeg" alt="" style="width: 100%; height: 100%;">
+                  </div> -->
+                  <div class="card-shadow about_card">
+                     <h2 class="about_heading">About Us </h2>
+                     <p class="about_us_text">
+                        <span class="about_span">My Interior Mart</span> is a India's 1st <b class="text-dark">
+                           Construction & Interior industry Search Engine</b>. We generate
+                        sales leads for our customers. We are a Trade Portal with an online platform for buyers, sellers
+                        and businesses through which they communicate as well as conduct the operations of their
+                        business instantly. We provide tools through which businesses can showcase their products and
+                        services in an effective manner. Our registered members have access to all the present business
+                        opportuni- ties where they cann view company profiles, buy as well as sell bids submitted and
+                        view all the listed products and services.
+                     </p>
 
-                     <hr>
-
-                     <div class="row">
-                        <div class="col-md-6">
-                           <img src="./FrontEnd/img/banner/vission.png" class="vission_img" alt="Vission">
+                     <h2 class="about_heading">Founder</h2>
+                     <div class="row align-items-center mb-4">
+                        <div class="col-md-3 mb-3">
+                           <div class="founder_img_sec">
+                              <img src="./FrontEnd/img/founder.jpg" alt="image">
+                           </div>
                         </div>
-                        <div class="col-md-6">
-                           <h4>Vission</h4>
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, nam veniam veritatis
-                              ducimus ipsum alias beatae, quas laboriosam minus natus fuga delectus laudantium
+                        <div class="col-md-9 mb-3">
+                           <h5 class="about_heading m-0">Habib Humza Al-Hamed</h5>
+                           <p>Founder & Managing Director @ <span class="about_span">My Interior Mart.</span></p>
+
+                           <p class="about_us_text">
+                              A Turnkey Interior Contractor by profession, with more than 17 years of experience in
+                              Interior Industry. He is founder of myInterior Mart and founded it on September, 2017. He
+                              is expert in executing construction and turnkey interior projects.
                            </p>
                         </div>
                      </div>
-                     <hr>
-                     <div class="row mt-2">
+
+                     <div class="row align-items-center bg_img">
                         <div class="col-md-6">
-                           <h4>Mission</h4>
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, nam veniam veritatis
-                              ducimus ipsum alias beatae, quas laboriosam minus natus fuga delectus laudantium
-                           </p>
-                        </div>
-                        <div class="col-md-6">
-                           <img src="./FrontEnd/img/banner/mission.png" class="vission_img" alt="Vission">
+                           <h2 class="about_heading">Vision</h2>
+                           <ul class="abou_ul mb-5">
+                              <li><p class="about_us_text text-left mx-3 mb-1">To become #1 Construction & Interior Search Engine</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">To be know by every businessman in India & Globe.</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">To Build and Construction its own Data Center.</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">To Generate Employment Opportunities.</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">To Make Business for Our Customers and Users.</p></li>
+                              
+                           </ul>
+
+                           <h2 class="about_heading">Mission</h2>
+                           <ul class="abou_ul mb-5">
+                              <li><p class="about_us_text text-left mx-3 mb-1">To Provide Business for Customers.</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">When Your Business Succeeds, We Succeed.</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">Generate Fresh Leads for Customers.</p></li>
+                              <li><p class="about_us_text text-left mx-3 mb-1">To Provide Business Related Information.</p></li>
+                              
+                           </ul>
                         </div>
                         
+                        <div class="col-md-6">
+                           <h2 class="about_heading text-md-right text-sm-left">Our Values</h2>
+                           <ul class="abou_ul_right mb-5">
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Client Partnership</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Consistent Quality Service </p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Listen to Others For Understanding</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Assume Positive Intent</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Show Respect For All</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Two Way Communications</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Responsive To Change</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Supportive Teamwork</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Participative Problem Solving</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Pride in Achievement</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Supplier Success</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Balanced Business Performance</p></li>
+                              <li><p class="about_us_text text-md-right text-sm-left mx-3 mb-1">Involvement of All</p></li>
+                           </ul>
+                        </div>
                      </div>
                   </div>
                </div>
-               <aside class="col-lg-3">
-                  <div class="widget card-shadow-sidebar">
-                     <div class="widget-title">
-                        <h4>About us</h4>
-                     </div>
-                     <ul class="widget-title-list-item">
-                        <li><a href="#">Profile </a></li>
-                        <li><a href="#">Founder Message </a></li>
-                        <li><a href="#">Vission & Mission </a></li>
-                        <li><a href="#">Terms & Conditions </a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#"> Help Center </a></li>
-                        <li><a href="#">Contact Us </a></li>
-                     </ul>
-                  </div>
-
-                  <div class="widget card-shadow-sidebar">
-                     <div class="widget-title">
-                        <h4>Services</h4>
-                     </div>
-                     <ul class="widget-title-list-item">
-                        <li><a href="#">Profile </a></li>
-                        <li><a href="#">Free Buisness Listing </a></li>
-                        <li><a href="#">Buy & Sell Offers </a></li>
-                        <li><a href="#">Job Openings </a></li>
-                        <li><a href="#">Tender Alerts </a></li>
-                        <li><a href="#">Exhibition & Events </a></li>
-                        <li><a href="#">Labour Naka </a></li>
-                        <li><a href="#">Banner Advertisement </a></li>
-                        <li><a href="#">Leads & Enquires </a></li>
-                        <li><a href="#">Online Promotion </a></li>
-                     </ul>
-                  </div>
-                  <div class="widget card-shadow-sidebar">
-                     <div class="widget-title">
-                        <h4> GET IN TOUCH</h4>
-                     </div>
-                     <ul class="widget-title-list-item">
-                        <li><a href="#">Client Testimonials </a></li>
-                        <li><a href="#">Feedback </a></li>
-                        <li><a href="#">Suggestions</a></li>
-                        <li><a href="#">We're Hiring </a></li>
-                     </ul>
-                  </div>
-               </aside>
             </div>
          </div>
       </main>
@@ -257,7 +291,7 @@
                </div>
             </div>
             <!-- /row-->
-            <hr>
+            <hr style="margin: 0;">
             <div class="row">
                <div class="col-lg-8 col-12 block-center-footer">
                   <ul id="additional_links">
@@ -388,6 +422,13 @@
       </div>
    </div>
    <!--Bottom Menu-->
+
+   <!-- Floating Button -->
+   <div class="mobile_listing_btn">
+      <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
+         Listing</a>
+   </div>
+   <!-- Floating Button -->
 
    <div id="toTop"></div>
    <!-- Back to top button -->

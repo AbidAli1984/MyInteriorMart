@@ -37,70 +37,120 @@
 
         <!-- Menu Start -->
         <header class="header_in">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-12">
-                        <div id="logo">
-                            <a href="index.html" title="index">
-                                <img src="FrontEnd/img/logo_sticky.svg" width="220" alt="logo" class="logo_sticky">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-12">
-                        <ul id="top_menu">
-                            <li>
-                                <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
-                                    Listing</a>
-                            </li>
-                            <li>
-                                <a href="#" class="notification" title="notification">
-                                    <img src="FrontEnd/img/icon/notification.svg" alt="notification">
-                                </a>
-                            </li>
-                            <li>
-                                <div class="dropdown usericon">
-                                    <a class="usericon-btn dropdown-toggle" type="button" id="usericon"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="FrontEnd/img/icon/user.svg">
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="usericon">
-                                        <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user"
-                                                style="margin-right: 15px;"></i>My Profile</a>
-                                        <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i
-                                                class="fa fa-bell "></i>Notification</a>
-                                        <a class="dropdown-item" href="index.html"><i
-                                                class="fa fa-sign-out "></i>Logout</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <!-- /top_menu -->
-                        <a href="#menu" class="btn_mobile">
-                            <div class="hamburger hamburger--spin" id="hamburger">
-                                <div class="hamburger-box">
-                                    <div class="hamburger-inner"></div>
-                                </div>
-                            </div>
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-3 col-12">
+                  <div id="logo">
+                     <a href="index.html" title="index">
+                        <img src="FrontEnd/img/logo_sticky.svg" width="220" alt="logo" class="logo_sticky">
+                     </a>
+                  </div>
+               </div>
+               <div class="col-lg-9 col-12">
+                  <ul id="top_menu">
+                     <li><a href="login.html" id="hide_in_mobile" class="btn_add listing-btn">Free Listing</a></li>
+                     <!-- <li>
+                        <a href="#" class="notification" title="notification">
+                           <img src="FrontEnd/img/icon/notification.svg" alt="notification">
                         </a>
-                        <nav id="menu" class="main-menu">
-                            <ul>
-                                <li><span><a href="index.html">Home</a></span></li>
-                                <li><span><a href="#0">Buy</a></span></li>
-                                <li><span><a href="#0">Sell</a></span></li>
-                                <li><span><a href="#0">Offer</a></span></li>
-                                <li><span><a href="#0">Job</a></span></li>
-                                <li><span><a href="labour-naka.html">Labour Naka</a></span></li>
-                                <li><span><a href="#">Suggestion</a></span></li>
-                             </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- /row -->
+                     </li> -->
+                     <li>
+                        <div class="dropdown notification">
+                           <a class=" dropdown-toggle notification" type="button" id="notification" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <img src="FrontEnd/img/icon/notification.svg" alt="notification">
+                           </a>
+                           <div class="dropdown-menu notification-menu" aria-labelledby="notification">
+                              <div class="d-flex justify-content-between align-items-center mb-1">
+                                 <h6 class="m-0">Notifications</h6>
+                                 <a href="notifications.html" style="font-size: 12px; color: #fe900d;">View All</a>
+                              </div>
+                              <div class="notify_body">
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                                 <div class="notification-list">
+                                    <span class="small float-right text-muted">11:21 AM June 04 2021</span>
+                                    <span class="nitify_dot"></span>
+                                    <div class="notify_heading">
+                                       Listing
+                                    </div>
+                                    <p class="notify_txt">
+                                       This is an automated server response message. All systems are online.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="dropdown usericon">
+                           <a class="usericon-btn dropdown-toggle" type="button" id="usericon" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <img src="FrontEnd/img/icon/user.svg">
+                           </a>
+                           <div class="dropdown-menu" aria-labelledby="usericon">
+                              <a class="dropdown-item" href="user-profile.html"><i class="fa fa-user" style="margin-right: 15px;"></i>My Profile</a>
+                              <!-- <a class="dropdown-item" href="user-profile.html#v-pill-notification-tab"><i class="fa fa-bell "></i>Notification</a> -->
+                              <a class="dropdown-item" href="index.html"><i class="fa fa-sign-out "></i>Logout</a>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+                  <!-- /top_menu -->
+                  <a href="#menu" class="btn_mobile">
+                     <div class="hamburger hamburger--spin" id="hamburger">
+                        <div class="hamburger-box">
+                           <div class="hamburger-inner"></div>
+                        </div>
+                     </div>
+                  </a>
+                  <nav id="menu" class="main-menu">
+                     <ul>
+                        <!-- <li><span><a href="index.html">Home</a></span></li>
+                        <li><span><a href="#0">Buy</a></span></li>
+                        <li><span><a href="#0">Sell</a></span></li>
+                        <li><span><a href="#0">Offer</a></span></li>
+                        <li><span><a href="#0">Job</a></span></li>
+                        <li><span><a href="labour-naka.html">Labour Naka</a></span></li> -->
+                        <li><span><a href="#">Suggestion</a></span></li>
+                     </ul>
+                  </nav>
+               </div>
             </div>
-            <!-- /container -->
-            <!-- search_mobile -->
-            <div class="layer"></div>
-        </header>
+            <!-- /row -->
+         </div>
+         <!-- /container -->
+         <!-- search_mobile -->
+         <div class="layer"></div>
+      </header>
         <!-- Menu End -->
 
 
@@ -113,7 +163,7 @@
                             <p class="add-lidting-title-from">
                                 Add Listing / Add Payment Mode
                                 <span>
-                                    <a class="back_btn mx-3" href="user-profile.html">Back</a>
+                                    <a class="back_btn mx-3" href="vendor-profile.html">Back</a>
                                 </span>
                             </p>
                             <div class="row">
@@ -242,6 +292,13 @@
         </div>
     </div>
     <!--Bottom Menu-->
+
+     <!-- Floating Button -->
+   <div class="mobile_listing_btn">
+      <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
+         Listing</a>
+   </div>
+   <!-- Floating Button -->
 
     <div id="toTop"></div>
     <!-- Back to top button -->

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="directory and listings ">
     <meta name="author" content="directory">
-    <title>Home Page</title>
+    <title>Contact Us</title>
     <!-- Favicons-->
     <link rel="shortcut icon" href="FrontEnd/img/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="FrontEnd/img/apple-touch-icon-57x57-precomposed.png">
@@ -24,10 +24,8 @@
     <link href="FrontEnd/css/bootstrap.min.css" rel="stylesheet">
     <link href="FrontEnd/css/style.css" rel="stylesheet">
     <link href="FrontEnd/css/vendors.css" rel="stylesheet">
-    <link href="FrontEnd/css/select2.min.css" rel="stylesheet">
     <!-- YOUR CUSTOM CSS -->
     <link href="FrontEnd/css/custom.css" rel="stylesheet">
-    <link href="FrontEnd/css/select2.min.css" rel="stylesheet">
     <link href="FrontEnd/admin_section/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -154,115 +152,97 @@
         <!-- Menu End -->
 
 
-        <div class="container my-5">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="profile-sidebar-content">
-                        <from action="#" method="post">
-                            <h4>Add Working Hours</h4>
-                            <p class="add-lidting-title-from">
-                                Add Listing / Add Working Hours 
-                                <span>
-                                    <a class="back_btn mx-3" href="vendor-profile.html">Back</a>
-                                </span>
-                            </p>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                   <label for="fcategory">Monday From</label>
-                                   <input class="form-control" type="time"  name="mondayfrom" id="mondayfrom">
+        <main>
+            <div class="container mt-4 mb-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <div class="contact_card">
+                            <div class="contact_img_sec  phone_img">
+                                <img src="./FrontEnd/img/banner/phone.png" class="contact_img"
+                                    alt="Mobile">
+                            </div>
+                            <div class="contact_heading">
+                                Mobile Number
+                            </div>
+                            <div class="contact_text">
+                                <a href="tel:+919876543210">+91 9876543210</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="contact_card">
+                            <div class="contact_img_sec email_img">
+                                <img src="./FrontEnd/img/banner/mail.png" class="contact_img"
+                                    alt="email">
+                            </div>
+                            <div class="contact_heading">
+                                Email
+                            </div>
+                            <div class="contact_text">
+                                <a href="mailto:info@myinteriormart.com">info@myinteriormart.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="contact_card">
+                            <div class="contact_img_sec address_img">
+                                <img src="./FrontEnd/img/banner/address.png" class="contact_img"
+                                    alt="Address">
+                            </div>
+                            <div class="contact_heading">
+                                Address
+                            </div>
+                            <div class="contact_text">
+                                F-306 1st Floor Dream's The Mall, Lal Bahadur Shastri Rd, Bhandup West, Mumbai,
+                                Maharashtra 400078
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-7">
+                        <div class="contact_form">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <!-- <label class="form-label">First Name</label> -->
+                                            <input type="text" class="form-control" placeholder="First Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <!-- <label class="form-label">Last Name</label> -->
+                                            <input type="text" class="form-control" placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <!-- <label class="form-label">Mobile Number</label> -->
+                                            <input type="text" class="form-control" placeholder="Mobile Number">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <!-- <label class="form-label">Email</label> -->
+                                            <input type="email" class="form-control" placeholder="Email Address">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <!-- <label class="form-label">Message</label> -->
+                                            <textarea class="form-control" rows="4" placeholder="Messsage"></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="contact_form_btn rounded"
+                                        id="submit-contact">Submit</button>
                                 </div>
-                                <div class="form-group col-md-6">
-                                   <label for="mondayto">Monday To</label>
-                                   <input class="form-control" type="time" name="mondayto" id="mondayto">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="tuesdayfrom">Tuesday From</label>
-                                   <input class="form-control" type="time"  name="tuesdayfrom" id="tuesdayfrom">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="tuesdayto">Tuesday To</label>
-                                   <input class="form-control" type="time" name="tuesdayto" id="tuesdayto">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="wednesdayfrom">Wednesday From</label>
-                                   <input class="form-control" type="time"  name="wednesdayfrom" id="wednesdayfrom">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="wednesdayto">Wednesday To</label>
-                                   <input class="form-control" type="time" name="wednesdayto" id="wednesdayto">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="thursdayfrom">Thursday From</label>
-                                   <input class="form-control" type="time"  name="thursdayfrom" id="thursdayfrom">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="thursdayto">Thursday To</label>
-                                   <input class="form-control" type="time" name="thursdayto" id="thursdayto">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="fridayfrom">Friday From</label>
-                                   <input class="form-control" type="time"  name="fridayfrom" id="fridayfrom">
-                                </div>
-                                <div class="form-group col-md-6">
-                                   <label for="fridayto">Friday To</label>
-                                   <input class="form-control" type="time" name="fridayto" id="fridayto">
-                                </div>
-                                <hr>
-                                <div class="col-md-12">
-                                   <div class="clearfix add_bottom_15">
-                                      <div class="checkboxes float-left">
-                                         <label class="container_check">Saturday Holiday
-                                            <input type="checkbox" id="SaturdayHoliday" name="SaturdayHoliday">
-                                            <span class="checkmark"></span>
-                                         </label>
-                                      </div>
-                                   </div>
-                                </div>                                                                 
-                                <div class="col-md-6">
-                                   <div class="form-group">
-                                      <label class="control-label" for="SaturdayFrom">Saturday From</label>
-                                      <input class="form-control" id="SaturdayFrom" type="time" name="SaturdayFrom">
-                                   </div>
-                                </div>
-                                <div class="col-md-6">
-                                   <div class="form-group">
-                                      <label class="control-label" for="SaturdayTo">Saturday To</label>
-                                      <input class="form-control" id="SaturdayTo" type="time" name="SaturdayTo" >
-                                   </div>
-                                </div>
-                                <hr>
-                                <div class="col-md-12">
-                                   <div class="clearfix add_bottom_15">
-                                      <div class="checkboxes float-left">
-                                         <label class="container_check">Sunday Holiday
-                                            <input type="checkbox" id="SundayHoliday" name="SundayHoliday">
-                                            <span class="checkmark"></span>
-                                         </label>
-                                      </div>
-                                   </div>
-                                </div>                                                                 
-                                <div class="col-md-6">
-                                   <div class="form-group">
-                                      <label class="control-label" for="SundayFrom">Sunday From</label>
-                                      <input class="form-control" id="SundayFrom" type="time" name="SundayFrom">
-                                   </div>
-                                </div>
-                                <div class="col-md-6">
-                                   <div class="form-group">
-                                      <label class="control-label" for="Sundayto">Sunday To</label>
-                                      <input class="form-control" id="Sundayto" type="time" name="Sundayto" >
-                                   </div>
-                                </div>
-                                <div class="text-left col-12 mt-3">
-                                   <input type="submit" value="Save & Continue" class="btn_1">
-                                </div>
-                             </div>
-                         </from>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        </main>
 
         <footer>
             <div class="container">
@@ -345,39 +325,19 @@
     </div>
     <!-- Page End -->
 
+ <!-- Floating Button -->
+ <div class="mobile_listing_btn">
+   <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
+      Listing</a>
+</div>
+<!-- Floating Button -->
 
-    <!--Bottom Menu-->
-    <div class="container-fluid bottom-link-sticky">
-        <div class="row">
-            <div class="col-3 bottom-link-sticky-list">
-                <a href="#" title="suggestion">suggestion</a>
-            </div>
-            <div class="col-3 bottom-link-sticky-list">
-                <a href="#" title="Post Add">Post Add</a>
-            </div>
-            <div class="col-3 bottom-link-sticky-list">
-                <a href="#" title="Send Enquiry">Send Enquiry</a>
-            </div>
-            <div class="col-3 bottom-link-sticky-list">
-                <a href="#" title="Share">Share</a>
-            </div>
-        </div>
-    </div>
-    <!--Bottom Menu-->
-
-     <!-- Floating Button -->
-   <div class="mobile_listing_btn">
-      <a href="login.html" id="" title="Sign In" class="btn_add listing-btn">Create Free
-         Listing</a>
-   </div>
-   <!-- Floating Button -->
 
     <div id="toTop"></div>
     <!-- Back to top button -->
 
     <!-- COMMON SCRIPTS Start -->
     <script src="FrontEnd/js/common_scripts.js"></script>
-    <script src="FrontEnd/js/select2.min.js"></script>
     <script src="FrontEnd/js/functions.js"></script>
     <script src="FrontEnd/js/validate.js"></script>
     <script src="FrontEnd/js/main.js"></script>

@@ -71,7 +71,7 @@
 
 a.notification {
 	display: block;
-	margin-top: 7px;
+	/* margin-top: 7px; */
 }
 
 .usericon .usericon-btn img {
@@ -165,6 +165,13 @@ a.notification {
 	padding: 15px 15px;
 	width: 100%;
 	left: -81px!important;
+}
+
+.notification .dropdown-menu {
+	padding: 15px 15px;
+	width: 320px;
+	left: -85px!important;
+	
 }
 
 .usericon .dropdown-menu .dropdown-item {
@@ -465,7 +472,7 @@ footer ul {
 
 .footer-link .links a {
 	color: #fff;
-	font-size: 19px;
+	font-size: 16px;
 	line-height: 22px;
 }
 
@@ -905,13 +912,15 @@ div#RatingBar {
 
 
 .company-listing-tab .nav-tabs .nav-item {
-    background-color: #dedddd;
+    background-color: #fff;
     margin-right: 2px;
 	margin-bottom: 0px;
+	border: 1px solid #fe900d;
+	color: #fe900d;
 }
 
 .company-listing-tab .nav-tabs .nav-item a {
-    color: #000;
+    color: #fe900d;
     font-size: 16px;
     font-weight: 500;
     font-family: 'PoppinsMedium';
@@ -928,7 +937,7 @@ div#RatingBar {
 
 .company-listing-tab .nav-tabs .nav-item a.active {
     background-color: #fe900d;
-	color: #000;
+	color: #fff;
 	border-bottom: 0px solid #fe900d;
 }
 
@@ -958,6 +967,11 @@ option[value=""][disabled] {
 .listing-gallery {
 	height: 234px;
 }
+
+.review-user {
+	margin: 15px 0px;
+}
+
 @media (max-width: 767px) {
 	.listing-btn,
 	a.notification {
@@ -1237,6 +1251,7 @@ option[value=""][disabled] {
 		background-color: #fff;
 		width: 100%;
 		box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 10%);
+		z-index: 100000;
 	}
 	.bottom-link-sticky-list a {
 		padding: 10px 5px;
@@ -1393,17 +1408,18 @@ iframe#gmap_canvas {
 	background: #fff;
     border: 1px solid #ededed;
     margin-bottom: 25px;
-    -webkit-box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 5%);
+    /* -webkit-box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 5%);
     -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.05);
-    box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 5%);
+    box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 5%); */
 }
 
 .profile-side-menu a {
 	border-bottom: 1px solid #ededed;
 	display: block;
-    padding: 15px 20px;
+    padding: 8px 20px;
 	color: #444;
 	border-radius: 0px!important;
+	font-size: 15px;
 }
 
 .profile-side-menu.nav-pills .nav-link.active, .profile-side-menu.nav-pills .show>.nav-link {
@@ -1473,7 +1489,7 @@ iframe#gmap_canvas {
     list-style: none;
 }
 
-.list_general > ul > li {
+.list_general > ul > li > .li {
     margin: 0 -25px 0 -25px;
     position: relative;
     padding: 30px 30px 5px 120px;
@@ -1503,7 +1519,7 @@ iframe#gmap_canvas {
     margin: 0 0 30px 0;
     padding: 0;
     position: absolute;
-    top: 30px;
+    top: 15px;
     right: 30px;
 }
 
@@ -1545,11 +1561,10 @@ iframe#gmap_canvas {
 }
 
 .notification-list {
-    background-color: #f8f8f8;
+    background-color: #fff;
     padding: 15px;
     margin-bottom: 15px;
-    border: 1px solid;
-    border-color: #bbb3b37a;
+    border: 1px solid #fe900d;
 }
 
 .notification-list p {
@@ -1597,4 +1612,17 @@ hr {
     border: 0;
 	width: 100%;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 767px) {
+	.notification .dropdown-menu {
+		padding: 15px 15px;
+		width: 230px;
+		left: 0px!important;
+	}
+
+	.usericon .dropdown-menu {
+		left: 0px!important;
+	}
 }
