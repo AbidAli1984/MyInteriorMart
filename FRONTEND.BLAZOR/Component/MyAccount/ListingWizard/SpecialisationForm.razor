@@ -1,0 +1,369 @@
+﻿<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <button class="btn btn-primary" @onclick="@(async() => await SelectAllAsync())">Select All</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Accept Tender Work
+                    <input type="checkbox" @bind="SpecialisationVM.AcceptTenderWork" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Banks
+                    <input type="checkbox" @bind="SpecialisationVM.Bank" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Beauty Parlors
+                    <input type="checkbox" @bind="SpecialisationVM.BeautyParlors" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Bungalow
+                    <input type="checkbox" @bind="SpecialisationVM.Bungalow" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Call Center
+                    <input type="checkbox" @bind="SpecialisationVM.CallCenter" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Church
+                    <input type="checkbox" @bind="SpecialisationVM.Church" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Company
+                    <input type="checkbox" @bind="SpecialisationVM.Company" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Computer Institute
+                    <input type="checkbox" @bind="SpecialisationVM.ComputerInstitute" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Dispensary
+                    <input type="checkbox" @bind="SpecialisationVM.Dispensary" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Exhibition Stall
+                    <input type="checkbox" @bind="SpecialisationVM.ExhibitionStall" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Factory
+                    <input type="checkbox" @bind="SpecialisationVM.Factory" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Farmhouse
+                    <input type="checkbox" @bind="SpecialisationVM.Farmhouse" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Gurudwara
+                    <input type="checkbox" @bind="SpecialisationVM.Gurudwara" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Gym
+                    <input type="checkbox" @bind="SpecialisationVM.Gym" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Health Club
+                    <input type="checkbox" @bind="SpecialisationVM.HealthClub" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Home
+                    <input type="checkbox" @bind="SpecialisationVM.Home" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Hospital
+                    <input type="checkbox" @bind="SpecialisationVM.Hospital" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Hotel
+                    <input type="checkbox" @bind="SpecialisationVM.Hotel" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Laboratory
+                    <input type="checkbox" @bind="SpecialisationVM.Laboratory" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Mandir
+                    <input type="checkbox" @bind="SpecialisationVM.Mandir" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Mosque
+                    <input type="checkbox" @bind="SpecialisationVM.Mosque" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Office
+                    <input type="checkbox" @bind="SpecialisationVM.Office" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Plazas
+                    <input type="checkbox" @bind="SpecialisationVM.Plazas" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Residential Society
+                    <input type="checkbox" @bind="SpecialisationVM.ResidentialSociety" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Resorts
+                    <input type="checkbox" @bind="SpecialisationVM.Resorts" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Restaurants
+                    <input type="checkbox" @bind="SpecialisationVM.Restaurants" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Salons
+                    <input type="checkbox" @bind="SpecialisationVM.Saloons" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Shop
+                    <input type="checkbox" @bind="SpecialisationVM.Shop" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Shopping Mall
+                    <input type="checkbox" @bind="SpecialisationVM.ShoppingMall" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Showroom
+                    <input type="checkbox" @bind="SpecialisationVM.Showroom" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Warehouse
+                    <input type="checkbox" @bind="SpecialisationVM.Warehouse" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="text-left col-12 mt-3">
+        @if (buttonBusy == false)
+        {
+            <button class="btn btn-primary" @onclick="@(async() => await CreateSpecialisationAsync())">Save & Continue</button>
+        }
+        else
+        {
+            <button class="btn btn-secondary">Saving...</button>
+        }
+        @if (IsSpecialisationExist)
+        {
+            <a href="/MyAccount/Listing/WorkingHours" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+        }
+        <a href="/MyAccount/Listing/Category" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
+    </div>
+</div>
