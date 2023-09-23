@@ -1,0 +1,116 @@
+﻿<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="clearfix add_bottom_15">
+            <button class="btn btn-primary" @onclick="@(async() => await CopyToAll())">
+                Copy To All
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="fcategory">Monday From</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.MondayFrom">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="mondayto">Monday To</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.MondayTo">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="tuesdayfrom">Tuesday From</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.TuesdayFrom">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="tuesdayto">Tuesday To</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.TuesdayTo">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="wednesdayfrom">Wednesday From</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.WednesdayFrom">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="wednesdayto">Wednesday To</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.WednesdayTo">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="thursdayfrom">Thursday From</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.ThursdayFrom">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="thursdayto">Thursday To</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.ThursdayTo">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="fridayfrom">Friday From</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.FridayFrom">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="fridayto">Friday To</label>
+        <input class="form-control" type="time" @bind="@WorkingHoursVM.FridayTo">
+    </div>
+    <hr>
+    <div class="col-md-12">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Saturday Holiday
+                    <input type="checkbox" @bind="@WorkingHoursVM.SaturdayHoliday">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label" for="SaturdayFrom">Saturday From</label>
+            <input class="form-control" type="time" @bind="@WorkingHoursVM.SaturdayFrom">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label" for="SaturdayTo">Saturday To</label>
+            <input class="form-control" type="time" @bind="@WorkingHoursVM.SaturdayTo">
+        </div>
+    </div>
+    <hr>
+    <div class="col-md-12">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Sunday Holiday
+                    <input type="checkbox" @bind="@WorkingHoursVM.SundayHoliday">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label" for="SundayFrom">Sunday From</label>
+            <input class="form-control" type="time" @bind="@WorkingHoursVM.SundayFrom">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label" for="Sundayto">Sunday To</label>
+            <input class="form-control" type="time" @bind="@WorkingHoursVM.SundayTo">
+        </div>
+    </div>
+    <div class="text-left col-12 mt-3">
+        @if (buttonBusy == false)
+        {
+            <button class="btn btn-primary" @onclick="@(async() => await CreateWorkingHoursAsync())">
+                Save & Continue
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-secondary">Saving...</button>
+        }
+        @if (IsWorkingHourExist)
+        {
+            <a href="/MyAccount/Listing/PaymentMode" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
+        }
+        <a href="/MyAccount/Listing/Specialisation" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
+    </div>
+</div>
