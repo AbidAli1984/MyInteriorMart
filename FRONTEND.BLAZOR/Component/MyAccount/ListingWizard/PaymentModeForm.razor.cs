@@ -12,8 +12,8 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
 {
     public partial class PaymentModeForm
     {
-        [Parameter]
-        public bool IsCreateFreeListing { get; set; }
+        [Parameter] public int MenuId { get; set; }
+        [Parameter] public bool IsCreateFreeListing { get; set; }
 
         [Inject] private IHttpContextAccessor httpConAccess { get; set; }
         [Inject] IUserService userService { get; set; }
@@ -30,6 +30,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
         public int ListingId { get; set; }
         public int Steps { get; set; }
         public bool IsPaymentModeExist { get; set; }
+        public string url;
 
 
         protected async override Task OnInitializedAsync()
@@ -37,6 +38,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
             try
             {
                 // Get User Name
+                url = Constants.getListingUrl(MenuId);
                 var authstate = await authenticationState.GetAuthenticationStateAsync();
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
@@ -96,7 +98,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
 
                 await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.PaymentModeComplete, Steps);
                 if (!IsCreateFreeListing)
-                    navManager.NavigateTo("/MyAccount/Listing/Images");
+                    navManager.NavigateTo($"{url}/Images");
             }
             catch (Exception exc)
             {

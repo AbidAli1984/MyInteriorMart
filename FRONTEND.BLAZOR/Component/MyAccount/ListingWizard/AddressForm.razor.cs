@@ -12,6 +12,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
 {
     public partial class AddressForm
     {
+        [Parameter] public int MenuId { get; set; }
         [Inject] private IHttpContextAccessor httpConAccess { get; set; }
         [Inject] IUserService userService { get; set; }
         [Inject] IListingService listingService { get; set; }
@@ -29,11 +30,13 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
         public int Steps { get; set; }
         public bool IsAddressExist { get; set; }
 
+        public string url;
 
         protected async override Task OnInitializedAsync()
         {
             try
             {
+                url = Constants.getListingUrl(MenuId);
                 var authstate = await authenticationState.GetAuthenticationStateAsync();
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
@@ -118,7 +121,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
                 }
 
                 await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.AddressComplete, Steps);
-                navManager.NavigateTo($"/MyAccount/Listing/Category");
+                navManager.NavigateTo($"{url}/Category");
             }
             catch (Exception exc)
             {

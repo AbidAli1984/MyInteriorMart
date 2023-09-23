@@ -14,6 +14,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
 {
     public partial class CompanyForm
     {
+        [Parameter] public int MenuId { get; set; }
         [Inject] private IHttpContextAccessor httpConAccess { get; set; }
         [Inject] IUserService userService { get; set; }
         [Inject] IListingService listingService { get; set; }
@@ -28,11 +29,13 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
         public bool buttonBusy { get; set; }
         public string CurrentUserGuid { get; set; }
         public bool IsCompanyExists { get; set; }
+        public string url;
 
         protected async override Task OnInitializedAsync()
         {
             try
             {
+                url = BOL.Constants.getListingUrl(MenuId);
                 var authstate = await authenticationState.GetAuthenticationStateAsync();
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
@@ -92,7 +95,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
                     await listingService.UpdateAsync(listing);
                 }
 
-                navManager.NavigateTo($"/MyAccount/Listing/Communication");
+                navManager.NavigateTo($"{url}/Communication");
             }
             catch (Exception exc)
             {

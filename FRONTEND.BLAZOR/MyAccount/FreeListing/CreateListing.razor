@@ -1,4 +1,4 @@
-﻿@page "/MyAccount/Listing/Free-Listing"
+﻿@attribute [Route(BOL.Constants.freeListingUrl + "/Create-Listing")]
 
 <AuthorizeView>
     <Authorized>
@@ -6,7 +6,7 @@
             <div class="container margin_60_35">
                 <div class="row">
                     <div class="col-lg-3 p-0">
-                        <FreeListingSideNav currentPage="@BOL.Constants.EditProfile" />
+                        <FreeListingSideNav currentPage="@BOL.Constants.CreateListing" />
                     </div>
 
                     <div class="col-lg-9 p-0">

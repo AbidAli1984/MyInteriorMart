@@ -34,6 +34,7 @@ namespace BOL
         public static int Buy = 23;
         public static int Sell = 24;
         public static int Jobs = 25;
+        public static int CreateListing = 26;
         #endregion
 
         #region Business
@@ -60,5 +61,13 @@ namespace BOL
         public const string FacebookLink = "https://www.facebook.com/sharer/sharer.php?quote=" + ShareCompanyTagLine;
         public const string WhatsappLink = "https://web.whatsapp.com/send?text=" + ShareCompanyTagLine;
         #endregion
+
+        public const string listingUrl = "/MyAccount/Listing";
+        public const string freeListingUrl = "/Listing/Free-Listing";
+
+        public static string getListingUrl(int listingMenu)
+        {
+            return listingMenu == CreateListing ? freeListingUrl : listingUrl;
+        }
     }
 }

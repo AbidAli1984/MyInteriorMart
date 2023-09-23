@@ -12,6 +12,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
 {
     public partial class SpecialisationForm
     {
+        [Parameter] public int MenuId { get; set; }
         [Inject] AuthenticationStateProvider authenticationState { get; set; }
         [Inject] private IHttpContextAccessor httpConAccess { get; set; }
         [Inject] IUserService userService { get; set; }
@@ -27,13 +28,14 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
         public int ListingId { get; set; }
         public int Steps { get; set; }
         public bool IsSpecialisationExist { get; set; }
-
+        public string url;
 
         protected async override Task OnInitializedAsync()
         {
             try
             {
                 // Get User Name
+                url = Constants.getListingUrl(MenuId);
                 var authstate = await authenticationState.GetAuthenticationStateAsync();
                 var user = authstate.User;
                 if (user.Identity.IsAuthenticated)
@@ -98,7 +100,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
                 }
 
                 await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.SpecialisationComplete, Steps);
-                navManager.NavigateTo($"/MyAccount/Listing/WorkingHours");
+                navManager.NavigateTo($"{url}/WorkingHours");
             }
             catch (Exception exc)
             {
