@@ -1,7 +1,4 @@
 ﻿@page "/MyAccount/Listing/Address"
-@inject AuthenticationStateProvider authenticationState
-@inject NotificationService _notice
-@inject NavigationManager navManager
 
 <AuthorizeView>
     <Authorized>
@@ -16,48 +13,7 @@
                                 <a class="back_btn mx-3" href="/MyAccount/ManageListing">Back</a>
                             </span>
                         </p>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <CountryDropDown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <StateDropDown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <CityDropDown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <LocalityDropdown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                <AddLocalityModal ListWizAddressVM="LWAddressVM" EventGetLocalitiesByCityId="GetLocalitiesByCityId" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <PincodeDropdown ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                <AddPincodeModal ListWizAddressVM="LWAddressVM" EventGetPincodesByAreaId="GetPincodesByAreaId" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <AreaDropdown  ListWizAddressVM="LWAddressVM" ExecuteStateHasChanged="ExecuteStateHasChanged" />
-                                <AddAreaModal ListWizAddressVM="LWAddressVM" EventGetLocalitiesByPincodeId="GetLocalitiesByPincodeId" />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>Address <span class="text-danger">*</span></label>
-                                <textarea @bind="LWAddressVM.Address" class="form-control" rows="4"></textarea>
-                            </div>
-                            <div class="text-left col-12 mt-3">
-                                @if (buttonBusy == false)
-                                {
-                                    <button class="btn btn-primary" @onclick="@(async() => await AddOrUpdateAddress())">Save & Continue</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-secondary">Saving...</button>
-                                }
-                                @if (IsAddressExist)
-                                {
-                                    <a href="/MyAccount/Listing/Category" class="pull-right mr-2"><img src="/img/arrow-next.png" height="25" /></a>
-                                }
-                                <a href="/MyAccount/Listing/Communication" class="pull-right mr-2"><img src="/img/arrow-previous.png" height="25" /></a>
-                            </div>
-                        </div>
+                        <AddressForm />
                     </div>
                 </div>
             </div>
