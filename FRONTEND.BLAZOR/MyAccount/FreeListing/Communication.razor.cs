@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR.MyAccount.FreeListing
 {
-    public partial class Company
+    public partial class Communication
     {
         [Inject] private AuthenticationStateProvider authenticationState { get; set; }
 
