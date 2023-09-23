@@ -43,7 +43,7 @@ namespace FRONTEND.BLAZOR.Shared
                 {
                     ApplicationUser appUser = await userService.GetUserByUserName(user.Identity.Name);
                     var userProfile = await userProfileService.GetProfileByOwnerGuid(appUser.Id);
-                    imgUrl = string.IsNullOrEmpty(userProfile.ImageUrl) ? "resources/img/icon/user.svg" : userProfile.ImageUrl;
+                    imgUrl = userProfile == null || string.IsNullOrEmpty(userProfile.ImageUrl) ? "resources/img/icon/user.svg" : userProfile.ImageUrl;
                     isVendor = appUser.IsVendor;
 
                     if (user.IsInRole("Staffs") == true)

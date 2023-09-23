@@ -76,7 +76,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
             }
         }
 
-        private async Task<bool> isValidFields()
+        private bool isValidFields()
         {
             if (string.IsNullOrEmpty(UserProfileVM.Gender) || string.IsNullOrEmpty(UserProfileVM.Name))
             {
@@ -89,7 +89,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
         public async Task CreateProfileAsync()
         {
-            if (!(await isValidFields()))
+            if (!isValidFields())
                 return;
 
             if (userProfile == null)
@@ -108,7 +108,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     };
 
                     await userProfileService.AddUserProfile(userProfile);
-                    navManager.NavigateTo("/MyAccount/ProfileInfo");
+                    navManager.NavigateTo(UserProfileVM.isVendor ? "/" : "/MyAccount/ProfileInfo", true);
                     helper.ShowNotification(_notice, "Your profile created successfully.");
                 }
                 catch (Exception exc)
@@ -123,7 +123,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 
         public async Task UpdateProfileAsync()
         {
-            if (!(await isValidFields()))
+            if (!isValidFields())
                 return;
 
             if (userProfile != null)
