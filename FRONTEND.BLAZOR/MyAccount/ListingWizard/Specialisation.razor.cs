@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http;
-using AntDesign;
-using BAL.Services.Contracts;
-using BOL;
-using BOL.ComponentModels.MyAccount.ListingWizard;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FRONTEND.BLAZOR.MyAccount.ListingWizard
