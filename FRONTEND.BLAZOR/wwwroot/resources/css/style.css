@@ -5185,6 +5185,10 @@ input.qtyminus {
     animation-name: rotate-x;
 }
 
+textarea {
+    height: 100px !important;
+}
+
 @keyframes rotate-x {
     from {
         transform: rotateY(0deg);
@@ -7181,7 +7185,7 @@ a.btn_3, .btn_3 {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.form-control, .ant-input, .ant-picker, .ant-select-selector {
+.ant-input, .ant-picker, .ant-select-selector {
     height: calc(2.55rem + 2px) !important;
     font-size: 0.875rem;
     -webkit-border-radius: 3px;
