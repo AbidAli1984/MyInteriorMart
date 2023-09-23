@@ -97,8 +97,14 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
                 }
 
                 await listingService.UpdateListingStepByOwnerId(CurrentUserGuid, Constants.PaymentModeComplete, Steps);
-                if (!IsCreateFreeListing)
+                if (IsCreateFreeListing)
+                {
+                    helper.ShowNotification(_notice, "Payment Mode Added/Updated Successfully!");
+                }
+                else
+                {
                     navManager.NavigateTo($"{url}/Images");
+                }
             }
             catch (Exception exc)
             {
