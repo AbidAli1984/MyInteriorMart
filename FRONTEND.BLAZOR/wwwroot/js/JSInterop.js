@@ -75,4 +75,8 @@ function initializeListingDetails() {
         $('.gallery1 a').simpleLightbox();
     }, 200)
 }
+
+function setTitle(title) {
+    document.title = title;
+}
 /* End: Initialize Bootstrap Carousel */
