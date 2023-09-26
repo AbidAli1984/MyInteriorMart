@@ -31,5 +31,8 @@ namespace BAL.Services.Contracts
         Task<IList<ListingActivityVM>> GetListingLikesByUserIdAsync(string userId);
         Task<IList<ListingActivityVM>> GetListingBookmarksByUserIdAsync(string userId);
         Task<IList<ListingActivityVM>> GetListingSubscribesByUserIdAsync(string userId);
+
+        Task<ListingActivityCount> GetListingActivityCountsByOwnerId(string ownerId);
+        Task<ListingActivityCount> GetListingActivityCountsByUserId(string userId);
     }
 }

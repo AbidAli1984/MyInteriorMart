@@ -2,6 +2,7 @@
 using BOL.AUDITTRAIL;
 using BOL.LISTING;
 using BOL.VIEWMODELS;
+using BOL.VIEWMODELS.Dashboards;
 using DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -206,6 +207,40 @@ namespace BAL.Services
                 ActivityText = activityText,
             }).ToList();
             return listingActivityVMs;
+        }
+
+        public async Task<ListingActivityCount> GetListingActivityCountsByOwnerId(string ownerId)
+        {
+            var listing = await _listingRepository.GetListingByOwnerId(ownerId);
+
+            var likes = await _auditRepository.GetLikesByListingId(listing.ListingID);
+            var bookmarks = await _auditRepository.GetBookmarksByListingId(listing.ListingID);
+            var subscribes = await _auditRepository.GetSubscriberByListingId(listing.ListingID);
+            var ratings = await _listingRepository.GetRatingsByListingId(listing.ListingID);
+
+            return new ListingActivityCount
+            {
+                BookmarksCount = bookmarks.Count(),
+                LikesCount = likes.Count(),
+                SubscribersCount = subscribes.Count(),
+                ReviewsCount = ratings.Count()
+            };
+        }
+
+        public async Task<ListingActivityCount> GetListingActivityCountsByUserId(string userId)
+        {
+            var likes = await _auditRepository.GetLikesByUserId(userId);
+            var bookmarks = await _auditRepository.GetBookmarksByUserId(userId);
+            var subscribes = await _auditRepository.GetSubscriberByUserId(userId);
+            var ratings = await _listingRepository.GetRatingsByUserId(userId);
+
+            return new ListingActivityCount
+            {
+                BookmarksCount = bookmarks.Count(),
+                LikesCount = likes.Count(),
+                SubscribersCount = subscribes.Count(),
+                ReviewsCount = ratings.Count()
+            };
         }
     }
 }

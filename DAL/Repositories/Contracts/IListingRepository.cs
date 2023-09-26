@@ -47,6 +47,8 @@ namespace DAL.Repositories.Contracts
 
         Task<RatingReply> GetRatingReplyById(int id);
 
+        Task<IEnumerable<Rating>> GetRatingsByUserId(string userId);
+
         Task<IList<ListingEnquiry>> GetEnquiryByListingId(int listingId);
 
         Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId);

@@ -1,4 +1,5 @@
 ﻿using BAL.Services.Contracts;
+using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -10,12 +11,12 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
 {
     public partial class MyActivity
     {
-        [Inject]
-        public IUserService userService { get; set; }
-        [Inject]
-        AuthenticationStateProvider authenticationState { get; set; }
+        [Inject] public IUserService userService { get; set; }
+        [Inject] AuthenticationStateProvider authenticationState { get; set; }
+        [Inject] public IAuditService auditService { get; set; }
 
         public bool isVendor { get; set; } = false;
+        public ListingActivityCount listingActivityCount { get; set; } = new ListingActivityCount();
 
         protected async override Task OnInitializedAsync()
         {
@@ -28,6 +29,7 @@ namespace FRONTEND.BLAZOR.MyAccount.Profile
                     var applicationUser = await userService.GetUserByUserName(user.Identity.Name);
                     string CurrentUserGuid = applicationUser.Id;
                     isVendor = applicationUser.IsVendor;
+                    listingActivityCount = await auditService.GetListingActivityCountsByUserId(applicationUser.Id);
                 }
             }
             catch (Exception exc)

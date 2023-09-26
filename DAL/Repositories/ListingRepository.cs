@@ -193,6 +193,14 @@ namespace DAL.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Rating>> GetRatingsByUserId(string userId)
+        {
+            return await _listingDbContext.Rating
+                .Where(l => l.OwnerGuid == userId)
+                .OrderByDescending(l => l.Date)
+                .ToListAsync();
+        }
+
         public async Task<RatingReply> GetRatingReplyById(int id)
         {
             return await _listingDbContext.RatingReplies
