@@ -4,6 +4,10 @@
 @inject NotificationService _notice
 @inject IJSRuntime jsRuntime
 
+<Toolbelt.Blazor.HeadElement.Title>@title</Toolbelt.Blazor.HeadElement.Title>
+<Meta Property="og:title" Content="@title" />
+<Meta Property="og:description" Content="@title" />
+<Meta Name="title" Content="@title" />
 <div class="container individual-listing">
     <link href="/resources/css/ListingDetails.css" rel="stylesheet" />
     <div class="row">

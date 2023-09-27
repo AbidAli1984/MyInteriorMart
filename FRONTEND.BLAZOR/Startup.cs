@@ -28,6 +28,7 @@ using BAL.Messaging;
 using BAL.Middleware;
 using AntDesign;
 using BAL;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace FRONTEND.BLAZOR
 {
@@ -84,6 +85,8 @@ namespace FRONTEND.BLAZOR
                 options.UseSqlServer(
                     Configuration.GetConnectionString("MimBanner")), ServiceLifetime.Transient);
             // End:
+
+            services.AddHeadElementHelper();
 
             // Begin: AntDesign Blazor UI
             services.AddAntDesign();

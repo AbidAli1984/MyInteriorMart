@@ -15,23 +15,23 @@
                 </a>
             </div>
             <div class="col-md-3 col-6 my-3 text-center">
-                <a href="@($"{BOL.Constants.FacebookLink} {listingDetailVM.Listing.CompanyName}&u={listingDetailVM.shareUrl}")" target="_blank">
+                <a href="@($"{BOL.Constants.FacebookLink} {listingDetailVM.Listing.CompanyName}&u={listingDetailVM.shareUrl}&t={listingDetailVM.Listing.CompanyName}")" target="_blank">
                     <div class="share_img_sec">
                         <img src="/resources/img/icon/Social/facebook.png" alt="facebook">
                     </div>
                     <p style="color: #333; margin-bottom: 0; margin-top: 5px;">Facebook</p>
                 </a>
             </div>
+            @*<div class="col-md-3 col-6 my-3 text-center">
+                    <a href="#">
+                        <div class="share_img_sec">
+                            <img src="/resources/img/icon/Social/instagram.webp" alt="instagram">
+                        </div>
+                        <p style="color: #333; margin-bottom: 0; margin-top: 5px;">Instagram</p>
+                    </a>
+                </div>*@
             <div class="col-md-3 col-6 my-3 text-center">
-                <a href="#">
-                    <div class="share_img_sec">
-                        <img src="/resources/img/icon/Social/instagram.webp" alt="instagram">
-                    </div>
-                    <p style="color: #333; margin-bottom: 0; margin-top: 5px;">Instagram</p>
-                </a>
-            </div>
-            <div class="col-md-3 col-6 my-3 text-center">
-                <a href="#">
+                <a href="@($"{BOL.Constants.PinInterestLink} {listingDetailVM.Listing.CompanyName}&url={listingDetailVM.shareUrl}")" target="_blank">
                     <div class="share_img_sec">
                         <img src="/resources/img/icon/Social/pinterest.png" alt="pinterest">
                     </div>
@@ -39,7 +39,7 @@
                 </a>
             </div>
             <div class="col-md-3 col-6 my-3 text-center">
-                <a href="#">
+                <a href="@($"{BOL.Constants.LinkedIn}{listingDetailVM.shareUrl}")" target="_blank">
                     <div class="share_img_sec">
                         <img src="/resources/img/icon/Social/linkedin.png" alt="linkedin">
                     </div>
@@ -47,7 +47,7 @@
                 </a>
             </div>
             <div class="col-md-3 col-6 my-3 text-center">
-                <a href="#">
+                <a href="@($"{BOL.Constants.twitterLink} {listingDetailVM.Listing.CompanyName}&url={listingDetailVM.shareUrl}&hashtags={listingDetailVM.Listing.CompanyName}")" target="_blank">
                     <div class="share_img_sec">
                         <img src="/resources/img/icon/Social/x.jpg" alt="x">
                     </div>
@@ -55,12 +55,12 @@
                 </a>
             </div>
             <div class="col-md-3 col-6 my-3 text-center">
-                <a href="#">
+                <buttton @onclick="@(async() => await CopyToClipboard())">
                     <div class="share_img_sec">
                         <img src="/resources/img/icon/Social/link.png" alt="Copy Link">
                     </div>
                     <p style="color: #333; margin-bottom: 0; margin-top: 5px;">Copylink</p>
-                </a>
+                </buttton>
             </div>
         </div>
     </div>

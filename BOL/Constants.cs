@@ -58,8 +58,12 @@ namespace BOL
         private const string ShareCompanyTagLine = "Check this out on MyInteriorMart!";
 
         #region Share Via Social Links
-        public const string FacebookLink = "https://www.facebook.com/sharer/sharer.php?quote=" + ShareCompanyTagLine;
+        public const string FacebookLink = "https://www.facebook.com/sharer/sharer.php?description=" + ShareCompanyTagLine;
         public const string WhatsappLink = "https://web.whatsapp.com/send?text=" + ShareCompanyTagLine;
+        public const string InstagramLink = "";
+        public const string PinInterestLink = "https://www.pinterest.com/pin/create/button/?description=" + ShareCompanyTagLine;
+        public const string LinkedIn = "https://www.linkedin.com/sharing/share-offsite/?url=";
+        public const string twitterLink = "http://twitter.com/share?text=" + ShareCompanyTagLine;
         #endregion
 
         public const string listingUrl = "/MyAccount/Listing";

@@ -76,7 +76,8 @@ function initializeListingDetails() {
     }, 200)
 }
 
-function setTitle(title) {
-    document.title = title;
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
+    console.log(text);
 }
 /* End: Initialize Bootstrap Carousel */

@@ -40,6 +40,8 @@ namespace FRONTEND.BLAZOR.Listings
         public string userAgent { get; set; }
         public bool ToggleCompleteAddress { get; set; }
 
+        string title { get; set; }
+
         protected async override Task OnInitializedAsync()
         {
             try
@@ -58,14 +60,14 @@ namespace FRONTEND.BLAZOR.Listings
                 listingDetailVM = await listingService.GetListingDetailByListingId(ListingID, CurrentUserGuid);
                 if (listingDetailVM != null)
                 {
-                    listingDetailVM.shareUrl = navigationManager.Uri.Replace("%20", "-");
-                    string title = "Catalogue: ";
+                    listingDetailVM.shareUrl = navigationManager.Uri.Replace("%20", "-").Replace("localhost:44317", "myinteriormart.com");
+
+                    title = "Catalogue:";
                     if (listingDetailVM.Listing != null && !string.IsNullOrWhiteSpace(listingDetailVM.Listing.CompanyName))
-                        title += listingDetailVM.Listing.CompanyName;
+                        title += " " + listingDetailVM.Listing.CompanyName;
 
                     if (listingDetailVM.Address != null)
-                        title += listingDetailVM.Address.City + ", " + listingDetailVM.Address.Locality;
-                    await jsRuntime.InvokeVoidAsync("setTitle", title);
+                        title += " " + listingDetailVM.Address.City + ", " + listingDetailVM.Address.Locality;
                 }
             }
             catch (Exception exc)
