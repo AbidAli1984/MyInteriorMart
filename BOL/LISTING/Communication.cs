@@ -74,5 +74,9 @@ namespace BOL.LISTING
         [MaxLength(30, ErrorMessage = "Maximum 30 characters allowed.")]
         [MinLength(3, ErrorMessage = "Minimum 5 characters rerquired.")]
         public string SkypeID { get; set; }
+
+        [Display(Name = "Language")]
+        [Required(ErrorMessage = "Language required.")]
+        public string Language { get; set; }
     }
 }
