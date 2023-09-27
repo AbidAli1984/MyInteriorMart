@@ -1,6 +1,10 @@
 ﻿using BOL.LISTING;
+using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +13,7 @@ using AntDesign;
 using BAL.Services.Contracts;
 using DAL.Models;
 using BOL.ComponentModels.Listings;
+using System.Net;
 
 namespace FRONTEND.BLAZOR.Listings
 {
@@ -21,6 +26,8 @@ namespace FRONTEND.BLAZOR.Listings
         [Inject] Helper helper { get; set; }
         [Inject] NavigationManager navigationManager { get; set; }
 
+        [Parameter] public string City { get; set; }
+        [Parameter] public string Detail { get; set; }
         [Parameter] public string ListingID { get; set; }
 
         public ApplicationUser applicationUser { get; set; }

@@ -467,7 +467,8 @@
                                     <button id="BookmarkMe" class="pushRight btn btn-sm @(listingDetailVM.IsBookmarked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleBookmark())">
                                         <i class="fa fa-bookmark-o"></i> Bookmark
                                     </button>
-                                    <a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i> Share</a>
+                                    @*<a href="#0" class="mim-marginLeft-Minus20 btn btn-light btn-sm"><i class="icon-share"></i> Share</a>*@
+                                    <ShareModal listingDetailVM="@listingDetailVM" />
                                     <button id="LikeMe" class="pushRight btn btn-sm ml-1 @(listingDetailVM.IsLiked ? "btn-success" : "btn-light")" @onclick="@(async () => await ToggleLikeAsync())">
                                         <i class="fa fa-thumbs-o-up"></i> Like
                                     </button>
