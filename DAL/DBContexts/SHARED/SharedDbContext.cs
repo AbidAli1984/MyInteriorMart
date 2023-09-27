@@ -23,5 +23,6 @@ namespace DAL.SHARED
         public DbSet<Messages> Messages { get; set; }
         public DbSet<Religion> Religions { get; set; }
         public DbSet<Caste> Castes { get; set; }
+        public DbSet<Language> Languages { get; set; }
     }
 }
