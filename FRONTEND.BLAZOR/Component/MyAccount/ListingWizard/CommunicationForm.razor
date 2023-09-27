@@ -1,5 +1,9 @@
 ﻿<div class="row">
     <div class="form-group col-md-4">
+        <label for="name">Website</label>
+        <AutoCompleteMultiple AutoCompleteMultiVM="CommunicationVM.AutoCompleteMultiVM" />
+    </div>
+    <div class="form-group col-md-4">
         <label for="name">Email <span class="text-danger">*</span></label>
         <Input Type="email" Placeholder="Email" @bind-Value="@CommunicationVM.Email" />
     </div>

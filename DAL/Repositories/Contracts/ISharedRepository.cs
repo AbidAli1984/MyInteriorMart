@@ -40,5 +40,7 @@ namespace DAL.Repositories.Contracts
         Task<IList<Caste>> GetCastesByReligionId(int religionId);
         Task<Caste> GetCasteByCasteId(int casteId);
         Task<IList<Location>> GetLocaliiesByLocalityIds(int[] localityIds);
+
+        Task<IList<Language>> GetLanguages();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using BOL.LISTING;
+using BOL.VIEWMODELS;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Utils;
@@ -39,6 +41,8 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             get { return FieldValidator.websiteErrMessage(Website); }
         }
 
+        public AutoCompleteMultiVM AutoCompleteMultiVM { get; set; } = new AutoCompleteMultiVM();
+
         public void SetViewModel(Communication communication)
         {
             Email = communication.Email;
@@ -63,12 +67,14 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             communication.TollFree = TollFree;
             communication.Fax = Fax;
             communication.SkypeID = SkypeID;
+            communication.Language = string.Join(",", AutoCompleteMultiVM.itemsSelected.Select(x => x.label).ToArray());
         }
 
         public bool isValid()
         {
             return !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Mobile) && 
-                !string.IsNullOrWhiteSpace(Whatsapp) && !string.IsNullOrWhiteSpace(SkypeID);
+                !string.IsNullOrWhiteSpace(Whatsapp) && !string.IsNullOrWhiteSpace(SkypeID) &&
+                AutoCompleteMultiVM.itemsSelected.Count() > 0;
         }
     }
 }

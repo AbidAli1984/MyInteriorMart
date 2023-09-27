@@ -166,5 +166,11 @@ namespace DAL.Repositories
                 .Where(x => localityIds.Contains(x.Id))
                 .ToListAsync();
         }
+
+        public async Task<IList<Language>> GetLanguages()
+        {
+            return await sharedDbContext.Languages
+                .ToListAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BOL.SHARED;
+using BOL.VIEWMODELS;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -39,5 +40,7 @@ namespace BAL.Services.Contracts
 
         Task<IList<Religion>> GetReligions();
         Task<IList<Caste>> GetCastesByReligionId(int religionId);
+
+        Task<IList<SearchResultViewModel>> GetLanguages();
     }
 }

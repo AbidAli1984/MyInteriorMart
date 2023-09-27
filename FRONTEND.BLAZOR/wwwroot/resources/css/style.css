@@ -10248,3 +10248,22 @@ article.blog .post_info {
 .anticon {
     vertical-align: unset;
 }
+
+.ant-select-multiple .ant-select-selector {
+    height: auto !important;
+}
+
+.ant-select-multiple .ant-select-selection-item {
+    background: lightgray;
+    border-radius: 4px;
+    border: 1px solid lightslategray;
+}
+
+.ant-select-multiple .ant-select-selection-item-content {
+    border-right: 1px solid lightslategray;
+    padding-right: 5px;
+}
+
+.ant-select-multiple .ant-select-selection-item-remove > .anticon {
+    vertical-align: unset !important;
+}

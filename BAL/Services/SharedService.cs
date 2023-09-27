@@ -1,8 +1,10 @@
 ﻿using BAL.Services.Contracts;
 using BOL.SHARED;
+using BOL.VIEWMODELS;
 using DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BAL.Services
@@ -119,6 +121,15 @@ namespace BAL.Services
         public async Task<IList<Caste>> GetCastesByReligionId(int religionId)
         {
             return await sharedRepository.GetCastesByReligionId(religionId);
+        }
+
+        public async Task<IList<SearchResultViewModel>> GetLanguages()
+        {
+            var languages = await sharedRepository.GetLanguages();
+
+            return languages
+                .Select(x => new SearchResultViewModel { label = x.Name, value = x.Name })
+                .ToList();
         }
     }
 }

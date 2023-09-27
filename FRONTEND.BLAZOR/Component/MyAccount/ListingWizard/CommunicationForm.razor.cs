@@ -7,6 +7,7 @@ using BAL.Services.Contracts;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Linq;
 
 namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
 {
@@ -16,6 +17,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
         [Inject] private IHttpContextAccessor httpConAccess { get; set; }
         [Inject] IUserService userService { get; set; }
         [Inject] IListingService listingService { get; set; }
+        [Inject] ISharedService sharedService { get; set; }
         [Inject] Helper helper { get; set; }
         [Inject] AuthenticationStateProvider authenticationState { get; set; }
         [Inject] NotificationService _notice { get; set; }
@@ -52,6 +54,9 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
                     {
                         IsCommunicationExist = true;
                         CommunicationVM.SetViewModel(communication);
+                        CommunicationVM.AutoCompleteMultiVM.items = await sharedService.GetLanguages();
+                        if (!string.IsNullOrWhiteSpace(communication.Language))
+                            CommunicationVM.AutoCompleteMultiVM.itemsSelected = helper.GetSearchResultVMFromCommaDelimitString(communication.Language);
                     }
                 }
             }
@@ -65,7 +70,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
         {
             if (!CommunicationVM.isValid())
             {
-                helper.ShowNotification(_notice, "Email, Mobile, Whatsapp and Skype ID is compulsory..", NotificationType.Info);
+                helper.ShowNotification(_notice, "Language, Email, Mobile, Whatsapp and Skype ID is compulsory..", NotificationType.Info);
                 return;
             }
             if (!string.IsNullOrEmpty(CommunicationVM.WebsiteErrorMessage))

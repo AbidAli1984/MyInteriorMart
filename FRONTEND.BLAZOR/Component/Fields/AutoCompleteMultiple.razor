@@ -1,0 +1,13 @@
+﻿@using BOL.VIEWMODELS
+
+<Select Mode="multiple"
+        TItem="SearchResultViewModel"
+        TItemValue="string"
+        DataSource="@AutoCompleteMultiVM.items"
+        @bind-Values="@_selectedValues"
+        LabelName="@nameof(SearchResultViewModel.label)" 
+        ValueName="@nameof(SearchResultViewModel.value)"
+        OnSelectedItemsChanged="OnSelectedItemsChangedHandler"
+        SortByLabel="@SortDirection.Ascending"
+        EnableSearch>
+</Select>

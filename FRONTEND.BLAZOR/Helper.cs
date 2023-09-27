@@ -5,11 +5,14 @@ using BOL;
 using BOL.ComponentModels.MyAccount.ListingWizard;
 using BOL.ComponentModels.MyAccount.Profile;
 using BOL.LISTING;
+using BOL.VIEWMODELS;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FRONTEND.BLAZOR
@@ -79,6 +82,17 @@ namespace FRONTEND.BLAZOR
         public static string GetIpAddress(IHttpContextAccessor httpConAccess)
         {
             return httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
+
+        public IList<SearchResultViewModel> GetSearchResultVMFromCommaDelimitString(string values)
+        {
+            if (!string.IsNullOrWhiteSpace(values))
+            {
+                return values.Split(",")
+                    .Select(x => new SearchResultViewModel { label = x, value = x })
+                    .ToList();
+            }
+            return new List<SearchResultViewModel>();
         }
 
     }
