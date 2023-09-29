@@ -5025,7 +5025,6 @@ section#reviews {
 .dropdown {
     position: relative;
     text-align: left;
-    padding: 15px 10px 0 15px;
 }
 
 @media (max-width: 991px) {
