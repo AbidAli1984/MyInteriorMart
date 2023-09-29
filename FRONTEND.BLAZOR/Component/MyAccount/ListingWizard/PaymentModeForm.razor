@@ -23,30 +23,19 @@
         <div class="clearfix add_bottom_15">
             <div class="checkboxes float-left">
                 <label class="container_check">
+                    Cheque
+                    <input type="checkbox" @bind="PaymentModeVM.Cheque">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
                     RTGS & NEFT
                     <input type="checkbox" @bind="PaymentModeVM.RtgsNeft">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="clearfix add_bottom_15">
-            <div class="checkboxes float-left">
-                <label class="container_check">
-                    PayTM
-                    <input type="checkbox" @bind="@PaymentModeVM.PayTM">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="clearfix add_bottom_15">
-            <div class="checkboxes float-left">
-                <label class="container_check">
-                    Net Banking
-                    <input type="checkbox" @bind="PaymentModeVM.NetBanking">
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -67,27 +56,6 @@
         <div class="clearfix add_bottom_15">
             <div class="checkboxes float-left">
                 <label class="container_check">
-                    Phone Pay
-                    <input type="checkbox" @bind="PaymentModeVM.PhonePay">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-    </div><div class="col-md-4">
-        <div class="clearfix add_bottom_15">
-            <div class="checkboxes float-left">
-                <label class="container_check">
-                    Cheque
-                    <input type="checkbox" @bind="PaymentModeVM.Cheque">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="clearfix add_bottom_15">
-            <div class="checkboxes float-left">
-                <label class="container_check">
                     Credit Card
                     <input type="checkbox" @bind="PaymentModeVM.CreditCard">
                     <span class="checkmark"></span>
@@ -99,13 +67,50 @@
         <div class="clearfix add_bottom_15">
             <div class="checkboxes float-left">
                 <label class="container_check">
+                    Net Banking
+                    <input type="checkbox" @bind="PaymentModeVM.NetBanking">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+
+    @*<div class="col-md-4">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    PayTM
+                    <input type="checkbox" @bind="@PaymentModeVM.PayTM">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
+                    Phone Pay
+                    <input type="checkbox" @bind="PaymentModeVM.PhonePay">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-left">
+                <label class="container_check">
                     Paypal
                     <input type="checkbox" @bind="PaymentModeVM.Paypal">
                     <span class="checkmark"></span>
                 </label>
             </div>
         </div>
-    </div>
+    </div>*@
     <div class="text-left col-12 mt-3">
         @if (buttonBusy == false)
         {

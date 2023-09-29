@@ -1,17 +1,50 @@
 ﻿@using BOL.SHARED
 @using BOL.ComponentModels
 <div class="row">
+    @*<div class="form-group col-md-4">
+                <label for="name">Name <span class="text-danger">*</span></label>
+                <Input Placeholder="Full Name" @bind-Value="@CompanyVM.Name" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Gander <span class="text-danger">*</span></label>
+                <Select DataSource="@CompanyVM.GenderList"
+                        @bind-Value="@CompanyVM.Gender"
+                        LabelName="@nameof(SelectItem.Name)"
+                        ValueName="@nameof(SelectItem.Name)"
+                        Placeholder="Select Gender"
+                        DefaultActiveFirstItem="false"
+                        EnableSearch>
+                </Select>
+            </div>
+        <div class="form-group col-md-4">
+            <label>Designation <span class="text-danger">*</span></label>
+            <Select DataSource="@CompanyVM.Designations"
+                    @bind-Value="@CompanyVM.Designation"
+                    LabelName="@nameof(Designation.Name)"
+                    ValueName="@nameof(Designation.Name)"
+                    Placeholder="Select Designations"
+                    DefaultActiveFirstItem="false"
+                    EnableSearch>
+            </Select>
+        </div>*@
+
+
     <div class="form-group col-md-4">
-        <label for="name">Name <span class="text-danger">*</span></label>
-        <Input Placeholder="Full Name" @bind-Value="@CompanyVM.Name" />
+        <label>Company Name <span class="text-danger">*</span></label>
+        <Input Placeholder="Company Name" @bind-Value="@CompanyVM.CompanyName" />
     </div>
     <div class="form-group col-md-4">
-        <label>Gander <span class="text-danger">*</span></label>
-        <Select DataSource="@CompanyVM.GenderList"
-                @bind-Value="@CompanyVM.Gender"
-                LabelName="@nameof(SelectItem.Name)"
-                ValueName="@nameof(SelectItem.Name)"
-                Placeholder="Select Gender"
+        <label>Business Type <span class="text-danger">*</span></label>
+        <AutoComplete Options="BAL.Constants.ArrKeywords" ValueChanged="SearchBusinessCategory"
+                      OnSelectionChange="AddKeyword" Value="@CompanyVM.BusinessCategory" />
+    </div>
+    <div class="form-group col-md-4">
+        <label>Nature of business <span class="text-danger">*</span></label>
+        <Select DataSource="@CompanyVM.NatureOfBusinesses"
+                @bind-Value="@CompanyVM.NatureOfBusiness"
+                LabelName="@nameof(NatureOfBusiness.Name)"
+                ValueName="@nameof(NatureOfBusiness.Name)"
+                Placeholder="Select Nature of Business"
                 DefaultActiveFirstItem="false"
                 EnableSearch>
         </Select>
@@ -23,19 +56,8 @@
         <DatePicker @bind-Value="@CompanyVM.YearOfEstablishment" Picker="@DatePickerType.Year" />
     </div>
     <div class="form-group col-md-4">
-        <label>Company Name <span class="text-danger">*</span></label>
-        <Input Placeholder="Company Name" @bind-Value="@CompanyVM.CompanyName" />
-    </div>
-
-    <div class="form-group col-md-4">
-        <label>Business Category <span class="text-danger">*</span></label>
-        <AutoComplete Options="BAL.Constants.ArrKeywords" ValueChanged="SearchBusinessCategory"
-                      OnSelectionChange="AddKeyword" Value="@CompanyVM.BusinessCategory" />
-    </div>
-
-    <div class="form-group col-md-4">
-        <label>GST Number <span class="text-danger">*</span></label>
-        <Input Placeholder="GST Number" @bind-Value="@CompanyVM.GSTNumber" />
+        <label>Number of Employees <span class="text-danger">*</span></label>
+        <Input Placeholder="Company Name" type="number" @bind-Value="@CompanyVM.NumberOfEmployees" />
     </div>
     <div class="form-group col-md-4">
         <label class="control-label" for="Turnover">
@@ -51,34 +73,12 @@
         </Select>
     </div>
     <div class="form-group col-md-4">
-        <label>Number of Employees <span class="text-danger">*</span></label>
-        <Input Placeholder="Company Name" type="number" @bind-Value="@CompanyVM.NumberOfEmployees" />
-    </div>
-    <div class="form-group col-md-4">
-        <label>Nature of business <span class="text-danger">*</span></label>
-        <Select DataSource="@CompanyVM.NatureOfBusinesses"
-                @bind-Value="@CompanyVM.NatureOfBusiness"
-                LabelName="@nameof(NatureOfBusiness.Name)"
-                ValueName="@nameof(NatureOfBusiness.Name)"
-                Placeholder="Select Nature of Business"
-                DefaultActiveFirstItem="false"
-                EnableSearch>
-        </Select>
-    </div>
-    <div class="form-group col-md-4">
-        <label>Designation <span class="text-danger">*</span></label>
-        <Select DataSource="@CompanyVM.Designations"
-                @bind-Value="@CompanyVM.Designation"
-                LabelName="@nameof(Designation.Name)"
-                ValueName="@nameof(Designation.Name)"
-                Placeholder="Select Designations"
-                DefaultActiveFirstItem="false"
-                EnableSearch>
-        </Select>
+        <label>GST Number</label>
+        <Input Placeholder="GST Number" @bind-Value="@CompanyVM.GSTNumber" />
     </div>
     <div class="form-group col-md-8"></div>
     <div class="form-group col-md-12">
-        <label for="description_text">Description <span class="text-danger">*</span></label>
+        <label for="description_text">About Us</label>
         <textarea @bind="@CompanyVM.Description" name="description_text" id="description_text" class="form-control"></textarea>
     </div>
     <div class="text-left col-12 mt-3">

@@ -1211,6 +1211,7 @@ footer ul.contacts li {
 
     .follow_us ul {
         float: right;
+        margin-top: 5px;
     }
 
 ul#footer-selector {

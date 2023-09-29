@@ -83,10 +83,8 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
 
         public bool isValid()
         {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Gender) && YearOfEstablishment != null &&
-                !string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(GSTNumber) && NumberOfEmployees > 0 &&
-                !string.IsNullOrWhiteSpace(Designation) && !string.IsNullOrWhiteSpace(NatureOfBusiness) && !string.IsNullOrWhiteSpace(Turnover) &&
-                !string.IsNullOrWhiteSpace(BusinessCategory) && !string.IsNullOrWhiteSpace(Description);
+            return !string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(BusinessCategory) && !string.IsNullOrWhiteSpace(NatureOfBusiness) &&
+                YearOfEstablishment != null && NumberOfEmployees > 0 && !string.IsNullOrWhiteSpace(Turnover);
         }
     }
 }
