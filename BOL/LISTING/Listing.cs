@@ -91,8 +91,8 @@ namespace BOL.LISTING
         [Required(ErrorMessage = "Description required.")]
         public string Description { get; set; }
 
-        [Display(Name = "Approved", Prompt = "Select Approve")]
-        public bool Approved { get; set; }
+        [Display(Name = "Status", Prompt = "Select Status")]
+        public int Status { get; set; }
 
         [Display(Name = "Rejected", Prompt = "Rejected")]
         public bool Rejected { get; set; }
@@ -108,5 +108,11 @@ namespace BOL.LISTING
         public virtual LogoImage LogoImage { get; set; }
 
         public virtual Address Address { get; set; }
+
+        #region Constants
+        public const int UnApproved = 0;
+        public const int Approved = 1;
+        public const int Claimed = 2;
+        #endregion
     }
 }
