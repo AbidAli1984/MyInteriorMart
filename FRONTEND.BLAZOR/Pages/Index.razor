@@ -9,118 +9,172 @@
 @inject IWebHostEnvironment webEnv
 <!-- Begin: Main Body -->
 <BasicSearch />
-<div class="container">
-    <!--Top Banner Start-->
-    <div class="owl-coursel-img-4 owl-carousel owl-theme mt-4">
-        @if (indexVM.HomeBannerTop != null && indexVM.HomeBannerTopLimit > 0)
-        {
-            for (int i = 0; i < indexVM.HomeBannerTopLimit; i++)
+<div id="home_main">
+    <div class="container">
+        <!--Top Banner Start-->
+        @*<div class="owl-coursel-img-4 owl-carousel owl-theme mt-4">
+            @if (indexVM.HomeBannerTop != null && indexVM.HomeBannerTopLimit > 0)
             {
-                <div class="item">
-                    @if (indexVM.HomeBannerTop.Count() > i)
-                    {
-                        var ban = indexVM.HomeBannerTop[i];
-                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
-                            </figure>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="#" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/static/hometop{i+1}.jpg") alt="">
-                            </figure>
-                        </a>
-                    }
-                </div>
-            }
-        }
-    </div>
-    <!--Top Banner End-->
-    <!-- Services Category Start -->
-    <div class="category-featured">
-        <div class="show-brand">
-            <div class="row">
-                <div class="col-lg-2 col-md-12 category-list">
-                    <div class="navbar-brand">
-                        <button class="btn btn-link navbar-brand-btn" type="button">SERVICES</button>
-                    </div>
-                    <div class="navbar-brand-offer-menu">
-                        <button class="btn btn-link navbar-brand-offer-btn" type="button">SERVICES</button>
-                    </div>
-                    <div class="mim-HomeSideMenu">
-                        @if (indexVM.Services != null)
+                for (int i = 0; i < indexVM.HomeBannerTopLimit; i++)
+                {
+                    <div class="item">
+                        @if (indexVM.HomeBannerTop.Count() > i)
                         {
-                            <ul>
-                                @foreach (var cat in indexVM.Services.Skip(16).Take(17))
-                                {
-                                    <li class="mim-box-list">
-                                        <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
-                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
-                                            @cat.Name
-                                        </a>
-                                    </li>
-                                }
-                                <li class="mim-box-list">More >></li>
-                            </ul>
+                            var ban = indexVM.HomeBannerTop[i];
+                            <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                                <figure>
+                                    <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                                </figure>
+                            </a>
                         }
                         else
                         {
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
+                            <a href="#" class="grid_item small">
+                                <figure>
+                                    <img src=@($"/FileManager/banner/static/hometop{i+1}.jpg") alt="">
+                                </figure>
+                            </a>
                         }
                     </div>
-                </div>
-                <div class="col-lg-10 col-md-12 brand-category-list">
-                    <div class="navbar-brand-offer">
+                }
+            }
+        </div>*@
 
+        <div class="row home_category_row py-4">
+            <div class="col-md-2 col-6">
+                <a href="#" class="home_category_link">
+                    <div class=" home_category_card d-flex align-items-center justify-content-start">
+                        <img src="/resources/img/icon/labour-naka.jpeg" class="home_category_img" alt="Company">
+                        <div class="home_category_name">Labour Naka</div>
                     </div>
-                    <div class="mim-Box">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 mim-Box-img">
-                                <div class="owl-coursel-img-1 owl-carousel owl-theme">
-                                    <img class="d-block w-100" src="/banners/011-600-x-900.jpg" alt="First slide">
+                </a>
+            </div>
+            <div class="col-md-2 col-6">
+                <a href="#" class="home_category_link">
+                    <div class=" home_category_card d-flex align-items-center justify-content-start">
+                        <img src="/resources/img/icon/buy.jpeg" class="home_category_img" alt="Company">
+                        <div class="home_category_name">Buy</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-6">
+                <a href="#" class="home_category_link">
+                    <div class=" home_category_card d-flex align-items-center justify-content-start">
+                        <img src="/resources/img/icon/sell.jpeg" class="home_category_img" alt="Company">
+                        <div class="home_category_name">Sell</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-6">
+                <a href="#" class="home_category_link">
+                    <div class=" home_category_card d-flex align-items-center justify-content-start">
+                        <img src="/resources/img/icon/sell.jpeg" class="home_category_img" alt="Company">
+                        <div class="home_category_name">Offer</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-6">
+                <a href="#" class="home_category_link">
+                    <div class=" home_category_card d-flex align-items-center justify-content-start">
+                        <img src="/resources/img/icon/job.jpeg" class="home_category_img" alt="Company">
+                        <div class="home_category_name">Job</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-6">
+                <a href="#" class="home_category_link">
+                    <div class=" home_category_card d-flex align-items-center justify-content-start">
+                        <img src="/resources/img/icon/job.jpeg" class="home_category_img" alt="Company">
+                        <div class="home_category_name">Tender</div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <!--Top Banner End-->
+        <!-- Services Category Start -->
+        <div class="category-featured">
+            <div class="show-brand">
+                <div class="row">
+                    <div class="col-lg-2 col-md-12 category-list">
+                        <div class="navbar-brand">
+                            <button class="btn btn-link navbar-brand-btn" type="button">SERVICES</button>
+                        </div>
+                        <div class="navbar-brand-offer-menu">
+                            <button class="btn btn-link navbar-brand-offer-btn" type="button">SERVICES</button>
+                        </div>
+                        <div class="mim-HomeSideMenu">
+                            @if (indexVM.Services != null)
+                            {
+                                <ul>
+                                    @foreach (var cat in indexVM.Services.Skip(16).Take(17))
+                                    {
+                                        <li class="mim-box-list">
+                                            <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
+                                                <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
+                                                @cat.Name
+                                            </a>
+                                        </li>
+                                    }
+                                    <li class="mim-box-list">More >></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="tab-content checkout" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="cutomize" role="tabpanel" aria-labelledby="cutomize">
-                                        <div class="row no-gutters">
-                                            @if (indexVM.Services != null)
-                                            {
-                                                foreach (var cat in indexVM.Services.Take(16))
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-12 brand-category-list">
+                        <div class="navbar-brand-offer">
+
+                        </div>
+                        <div class="mim-Box">
+                            <div class="row no-gutters">
+                                <div class="col-md-4 mim-Box-img">
+                                    <div class="owl-coursel-img-1 owl-carousel owl-theme">
+                                        <img class="d-block w-100" src="/banners/011-600-x-900.jpg" alt="First slide">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="tab-content checkout" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="cutomize" role="tabpanel" aria-labelledby="cutomize">
+                                            <div class="row no-gutters">
+                                                @if (indexVM.Services != null)
                                                 {
-                                                    <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
-                                                        <a href="/Third/@cat.URL">
-                                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
-                                                            <p>@cat.Name</p>
-                                                        </a>
+                                                    foreach (var cat in indexVM.Services.Take(16))
+                                                    {
+                                                        <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
+                                                            <a href="/Third/@cat.URL">
+                                                                <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
+                                                                <p>@cat.Name</p>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
                                                     </div>
                                                 }
-                                            }
-                                            else
-                                            {
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                </div>
-                                            }
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="monopoly" role="tabpanel" aria-labelledby="monopoly">
-                                        dasd1a231d31sad
-                                    </div>
-                                    <div class="tab-pane fade" id="latest" role="tabpanel" aria-labelledby="latest">
-                                        dasd1a231d31sad
-                                    </div>
-                                    <div class="tab-pane fade" id="running" role="tabpanel" aria-labelledby="running">
-                                        dasd1a231d31sad
+                                        <div class="tab-pane fade" id="monopoly" role="tabpanel" aria-labelledby="monopoly">
+                                            dasd1a231d31sad
+                                        </div>
+                                        <div class="tab-pane fade" id="latest" role="tabpanel" aria-labelledby="latest">
+                                            dasd1a231d31sad
+                                        </div>
+                                        <div class="tab-pane fade" id="running" role="tabpanel" aria-labelledby="running">
+                                            dasd1a231d31sad
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -129,118 +183,120 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Services Category End -->
-    <!--Middle Banner 1 Start-->
-    <div class="owl-coursel-img-2 owl-carousel owl-theme mt-4">
-        @if (indexVM.HomeBannerMiddle1 != null && indexVM.HomeBannerMiddle1Limit > 0)
-        {
-            for (int i = 0; i < indexVM.HomeBannerMiddle1Limit; i++)
-            {
-                <div class="item">
-                    @if (indexVM.HomeBannerMiddle1.Count() > i)
+        <!-- Services Category End -->
+        <!--Middle Banner 1 Start-->
+        <div class="row mt-4">
+            <div class="owl-coursel-img-1-fade owl-carousel owl-theme">
+                @if (indexVM.HomeBannerMiddle1 != null && indexVM.HomeBannerMiddle1Limit > 0)
+                {
+                    for (int i = 0; i < indexVM.HomeBannerMiddle1Limit; i++)
                     {
-                        var ban = indexVM.HomeBannerMiddle1[i];
-                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
-                            </figure>
-                        </a>
+                        <div class="item">
+                            @if (indexVM.HomeBannerMiddle1.Count() > i)
+                            {
+                                var ban = indexVM.HomeBannerMiddle1[i];
+                                <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                                    <figure>
+                                        <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                                    </figure>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" class="grid_item small">
+                                    <figure>
+                                        <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
+                                    </figure>
+                                </a>
+                            }
+                        </div>
                     }
-                    else
-                    {
-                        <a href="#" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
-                            </figure>
-                        </a>
-                    }
-                </div>
-            }
-        }
-    </div>
-    <!--Middle Banner 1 End-->
-    <!-- Contrators Category Start -->
-    <div class="category-featured">
-        <div class="show-brand">
-            <div class="row">
-                <div class="col-lg-2 col-md-12 category-list">
-                    <div class="navbar-brand">
-                        <button class="btn btn-link navbar-brand-btn" type="button">CONTRACTORS</button>
-                    </div>
-                    <div class="navbar-brand-offer-menu">
-                        <button class="btn btn-link navbar-brand-offer-btn" type="button">CONTRACTORS</button>
-                    </div>
-                    <div class="mim-HomeSideMenu">
-                        @if (indexVM.Contractors != null)
-                        {
-                            <ul>
-                                @foreach (var cat in indexVM.Contractors.Skip(16).Take(17))
-                                {
-                                    <li class="mim-box-list">
-                                        <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
-                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
-                                            @cat.Name
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        }
-                        else
-                        {
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
+                }
+            </div>
+        </div>
+        <!--Middle Banner 1 End-->
+        <!-- Contrators Category Start -->
+        <div class="category-featured">
+            <div class="show-brand">
+                <div class="row">
+                    <div class="col-lg-2 col-md-12 category-list">
+                        <div class="navbar-brand">
+                            <button class="btn btn-link navbar-brand-btn" type="button">CONTRACTORS</button>
+                        </div>
+                        <div class="navbar-brand-offer-menu">
+                            <button class="btn btn-link navbar-brand-offer-btn" type="button">CONTRACTORS</button>
+                        </div>
+                        <div class="mim-HomeSideMenu">
+                            @if (indexVM.Contractors != null)
+                            {
+                                <ul>
+                                    @foreach (var cat in indexVM.Contractors.Skip(16).Take(17))
+                                    {
+                                        <li class="mim-box-list">
+                                            <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
+                                                <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
+                                                @cat.Name
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-10 col-md-12 brand-category-list">
-                    <div class="navbar-brand-offer">
+                    <div class="col-lg-10 col-md-12 brand-category-list">
+                        <div class="navbar-brand-offer">
 
-                    </div>
-                    <div class="mim-Box">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 mim-Box-img">
-                                <div class="owl-coursel-img-1 owl-carousel owl-theme">
-                                    <img class="d-block w-100" src="/banners/010-600-x-900.jpg" alt="First slide">
+                        </div>
+                        <div class="mim-Box">
+                            <div class="row no-gutters">
+                                <div class="col-md-4 mim-Box-img">
+                                    <div class="owl-coursel-img-1 owl-carousel owl-theme">
+                                        <img class="d-block w-100" src="/banners/010-600-x-900.jpg" alt="First slide">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="tab-content checkout" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="cutomizework" role="tabpanel" aria-labelledby="cutomizework">
-                                        <div class="row no-gutters">
-                                            @if (indexVM.Contractors != null)
-                                            {
-                                                foreach (var cat in indexVM.Contractors.Take(16))
+                                <div class="col-md-8">
+                                    <div class="tab-content checkout" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="cutomizework" role="tabpanel" aria-labelledby="cutomizework">
+                                            <div class="row no-gutters">
+                                                @if (indexVM.Contractors != null)
                                                 {
-                                                    <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
-                                                        <a href="/Third/@cat.URL">
-                                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
-                                                            <p>@cat.Name</p>
-                                                        </a>
+                                                    foreach (var cat in indexVM.Contractors.Take(16))
+                                                    {
+                                                        <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
+                                                            <a href="/Third/@cat.URL">
+                                                                <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
+                                                                <p>@cat.Name</p>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
                                                     </div>
                                                 }
-                                            }
-                                            else
-                                            {
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                </div>
-                                            }
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="monopolycontractors" role="tabpanel" aria-labelledby="monopolycontractors">
-                                        Monopoly work
-                                    </div>
-                                    <div class="tab-pane fade" id="unique" role="tabpanel" aria-labelledby="unique">
-                                        Unique Projects
-                                    </div>
-                                    <div class="tab-pane fade" id="latestcontractors" role="tabpanel" aria-labelledby="latestcontractors">
-                                        Latest Projects
+                                        <div class="tab-pane fade" id="monopolycontractors" role="tabpanel" aria-labelledby="monopolycontractors">
+                                            Monopoly work
+                                        </div>
+                                        <div class="tab-pane fade" id="unique" role="tabpanel" aria-labelledby="unique">
+                                            Unique Projects
+                                        </div>
+                                        <div class="tab-pane fade" id="latestcontractors" role="tabpanel" aria-labelledby="latestcontractors">
+                                            Latest Projects
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -249,119 +305,121 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Contrators Category End -->
-    <!--Middle Banner 2 Start-->
-    <div class="owl-coursel-img-2 owl-carousel owl-theme mt-4">
-        @if (indexVM.HomeBannerMiddle2 != null && indexVM.HomeBannerMiddle2Limit > 0)
-        {
-            for (int i = 0; i < indexVM.HomeBannerMiddle2Limit; i++)
-            {
-                <div class="item">
-                    @if (indexVM.HomeBannerMiddle2.Count() > i)
+        <!-- Contrators Category End -->
+        <!--Middle Banner 2 Start-->
+        <div class="row mt-4">
+            <div class="owl-coursel-img-1-fade owl-carousel owl-theme">
+                @if (indexVM.HomeBannerMiddle2 != null && indexVM.HomeBannerMiddle2Limit > 0)
+                {
+                    for (int i = 0; i < indexVM.HomeBannerMiddle2Limit; i++)
                     {
-                        var ban = indexVM.HomeBannerMiddle2[i];
-                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
-                            </figure>
-                        </a>
+                        <div class="item">
+                            @if (indexVM.HomeBannerMiddle2.Count() > i)
+                            {
+                                var ban = indexVM.HomeBannerMiddle2[i];
+                                <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                                    <figure>
+                                        <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                                    </figure>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" class="grid_item small">
+                                    <figure>
+                                        <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
+                                    </figure>
+                                </a>
+                            }
+                        </div>
                     }
-                    else
-                    {
-                        <a href="#" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
-                            </figure>
-                        </a>
-                    }
-                </div>
-            }
-        }
-    </div>
-    <!--Middle Banner2 End-->
-    <!-- Dealers Category Start -->
-    <div class="category-featured">
-        <div class="show-brand">
-            <div class="row">
-                <div class="col-lg-2 col-md-12 category-list">
-                    <div class="navbar-brand">
-                        <button class="btn btn-link navbar-brand-btn" type="button">DEALERS</button>
-                    </div>
-                    <div class="navbar-brand-offer-menu">
-                        <button class="btn btn-link navbar-brand-offer-btn" type="button">DEALERS</button>
-                    </div>
-                    <div class="mim-HomeSideMenu">
-                        @if (indexVM.Dealers != null)
-                        {
-                            <ul>
-                                @foreach (var cat in indexVM.Dealers.Skip(16).Take(17))
-                                {
-                                    <li class="mim-box-list">
-                                        <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
-                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
-                                            @cat.Name
-                                        </a>
-                                    </li>
-                                }
-                                <li class="mim-box-list">More >></li>
-                            </ul>
-                        }
-                        else
-                        {
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
+                }
+            </div>
+        </div>
+        <!--Middle Banner2 End-->
+        <!-- Dealers Category Start -->
+        <div class="category-featured">
+            <div class="show-brand">
+                <div class="row">
+                    <div class="col-lg-2 col-md-12 category-list">
+                        <div class="navbar-brand">
+                            <button class="btn btn-link navbar-brand-btn" type="button">DEALERS</button>
+                        </div>
+                        <div class="navbar-brand-offer-menu">
+                            <button class="btn btn-link navbar-brand-offer-btn" type="button">DEALERS</button>
+                        </div>
+                        <div class="mim-HomeSideMenu">
+                            @if (indexVM.Dealers != null)
+                            {
+                                <ul>
+                                    @foreach (var cat in indexVM.Dealers.Skip(16).Take(17))
+                                    {
+                                        <li class="mim-box-list">
+                                            <a href="/Third/@cat.URL" title="@cat.SearchKeywordName">
+                                                <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" alt="@cat.SearchKeywordName" class="img-fluid">
+                                                @cat.Name
+                                            </a>
+                                        </li>
+                                    }
+                                    <li class="mim-box-list">More >></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-10 col-md-12 brand-category-list">
-                    <div class="navbar-brand-offer">
+                    <div class="col-lg-10 col-md-12 brand-category-list">
+                        <div class="navbar-brand-offer">
 
-                    </div>
-                    <div class="mim-Box">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 mim-Box-img">
-                                <div class="owl-coursel-img-1 owl-carousel owl-theme">
-                                    <img class="d-block w-100" src="/banners/009-600-x-900.jpg" alt="First slide">
+                        </div>
+                        <div class="mim-Box">
+                            <div class="row no-gutters">
+                                <div class="col-md-4 mim-Box-img">
+                                    <div class="owl-coursel-img-1 owl-carousel owl-theme">
+                                        <img class="d-block w-100" src="/banners/009-600-x-900.jpg" alt="First slide">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="tab-content checkout" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="cutomizeworkdealers" role="tabpanel" aria-labelledby="cutomizeworkdealers">
-                                        <div class="row no-gutters">
-                                            @if (indexVM.Dealers != null)
-                                            {
-                                                foreach (var cat in indexVM.Dealers.Take(16))
+                                <div class="col-md-8">
+                                    <div class="tab-content checkout" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="cutomizeworkdealers" role="tabpanel" aria-labelledby="cutomizeworkdealers">
+                                            <div class="row no-gutters">
+                                                @if (indexVM.Dealers != null)
                                                 {
-                                                    <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
-                                                        <a href="/Third/@cat.URL">
-                                                            <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
-                                                            <p>@cat.Name</p>
-                                                        </a>
+                                                    foreach (var cat in indexVM.Dealers.Take(16))
+                                                    {
+                                                        <div class="col-md-3 col-sm-3 col-3 mim-Box-item">
+                                                            <a href="/Third/@cat.URL">
+                                                                <img src="@($"/FileManager/CategoryIcons/Second/{cat.URL}.png")" class="img-fluid">
+                                                                <p>@cat.Name</p>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
                                                     </div>
                                                 }
-                                            }
-                                            else
-                                            {
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                </div>
-                                            }
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="monoploydealers" role="tabpanel" aria-labelledby="monoploydealers">
-                                        Monopoly Dealers
-                                    </div>
-                                    <div class="tab-pane fade" id="latestdealers" role="tabpanel" aria-labelledby="latestdealers">
-                                        Latest Dealers
-                                    </div>
-                                    <div class="tab-pane fade" id="imported" role="tabpanel" aria-labelledby="imported">
-                                        Imported Dealers
+                                        <div class="tab-pane fade" id="monoploydealers" role="tabpanel" aria-labelledby="monoploydealers">
+                                            Monopoly Dealers
+                                        </div>
+                                        <div class="tab-pane fade" id="latestdealers" role="tabpanel" aria-labelledby="latestdealers">
+                                            Latest Dealers
+                                        </div>
+                                        <div class="tab-pane fade" id="imported" role="tabpanel" aria-labelledby="imported">
+                                            Imported Dealers
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -370,36 +428,36 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Dealers Category End -->
-    <!-- Banner Bottom Start -->
-    <div class="owl-coursel-img-2 owl-carousel owl-theme mt-4">
-        @if (indexVM.HomeBannerBottom != null && indexVM.HomeBannerBottomLimit > 0)
-        {
-            for (int i = 0; i < indexVM.HomeBannerBottomLimit; i++)
+        <!-- Dealers Category End -->
+        <!-- Banner Bottom Start -->
+        @*<div class="owl-coursel-img-1-fade owl-carousel owl-theme mt-4">
+            @if (indexVM.HomeBannerBottom != null && indexVM.HomeBannerBottomLimit > 0)
             {
-                <div class="item">
-                    @if (indexVM.HomeBannerBottom.Count() > i)
-                    {
-                        var ban = indexVM.HomeBannerBottom[i];
-                        <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
-                            </figure>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="#" class="grid_item small">
-                            <figure>
-                                <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
-                            </figure>
-                        </a>
-                    }
-                </div>
+                for (int i = 0; i < indexVM.HomeBannerBottomLimit; i++)
+                {
+                    <div class="item">
+                        @if (indexVM.HomeBannerBottom.Count() > i)
+                        {
+                            var ban = indexVM.HomeBannerBottom[i];
+                            <a href="@ban.LinkUrl" target="@ban.TargetWindow" class="grid_item small">
+                                <figure>
+                                    <img src=@($"/FileManager/banner/{@ban.Name}.jpg") alt="@ban.Name">
+                                </figure>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" class="grid_item small">
+                                <figure>
+                                    <img src=@($"/FileManager/banner/static/extra{i+1}.jpg") alt="">
+                                </figure>
+                            </a>
+                        }
+                    </div>
+                }
             }
-        }
+        </div>*@
+        <!-- Banner Bottom End -->
     </div>
-    <!-- Banner Bottom End -->
 </div>
 <!-- End: Main Body -->

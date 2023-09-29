@@ -16,6 +16,16 @@ var configuration = {
     responsive: { 0: { items: 1 } }
 }
 
+var configurationFade = {
+    animateOut: 'slideOutDown',
+    animateIn: 'flipInX',
+    items: 1,
+    smartSpeed: 450,
+    autoPlay: true,
+    responsiveClass: true,
+    responsive: { 0: { items: 1 } }
+}
+
 function ownCourselImg1() {
     $('.owl-coursel-img-1').owlCarousel(configuration);
 }
@@ -32,10 +42,14 @@ function ownCourselImg4() {
     $('.owl-coursel-img-4').owlCarousel(configuration);
 }
 
+function ownCourselImg1Fade() {
+    $('.owl-coursel-img-1-fade').owlCarousel(configurationFade);
+}
+
 function initializeHomePageCarousel() {
     setTimeout(() => {
         ownCourselImg1();
-        ownCourselImg2();
+        ownCourselImg1Fade();
         ownCourselImg4()
     }, 200)
 
