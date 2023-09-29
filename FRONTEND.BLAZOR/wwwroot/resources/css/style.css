@@ -9731,6 +9731,7 @@ article.blog .post_info {
 .Count_review {
     font-style: 14px;
     color: #000;
+    width: 100%;
 }
 
 .about_img_sec {
@@ -9861,7 +9862,7 @@ article.blog .post_info {
 }
 
 .review-form {
-    margin-left: 126px;
+    margin-left: 10px;
     font-size: 22px;
 }
 

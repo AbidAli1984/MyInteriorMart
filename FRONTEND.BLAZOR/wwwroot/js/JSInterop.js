@@ -57,7 +57,7 @@ function initializeHomePageCarousel() {
 
 function initializeListingDetails() {
     setTimeout(() => {
-        ownCourselImg3();
+        ownCourselImg4();
 
         $('.product-large-slider').slick({
             fade: true,
