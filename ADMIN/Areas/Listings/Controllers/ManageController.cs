@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using BAL.Listings;
 using Microsoft.AspNetCore.Hosting;
 using BAL.Messaging.Contracts;
+using BOL.LISTING;
 
 namespace ADMIN.Areas.Listings.Controllers
 {
@@ -140,7 +141,7 @@ namespace ADMIN.Areas.Listings.Controllers
             else
             {
                 var listing = await listingContext.Listing.Where(i => i.ListingID == id).FirstOrDefaultAsync();
-                listing.Approved = true;
+                listing.Status = Listing.Approved;
                 listingContext.Update(listing);
                 await listingContext.SaveChangesAsync();
 
@@ -158,7 +159,7 @@ namespace ADMIN.Areas.Listings.Controllers
             else
             {
                 var listing = await listingContext.Listing.Where(i => i.ListingID == id).FirstOrDefaultAsync();
-                listing.Approved = false;
+                listing.Status = Listing.UnApproved;
                 listingContext.Update(listing);
                 await listingContext.SaveChangesAsync();
                 return Json("Success");

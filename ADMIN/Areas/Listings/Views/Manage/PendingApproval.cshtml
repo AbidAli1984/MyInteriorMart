@@ -191,7 +191,7 @@
                 <tr>
                     <td><strong>@item.Listing.ListingID</strong></td>
 
-                    @if (item.Listing.Approved == true)
+                    @if (item.Listing.Status == BOL.LISTING.Listing.Approved)
                     {
                         <td>
                             <a href="#0" class="badge badge-success" id="@approveId" onclick="ApproveListing(@item.Listing.ListingID); return false;">Approved</a>

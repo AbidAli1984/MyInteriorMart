@@ -8,12 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using BOL.LISTING;
 using DAL.LISTING;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Diagnostics.Eventing.Reader;
 using Microsoft.AspNetCore.Http;
 using DAL.SHARED;
 using BAL.Listings;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using BAL.Audit;
 using System.Data;
 using BOL.VIEWMODELS;
@@ -226,7 +223,7 @@ namespace FRONTEND.Areas.Subscriptions.Controllers
 
             if (User.IsInRole("Listing Manager") || User.IsInRole("Listings") || User.IsInRole("Super Administrator"))
             {
-                listing.Approved = true;
+                listing.Status = Listing.Approved;
 
                 if (ModelState.IsValid)
                 {

@@ -35,8 +35,8 @@
         columns.Add(model => $"<div style='width:500px;'><a href='/Listing/Index/{model.Listing.ListingID}' target='_blank'>{model.Listing.CompanyName}</a><div class='float-right'><a href='/Subscriptions/ListingDashboard/{model.Listing.ListingID}' target='_blank'><i class='mr-2 fa fa-eye' style='color:#0F53EA;'></i></a> {(model.Communication.Website != null ? $"<a href='{model.Communication.Website}' target='_blank'><i class='mr-2 fa fa-globe' style='color:#0F53EA;'></i></a>" : "<i class='mr-2 fa fa-globe' style='color:#B3B3B3;'></i>")} <img src='/img/Free-Member-Icon.png' style='width:15px;' /></div></div>").Titled("Company").Filterable(true).Sortable(true).Encoded(false);
         //columns.Add(model => (categoryRepo.SecondCategoryName(model.Categories.SecondCategoryID))).Titled("Second Category").Filterable(true).Sortable(true);
         //columns.Add(model => (categoryRepo.FirstCategoryName(model.Categories.FirstCategoryID))).Titled("First Category").Filterable(true).Sortable(true);
-        columns.Add(model => model.Listing.Approved).Titled("Approved").Filterable(true).Sortable(true);
-        columns.Add(model => model.Listing.Rejected).Titled("Rejected").Filterable(true).Sortable(true);
+        //columns.Add(model => model.Listing.Approved).Titled("Approved").Filterable(true).Sortable(true);
+        //columns.Add(model => model.Listing.Rejected).Titled("Rejected").Filterable(true).Sortable(true);
         columns.Add(model => model.Communication.Mobile).Titled("Mobile").Filterable(true).Sortable(true);
         //columns.Add(model => (addressRepo.pincode(model.Address.PincodeID))).Titled("Pincode").Filterable(true).Sortable(true);
         //columns.Add(model => (addressRepo.AssemblyName(model.Address.AssemblyID))).Titled("Assembly").Filterable(true).Sortable(true);

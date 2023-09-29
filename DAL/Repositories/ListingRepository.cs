@@ -95,7 +95,7 @@ namespace DAL.Repositories
         {
             return await _listingDbContext.Listing
                 .Include(x => x.LogoImage)
-                .Where(x => x.Approved && listingIds.Contains(x.ListingID))
+                .Where(x => x.Status == Listing.Approved && listingIds.Contains(x.ListingID))
                 .OrderByDescending(i => i.ListingID)
                 .ToListAsync();
         }
@@ -132,7 +132,7 @@ namespace DAL.Repositories
 
         public async Task<IList<Listing>> GetApprovedListings()
         {
-            return await _listingDbContext.Listing.Where(x => x.Approved)
+            return await _listingDbContext.Listing.Where(x => x.Status == Listing.Approved)
                 .Include(x=>x.Address)
                 .OrderByDescending(i => i.ListingID)
                 .ToListAsync();
@@ -148,14 +148,14 @@ namespace DAL.Repositories
         public async Task<Listing> GetApprovedListingById(string id)
         {
             return await _listingDbContext.Listing
-                .Where(l => l.Id.ToString() == id && l.Approved)
+                .Where(l => l.Id.ToString() == id && l.Status == Listing.Approved)
                 .FirstOrDefaultAsync();
         }
 
         public async Task<Listing> GetApprovedListingByListingId(int listingId)
         {
             return await _listingDbContext.Listing
-                .Where(l => l.ListingID == listingId && l.Approved)
+                .Where(l => l.ListingID == listingId && l.Status == Listing.Approved)
                 .FirstOrDefaultAsync();
         }
 

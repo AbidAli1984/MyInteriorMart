@@ -86,7 +86,7 @@ namespace FRONTEND.BLAZOR.Component.MyAccount.ListingWizard
                     listing.CreatedDate = timeZoneDate;
                     listing.CreatedTime = timeZoneDate;
                     listing.IPAddress = httpConAccess.HttpContext.Connection.RemoteIpAddress.ToString();
-                    listing.Approved = false;
+                    listing.Status = Listing.UnApproved;
 
                     await listingService.AddAsync(listing);
                 }
