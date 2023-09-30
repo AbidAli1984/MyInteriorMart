@@ -12,6 +12,7 @@ using BAL.Messaging.Contracts;
 using BAL.Middleware;
 using BOL.ComponentModels.MyAccount.Auth;
 using BOL.SHARED;
+using Microsoft.AspNetCore.Components;
 
 namespace BAL.Services
 {
@@ -21,16 +22,19 @@ namespace BAL.Services
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IListingRepository _listingRepository;
+
         public IMessageMailService _notificationService;
         public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager,
             IMessageMailService notificationService, SignInManager<ApplicationUser> signInManager,
-            IUserProfileRepository userProfileRepository)
+            IUserProfileRepository userProfileRepository, IListingRepository listingRepository)
         {
             _userRepository = userRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _notificationService = notificationService;
             _userProfileRepository = userProfileRepository;
+            _listingRepository = listingRepository;
         }
 
         #region Users
@@ -102,6 +106,14 @@ namespace BAL.Services
             }
 
             return false;
+        }
+
+        public async Task<bool> IsValidOTP(UserRegisterVM userRegisterVM)
+        {
+            userRegisterVM.ConfirmPassword = string.Empty;
+            userRegisterVM.Password = string.Empty;
+            ApplicationUser user = await _userRepository.GetUserByMobileNoOrEmail(userRegisterVM.Email);
+            return user.Otp == userRegisterVM.UserOtp;
         }
 
         public async Task<ApplicationUser> GetUserById(string id)
@@ -183,6 +195,27 @@ namespace BAL.Services
                 userToVerify.PasswordHash = _userManager.PasswordHasher.HashPassword(userToVerify, newPassword);
                 userToVerify.Otp = null;
                 await _userRepository.UpdateUser(userToVerify);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> IsOTUpdatedIfMobileOrEmailValidForTheListing(int listingId, UserRegisterVM userRegisterVM)
+        {
+            var listing = await _listingRepository.GetApprovedListingByListingId(listingId);
+            if (listing == null)
+                return false;
+
+            var user = await _userManager.FindByIdAsync(listing.OwnerGuid);
+            if (user == null)
+                return false;
+
+            if (user.Email == userRegisterVM.Email || user.PhoneNumber == userRegisterVM.Email)
+            {
+                user.Otp = Helper.GetOTP();
+                userRegisterVM.DisplayOtp = user.Otp;
+                await _userRepository.UpdateUser(user);
+                _notificationService.SendSMS(user.PhoneNumber, user.Otp);
                 return true;
             }
             return false;

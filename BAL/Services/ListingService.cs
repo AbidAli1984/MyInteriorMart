@@ -465,6 +465,18 @@ namespace BAL.Services
             return listReviews;
         }
 
+        public async Task<bool> UpdateListingStatus(int listingId, int status)
+        {
+            var listing = await _listingRepository.GetListingByListingId(listingId);
+            if (listing == null)
+                return false;
+
+            listing.Status = status;
+            await _listingRepository.UpdateAsync(listing);
+
+            return true;
+        }
+
         #region Social Network
         public async Task<SocialNetwork> GetSocialNetworkByListingId(int listingId)
         {

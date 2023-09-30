@@ -159,6 +159,13 @@ namespace DAL.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Listing> GetListingByListingId(int listingId)
+        {
+            return await _listingDbContext.Listing
+                .Where(l => l.ListingID == listingId)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Communication> GetCommunicationByListingId(int listingId)
         {
             return await _listingDbContext.Communication.Where(l => l.ListingID == listingId).FirstOrDefaultAsync();

@@ -1,0 +1,46 @@
+﻿<button class="btn btn-guotes btn-sm loc_open" @onclick="@(async () => await ShowModal())">Claim Listing</button>
+<Modal Title="@Header"
+       OnCancel="@(async () => await HideModal())"
+       Centered="true"
+       Visible="@showModal"
+       Footer="null">
+    <div class="dialog-mfp m-0 mw-100">
+        @if (Steps == 1)
+        {
+            <div class="form-group">
+                <input @bind-value="@UserRegisterVM.Email" class="form-control" required placeholder="Mobile / Email" maxlength="100" />
+                <i class="icon_phone"></i>
+                <span class="text-danger field-validation-error">@UserRegisterVM.EmailErrMessage</span>
+            </div>
+            <buttton class="btn btn-primary w-100" @onclick="@(async () => await ValidateDetail())">Send OTP</buttton>
+        }
+        else if (Steps == 2)
+        {
+            <div class="form-group">
+                <input @bind-value="@UserRegisterVM.UserOtp" Class="form-control" type="tel" placeholder="otp" maxlength="6" />
+                <i class="icon_key_alt"></i>
+                <label>@UserRegisterVM.DisplayOtp</label>
+            </div>
+            <span class="@(isError ? "text-danger" : "text-success")">@message</span>
+            <button @onclick="@(async () => await VerifyOTP())" class="btn btn-primary w-100">Verify OTP</button>
+        }
+        else
+        {
+            <div class="form-group" id="show_hide_password">
+                <input @bind-value="@UserRegisterVM.NewPassword" class="form-control" type="password" required placeholder="New Password" maxlength="100" />
+                <i class="icon_lock_alt"></i>
+                <div class="input-group-addon">
+                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                </div>
+                <span class="text-danger field-validation-error">@UserRegisterVM.NewPasswordErrMessage</span>
+            </div>
+            <input @bind-value="@UserRegisterVM.ConfirmPassword" class="form-control" type="password" required placeholder="Confirm New Password" maxlength="100" />
+            <i class="icon_lock_alt"></i>
+            <div class="input-group-addon">
+                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+            </div>
+            <span class="text-danger field-validation-error">@UserRegisterVM.ConfirmPasswordErrMessage</span>
+            <button @onclick="@(async () => await UpdatePassword())" class="btn btn-primary w-100">Submit</button>
+        }
+    </div>
+</Modal>

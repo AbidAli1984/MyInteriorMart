@@ -18,6 +18,7 @@ namespace BAL.Services.Contracts
         Task<bool> IsMobileNoAlreadyRegistered(string mobileNumber);
         Task<IdentityResult> Register(UserRegisterVM user);
         Task<bool> IsOTPVerifiedAndRegComplete(UserRegisterVM userRegisterVM);
+        Task<bool> IsValidOTP(UserRegisterVM userRegisterVM);
         Task<ApplicationUser> GetUserById(string id);
         Task<IList<string>> GetRolesByUser(ApplicationUser user);
         string GetUserEmailById(string userGuid);
@@ -27,6 +28,7 @@ namespace BAL.Services.Contracts
         #region ForgotOrChangePassword
         Task<bool> IsOTUpdated(UserRegisterVM userRegisterVM);
         Task<bool> IsVerifiedAndPasswordChanged(UserRegisterVM userRegisterVM, bool verifyUsingPassword = false);
+        Task<bool> IsOTUpdatedIfMobileOrEmailValidForTheListing(int listingId, UserRegisterVM userRegisterVM);
         #endregion
 
     }

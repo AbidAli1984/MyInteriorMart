@@ -56,6 +56,8 @@ namespace BAL.Services.Contracts
 
         Task<IList<ReviewListingViewModel>> GetMyReviewsByUserIdAsync(string UserId);
 
+        Task<bool> UpdateListingStatus(int listingId, int status);
+
         #region Social Network
         Task<SocialNetwork> GetSocialNetworkByListingId(int listingId);
         #endregion

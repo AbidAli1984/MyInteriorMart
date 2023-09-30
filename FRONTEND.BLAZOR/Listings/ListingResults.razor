@@ -33,31 +33,31 @@
     <div class="listing-list">
         <div class="row">
             @*<div class="col-lg-3 listing-sidebar">
-                <div class="sider-card">
-                    @if (ListingResultBannerVM.CategoryBannersLeftTop != null && ListingResultBannerVM.CategoryBannersLeftTop.Count() > 0)
-                    {
-                        var firstSlide = ListingResultBannerVM.CategoryBannersLeftTop.FirstOrDefault();
-                        var img1st = firstSlide.BannerId + ".jpeg";
-                        <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
-                    }
-                    else
-                    {
-                        <img src="/banners/square banner 1.jpg" alt="">
-                    }
-                </div>
-                <div class="sider-card">
-                    @if (ListingResultBannerVM.CategoryBannersLeftBottom != null && ListingResultBannerVM.CategoryBannersLeftBottom.Count() > 0)
-                    {
-                        var firstSlide = ListingResultBannerVM.CategoryBannersLeftBottom.FirstOrDefault();
-                        var img1st = firstSlide.BannerId + ".jpeg";
-                        <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
-                    }
-                    else
-                    {
-                        <img src="/banners/square banner 2.jpg" alt="">
-                    }
-                </div>
-            </div>*@
+                    <div class="sider-card">
+                        @if (ListingResultBannerVM.CategoryBannersLeftTop != null && ListingResultBannerVM.CategoryBannersLeftTop.Count() > 0)
+                        {
+                            var firstSlide = ListingResultBannerVM.CategoryBannersLeftTop.FirstOrDefault();
+                            var img1st = firstSlide.BannerId + ".jpeg";
+                            <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
+                        }
+                        else
+                        {
+                            <img src="/banners/square banner 1.jpg" alt="">
+                        }
+                    </div>
+                    <div class="sider-card">
+                        @if (ListingResultBannerVM.CategoryBannersLeftBottom != null && ListingResultBannerVM.CategoryBannersLeftBottom.Count() > 0)
+                        {
+                            var firstSlide = ListingResultBannerVM.CategoryBannersLeftBottom.FirstOrDefault();
+                            var img1st = firstSlide.BannerId + ".jpeg";
+                            <img src="/CloudBox/category/@img1st" alt="@firstSlide.Name">
+                        }
+                        else
+                        {
+                            <img src="/banners/square banner 2.jpg" alt="">
+                        }
+                    </div>
+                </div>*@
             <div class="col-lg-12 mb-space-remove">
                 @if (ListingResultVM != null)
                 {
@@ -83,7 +83,11 @@
                                 </div>
                                 <div class="col-9">
                                     <div class="wrapper">
-                                        <a href="#0" class="loc_open">Claim Listing</a>
+                                        @*<a href="#0" class="loc_open">Claim Listing</a>*@
+                                        @if (!userAuthenticated)
+                                        {
+                                            <ClaimListingModal listingId="item.ListingId" />
+                                        }
                                         <h3><a href="/Listing/@item.City/@item.ListingUrl-@item.Locality/@item.id.ToUpper()">@item.CompanyName</a></h3>
                                         <small>@item.SubCategory <span class="mob_reating">@item.RatingAverage.ToString("0.0")<i class="icon_star active"></i></span></small>
                                         <p><a href="#0" onclick="onHtmlClick('Marker',1)" class="address">@item.Locality, @item.Area</a></p>

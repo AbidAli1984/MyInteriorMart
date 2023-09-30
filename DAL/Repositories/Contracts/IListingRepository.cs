@@ -32,6 +32,7 @@ namespace DAL.Repositories.Contracts
         Task<Listing> GetApprovedListingById(string listingId);
 
         Task<Listing> GetApprovedListingByListingId(int listingId);
+        Task<Listing> GetListingByListingId(int listingId);
 
         Task<Communication> GetCommunicationByListingId(int listingId);
 
