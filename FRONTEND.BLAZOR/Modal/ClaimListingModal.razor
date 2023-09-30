@@ -34,12 +34,14 @@
                 </div>
                 <span class="text-danger field-validation-error">@UserRegisterVM.NewPasswordErrMessage</span>
             </div>
-            <input @bind-value="@UserRegisterVM.ConfirmPassword" class="form-control" type="password" required placeholder="Confirm New Password" maxlength="100" />
-            <i class="icon_lock_alt"></i>
-            <div class="input-group-addon">
-                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+            <div class="form-group" id="show_hide_password">
+                <input @bind-value="@UserRegisterVM.ConfirmPassword" class="form-control" type="password" required placeholder="Confirm New Password" maxlength="100" />
+                <i class="icon_lock_alt"></i>
+                <div class="input-group-addon">
+                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                </div>
+                <span class="text-danger field-validation-error">@UserRegisterVM.ConfirmPasswordErrMessage</span>
             </div>
-            <span class="text-danger field-validation-error">@UserRegisterVM.ConfirmPasswordErrMessage</span>
             <button @onclick="@(async () => await UpdatePassword())" class="btn btn-primary w-100">Submit</button>
         }
     </div>

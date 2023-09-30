@@ -86,10 +86,18 @@ namespace FRONTEND.BLAZOR.Modal
 
         public async Task UpdatePassword()
         {
+            UserRegisterVM.NewPasswordErrMessage = FieldValidator.passwordErrorMessage(UserRegisterVM.NewPassword);
+            UserRegisterVM.ConfirmPasswordErrMessage = FieldValidator.confirmPasswordErrMessage(UserRegisterVM.NewPassword, UserRegisterVM.ConfirmPassword);
+
+            if (!string.IsNullOrEmpty(UserRegisterVM.NewPasswordErrMessage) || !string.IsNullOrEmpty(UserRegisterVM.ConfirmPasswordErrMessage))
+            {
+                return;
+            }
+
             if (await userService.IsVerifiedAndPasswordChanged(UserRegisterVM))
             {
                 await HideModal();
-                //await listingService.UpdateListingStatus(listingId, Listing.UnApproved);
+                //await listingService.UpdateListingStatus(listingId, Listing.Claimed);
                 helper.ShowNotification(_notice, "Your approval has been sent for verification.");
             }
         }
