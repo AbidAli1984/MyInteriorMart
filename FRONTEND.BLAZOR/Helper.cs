@@ -88,9 +88,9 @@ namespace FRONTEND.BLAZOR
         {
             if (!string.IsNullOrWhiteSpace(values))
             {
-                return values.Split(",")
-                    .Select(x => new SearchResultViewModel { label = x, value = x })
-                    .ToList();
+                string[] vals = values.Contains(", ") ? values.Split(", ") : values.Split(",");
+
+                return vals.Select(x => new SearchResultViewModel { label = x, value = x }).ToList();
             }
             return new List<SearchResultViewModel>();
         }

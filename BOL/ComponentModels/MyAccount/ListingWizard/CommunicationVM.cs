@@ -67,7 +67,7 @@ namespace BOL.ComponentModels.MyAccount.ListingWizard
             communication.TollFree = TollFree;
             communication.Fax = Fax;
             communication.SkypeID = SkypeID;
-            communication.Language = string.Join(",", AutoCompleteMultiVM.itemsSelected.Select(x => x.label).ToArray());
+            communication.Language = string.Join(", ", AutoCompleteMultiVM.itemsSelected.Select(x => x.label).ToArray());
         }
 
         public bool isValid()
