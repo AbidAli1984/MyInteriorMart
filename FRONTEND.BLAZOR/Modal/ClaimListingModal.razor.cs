@@ -97,6 +97,8 @@ namespace FRONTEND.BLAZOR.Modal
             if (await userService.IsVerifiedAndPasswordChanged(UserRegisterVM))
             {
                 await HideModal();
+                Steps = 1;
+                Header = "Claim Listing";
                 //await listingService.UpdateListingStatus(listingId, Listing.Claimed);
                 helper.ShowNotification(_notice, "Your approval has been sent for verification.");
             }
