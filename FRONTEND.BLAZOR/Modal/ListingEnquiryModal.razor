@@ -2,7 +2,7 @@
 
 @if (isRegisteredUser)
 {
-    <button class="btn btn-guotes btn-sm" @onclick="@(async () => await ShowEnquiryModal())">Get Quotes</button>
+    <button class="btn btn-guotes btn-sm" @onclick="@(async () => await ShowEnquiryModal())">@ButtonText</button>
     <Modal Title="Enquiry Now"
            OnCancel="@(async () => await HideEnquiryModal())"
            Centered="true"

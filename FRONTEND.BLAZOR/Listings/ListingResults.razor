@@ -32,7 +32,7 @@
     <!--Listing Category Start-->
     <div class="listing-list">
         <div class="row">
-            <div class="col-lg-3 listing-sidebar">
+            @*<div class="col-lg-3 listing-sidebar">
                 <div class="sider-card">
                     @if (ListingResultBannerVM.CategoryBannersLeftTop != null && ListingResultBannerVM.CategoryBannersLeftTop.Count() > 0)
                     {
@@ -57,8 +57,8 @@
                         <img src="/banners/square banner 2.jpg" alt="">
                     }
                 </div>
-            </div>
-            <div class="col-lg-9 mb-space-remove">
+            </div>*@
+            <div class="col-lg-12 mb-space-remove">
                 @if (ListingResultVM != null)
                 {
                     @foreach (var item in ListingResultVM)
@@ -67,9 +67,18 @@
                             <div class="row no-gutters">
                                 <div class="col-3">
                                     <figure>
-                                        <a href="/Listing/@item.City/@item.ListingUrl-@item.Locality/@item.id.ToUpper()">
-                                            <img src="@item.LogoImageUrl" class="img-fluid" alt="">
-                                        </a>
+                                        @if (string.IsNullOrWhiteSpace(item.LogoImageUrl))
+                                        {
+                                            <div class="client_first_letter">
+                                                @item.CompanyFirstLetter.ToUpper()
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Listing/@item.City/@item.ListingUrl-@item.Locality/@item.id.ToUpper()">
+                                                <img src="@item.LogoImageUrl" class="img-fluid" alt="">
+                                            </a>
+                                        }
                                     </figure>
                                 </div>
                                 <div class="col-9">
@@ -100,7 +109,7 @@
                                             <a href="tel:@item.Mobile" class="loc_open call-now"> Call Now </a>
                                         </li>
                                         <li>
-                                            <a href="#0" class="loc_open"> Get Quotation </a>
+                                            <ListingEnquiryModal ListingId="item.ListingId" ButtonText="Get Quotation" />
                                         </li>
                                         <li>
                                             <ul class="reating-list">

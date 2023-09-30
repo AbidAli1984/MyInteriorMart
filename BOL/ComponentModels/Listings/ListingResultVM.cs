@@ -22,10 +22,12 @@ namespace BOL.ComponentModels.Listings
         public int BusinessYear { get; set; }
         public BusinessWorkingHour BusinessWorking { get; set; } = new BusinessWorkingHour();
         public LogoImage LogoImage { get; set; } = new LogoImage();
+        public string CompanyFirstLetter { get { return CompanyName.Substring(0, 1); } }
+
         public string LogoImageUrl { 
             get
             {
-                return LogoImage == null || string.IsNullOrWhiteSpace(LogoImage.ImagePath) ? "/resources/img/hotel_2.jpg" : LogoImage.ImagePath;
+                return LogoImage == null || string.IsNullOrWhiteSpace(LogoImage.ImagePath) ? "" : LogoImage.ImagePath;
             }
         }
 

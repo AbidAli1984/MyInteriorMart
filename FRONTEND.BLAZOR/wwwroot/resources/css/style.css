@@ -511,6 +511,14 @@ a {
     font-size: 16px;
 }
 
+    .btn.btn-sm {
+        font-size: 14px;
+        line-height: 16px;
+        padding: 4px 6px;
+        margin-right: 5px;
+        border: 1px solid #f7f7f7cc;
+    }
+
 a.btn-primary,
 .btn-primary {
     background: #fb830d;
@@ -523,29 +531,29 @@ a.btn-primary,
         color: #222222 !important;
     }
 
-    a.btn_1.full-width.purchase,
-    .btn_1.full-width.purchase {
-        background-color: #004dda;
+a.btn_1.full-width.purchase,
+.btn_1.full-width.purchase {
+    background-color: #004dda;
+}
+
+    a.btn_1.full-width.purchase:hover,
+    .btn_1.full-width.purchase:hover {
+        background-color: #32a067;
+        color: white !important;
     }
 
-        a.btn_1.full-width.purchase:hover,
-        .btn_1.full-width.purchase:hover {
-            background-color: #32a067;
-            color: white !important;
-        }
+a.btn_1.full-width.wishlist,
+.btn_1.full-width.wishlist {
+    border-color: #555;
+    color: #555;
+}
 
-    a.btn_1.full-width.wishlist,
-    .btn_1.full-width.wishlist {
+    a.btn_1.full-width.wishlist:hover,
+    .btn_1.full-width.wishlist:hover {
+        color: white !important;
+        background-color: #555;
         border-color: #555;
-        color: #555;
     }
-
-        a.btn_1.full-width.wishlist:hover,
-        .btn_1.full-width.wishlist:hover {
-            color: white !important;
-            background-color: #555;
-            border-color: #555;
-        }
 
 a.btn_add,
 .btn_add {
