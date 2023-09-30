@@ -46,13 +46,15 @@ namespace BAL.Services.Contracts
 
         Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId);
 
+        Task<Rating> GetRatingByRatingId(int ratingId);
+
         Task AddAsync(object data);
 
         Task UpdateAsync(object data);
 
         Task<IList<SearchHomeListingViewModel>> GetSearchListings();
 
-
+        Task<IList<ReviewListingViewModel>> GetMyReviewsByUserIdAsync(string UserId);
 
         #region Social Network
         Task<SocialNetwork> GetSocialNetworkByListingId(int listingId);

@@ -196,6 +196,7 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Rating>> GetRatingsByUserId(string userId)
         {
             return await _listingDbContext.Rating
+                .Include(x => x.RatingReply)
                 .Where(l => l.OwnerGuid == userId)
                 .OrderByDescending(l => l.Date)
                 .ToListAsync();
@@ -218,6 +219,11 @@ namespace DAL.Repositories
         public async Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId)
         {
             return await _listingDbContext.Rating.Where(l => l.ListingID == listingId && l.OwnerGuid == ownerId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Rating> GetRatingByRatingId(int ratingId)
+        {
+            return await _listingDbContext.Rating.Where(l => l.RatingID == ratingId).FirstOrDefaultAsync();
         }
 
         public async Task<object> AddAsync(object data)
@@ -306,6 +312,13 @@ namespace DAL.Repositories
         {
             return await _listingDbContext.LogoImages
                 .FirstOrDefaultAsync(l => l.ListingID == listingId);
+        }
+
+        public async Task<IList<LogoImage>> GetLogoImagesByListingIds(int[] listingIds)
+        {
+            return await _listingDbContext.LogoImages
+                .Where(l => listingIds.Contains(l.ListingID))
+                .ToListAsync();
         }
         #endregion
 

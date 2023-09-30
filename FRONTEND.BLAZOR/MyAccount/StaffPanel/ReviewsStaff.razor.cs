@@ -59,7 +59,7 @@ namespace FRONTEND.BLAZOR.MyAccount.StaffPanel
                         ListingId = i.ListingID,
                         OwnerGuid = i.OwnerGuid,
                         Date = i.Date.ToString(Constants.dateFormat1),
-                        Name = listing.CompanyName,
+                        CompanyName = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,
                         BusinessCategory = firstCategory.Name,

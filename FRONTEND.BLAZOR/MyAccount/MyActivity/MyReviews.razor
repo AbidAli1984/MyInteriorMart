@@ -1,0 +1,108 @@
+﻿@page "/MyActivity/MyReviews"
+
+<style>
+    .example {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-bottom: 20px;
+        padding: 30px 50px;
+        margin: 20px 0;
+    }
+</style>
+
+<AuthorizeView>
+    <Authorized>
+        <main>
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-sidebar-content">
+                            <h4>Reviews</h4>
+                            <p class="add-lidting-title-from">
+                                My Activity / Reviews
+                                <span>
+                                    <a class="back_btn mx-3" href="/MyAccount/MyActivity">Back</a>
+                                </span>
+                            </p>
+                            <div class="list_general reviews">
+                                <ul>
+                                    @if (ReviewListingVMs != null)
+                                    {
+                                        foreach (var reviewListing in ReviewListingVMs)
+                                        {
+                                            <li>
+                                                <div class="li">
+                                                    <figure><img src="@reviewListing.CompanyLogo" alt="@reviewListing.CompanyName"></figure>
+                                                    <span>@reviewListing.Date</span>
+                                                    <div class="company-rating pl-2 d-inline-flex">
+                                                        <div class="cat_star">
+                                                            @for (int j = 1; j <= reviewListing.RatingLimit; j++)
+                                                            {
+                                                                <i class="icon_star @(j <= reviewListing.Ratings ? "active" : "")"></i>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <h4>@reviewListing.CompanyName</h4>
+                                                    <div>@reviewListing.Comment</div>
+
+                                                    <div class="col-md-12 p-0 mt-2 mb-2">
+                                                        <div class="inline-popups mr-2">
+                                                            <a data-toggle="collapse" href="@("#review" + reviewListing.RatingId)"
+                                                               role="button" aria-expanded="false" aria-controls="@("review" + reviewListing.RatingId)" class="btn_1 gray reply ">
+                                                                <i class="fa fa-fw fa-reply"></i>Edit Review
+                                                            </a>
+                                                            <div class="add-review collapse my-3" id="@("review" + reviewListing.RatingId)">
+                                                                <div class="card card-body">
+                                                                    <h6>Edit Review</h6>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-12">
+                                                                            <Rate @bind-Value="reviewListing.Rating" />
+                                                                        </div>
+                                                                        <div class="form-group col-md-12">
+                                                                            <textarea name="review_text" id="review_text"
+                                                                                      class="form-control"
+                                                                                      style="height:130px;"
+                                                                                      @bind="@reviewListing.Comment"></textarea>
+                                                                        </div>
+                                                                        <div class="form-group col-md-12 add_top_20 add_bottom_30">
+                                                                            <button class="btn btn-primary" @onclick="@(async () => await UpdateReview(reviewListing))">Submit</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @if (reviewListing.RatingReply.Id > 0)
+                                                    {
+                                                        <div class="owner_reply">
+                                                            <span><strong>Reply</strong> </span>
+                                                            <p class="m-0">
+                                                                @reviewListing.RatingReply.Message
+                                                                <a href="#0">view more...</a>
+                                                            </p>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="example">
+                                            <Spin />
+                                        </div>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </Authorized>
+    <NotAuthorized>
+        <UnAuthorizedUser />
+    </NotAuthorized>
+</AuthorizeView>
+

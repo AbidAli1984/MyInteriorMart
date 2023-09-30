@@ -264,7 +264,7 @@ namespace BAL.Services
                     var reviewListingViewModel = new ReviewListingViewModel
                     {
                         ListingId = listing.ListingID,
-                        Name = listing.CompanyName,
+                        CompanyName = listing.CompanyName,
                         NameFirstLetter = listing.CompanyName[0].ToString(),
                         ListingUrl = listing.ListingURL,
                         RatingId = rating.RatingID,
@@ -373,6 +373,11 @@ namespace BAL.Services
             return await _listingRepository.GetRatingByListingIdAndOwnerId(listingId, ownerId);
         }
 
+        public async Task<Rating> GetRatingByRatingId(int ratingId)
+        {
+            return await _listingRepository.GetRatingByRatingId(ratingId);
+        }
+
         public async Task AddAsync(object data)
         {
             await _listingRepository.AddAsync(data);
@@ -404,6 +409,60 @@ namespace BAL.Services
                 CityName = localities.FirstOrDefault(l => l.Id == x.Address.AssemblyID).City.Name,
                 LocalityName = localities.FirstOrDefault(l => l.Id == x.Address.AssemblyID).Name
             }).ToList();
+        }
+
+
+
+        public async Task<IList<ReviewListingViewModel>> GetMyReviewsByUserIdAsync(string UserId)
+        {
+            return await GetMyReviews(UserId);
+        }
+
+        private async Task<IList<ReviewListingViewModel>> GetMyReviews(string UserId)
+        {
+            IList<ReviewListingViewModel> listReviews = new List<ReviewListingViewModel>();
+
+            var ratings = await _listingRepository.GetRatingsByUserId(UserId);
+            if (ratings == null)
+                return null;
+
+            var listingids = ratings.Select(x => x.ListingID).ToArray();
+            var listings = await _listingRepository.GetApprovedListingsByListingIds(listingids);
+            if (listings == null)
+                return null;
+
+            var logos = await _listingRepository.GetLogoImagesByListingIds(listingids);
+
+            if (ratings != null)
+            {
+                foreach (var rating in ratings)
+                {
+                    var listing = listings.FirstOrDefault(x => x.ListingID == rating.ListingID);
+                    if (listing == null)
+                        continue;
+
+                    var reviewListingViewModel = new ReviewListingViewModel
+                    {
+                        ListingId = listing.ListingID,
+                        CompanyName = listing.CompanyName,
+                        CompanyLogo = listing.LogoImage == null ? "" : listing.LogoImage.ImagePath,
+                        NameFirstLetter = listing.CompanyName[0].ToString(),
+                        ListingUrl = listing.ListingURL,
+                        RatingId = rating.RatingID,
+                        OwnerGuid = rating.OwnerGuid,
+                        Comment = rating.Comment,
+                        Date = rating.Date.ToString(Constants.dateFormat1),
+                        VisitTime = rating.Time.ToString(),
+                        Ratings = rating.Ratings,
+                        BusinessCategory = listing.BusinessCategory,
+                        RatingReply = rating.RatingReply == null ? new RatingReply() : rating.RatingReply
+                    };
+
+                    listReviews.Add(reviewListingViewModel);
+                }
+            }
+
+            return listReviews;
         }
 
         #region Social Network

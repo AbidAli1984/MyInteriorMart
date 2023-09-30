@@ -53,6 +53,8 @@ namespace DAL.Repositories.Contracts
 
         Task<Rating> GetRatingByListingIdAndOwnerId(int listingId, string ownerId);
 
+        Task<Rating> GetRatingByRatingId(int ratingId);
+
         Task<object> AddAsync(object data);
 
         Task UpdateAsync(object data);
@@ -75,6 +77,7 @@ namespace DAL.Repositories.Contracts
 
         #region Upload Images
         Task<LogoImage> GetLogoImageByListingId(int listingId);
+        Task<IList<LogoImage>> GetLogoImagesByListingIds(int[] listingIds);
 
         Task<IList<OwnerImage>> GetOwnerImagesByListingId(int listingId);
         Task DeleteOwnerImage(int id);
