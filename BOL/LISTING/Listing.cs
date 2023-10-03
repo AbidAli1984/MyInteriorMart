@@ -88,7 +88,6 @@ namespace BOL.LISTING
         public string BusinessCategory { get; set; }
 
         [Display(Name = "Description")]
-        [Required(ErrorMessage = "Description required.")]
         public string Description { get; set; }
 
         [Display(Name = "Status", Prompt = "Select Status")]
@@ -101,7 +100,6 @@ namespace BOL.LISTING
         public bool ApprovedOrRejectedBy { get; set; }
 
         [Display(Name = "GST Number")]
-        [Required(ErrorMessage = "GST Number required.")]
         public string GSTNumber { get; set; }
         public int Steps { get; set; }
 
