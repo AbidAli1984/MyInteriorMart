@@ -36,5 +36,7 @@ namespace BOL.AUDITTRAIL
 
         [Display(Name = "User Agent")]
         public string UserAgent { get; set; }
+
+        public bool IsRead { get; set; }
     }
 }
