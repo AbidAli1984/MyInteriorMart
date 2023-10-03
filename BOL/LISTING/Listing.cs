@@ -45,7 +45,7 @@ namespace BOL.LISTING
         [Display(Name = "Gender", Prompt = "Male, Female etc")]
         [MaxLength(20, ErrorMessage = "Maximum 20 characters allowed.")]
         [MinLength(3, ErrorMessage = "Minimum 3 characters rerquired.")]
-        [Required(ErrorMessage = "Gender required.")]
+        //[Required(ErrorMessage = "Gender required.")]
         public string Gender { get; set; }
 
         [Display(Name = "Company Name", Prompt = "Xyz Pvt. Ltd. etc")]
@@ -66,7 +66,7 @@ namespace BOL.LISTING
         public int NumberOfEmployees { get; set; }
 
         [Display(Name = "Designation", Prompt = "Proprietor, MD etc")]
-        [Required(ErrorMessage = "Designation required.")]
+        //[Required(ErrorMessage = "Designation required.")]
         public string Designation { get; set; }
 
         [Display(Name = "Nature of Business", Prompt = "Pvt., Ltd. etc")]
