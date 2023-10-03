@@ -39,7 +39,7 @@ namespace BOL.LISTING
         [Display(Name = "Name", Prompt = "Full Name")]
         [MaxLength(50, ErrorMessage = "Maximum 50 characters allowed.")]
         [MinLength(3, ErrorMessage = "Minimum 3 characters rerquired.")]
-        [Required(ErrorMessage = "Name required.")]
+        //[Required(ErrorMessage = "Name required.")]
         public string Name { get; set; }
 
         [Display(Name = "Gender", Prompt = "Male, Female etc")]
