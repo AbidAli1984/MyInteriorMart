@@ -41,6 +41,7 @@ using BAL.Services;
 using DAL.Repositories.Contracts;
 using DAL.Repositories;
 using BAL.Messaging;
+using BAL;
 
 namespace FRONTEND
 {
@@ -223,6 +224,16 @@ namespace FRONTEND
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IUserRoleService, UserRoleService>();
             services.AddTransient<IUserRoleRepository, UserRoleRepository>();
+            services.AddTransient<IListingService, ListingService>();
+            services.AddTransient<IListingRepository, ListingRepository>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ISharedService, SharedService>();
+            services.AddTransient<ISharedRepository, SharedRepository>(); 
+            services.AddTransient<IAuditService, AuditService>();
+            services.AddTransient<IAuditRepository, AuditRepository>();
+            services.AddTransient<IMessageMailService, MessageMailService>();
+            services.AddTransient<HelperFunctions>();
             // End:
 
             // Shafi: Add Claim based authorization
